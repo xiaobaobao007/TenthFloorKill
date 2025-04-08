@@ -1,0 +1,4 @@
+function login() {
+    loadRoutes();
+    initWs();
+}
