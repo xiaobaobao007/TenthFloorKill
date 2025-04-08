@@ -1,6 +1,6 @@
 class BaseRoutes extends ClientRoutes {
     async logout() {
-        console.log('Start game route called');
+        console.log('被退出');
     }
 
     async msg(data) {

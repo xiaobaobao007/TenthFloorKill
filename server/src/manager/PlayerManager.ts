@@ -26,7 +26,7 @@ export class PlayerManager {
         if (oldPlayer) {
             const oldSocket = oldPlayer.socket;
 
-            SocketUtil.send(oldSocket, "logout");
+            SocketUtil.send(oldSocket, "base/logout");
 
             oldPlayer.close();
             this.socketMap.delete(oldSocket);

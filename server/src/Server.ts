@@ -17,6 +17,8 @@ wsApp.ws('*', (socket, req) => {
     socket.on('message', async (message: string) => {
         const data = JSON.parse(message);
 
+        console.info("收到：", data);
+
         const player = PlayerManager.get(socket, data.data);
 
         if (player) {

@@ -28,17 +28,12 @@ function initWs() {
     // 连接出错时触发
     ws.onerror = function (error) {
         console.log('WebSocket连接出错:', error);
-        const errorDiv = document.createElement('div');
-        errorDiv.textContent = `连接出错: ${error}`;
-        document.getElementById('messageBox').appendChild(errorDiv);
     };
 
     // 连接关闭时触发
     ws.onclose = function () {
         console.log('WebSocket连接已关闭');
-        const closeDiv = document.createElement('div');
-        closeDiv.textContent = '连接已关闭';
-        document.getElementById('messageBox').appendChild(closeDiv);
+        ws = undefined;
     };
 }
 
