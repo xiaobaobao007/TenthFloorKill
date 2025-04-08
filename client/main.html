@@ -3,21 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Canvas Falling Balls</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>十楼杀</title>
 </head>
 
 <body>
-
-<div>
-    <a>账号:</a>
-    <input id="account" value="abc"/>
-
-    </br> <a>提示:</a>
-    <input id="tips" value=""/>
-    </br>
-</div>
-
-<button onclick="login()">登录</button>
 
 <script src="static/scripts/routes/ClientRoutes.js"></script>
 <script src="static/scripts/routes/BaseRoutes.js"></script>
@@ -25,10 +15,19 @@
 <script src="static/scripts/util/WsConnectUtil.js"></script>
 <script src="static/scripts/util/ClientRoutes.js"></script>
 <script src="static/scripts/Init.js"></script>
-<link rel="stylesheet" href="static/css/main.css"/>
-</body>
+<link rel="stylesheet" href="static/css/login.css"/>
 
+<div class="login-container">
+    <div class="input-group">
+        <input type="text" id="account" oninput="validateInput(this)" placeholder="请输入【十楼杀】账号">
+    </div>
+    <button onclick="login()">登录</button>
+</div>
 <script>
+    function validateInput(input) {
+        input.value = input.value.replace(/[^a-zA-Z0-9]/g, '');
+    }
 </script>
+</body>
 
 </html>

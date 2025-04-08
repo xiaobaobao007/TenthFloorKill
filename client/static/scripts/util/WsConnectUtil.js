@@ -27,7 +27,10 @@ function initWs() {
 
     // 连接出错时触发
     ws.onerror = function (error) {
-        console.log('WebSocket连接出错:', error);
+        console.log('服务器未开启');
+        ws = undefined;
+
+        setTimeout(initWs, 1000);
     };
 
     // 连接关闭时触发
