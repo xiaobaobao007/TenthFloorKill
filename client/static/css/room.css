@@ -1,0 +1,150 @@
+.unselectable {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.waiting-room {
+    top: 0;
+    width: 100vw;
+    height: 30vw;
+    background-color: rgba(102, 102, 102, 0.22);
+}
+
+.player-box {
+    position: absolute;
+    width: 8vw;
+    height: 12vw;
+    background-color: #ebd049;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.box-account {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    font-size: 1.5vw;
+    font-style: italic;
+    color: white;
+}
+
+.box-heroName {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 1.8vw;
+    writing-mode: vertical-lr;
+}
+
+.me-box {
+    left: 0;
+    bottom: 0;
+    background-color: rgba(196, 30, 30, 0.81);
+}
+
+.empty-box {
+    background-color: rgba(93, 52, 52, 0.62);
+}
+
+.my-card {
+    position: absolute;
+    left: 9vw;
+    bottom: 0;
+    width: 51vw;
+    height: 11vw;
+    background-color: #ab4381;
+    overflow-x: auto;
+    overflow-y: hidden;
+    display: flex;
+    flex-wrap: nowrap;
+    padding-bottom: 10px;
+}
+
+.my-card::-webkit-scrollbar {
+    height: 6px; /* 滚动条宽度 */
+}
+
+.my-card::-webkit-scrollbar-thumb {
+    background-color: rgba(67, 88, 218, 0.47); /* 滚动条颜色 */
+    border-radius: 3px; /* 滚动条圆角 */
+}
+
+.card {
+    width: 6vw;
+    height: 100%;
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.card-name {
+    margin-top: 2vw;
+    writing-mode: vertical-lr;
+    font-weight: bold;
+    color: white;
+}
+
+.card-name-2 {
+    font-size: 2.8vw;
+}
+
+.card-name-4 {
+    font-size: 1.6vw;
+}
+
+.card-tips {
+    color: white;
+    position: absolute;
+    font-size: 1.4vw;
+    margin-top: -9vw;
+    white-space: nowrap;
+}
+
+.card-red {
+    background-color: rgb(234, 65, 65);
+}
+
+.card-grey {
+    background-color: #6d4c60;
+}
+
+.card-blue {
+    background-color: rgb(67, 145, 225);
+}
+
+.card-double {
+    background: linear-gradient(to bottom right, rgb(255 82 82), rgb(0 119 241));
+}
+
+.floating-window {
+    position: fixed;
+    display: none;
+    z-index: 999;
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    width: 300px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.floating-window-close {
+    position: absolute;
+    margin-top: -14%;
+    margin-left: 63%;
+}

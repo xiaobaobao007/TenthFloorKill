@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <title>三国杀房间等待</title>
+
+    <script src="static/scripts/base.js"></script>
+    <script src="static/scripts/room.js"></script>
+    <link rel="stylesheet" href="static/css/room.css"/>
+</head>
+
+<body>
+
+<div class="waiting-room" id="waitingRoom">
+    <div class="my-card">
+    </div>
+
+    <div class="player-box me-box" id="playerBox0">
+        <div class="box-account">账号</div>
+        <div class="box-heroName">英雄名字</div>
+    </div>
+</div>
+
+<div class="floating-window" id="floating-window" onclick="closeFloating()">
+    <div class="floating-window-content"></div>
+    <div class="floating-window-close">轻触面板关闭</div>
+</div>
+
+</body>
+<script>
+    judgeAccount();
+    initWaitingRoomData();
+    initMyCard();
+</script>
+</html>

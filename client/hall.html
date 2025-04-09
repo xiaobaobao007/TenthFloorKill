@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
 
     <script src="static/scripts/base.js"></script>
     <script src="static/scripts/hall.js"></script>
@@ -12,7 +12,7 @@
 
 <body>
 <div class="slider-container">
-    <div class="block" style="width: 50vh;">
+    <div class="block" style="width: 50vh;" onclick="window.location.href='waitingRoom.html'">
         创建</br>房间
     </div>
     <div class="block" style="width: 50vh;">
@@ -30,10 +30,7 @@
 <script>
     judgeAccount();
     initLeaveAccount();
-
-    window.onload = function () {
-        initHall();
-    };
+    initHallListener();
 </script>
 </body>
 
