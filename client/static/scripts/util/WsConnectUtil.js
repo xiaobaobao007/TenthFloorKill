@@ -8,9 +8,7 @@ function initWs() {
 
     // 连接建立时触发
     ws.onopen = function () {
-        addTips("登陆成功");
-
-        sendWsMessage("base/login", {account: document.getElementById("account").value});
+        sendWsMessage("base/login", {account: localStorage.getItem(ALL_PARAM.ACCOUNT)});
     };
 
     // 接收服务器消息时触发
