@@ -1,0 +1,23 @@
+.floating-popup {
+    position: fixed;
+    top: 20px;
+    right: auto;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 10px;
+    max-width: 300px;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: all 0.3s ease;
+}
+
+.floating-popup.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.floating-popup p {
+    color: #cd4246;
+    font-size: 1.3rem;
+}

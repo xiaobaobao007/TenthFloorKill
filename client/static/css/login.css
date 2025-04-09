@@ -23,24 +23,29 @@ body {
 }
 
 .input-group {
-    margin-bottom: 20px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    margin-bottom: 15px;
 }
 
 .input-group label {
     display: block;
-    margin-bottom: 5px;
     color: #666;
+    flex-direction: row;
+    margin-top: 5px;
+    margin-right: 5px;
 }
 
 .input-group input {
-    width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
+    flex-direction: row;
 }
 
-button {
+.login-container button {
     margin-left: 20%;
     width: 60%;
     padding: 10px;

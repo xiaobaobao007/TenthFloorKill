@@ -4,11 +4,11 @@ function initWs() {
         return;
     }
 
-    ws = new WebSocket('ws://localhost:8080/');
+    ws = new WebSocket(document.getElementById("url").value);
 
     // 连接建立时触发
     ws.onopen = function () {
-        console.log('WebSocket连接已建立');
+        addTips("登陆成功");
 
         sendWsMessage("base/login", {account: document.getElementById("account").value});
     };
@@ -27,15 +27,12 @@ function initWs() {
 
     // 连接出错时触发
     ws.onerror = function (error) {
-        console.log('服务器未开启');
+        addTips("服务器无法连接！！！");
         ws = undefined;
-
-        setTimeout(initWs, 1000);
     };
 
     // 连接关闭时触发
     ws.onclose = function () {
-        console.log('WebSocket连接已关闭');
         ws = undefined;
     };
 }

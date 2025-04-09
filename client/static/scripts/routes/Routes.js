@@ -1,6 +1,5 @@
 const routerHandelMap = new Map();
 
-
 function loadRoutes() {
     let routeClasses = [BaseRoutes];
 
@@ -18,4 +17,6 @@ function loadRoutes() {
             routerHandelMap.set(fullRoute, handler);
         }
     }
+
+    console.info("路由加载成功");
 }
