@@ -117,14 +117,13 @@ body {
 
 .room-event {
     position: absolute;
-    left: 27vw;
-    top: 17vw;
+    left: 26vw;
+    top: 18vw;
     width: 26vw;
     height: 15vw;
     background-color: rgb(199 136 136 / 78%);
     border-radius: 22px;
     padding: 0 17px 10px 17px;
-
     overflow-y: scroll;
 }
 
@@ -133,6 +132,24 @@ body {
     font-size: 1vw;
     margin-top: 7px;
     border-width: 0 0 1px 0;
-    border-style: solid;
+    border-style: dashed;
     border-color: #b3ff4e;
+}
+
+.floating-window {
+    position: fixed;
+    display: none;
+    z-index: 999;
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    width: 300px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    translate: -50% -50%;
+}
+
+.floating-window-close {
+    position: absolute;
+    margin-top: -14%;
+    margin-left: 63%;
 }
