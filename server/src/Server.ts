@@ -4,6 +4,7 @@ import expressWs from 'express-ws';
 import 'reflect-metadata';
 import {routerHandelMap} from "./routes/Routes";
 import {PlayerManager} from "./manager/PlayerManager";
+import {ScheduleManager} from "./manager/schedule/ScheduleManager";
 
 const app = express();
 const server = createServer(app);
@@ -31,6 +32,9 @@ wsApp.ws('*', (socket, req) => {
         }
     });
 });
+
+//添加定时任务
+ScheduleManager.init();
 
 const PORT = 8080;
 

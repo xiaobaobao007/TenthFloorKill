@@ -41,7 +41,7 @@ function sendWsMessage(route, message) {
     }
 
     let data = {
-        route: route, data: message
+        route: route.toLowerCase(), data: message
     };
     ws.send(JSON.stringify(data));
 }

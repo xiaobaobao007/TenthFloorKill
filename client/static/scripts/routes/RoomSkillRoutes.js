@@ -1,7 +1,7 @@
-class BaseRoutes extends ClientRoutes {
+class RoomSkillRoutes extends ClientRoutes {
     async loginBack(data) {
         addTips(JSON.stringify(data));
-        openBody("hall");
+        window.location.href = "hall.html";
     }
 
     async logout() {

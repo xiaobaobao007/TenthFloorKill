@@ -8,7 +8,7 @@ body {
     background-color: #5385c3;
 }
 
-.slider-container {
+.hall-container {
     height: 60vh;
     width: 80vw;
     overflow: hidden;
@@ -19,7 +19,7 @@ body {
     scrollbar-width: none;
 }
 
-.slider-container .block {
+.hall-container .block {
     height: 100%;
     margin-right: 10px;
     background-color: #27a938;
@@ -33,7 +33,7 @@ body {
     align-items: center; /* 垂直居中 */
 }
 
-.slider-container::-webkit-scrollbar {
+.hall-container::-webkit-scrollbar {
     display: none;
 }
 

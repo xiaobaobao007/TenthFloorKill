@@ -1,7 +1,7 @@
 const routerHandelMap = new Map();
 
 function loadRoutes() {
-    let routeClasses = [BaseRoutes];
+    let routeClasses = [BaseRoutes, RoomEventRoutes, RoomRoutes, RoomSkillRoutes];
 
     for (const RouteClass of routeClasses) {
         const className = RouteClass.name;
@@ -11,8 +11,8 @@ function loadRoutes() {
             .filter((key) => typeof routeInstance[key] === 'function' && key !== 'constructor');
 
         for (const handlerName of routeHandlers) {
-            const fullRoute = routePrefix ? `${routePrefix}/${handlerName}` : handlerName;
-            console.info("addRoute：", fullRoute);
+            const fullRoute = (routePrefix ? `${routePrefix}/${handlerName}` : handlerName).toLowerCase();
+            // console.info("addRoute：", fullRoute);
             const handler = routeInstance[handlerName].bind(routeInstance);
             routerHandelMap.set(fullRoute, handler);
         }

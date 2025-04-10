@@ -37,8 +37,8 @@ function loadRoutes() {
             .filter((key) => typeof routeInstance[key] === 'function' && key !== 'constructor');
 
         for (const handlerName of routeHandlers) {
-            const fullRoute = routePrefix ? `${routePrefix}/${handlerName}` : handlerName;
-            console.info("addRoute：", fullRoute);
+            const fullRoute = (routePrefix ? `${routePrefix}/${handlerName}` : handlerName).toLowerCase();
+            // console.info("addRoute：", fullRoute);
             const handler = routeInstance[handlerName].bind(routeInstance);
             routerHandelMap.set(fullRoute, handler);
 

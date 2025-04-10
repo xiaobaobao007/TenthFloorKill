@@ -6,9 +6,10 @@ const stringJson = {
     "ope_w": "文本",
     "ope_": "任意方式传递",
 
-    "st_name": "试探", "st_desc": "我是【试探】的描述",
     "mmxd_name": "秘密下达", "mmxd_desc": "我是【秘密下达】的描述",
     "gkwb_name": "公开文本", "gkwb_desc": "我是【公开文本】的描述",
+    "st_name": "试探", "st_desc": "我是【试探】的描述",
+
     "jh_name": "截获", "jh_desc": "我是【截获】的描述",
     "zengyuan_name": "转移", "zengyuan_desc": "我是【转移】的描述",
     "dhls_name": "调虎离山", "dhls_desc": "我是【调虎离山】的描述",
@@ -27,18 +28,6 @@ const stringJson = {
     "color_b": "蓝色情报",
     "color_d": "红色加蓝色的双色情报",
 }
-
-const myCard = [
-    {type: 'card', id: 'lj', color: 'r', dir: 'dir_r', ope: "ope_m", lock: true},
-    {type: 'card', id: 'lj', color: 'g', dir: 'dir_r', ope: "ope_w"},
-    {type: 'card', id: 'lj', color: 'b', dir: 'dir_r', ope: "ope_z"},
-    {type: 'card', id: 'lj', color: 'b', dir: 'dir_r', ope: "ope_z"},
-    {type: 'card', id: 'lj', color: 'd', dir: 'dir_r', ope: "ope_m"},
-    {type: 'card', id: 'lj', color: 'r', dir: 'dir_', ope: "ope_w"},
-    {type: 'card', id: 'lj', color: 'g', dir: 'dir_', ope: "ope_z"},
-    {type: 'card', id: 'lj', color: 'b', dir: 'dir_', ope: "ope_m"},
-    {type: 'card', id: 'lj', color: 'd', dir: 'dir_', ope: "ope_w"},
-]
 
 const positionArray = [
     {type: "me"},
@@ -63,7 +52,7 @@ function initWaitingRoomData() {
 }
 
 function initWaitingRoom() {
-    const waitingRoom = document.getElementById('waitingRoom');
+    const waitingRoom = document.getElementById('body-room');
 
     const playerBox0 = document.getElementById('playerBox0');
 
@@ -113,6 +102,7 @@ function closeFloating() {
     overlay.style.display = 'none';
 }
 
+// {type: 'card', id: 'lj', color: 'r', dir: 'dir_r', ope: "ope_m", lock: true},
 function initMyCard() {
     let html = "";
     let allId = ["st", "mmxd", "gkwb", "jh", "zengyuan", "dhls", "sh", "db", "lj", "wxqb", "sp", "zhuanyi", "jmwj", "py", "sd"];

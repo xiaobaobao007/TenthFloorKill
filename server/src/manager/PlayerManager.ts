@@ -43,6 +43,12 @@ export class PlayerManager {
         return player;
     }
 
+    public static sendAll(route: string, data: any) {
+        for (let socket of this.socketMap.keys()) {
+            SocketUtil.send(socket, route, data);
+        }
+    }
+
     // public static level(socket: WebSocket) {
     //     let player = this.socketMap.get(socket);
     //     if (!player) {

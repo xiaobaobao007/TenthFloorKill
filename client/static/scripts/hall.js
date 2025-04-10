@@ -1,5 +1,5 @@
 function initHallListener() {
-    const sliderContainer = document.querySelector('.slider-container');
+    const sliderContainer = document.querySelector('.hall-container');
     let startX;
     let scrollLeft;
 
