@@ -8,12 +8,12 @@ function initWs() {
 
     // 连接建立时触发
     ws.onopen = function () {
-        sendWsMessage("base/login", {account: localStorage.getItem(ALL_PARAM.ACCOUNT)});
+        sendWsMessage("base/login", {account: ACCOUNT});
     };
 
     // 接收服务器消息时触发
     ws.onmessage = function (event) {
-        console.info("收到", event.data);
+        // console.info("收到", event.data);
         let data = JSON.parse(event.data);
         const router = routerHandelMap.get(data.route);
         if (!router) {

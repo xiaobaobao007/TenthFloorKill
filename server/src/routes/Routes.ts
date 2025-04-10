@@ -1,9 +1,7 @@
 import 'reflect-metadata';
 import fs from 'fs';
 import path from 'path';
-
-export class ServerRoutes {
-}
+import {ServerClientRoutes} from "./ServerClientRoutes";
 
 function scanRoutesFolder(folderPath: string) {
     const routeClasses: any[] = [];
@@ -13,7 +11,7 @@ function scanRoutesFolder(folderPath: string) {
         const filePath = path.join(folderPath, file);
         const module = require(filePath);
         for (const key in module) {
-            if (typeof module[key] === 'function' && module[key].prototype instanceof ServerRoutes) {
+            if (typeof module[key] === 'function' && module[key].prototype instanceof ServerClientRoutes) {
                 routeClasses.push(module[key]);
             }
         }

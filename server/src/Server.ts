@@ -5,6 +5,7 @@ import 'reflect-metadata';
 import {routerHandelMap} from "./routes/Routes";
 import {PlayerManager} from "./manager/PlayerManager";
 import {ScheduleManager} from "./manager/schedule/ScheduleManager";
+import {CardManager} from "./manager/CardManager";
 
 const app = express();
 const server = createServer(app);
@@ -18,7 +19,7 @@ wsApp.ws('*', (socket, req) => {
     socket.on('message', async (message: string) => {
         const data = JSON.parse(message);
 
-        console.info("收到：", data);
+        // console.info("收到：", data);
 
         const player = PlayerManager.get(socket, data.data);
 
@@ -32,6 +33,9 @@ wsApp.ws('*', (socket, req) => {
         }
     });
 });
+
+//初始化所有卡牌
+CardManager.initAllCard();
 
 //添加定时任务
 ScheduleManager.init();

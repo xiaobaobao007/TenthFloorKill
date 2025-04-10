@@ -1,3 +1,6 @@
+let ACCOUNT = "";
+let STRING_CONFIG = {};
+
 function addTips(tips) {
     const popup = document.createElement('div');
     popup.classList.add('floating-popup');
@@ -57,6 +60,5 @@ function initHall() {
 
 function initRoom() {
     initWaitingRoomData();
-    initMyCard();
     $("body")[0].style.backgroundColor = "#c6d9ee";
 }

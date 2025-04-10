@@ -1,8 +1,13 @@
-import {ServerRoutes} from "./Routes";
 import {Player} from "../model/Player";
+import {CLIENT_STRING_DATA} from "../util/Constant";
+import {ServerClientRoutes} from "./ServerClientRoutes";
 
-export class BaseRoutes extends ServerRoutes {
+export class BaseRoutes extends ServerClientRoutes {
     async login(player: Player) {
-        player.send("base/loginBack", "登录成功");
+        let data = {
+            stringConfig: CLIENT_STRING_DATA,
+        }
+
+        player.send("base/loginBack", data);
     }
 }

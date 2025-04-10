@@ -1,14 +1,11 @@
-class BaseRoutes extends ClientRoutes {
+class BaseRoutes extends ClientBaseRoutes {
     async loginBack(data) {
-        addTips(JSON.stringify(data));
+        STRING_CONFIG = data.stringConfig
         openBody("hall");
     }
 
     async logout() {
-        console.log('被退出');
-    }
-
-    async msg(data) {
-        console.log('msg', data);
+        addTips("被踢出请重新登录");
+        openBody("login");
     }
 }

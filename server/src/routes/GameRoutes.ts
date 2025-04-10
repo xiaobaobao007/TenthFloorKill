@@ -1,6 +1,6 @@
-import {ServerRoutes} from "./Routes";
+import {ServerClientRoutes} from "./ServerClientRoutes";
 
-export class GameRoutes extends ServerRoutes {
+export class GameRoutes extends ServerClientRoutes {
     async start() {
         console.log('Start game route called');
     }

@@ -1,9 +1,10 @@
 import {ScheduleTask} from "./ScheduleTask";
+import {CardManager} from "../CardManager";
 import {PlayerManager} from "../PlayerManager";
 
 export class OneSecondTask extends ScheduleTask {
     run(): void {
-        // const oneCard = CardManager.getOneCard();
-        PlayerManager.sendAll("roomEvent/newEvent", {account: 1424, name: "当前时间：" + Date.now()});
+        const cardArray = CardManager.getCard(2);
+        PlayerManager.sendAll("room/roundStartGetCard", {cardArray: cardArray});
     }
 }

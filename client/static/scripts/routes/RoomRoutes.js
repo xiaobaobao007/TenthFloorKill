@@ -1,4 +1,5 @@
-class RoomRoutes extends ClientRoutes {
+class RoomRoutes extends ClientBaseRoutes {
     async roundStartGetCard(data) {
+        initMyCard(data.cardArray);
     }
 }

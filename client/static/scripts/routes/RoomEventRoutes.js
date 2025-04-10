@@ -1,4 +1,4 @@
-class RoomEventRoutes extends ClientRoutes {
+class RoomEventRoutes extends ClientBaseRoutes {
     async newEvent(data) {
         const div = $(".room-event");
 
