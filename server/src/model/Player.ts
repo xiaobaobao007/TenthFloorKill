@@ -1,11 +1,12 @@
 import {WebSocket} from "ws";
 import {SocketUtil} from "../util/SocketUtil";
+import {Room} from "./Room";
 
 export class Player {
     private _socket: WebSocket;
-
     private _account: string;
-    private _roomId: string = "";
+
+    private _room: Room | undefined;
 
     constructor(socket: WebSocket, account: string) {
         this._socket = socket;
@@ -20,12 +21,12 @@ export class Player {
         SocketUtil.send(this._socket, route, data);
     }
 
-    get roomId(): string {
-        return this._roomId;
+    get room(): Room | undefined {
+        return this._room;
     }
 
-    set roomId(value: string) {
-        this._roomId = value;
+    set room(value: Room | undefined) {
+        this._room = value;
     }
 
     public close() {
@@ -34,5 +35,15 @@ export class Player {
 
     get socket(): WebSocket {
         return this._socket;
+    }
+
+    public getInfo(): any {
+        return {
+            name: this.account
+        }
+    }
+
+    public sendTips(tips: string) {
+        SocketUtil.send(this._socket, "base/tips", {tips: tips});
     }
 }

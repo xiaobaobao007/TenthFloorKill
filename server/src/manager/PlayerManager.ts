@@ -7,16 +7,16 @@ export class PlayerManager {
     private static socketMap = new Map<WebSocket, Player>();
 
     public static get(socket: WebSocket, data: any): Player | undefined {
-        if (data.account) {
+        let player = this.socketMap.get(socket);
+        if ((!player || !player.account) && data && data.account) {
             return this.login(socket, data.account);
         }
 
-        let player = this.socketMap.get(socket);
         if (player) {
             return player;
         }
 
-        SocketUtil.send(socket, "logout");
+        this.logout(socket, "请先登录！");
 
         return;
     }
@@ -26,10 +26,7 @@ export class PlayerManager {
         if (oldPlayer) {
             const oldSocket = oldPlayer.socket;
 
-            SocketUtil.send(oldSocket, "base/logout");
-
-            oldPlayer.close();
-            this.socketMap.delete(oldSocket);
+            this.logout(oldSocket, "异地登录");
         }
 
         return this.setNewAccount(socket, account);
@@ -47,6 +44,18 @@ export class PlayerManager {
         for (let socket of this.socketMap.keys()) {
             SocketUtil.send(socket, route, data);
         }
+    }
+
+    public static logout(socket: WebSocket, tips: string) {
+        SocketUtil.send(socket, "base/changeBody", {body: "login"});
+        SocketUtil.send(socket, "base/tips", {tips: tips});
+        socket.close();
+
+        let player = this.socketMap.get(socket);
+        if (player && player.account) {
+            this.accountMap.delete(player.account);
+        }
+        this.socketMap.delete(socket);
     }
 
     // public static level(socket: WebSocket) {

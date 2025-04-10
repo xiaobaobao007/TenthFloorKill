@@ -1,5 +1,10 @@
 class RoomRoutes extends ClientBaseRoutes {
+    async update(roomData) {
+        ROOM_DATA = roomData;
+        updateRoomData();
+    }
+
     async roundStartGetCard(data) {
-        initMyCard(data.cardArray);
+        addMyCard(data.cardArray);
     }
 }

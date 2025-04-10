@@ -13,7 +13,7 @@ function initWs() {
 
     // 接收服务器消息时触发
     ws.onmessage = function (event) {
-        // console.info("收到", event.data);
+        console.info("收到", event.data);
         let data = JSON.parse(event.data);
         const router = routerHandelMap.get(data.route);
         if (!router) {

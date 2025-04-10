@@ -1,11 +1,10 @@
 import {ScheduleTask} from "./ScheduleTask";
-import {OneSecondTask} from "./OneSecondTask";
 
 export class ScheduleManager {
     private static map = new Map<number, ScheduleTask[]>();
 
     public static init() {
-        this.addSchedule(1000, new OneSecondTask());
+        // this.addSchedule(1000, new OneSecondTask());
         console.info("定时任务开始");
     }
 

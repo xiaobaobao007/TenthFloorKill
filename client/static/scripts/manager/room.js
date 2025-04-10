@@ -9,41 +9,75 @@ const positionArray = [
     {type: "other8", x: 68, y: 70},
 ];
 
-function initWaitingRoomData() {
-    positionArray[0].info = {
-        name: ACCOUNT,
-    };
 
-    initWaitingRoom();
-}
+/**
+ *     <div class="player-box me-box">
+ *         <div class="box-account">账号</div>
+ *         <div class="box-heroName">英雄名字</div>
+ *     </div>
+ */
+function updateRoomData() {
+    //设置房间号
+    const roomInfo = $(".roomInfo")[0];
+    roomInfo.innerHTML = "房间号：" + ROOM_DATA.roomId;
 
-function initWaitingRoom() {
+    //隐藏退出按钮
+    if (ROOM_DATA.running) {
+        $(".room-quit").hide();
+    } else {
+        $(".room-quit").show();
+    }
+
+    const playerArray = ROOM_DATA.player;
+
+    //寻找我在玩家数组中的位置
+    let meIndex = -1;
+    for (let i = 0; i < playerArray.length; i++) {
+        if (playerArray[i].name === ACCOUNT) {
+            meIndex = i;
+            break;
+        }
+    }
+
     const waitingRoom = document.getElementById('body-room');
 
-    const playerBox0 = document.getElementById('playerBox0');
-
-    for (let i = 1; i < positionArray.length; i++) {
-        const positionArrayElement = positionArray[i];
-
-        let newPlayerBox = positionArrayElement.div;
-        if (!positionArrayElement.div) {
-            newPlayerBox = document.createElement("div");
-            positionArrayElement.div = newPlayerBox;
-            waitingRoom.appendChild(newPlayerBox);
+    for (let seatIndex = 0, playerIndex = 0; seatIndex < positionArray.length; seatIndex++, playerIndex++) {
+        if (seatIndex >= playerArray.length && ROOM_DATA.running) {
+            continue;
         }
 
-        newPlayerBox.innerHTML = playerBox0.innerHTML;
-        newPlayerBox.classList = playerBox0.classList;
-        newPlayerBox.id = "playerBox" + i;
+        if (playerIndex >= playerArray.length) {
+            playerIndex = 0;
+        }
 
-        newPlayerBox.classList.remove('me-box');
-        if (positionArrayElement.info) {
+        const positionInfo = positionArray[seatIndex];
+        const playerInfo = playerArray[playerIndex];
+
+        let newPlayer = document.createElement("div");
+        newPlayer.classList.add("player-box");
+
+        let html = "";
+        if (seatIndex >= playerArray.length) {
+            //空位
+            newPlayer.classList.add("empty-box");
         } else {
-            newPlayerBox.classList.add('empty-box');
+            if (seatIndex === 0) {
+                //自己
+                newPlayer.classList.add("me-box");
+            } else {
+                //其他人
+                newPlayer.classList.add("other-box");
+            }
+            html += "<div class='box-account'>" + playerInfo.name + "</div>";
+            html += "<div class='box-heroName'>英雄名字</div>";
         }
 
-        newPlayerBox.style.left = positionArrayElement.x + "vw";
-        newPlayerBox.style.top = positionArrayElement.y + "%";
+        newPlayer.innerHTML = html;
+
+        newPlayer.style.left = positionInfo.x + "vw";
+        newPlayer.style.top = positionInfo.y + "%";
+
+        waitingRoom.appendChild(newPlayer);
     }
 }
 
@@ -68,8 +102,7 @@ function closeFloating() {
     overlay.style.display = 'none';
 }
 
-// {type: 'card', id: 'lj', color: 'r', dir: 'dir_r', ope: "ope_m", lock: true},
-function initMyCard(cardArray) {
+function addMyCard(cardArray) {
     let html = "";
     for (const card of cardArray) {
         let class_ = "card";

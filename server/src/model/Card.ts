@@ -20,6 +20,8 @@ export class Card {
             + "#" + this._color
             + "#" + this._direction
             + "#" + this._operation;
+
+        this._data.allId = this._allId;
     }
 
     get allId(): string {
