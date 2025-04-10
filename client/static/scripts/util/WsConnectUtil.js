@@ -25,13 +25,15 @@ function initWs() {
 
     // 连接出错时触发
     ws.onerror = function (error) {
-        addTips("服务器无法连接！！！");
         ws = undefined;
+        openBody("login");
     };
 
     // 连接关闭时触发
     ws.onclose = function () {
+        addTips("服务器已断开");
         ws = undefined;
+        openBody("login");
     };
 }
 

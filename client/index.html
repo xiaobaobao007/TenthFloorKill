@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <title>十楼杀</title>
 
-    <script src="static/scripts/jquery.min.js"></script>
+    <script src="static/scripts/util/jquery.min.js"></script>
+    <script src="static/scripts/util/WsConnectUtil.js"></script>
 
     <script src="static/scripts/routes/ClientRoutes.js"></script>
     <script src="static/scripts/routes/BaseRoutes.js"></script>
@@ -15,14 +16,10 @@
     <script src="static/scripts/routes/RoomSkillRoutes.js"></script>
     <script src="static/scripts/routes/Routes.js"></script>
 
-    <script src="static/scripts/util/TipsUtil.js"></script>
-    <script src="static/scripts/util/WsConnectUtil.js"></script>
-    <script src="static/scripts/util/ClientRoutes.js"></script>
-
-    <script src="static/scripts/init.js"></script>
-    <script src="static/scripts/base.js"></script>
-    <script src="static/scripts/hall.js"></script>
-    <script src="static/scripts/room.js"></script>
+    <script src="static/scripts/manager/init.js"></script>
+    <script src="static/scripts/manager/base.js"></script>
+    <script src="static/scripts/manager/hall.js"></script>
+    <script src="static/scripts/manager/room.js"></script>
 
     <link rel="stylesheet" href="static/css/base.css"/>
     <link rel="stylesheet" href="static/css/hall.css"/>
@@ -75,29 +72,15 @@
         <div class="floating-window-content"></div>
         <div class="floating-window-close">轻触面板关闭</div>
     </div>
-</div>
 
+    <div class="room-event">
+    </div>
+</div>
 </body>
 
 <script>
-    openBody("hall");
-    //
-    // window.onload = function () {
-    //     loadRoutes();
-    //     initHallListener();
-    //
-    //     login();
-    //
-    //     setTimeout(() => {
-    //         openBody("room");
-    //     }, 600);
-    // };
-
-    window.onload = function () {
-        loadRoutes();
-        initHallListener();
-        openBody("room");
-    };
+    loadRoutes();
+    openBody("login");
 </script>
 
 </html>

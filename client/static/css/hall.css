@@ -11,12 +11,14 @@ body {
 .hall-container {
     height: 60vh;
     width: 80vw;
-    overflow: hidden;
     position: relative;
     display: flex;
     touch-action: pan-x;
     -ms-overflow-style: none;
     scrollbar-width: none;
+
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .hall-container .block {
