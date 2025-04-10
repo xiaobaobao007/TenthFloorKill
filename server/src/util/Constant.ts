@@ -1,13 +1,69 @@
-export const CARD_ALL_ID = ["st", "mmxd", "gkwb", "jh", "zengyuan", "dhls", "sh", "db", "lj", "wxqb", "sp", "zhuanyi", "jmwj", "py", "sd"];
-export const CARD_ALL_COLOR = ["r", "g", "b", "d"];
-export const CARD_ALL_DIRECTION = ["dir_r", "dir_"];
-export const CARD_ALL_OPERATION = ["ope_z", "ope_m", "ope_w", "ope_"];
-
 export const CARD_ALL = [
-    {id: "st", color: "r", dir: "dir_r", ope: "ope_z", num: 2},
-    {id: "st", color: "g", dir: "dir_r", ope: "ope_z", num: 2},
-    {id: "st", color: "b", dir: "dir_r", ope: "ope_z", num: 2},
-    {id: "st", color: "d", dir: "dir_r", ope: "ope_z", num: 2},
+    {id: "lj", color: "g", dir: "dir_r", ope: "ope_z", num: 3},//5+
+    {id: "lj", color: "b", dir: "dir_r", ope: "ope_z", num: 1},//5+
+    {id: "lj", color: "r", dir: "dir_r", ope: "ope_z", num: 1},//5+
+
+    {id: "py", color: "g", dir: "dir_r", ope: "ope_m", num: 2},//6+
+    {id: "py", color: "b", dir: "dir_r", ope: "ope_m", num: 2},//6+
+    {id: "py", color: "r", dir: "dir_r", ope: "ope_m", num: 2},//6+
+
+    {id: "mmxd", color: "g", dir: "dir_r", ope: "ope_z", num: 3},//9+
+    {id: "mmxd", color: "b", dir: "dir_r", ope: "ope_z", num: 3},//9+
+    {id: "mmxd", color: "r", dir: "dir_r", ope: "ope_z", num: 3},//9+
+
+    {id: "sp", color: "g", dir: "dir_r", ope: "ope_m", num: 2},//6+
+    {id: "sp", color: "b", dir: "dir_r", ope: "ope_m", num: 2},//6+
+    {id: "sp", color: "r", dir: "dir_r", ope: "ope_m", num: 2},//6+
+
+    {id: "db", color: "g", dir: "dir_r", ope: "ope_w", lock: true, num: 1},//5+
+    {id: "db", color: "b", dir: "dir_r", ope: "ope_w", lock: true, num: 2},//5+
+    {id: "db", color: "r", dir: "dir_r", ope: "ope_w", lock: true, num: 2},//5+
+
+    {id: "jh", color: "g", dir: "dir_", ope: "ope_m", num: 2},//6+
+    {id: "jh", color: "b", dir: "dir_", ope: "ope_m", num: 2},//6+
+    {id: "jh", color: "r", dir: "dir_", ope: "ope_m", num: 2},//6+
+
+    {id: "dhls", color: "g", dir: "dir_", ope: "ope_m", num: 2},//6+
+    {id: "dhls", color: "b", dir: "dir_", ope: "ope_m", num: 2},//6+
+    {id: "dhls", color: "r", dir: "dir_", ope: "ope_m", num: 2},//6+
+
+    {id: "gkwb", color: "g", dir: "dir_r", ope: "ope_w", num: 3},//5+
+    {id: "gkwb", color: "b", dir: "dir_r", ope: "ope_w", num: 1},//5+
+    {id: "gkwb", color: "r", dir: "dir_r", ope: "ope_w", num: 1},//5+
+
+    {id: "sh", color: "g", dir: "dir_r", ope: "ope_z", num: 3},//5+
+    {id: "sh", color: "b", dir: "dir_r", ope: "ope_z", num: 1},//5+
+    {id: "sh", color: "r", dir: "dir_r", ope: "ope_z", num: 1},//5+
+
+    {id: "zhuanyi", color: "g", dir: "dir_r", ope: "ope_m", num: 3},//5+
+    {id: "zhuanyi", color: "b", dir: "dir_r", ope: "ope_m", num: 1},//5+
+    {id: "zhuanyi", color: "r", dir: "dir_r", ope: "ope_m", num: 1},//5+
+
+    {id: "jmwj", color: "d", dir: "dir_r", ope: "ope_z", num: 3},//3+
+
+    {id: "sd", color: "g", dir: "dir_r", ope: "ope_m", num: 2},//9+
+    {id: "sd", color: "g", dir: "dir_r", ope: "ope_z", num: 1},//9+
+    {id: "sd", color: "b", dir: "dir_r", ope: "ope_m", num: 2},//9+
+    {id: "sd", color: "b", dir: "dir_r", ope: "ope_z", num: 1},//9+
+    {id: "sd", color: "r", dir: "dir_r", ope: "ope_m", num: 2},//9+
+    {id: "sd", color: "r", dir: "dir_r", ope: "ope_z", num: 1},//9+
+
+    {id: "wxqb", color: "g", dir: "dir_r", ope: "ope_", lock: true, num: 2},//5+
+    {id: "wxqb", color: "g", dir: "dir_", ope: "ope_", lock: true, num: 3},//5+
+
+    {id: "zengyuan", color: "g", dir: "dir_r", ope: "ope_z", num: 1},//3+
+    {id: "zengyuan", color: "b", dir: "dir_r", ope: "ope_z", num: 1},//3+
+    {id: "zengyuan", color: "r", dir: "dir_r", ope: "ope_z", num: 1},//3+
+
+    {id: "st", color: "g", dir: "dir_r", ope: "ope_z", num: 1},//9+
+    {id: "st", color: "g", dir: "dir_r", ope: "ope_z", num: 1},//9+
+    {id: "st", color: "g", dir: "dir_r", ope: "ope_z", num: 1},//9+
+    {id: "st", color: "g", dir: "dir_r", ope: "ope_z", num: 1},//9+
+    {id: "st", color: "g", dir: "dir_r", ope: "ope_z", num: 1},//9+
+    {id: "st", color: "g", dir: "dir_r", ope: "ope_z", num: 1},//9+
+    {id: "st", color: "g", dir: "dir_r", ope: "ope_z", num: 1},//9+
+    {id: "st", color: "g", dir: "dir_r", ope: "ope_z", num: 1},//9+
+    {id: "st", color: "g", dir: "dir_r", ope: "ope_z", num: 1},//9+
 ];
 
 export let CLIENT_STRING_DATA = {
