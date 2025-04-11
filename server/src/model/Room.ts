@@ -1,13 +1,20 @@
 import {Player} from "./Player";
 import {Card} from "./Card";
 import {CardManager} from "../manager/CardManager";
+import {Event} from "../fight/Event";
+import {GameStartEvent} from "../fight/normalEvent/GameStartEvent";
+import {shuffleArray} from "../util/MathUtil";
 
 export class Room {
     private _roomId: string;//房间号
     private _playerArray: Player[] = [];//玩家集合
     private _start = false;//房间是否开始了
-    private leaderAccount: string | undefined;//房主
+    private _leaderAccount: string | undefined;//房主
     private incIndex: number = 1;//自增长id
+    private _currentEvent: Event | undefined = undefined;//当前事件
+
+    private _cardIndex: number[] = [];
+    private _discardIndex: number[] = [];
 
     constructor(roomId: string) {
         this._roomId = roomId;
@@ -19,6 +26,10 @@ export class Room {
 
     get start(): boolean {
         return this._start;
+    }
+
+    set start(value: boolean) {
+        this._start = value;
     }
 
     get playerArray(): Player[] {
@@ -34,40 +45,15 @@ export class Room {
             return;
         }
 
+        this.broadcast("roomEvent/newEvent", {name: player.account + "加入房间"});
+
         this._playerArray.push(player);
 
         if (this._playerArray.length == 1) {
-            this.leaderAccount = player.account;
+            this._leaderAccount = player.account;
         }
 
         player.room = this;
-    }
-
-    private gameStart() {
-        if (this._start) {
-            return;
-        }
-
-        this._start = true;
-
-        let data: any = {
-            allId: []
-        };
-
-        data.myId = 0;
-
-        // for (const player of this.playerArray) {
-        //     data.allId.push({
-        //         id: player.id,
-        //         x: Math.floor(Math.random() * 80) + 10,
-        //         y: Math.floor(Math.random() * 80) + 10,
-        //     })
-        // }
-        //
-        // for (const player of this.playerArray) {
-        //     data.myId = player.id;
-        //     player.send("gameStart", data);
-        // }
     }
 
     public removePlayer(player: Player) {
@@ -79,9 +65,23 @@ export class Room {
             return;
         }
 
-        if (this.leaderAccount == player.account) {
-            this.leaderAccount = this._playerArray[0].account;
+        if (this._leaderAccount == player.account) {
+            this._leaderAccount = this._playerArray[0].account;
         }
+
+        this.broadcast("roomEvent/newEvent", {name: player.account + "离开房间"});
+    }
+
+    public gameStart() {
+        if (this._start) {
+            return;
+        }
+
+        this._cardIndex = CardManager.getInitCardIndex();
+
+        this._currentEvent = new GameStartEvent();
+        this.broadcast("roomEvent/newEvent", {name: "游戏开始"});
+        this._start = true;
     }
 
     public broadcast(route: string, data: any) {
@@ -98,7 +98,7 @@ export class Room {
         let roomData = {
             running: this._start,
             roomId: this._roomId,
-            leaderAccount: this.leaderAccount,
+            leaderAccount: this._leaderAccount,
             player: [] as any[],
         };
 
@@ -112,7 +112,15 @@ export class Room {
     public getNewPlayerCard(num: number): Card[] {
         let list: Card[] = [];
         for (let i = 0; i < num; i++) {
-            let card = CardManager.getNewPlayerCard();
+            let index = this._cardIndex.pop();
+
+            if (!index) {
+                this._cardIndex = shuffleArray(this._discardIndex);
+                this._discardIndex = [];
+                index = this._cardIndex.pop()!;
+            }
+
+            let card = CardManager.getNewPlayerCard(index);
             card.allId = this.getNewIncIndex();
             list.push(card);
         }
@@ -121,5 +129,17 @@ export class Room {
 
     private getNewIncIndex(): string {
         return "" + this.incIndex++;
+    }
+
+    get leaderAccount(): string | undefined {
+        return this._leaderAccount;
+    }
+
+    get currentEvent(): Event | undefined {
+        return this._currentEvent;
+    }
+
+    set currentEvent(value: Event | undefined) {
+        this._currentEvent = value;
     }
 }

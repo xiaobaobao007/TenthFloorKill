@@ -1,10 +1,11 @@
 import {ScheduleTask} from "./ScheduleTask";
+import {RoomTask} from "./RoomTask";
 
 export class ScheduleManager {
     private static map = new Map<number, ScheduleTask[]>();
 
     public static init() {
-        // this.addSchedule(1000, new OneSecondTask());
+        this.addSchedule(200, new RoomTask());
         console.info("定时任务开始");
     }
 
@@ -22,8 +23,6 @@ export class ScheduleManager {
                     oneTask.run();
                 }
             }, time);
-
-            console.info("添加定时间隔任务：", time);
         }
         array.push(task);
     }

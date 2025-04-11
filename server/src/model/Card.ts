@@ -5,6 +5,7 @@ export class Card {
     private _direction: string;
     private _operation: string;
 
+    //需要初始化的数据
     private _hand = true;//是否是手牌
 
     constructor(index: number, data: any) {

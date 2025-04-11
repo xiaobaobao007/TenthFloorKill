@@ -87,8 +87,9 @@ function initHall() {
 }
 
 function initRoom() {
-    // ALL_SEAT = [];
-    // ALL_PLAYER = {};
+    ALL_SEAT = [];
+    ALL_PLAYER = {};
+    $(".room-event:first").html("");
     $("body")[0].style.backgroundColor = "#c6d9ee";
 }
 

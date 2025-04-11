@@ -11,6 +11,7 @@ function quitRoom() {
 }
 
 function leaderStartGame() {
+    sendWsMessage('room/start');
 }
 
 function changeAccount() {

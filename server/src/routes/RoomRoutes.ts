@@ -15,6 +15,7 @@ export class RoomRoutes extends ServerClientRoutes {
         RoomManager.level(player);
     }
 
-    async start(player: Player): Promise<void> {
+    async start(player: Player) {
+        RoomManager.start(player);
     }
 }

@@ -1,9 +1,8 @@
 import {CARD_ALL} from "../util/Constant";
-import {random} from "../util/MathUtil";
+import {shuffleArray} from "../util/MathUtil";
 import {Card} from "../model/Card";
 
 export class CardManager {
-    private static ALL_CARD_MAP = new Map<string, Card>();
     private static ALL_CARD_LIST: Card[] = [];
 
     public static initAllCard() {
@@ -26,17 +25,23 @@ export class CardManager {
             }
         }
 
-        this.ALL_CARD_MAP = map;
         this.ALL_CARD_LIST = list;
         // console.info(color);
         // console.info(direction);
         // console.info(operation);
-        console.info("卡牌初始化成功，数量：", this.ALL_CARD_MAP.size);
+        console.info("卡牌初始化成功，数量：", this.ALL_CARD_LIST.length);
     }
 
-    public static getNewPlayerCard(): Card {
-        let card = this.ALL_CARD_LIST[random(this.ALL_CARD_LIST.length)];
+    public static getNewPlayerCard(index: number): Card {
+        let card = this.ALL_CARD_LIST[index];
         card.hand = true;
         return card;
+    }
+
+    public static getInitCardIndex(): number[] {
+        let array = [];
+        const length = this.ALL_CARD_LIST.length;
+        for (let i = 0; i < length; i++) array.push(i);
+        return shuffleArray(array);
     }
 }

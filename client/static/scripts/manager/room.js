@@ -195,9 +195,6 @@ function updateAllPlayerIntelligence() {
 
 function updateMyHandCard() {
     const player = ALL_PLAYER[ACCOUNT];
-    if (player.handArray.length === 0) {
-        return;
-    }
 
     const myHandCard = $(".my-card:first");
     myHandCard.html("");

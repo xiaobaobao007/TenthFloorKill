@@ -96,3 +96,9 @@ export const CLIENT_STRING_DATA = {
     "color_d": "红色加蓝色的双色情报",
 }
 export const EMOJI_DATA = {leader: "🏠", dir_: "🔄", ope_z: "🚀", ope_m: "📧", ope_w: "📝", ope_: "", lock: "🔒",};
+
+export const GAME_CONFIG = {
+    GAME_INIT_CARD: 2,
+    ROUND_INIT_CARD: 2,
+    MAX_CARD: 6,
+};
