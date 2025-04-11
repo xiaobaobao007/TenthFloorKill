@@ -65,8 +65,7 @@ export const CARD_ALL = [
     {id: "st", color: "g", dir: "dir_r", ope: "ope_z", num: 1},//9+
     {id: "st", color: "g", dir: "dir_r", ope: "ope_z", num: 1},//9+
 ];
-
-export let CLIENT_STRING_DATA = {
+export const CLIENT_STRING_DATA = {
     "dir_r": "向右边方向传递",
     "dir_": "自定义方向传递",
     "ope_z": "直达",
@@ -96,3 +95,4 @@ export let CLIENT_STRING_DATA = {
     "color_b": "蓝色情报",
     "color_d": "红色加蓝色的双色情报",
 }
+export const EMOJI_DATA = {leader: "🏠", dir_: "🔄", ope_z: "🚀", ope_m: "📧", ope_w: "📝", ope_: "", lock: "🔒",};

@@ -1,7 +1,21 @@
 let ACCOUNT = "";
 let STRING_CONFIG = {};
-let MY_CARD = [];
+let EMOJI_CONFIG = {};
 let ROOM_DATA = {};
+
+let ALL_SEAT = [];
+let ALL_PLAYER = {};
+
+const POSITION_DATA = [
+    {type: "me", intelligence: "top"},
+    {type: "other2", intelligence: "top", left: 1, top: 16},
+    {type: "other3", intelligence: "bottom", left: 20, top: 1},
+    {type: "other4", intelligence: "bottom", left: 42, top: 1},
+    {type: "other5", intelligence: "bottom", left: 63, top: 1},
+    {type: "other6", intelligence: "top", right: 1, top: 16},
+    {type: "other7", intelligence: "top", right: 1, bottom: 1},
+    {type: "other8", intelligence: "top", right: 20, bottom: 1},
+];
 
 function addTips(tips) {
     let allPopups = document.querySelectorAll('.floating-popup');
@@ -29,7 +43,7 @@ function addTips(tips) {
     }
 
     const message = document.createElement('p');
-    message.textContent = tips;
+    message.innerHTML = tips;
     popup.appendChild(message);
 
     document.body.appendChild(popup);
@@ -69,10 +83,23 @@ function initLogin() {
 }
 
 function initHall() {
-    initLeaveAccount();
     $("body")[0].style.backgroundColor = "#5385c3";
 }
 
 function initRoom() {
+    // ALL_SEAT = [];
+    // ALL_PLAYER = {};
     $("body")[0].style.backgroundColor = "#c6d9ee";
+}
+
+function changeShowOrHide(select, show) {
+    if (show) {
+        $(select).show();
+    } else {
+        $(select).hide();
+    }
+}
+
+function setHtml(select, html) {
+    $(select).html(html);
 }

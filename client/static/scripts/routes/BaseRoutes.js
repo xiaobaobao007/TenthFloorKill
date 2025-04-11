@@ -9,6 +9,7 @@ class BaseRoutes extends ClientBaseRoutes {
 
     async loginBack(data) {
         STRING_CONFIG = data.stringConfig
+        EMOJI_CONFIG = data.emojiConfig
         openBody("hall");
     }
 

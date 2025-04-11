@@ -8,7 +8,7 @@ export class RoomRoutes extends ServerClientRoutes {
     }
 
     async join(player: Player, data: any) {
-        console.log('Start game route called');
+        RoomManager.join(player, data.roomId);
     }
 
     async leave(player: Player) {

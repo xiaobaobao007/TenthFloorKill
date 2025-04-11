@@ -4,7 +4,7 @@ import {PlayerManager} from "../PlayerManager";
 
 export class OneSecondTask extends ScheduleTask {
     run(): void {
-        const cardArray = CardManager.getCard(2);
+        const cardArray = CardManager.getNewPlayerCard(2);
         PlayerManager.sendAll("room/roundStartGetCard", {cardArray: cardArray});
     }
 }

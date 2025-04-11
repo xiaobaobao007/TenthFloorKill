@@ -47,3 +47,14 @@ function sendWsMessage(route, message) {
     };
     ws.send(JSON.stringify(data));
 }
+
+function closeWs() {
+    if (typeof ws !== "undefined") {
+        if (ws.readyState === WebSocket.OPEN) {
+            ws.close();
+        }
+        ws = undefined;
+    }
+
+    openBody("login");
+}

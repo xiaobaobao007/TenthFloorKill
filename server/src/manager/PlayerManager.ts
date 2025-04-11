@@ -1,6 +1,7 @@
 import {Player} from "../model/Player";
 import {WebSocket} from "ws";
 import {SocketUtil} from "../util/SocketUtil";
+import {RoomManager} from "./RoomManager";
 
 export class PlayerManager {
     private static accountMap = new Map<string, Player>();
@@ -34,6 +35,7 @@ export class PlayerManager {
 
     private static setNewAccount(socket: WebSocket, account: string) {
         let player = new Player(socket, account);
+
         this.accountMap.set(account, player);
         this.socketMap.set(socket, player);
 
@@ -58,14 +60,22 @@ export class PlayerManager {
         this.socketMap.delete(socket);
     }
 
-    // public static level(socket: WebSocket) {
-    //     let player = this.socketMap.get(socket);
-    //     if (!player) {
-    //         return;
-    //     }
-    //
-    //     this.uidMap.delete(player.id);
-    //     this.socketMap.delete(socket);
-    //     RoomManager.level(player);
-    // }
+    public static level(socket: WebSocket) {
+        let player = this.socketMap.get(socket);
+        if (!player) {
+            return;
+        }
+
+        const room = player.room;
+        if (!room) {
+            return;
+        }
+
+        if (room.start) {
+            return;
+        }
+
+        //房间未开始则自动退出房间
+        RoomManager.level(player);
+    }
 }

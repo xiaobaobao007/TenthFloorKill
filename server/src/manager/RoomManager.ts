@@ -6,42 +6,43 @@ export class RoomManager {
     private static roomId: number = 1000;
     private static roomMap = new Map<string, Room>();
 
+    private static readonly MAX_PLAYER = 8;
+
     public static create(player: Player) {
         if (player.room) {
             PlayerManager.logout(player.socket, "已经在房间了，请重新登录");
             return;
         }
+        player.send("base/changeBody", {body: "room"});
 
         const room = new Room("" + this.roomId++);
         room.addPlayer(player);
         this.roomMap.set(room.roomId, room);
         room.updateRoom();
-
-        player.send("base/changeBody", {body: "room"});
     }
 
-    // public static join(player: Player, roomId: string) {
-    //     console.log(`joined room: ${roomId}`);
-    //
-    //     let room = this.roomMap.get(roomId);
-    //     if (!room) {
-    //         room = new Room();
-    //         this.roomMap.set(roomId, room);
-    //     }
-    //
-    //     room.addPlayer(player);
-    //
-    //     player.roomId = roomId;
-    // }
-    //
-    // public static move(player: Player, data: any) {
-    //     let room = this.roomMap.get(player.roomId);
-    //     if (!room) {
-    //         return;
-    //     }
-    //     room.move(data);
-    // }
-    //
+    public static join(player: Player, roomId: string) {
+        let room = this.roomMap.get(roomId);
+        if (!room) {
+            player.sendTips("房间不存在");
+            return;
+        }
+
+        if (room.start) {
+            player.sendTips("游戏已经开始了");
+            return;
+        }
+
+        if (room.playerArray.length >= 8) {
+            player.sendTips("房间满员了");
+            return;
+        }
+
+        room.addPlayer(player);
+
+        player.send("base/changeBody", {body: "room"});
+        room.updateRoom();
+    }
 
     public static level(player: Player) {
         const room = player.room;
@@ -61,5 +62,7 @@ export class RoomManager {
         } else {
             room.updateRoom();
         }
+
+        player.send("base/changeBody", {body: "hall"});
     }
 }

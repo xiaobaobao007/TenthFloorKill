@@ -9,12 +9,16 @@
     <script src="static/scripts/util/jquery.min.js"></script>
     <script src="static/scripts/util/WsConnectUtil.js"></script>
 
-    <script src="static/scripts/routes/ClientRoutes.js"></script>
+    <script src="static/scripts/routes/ClientBaseRoutes.js"></script>
     <script src="static/scripts/routes/BaseRoutes.js"></script>
     <script src="static/scripts/routes/RoomEventRoutes.js"></script>
     <script src="static/scripts/routes/RoomRoutes.js"></script>
     <script src="static/scripts/routes/RoomSkillRoutes.js"></script>
     <script src="static/scripts/routes/Routes.js"></script>
+
+    <script src="static/scripts/model/card.js"></script>
+    <script src="static/scripts/model/player.js"></script>
+    <script src="static/scripts/model/seat.js"></script>
 
     <script src="static/scripts/manager/init.js"></script>
     <script src="static/scripts/manager/base.js"></script>
@@ -26,6 +30,7 @@
     <link rel="stylesheet" href="static/css/login.css"/>
     <link rel="stylesheet" href="static/css/room.css"/>
 </head>
+
 <body>
 <!--登陆界面-->
 <div class="login-container body" id="body-login">
@@ -42,45 +47,48 @@
 
 <!--大厅界面-->
 <div class="hall-container body" id="body-hall">
-    <div class="block" style="width: 50vh;" onclick="openBody('room')">
-        创建</br>房间
+    <div class="block" onclick="createRoom()"> 创建</br>房间</div>
+    <div class="block">
+        <input id="joinRoomId" placeholder="房间号"></input>
+        <div onclick="joinRoom()">加入房间</div>
     </div>
-    <div class="block" style="width: 50vh;">
-        加入</br>房间
-    </div>
-    <div class="block" id="leaveAccount" onclick="leaveAccount()">
-    </div>
-    <div class="block" style="width: 30vh;">
-        帮助
-    </div>
-    <div class="block" style="width: 50vh;">
-        更新</br>日志
-    </div>
+    <div class="block" onclick="changeAccount()">切换</br>账号</div>
+    <div class="block"> 帮助</div>
+    <div class="block"> 更新</br>日志</div>
 </div>
 
 <!--房间界面-->
 <div class="waiting-room body" id="body-room">
-    <div class="my-card">
+    <div class="roomInfo">房间号：123</div>
+    <div class="room-event" hidden></div>
+    <div class="room-operation">
+        <div class="room-operation-button room-start" onclick="leaderStartGame()">开始游戏</div>
+        <div class="room-operation-button room-quit" onclick="quitRoom()">退出</div>
     </div>
-
-    <div class="player-box me-box" id="playerBox0">
-        <div class="box-account">账号</div>
-        <div class="box-heroName">英雄名字</div>
-    </div>
+    <div class="my-card"></div>
 
     <div class="floating-window" id="floating-window" onclick="closeFloating()">
         <div class="floating-window-content"></div>
         <div class="floating-window-close">轻触面板关闭</div>
-    </div>
-
-    <div class="room-event">
     </div>
 </div>
 </body>
 
 <script>
     loadRoutes();
+
     openBody("login");
+
+    // initTestLogin();
+
+    function initTestLogin() {
+        window.onload = function () {
+            login();
+            setTimeout(() => {
+                sendWsMessage('room/create');
+            }, 200);
+        };
+    }
 </script>
 
 </html>

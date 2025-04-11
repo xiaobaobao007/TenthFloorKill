@@ -1,11 +1,13 @@
 import {Player} from "./Player";
+import {Card} from "./Card";
+import {CardManager} from "../manager/CardManager";
 
 export class Room {
-    private _roomId: string;
-    private _playerArray: Player[] = [];
-    private _start = false;
-
-    private leaderAccount: string | undefined;
+    private _roomId: string;//房间号
+    private _playerArray: Player[] = [];//玩家集合
+    private _start = false;//房间是否开始了
+    private leaderAccount: string | undefined;//房主
+    private incIndex: number = 1;//自增长id
 
     constructor(roomId: string) {
         this._roomId = roomId;
@@ -37,6 +39,8 @@ export class Room {
         if (this._playerArray.length == 1) {
             this.leaderAccount = player.account;
         }
+
+        player.room = this;
     }
 
     private gameStart() {
@@ -69,6 +73,8 @@ export class Room {
     public removePlayer(player: Player) {
         this._playerArray.splice(this._playerArray.indexOf(player), 1);
 
+        player.room = undefined;
+
         if (this._playerArray.length == 0) {
             return;
         }
@@ -97,10 +103,23 @@ export class Room {
         };
 
         for (let player of this._playerArray) {
-            roomData.player.push(player.getInfo());
-            roomData.player.push(player.getInfo());
+            roomData.player.push(player.getClientPlayerInfo());
         }
 
         this.broadcast("room/update", roomData);
+    }
+
+    public getNewPlayerCard(num: number): Card[] {
+        let list: Card[] = [];
+        for (let i = 0; i < num; i++) {
+            let card = CardManager.getNewPlayerCard();
+            card.allId = this.getNewIncIndex();
+            list.push(card);
+        }
+        return list;
+    }
+
+    private getNewIncIndex(): string {
+        return "" + this.incIndex++;
     }
 }

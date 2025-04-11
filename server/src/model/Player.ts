@@ -1,12 +1,15 @@
 import {WebSocket} from "ws";
 import {SocketUtil} from "../util/SocketUtil";
 import {Room} from "./Room";
+import {Card} from "./Card";
 
 export class Player {
     private _socket: WebSocket;
     private _account: string;
 
     private _room: Room | undefined;
+
+    private playerCardArray: Card[] = [];
 
     constructor(socket: WebSocket, account: string) {
         this._socket = socket;
@@ -37,10 +40,33 @@ export class Player {
         return this._socket;
     }
 
-    public getInfo(): any {
-        return {
-            name: this.account
+    public clearCard() {
+        this.playerCardArray = [];
+    }
+
+    public addCardArray(array: Card[]) {
+        for (let card of array) {
+            this.addCard(card);
         }
+    }
+
+    public addCard(playerCard: Card) {
+        this.playerCardArray.push(playerCard);
+    }
+
+    public getClientPlayerInfo(): any {
+        return {
+            name: this.account,
+            cardArray: this.getClientPlayerCardArray()
+        }
+    }
+
+    private getClientPlayerCardArray() {
+        let cardArray: any[] = [];
+        for (let playerCard of this.playerCardArray) {
+            cardArray.push(playerCard.getClientInfo());
+        }
+        return cardArray;
     }
 
     public sendTips(tips: string) {

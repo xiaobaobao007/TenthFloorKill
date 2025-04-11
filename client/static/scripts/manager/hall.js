@@ -1,6 +1,18 @@
-function initLeaveAccount() {
-    document.getElementById("leaveAccount").innerHTML = "退出【" + localStorage.getItem("account") + "】";
+function createRoom() {
+    sendWsMessage('room/create');
 }
 
-function leaveAccount() {
+function joinRoom() {
+    sendWsMessage('room/join', {roomId: $("#joinRoomId").val()});
+}
+
+function quitRoom() {
+    sendWsMessage('room/leave');
+}
+
+function leaderStartGame() {
+}
+
+function changeAccount() {
+    closeWs();
 }
