@@ -141,12 +141,15 @@ function addMyCard(cardArray) {
         html += "<div class='card-name'>" + name + "</div>";
 
         let tips = "";
-        if (card.dir === "dir_") tips += EMOJI_CONFIG.dir_;
 
-        if (card.ope === "ope_z") tips += EMOJI_CONFIG.ope_z;
-        else if (card.ope === "ope_m") tips += EMOJI_CONFIG.ope_m;
-        else if (card.ope === "ope_w") tips += EMOJI_CONFIG.ope_w;
-        else if (card.ope === "ope_") tips += EMOJI_CONFIG.ope_;
+        if (card.ope === "ope_z") {
+            tips += EMOJI_CONFIG.ope_z;
+        } else {
+            if (card.dir === "dir_") tips += EMOJI_CONFIG.dir_;
+            if (card.ope === "ope_m") tips += EMOJI_CONFIG.ope_m;
+            else if (card.ope === "ope_w") tips += EMOJI_CONFIG.ope_w;
+            else if (card.ope === "ope_") tips += EMOJI_CONFIG.ope_;
+        }
 
         if (card.lock) tips += EMOJI_CONFIG.lock;
 

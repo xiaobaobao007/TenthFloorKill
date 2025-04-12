@@ -4,15 +4,17 @@ export class Card {
     private _color: string;
     private _direction: string;
     private _operation: string;
+    private _lock: boolean;
 
     //需要初始化的数据
     private _hand = true;//是否是手牌
 
-    constructor(index: number, data: any) {
+    constructor(data: any) {
         this._cardId = data.id;
         this._color = data.color;
         this._direction = data.dir;
         this._operation = data.ope;
+        this._lock = !!data.lock;
     }
 
     public getClientInfo() {
@@ -22,6 +24,8 @@ export class Card {
             color: this._color,
             direction: this._direction,
             operation: this._operation,
+            lock: this._lock,
+
             hand: this._hand,
         };
     }
@@ -48,6 +52,10 @@ export class Card {
 
     get operation(): string {
         return this._operation;
+    }
+
+    get lock(): boolean {
+        return this._lock;
     }
 
     get hand(): boolean {
