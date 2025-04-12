@@ -90,6 +90,8 @@ function updateAllPlayer() {
             }
 
             html += "<div class='box-heroName'></div>";
+
+            html += "<div class='my-card-num'>" + playerModel.handArray.length + "</div>";
         }
 
         html += "<div class='player-intelligence player-intelligence-" + positionInfo.intelligence + "'></div>";
