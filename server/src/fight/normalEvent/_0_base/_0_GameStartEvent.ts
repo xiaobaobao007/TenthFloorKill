@@ -1,20 +1,20 @@
-import {Player} from "../../model/Player";
-import {Room} from "../../model/Room";
-import {Event} from "../Event";
-import {EventType} from "../EventType";
-import {GAME_CONFIG} from "../../util/Constant";
+import {Room} from "../../../model/Room";
+import {Event} from "../../Event";
+import {EventType} from "../../EventType";
+import {GAME_CONFIG} from "../../../util/Constant";
+import {_1_SearchNextPlayer} from "./_1_SearchNextPlayer";
 
-export class GameStartEvent implements Event {
+export class _0_GameStartEvent implements Event {
     private hadOver: boolean = false;
 
-    getEffectType(room: Room, player: Player | undefined): EventType {
+    getEffectType(room: Room): EventType {
         if (this.hadOver) {
             return EventType.NEXT;
         }
         return EventType.EFFECT;
     }
 
-    prv(room: Room, player: Player | undefined): void {
+    prv(room: Room): void {
         throw new Error("Method not implemented.");
     }
 
@@ -29,11 +29,11 @@ export class GameStartEvent implements Event {
         this.hadOver = true;
     }
 
-    over(room: Room, player: Player | undefined): void {
+    over(room: Room): void {
         throw new Error("Method not implemented.");
     }
 
-    nextEvent(room: Room, player: Player | undefined): Event | undefined {
-        return undefined;
+    nextEvent(room: Room): Event {
+        return new _1_SearchNextPlayer();
     }
 }

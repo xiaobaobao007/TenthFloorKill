@@ -11,8 +11,8 @@ function updateRoomData() {
     //设置房间号
     setHtml(".roomInfo", "房间号：" + ROOM_DATA.roomId);
 
-    //隐藏退出按钮
-    changeShowOrHide(".room-start", ACCOUNT === ROOM_DATA.leaderAccount);
+    //按钮显示控制问题
+    changeShowOrHide(".room-start", ACCOUNT === ROOM_DATA.leaderAccount && !ROOM_DATA.running);
     changeShowOrHide(".room-quit", !ROOM_DATA.running);
 
     //组装玩家信息
@@ -21,7 +21,7 @@ function updateRoomData() {
     //绘制所有人的情报
     updateAllPlayerIntelligence();
 
-    //设置我的手牌
+    //绘制我的手牌
     updateMyHandCard();
 }
 

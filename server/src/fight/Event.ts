@@ -4,17 +4,17 @@ import {EventType} from "./EventType";
 
 export interface Event {
     //获取当前事件
-    getEffectType(room: Room, player: Player | undefined): EventType;
+    getEffectType(room: Room): EventType;
 
     //当前事件执行前
-    prv(room: Room, player: Player | undefined): void;
+    prv(room: Room): void;
 
     //当前事件开始执行
-    doEvent(room: Room, player: Player | undefined): void;
+    doEvent(room: Room): void;
 
     //当前事件执行结束
-    over(room: Room, player: Player | undefined): void;
+    over(room: Room): void;
 
     //寻找下个事件
-    nextEvent(room: Room, player: Player | undefined): Event | undefined;
+    nextEvent(room: Room): Event;
 }

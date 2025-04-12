@@ -39,8 +39,9 @@ body {
 .block input {
     background-color: #97e7a1a1;
     color: #ffffff;
-    font-size: 3vw;
-    width: 10vw;
+    font-size: 5vh;
+    width: 19vh;
+    height: 8vh;
 }
 
 .hall-container::-webkit-scrollbar {

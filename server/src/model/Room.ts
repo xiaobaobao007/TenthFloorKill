@@ -2,16 +2,17 @@ import {Player} from "./Player";
 import {Card} from "./Card";
 import {CardManager} from "../manager/CardManager";
 import {Event} from "../fight/Event";
-import {GameStartEvent} from "../fight/normalEvent/GameStartEvent";
 import {shuffleArray} from "../util/MathUtil";
+import {_0_GameStartEvent} from "../fight/normalEvent/_0_base/_0_GameStartEvent";
+import {Stack} from "../util/Stack";
 
 export class Room {
     private _roomId: string;//房间号
     private _playerArray: Player[] = [];//玩家集合
     private _start = false;//房间是否开始了
     private _leaderAccount: string | undefined;//房主
-    private incIndex: number = 1;//自增长id
-    private _currentEvent: Event | undefined = undefined;//当前事件
+    private _incIndex: number = 1;//自增长id
+    private _eventStack = new Stack<Event>();//事件栈
 
     private _cardIndex: number[] = [];
     private _discardIndex: number[] = [];
@@ -77,9 +78,15 @@ export class Room {
             return;
         }
 
+        //游戏卡牌打断
         this._cardIndex = CardManager.getInitCardIndex();
 
-        this._currentEvent = new GameStartEvent();
+        //玩家位置打乱
+        shuffleArray(this._playerArray);
+
+        this._eventStack.clear();
+        this._eventStack.push(new _0_GameStartEvent());
+
         this.broadcast("roomEvent/newEvent", {name: "游戏开始"});
         this._start = true;
     }
@@ -114,9 +121,10 @@ export class Room {
         for (let i = 0; i < num; i++) {
             let index = this._cardIndex.pop();
 
-            if (!index) {
-                this._cardIndex = shuffleArray(this._discardIndex);
+            if (index === undefined) {
+                this._cardIndex = this._discardIndex;
                 this._discardIndex = [];
+                shuffleArray(this._cardIndex);
                 index = this._cardIndex.pop()!;
             }
 
@@ -128,18 +136,14 @@ export class Room {
     }
 
     private getNewIncIndex(): string {
-        return "" + this.incIndex++;
+        return "" + this._incIndex++;
     }
 
     get leaderAccount(): string | undefined {
         return this._leaderAccount;
     }
 
-    get currentEvent(): Event | undefined {
-        return this._currentEvent;
-    }
-
-    set currentEvent(value: Event | undefined) {
-        this._currentEvent = value;
+    get eventStack(): Stack<Event> {
+        return this._eventStack;
     }
 }

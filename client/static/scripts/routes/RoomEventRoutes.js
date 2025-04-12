@@ -10,4 +10,11 @@ class RoomEventRoutes extends ClientBaseRoutes {
             div.scrollTop(div[0].scrollHeight - div.height());
         }
     }
+
+
+    async updatePlayer(updateData) {
+        let account = updateData.account;
+        let data = updateData.data;
+    }
+
 }

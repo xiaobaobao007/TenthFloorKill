@@ -47,14 +47,14 @@
 
 <!--大厅界面-->
 <div class="hall-container body" id="body-hall">
-    <div class="block" onclick="createRoom()"> 创建</br>房间</div>
+    <div class="block" onclick="createRoom()"> 创建<br>房间</div>
     <div class="block">
         <input id="joinRoomId" placeholder="房间号"></input>
         <div onclick="joinRoom()">加入房间</div>
     </div>
-    <div class="block" onclick="changeAccount()">切换</br>账号</div>
+    <div class="block" onclick="changeAccount()">切换<br>账号</div>
     <div class="block"> 帮助</div>
-    <div class="block"> 更新</br>日志</div>
+    <div class="block"> 更新<br>日志</div>
 </div>
 
 <!--房间界面-->
@@ -78,8 +78,10 @@
     loadRoutes();
 
     openBody("login");
+    // openBody("hall");
+    // openBody("room");
 
-    // initTestLogin();
+    initTestLogin();
 
     function initTestLogin() {
         window.onload = function () {

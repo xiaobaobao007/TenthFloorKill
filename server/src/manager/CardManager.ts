@@ -31,6 +31,7 @@ export class CardManager {
         let array = [];
         const length = this.ALL_CARD_LIST.length;
         for (let i = 0; i < length; i++) array.push(i);
-        return shuffleArray(array);
+        shuffleArray(array);
+        return array;
     }
 }
