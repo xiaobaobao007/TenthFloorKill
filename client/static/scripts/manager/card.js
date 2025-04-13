@@ -21,17 +21,17 @@ function addHandCard(card) {
     const name = STRING_CONFIG[card.cardId + "_name"];
     class_ += " card-name-" + name.length;
 
-    html += "<div class='" + class_ + "' onclick='openFloating(" + JSON.stringify(card) + ")'>";
+    html += "<div class='" + class_ + "' onclick='openFloating(" + card.allId + ")'>";
     html += "<div class='card-name'>" + name + "</div>";
 
     let tips = "";
-    if (card.ope === "ope_z") {
+    if (card.operation === "ope_z") {
         tips += EMOJI_CONFIG.ope_z;
     } else {
-        if (card.dir === "dir_") tips += EMOJI_CONFIG.dir_;
-        if (card.ope === "ope_m") tips += EMOJI_CONFIG.ope_m;
-        else if (card.ope === "ope_w") tips += EMOJI_CONFIG.ope_w;
-        else if (card.ope === "ope_") tips += EMOJI_CONFIG.ope_;
+        if (card.direction === "dir_") tips += EMOJI_CONFIG.dir_;
+        if (card.operation === "ope_m") tips += EMOJI_CONFIG.ope_m;
+        else if (card.operation === "ope_w") tips += EMOJI_CONFIG.ope_w;
+        else if (card.operation === "ope_") tips += EMOJI_CONFIG.ope_;
     }
 
     if (card.lock) tips += EMOJI_CONFIG.lock;

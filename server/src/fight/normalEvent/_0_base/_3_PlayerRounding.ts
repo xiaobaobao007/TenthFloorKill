@@ -3,10 +3,11 @@ import {Room} from "../../../model/Room";
 import {Event} from "../../Event";
 import {EventType} from "../../EventType";
 import {GAME_CONFIG} from "../../../util/Constant";
+import {_4_PlayerRoundEnd} from "./_4_PlayerRoundEnd";
 
 export class _3_PlayerRounding implements Event {
     private currentPlayer: Player;
-    private lastTime = GAME_CONFIG.ROUND_TIME;
+    private lastTime = GAME_CONFIG.ROUND_ALL_TIME;
 
     constructor(currentPlayer: Player) {
         this.currentPlayer = currentPlayer;
@@ -17,13 +18,13 @@ export class _3_PlayerRounding implements Event {
             account: this.currentPlayer.account,
             tips: this.currentPlayer.account + "的出牌阶段",
             time: this.lastTime,
-            allTime: GAME_CONFIG.ROUND_TIME,
+            allTime: GAME_CONFIG.ROUND_ALL_TIME,
         }
 
         room.broadcast("roomEvent/updateTime", data);
 
         if (this.lastTime <= 0) {
-            return EventType.REMOVE;
+            return EventType.REMOVE_AND_NEXT;
         }
 
         this.lastTime -= GAME_CONFIG.GAME_FRAME_TIME;
@@ -43,7 +44,6 @@ export class _3_PlayerRounding implements Event {
     }
 
     nextEvent(room: Room): Event {
-        throw new Error("Method not implemented.");
-        // return new _4_PlayerRoundEnd(this.currentPlayer);
+        return new _4_PlayerRoundEnd(this.currentPlayer);
     }
 }

@@ -108,20 +108,25 @@ function updateAllPlayer() {
     }
 }
 
-function openFloating(data) {
+function openFloating(id) {
+    const handCard = ALL_PLAYER[ACCOUNT].getHandCard(id);
+    if (!handCard) {
+        return;
+    }
+
     const overlay = document.getElementById('floating-window');
     overlay.style.display = 'flex';
 
     let html = "";
-    if (data.type === "card") {
-        html += "卡牌类型介绍：</br>";
-        html += "名称：" + STRING_CONFIG[data.id + "_name"] + "</br>";
-        html += "描述：" + STRING_CONFIG[data.id + "_desc"] + "</br>";
-        html += "颜色：" + STRING_CONFIG["color_" + data.color] + "</br>";
-        html += "传递方式：" + STRING_CONFIG[data.ope] + "</br>";
-    }
+    html += "卡牌介绍：</br>";
+    html += "名称：" + STRING_CONFIG[handCard.cardId + "_name"] + "</br>";
+    html += "描述：" + STRING_CONFIG[handCard.cardId + "_desc"] + "</br>";
+    html += "颜色：" + STRING_CONFIG["color_" + handCard.color] + "</br>";
+    html += "传递方式：" + STRING_CONFIG[handCard.operation] + "</br>";
+    if (handCard.operation !== "ope_z") html += "传递方向：" + STRING_CONFIG[handCard.direction] + "</br>";
+    if (handCard.lock) html += "锁定：无法被烧毁的情报</br>";
 
-    setHtml("floating-window-content", html);
+    setHtml(".floating-window-content", html);
 }
 
 function closeFloating() {

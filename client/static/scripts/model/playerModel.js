@@ -19,4 +19,12 @@ function PlayerModel() {
             }
         }
     }
+
+    this.getHandCard = function (id) {
+        for (const card of this.handArray) {
+            if (card.allId == id) {
+                return card;
+            }
+        }
+    }
 }
