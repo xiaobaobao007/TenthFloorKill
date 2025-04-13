@@ -1,11 +1,12 @@
 import {ScheduleTask} from "./ScheduleTask";
 import {RoomTask} from "./RoomTask";
+import {GAME_CONFIG} from "../../util/Constant";
 
 export class ScheduleManager {
     private static map = new Map<number, ScheduleTask[]>();
 
     public static init() {
-        this.addSchedule(200, new RoomTask());
+        this.addSchedule(GAME_CONFIG.GAME_FRAME_TIME, new RoomTask());
         console.info("定时任务开始");
     }
 

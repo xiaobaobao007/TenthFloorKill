@@ -236,3 +236,56 @@ body {
     margin-top: -14%;
     margin-left: 63%;
 }
+
+.other-time-tips {
+    position: absolute;
+    right: -0.8vw;
+    top: 1vw;
+    width: 0.3vw;
+    height: 10vw;
+}
+
+.my-time-tips {
+    position: absolute;
+    left: 11vw;
+    bottom: 13.5vw;
+    width: 49vw;
+    height: 1vw;
+}
+
+.green-time-tips {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    border-width: 1px;
+    border-radius: 8px;
+    background-color: #27a938;
+}
+
+.red-time-tips {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    border-width: 1px;
+    border-radius: 8px;
+    border-color: rgb(255 0 0);
+    box-shadow: 0 0 5px 0px rgb(255 0 0);
+}
+
+.time-tips-light {
+    box-shadow: 0 0 5px 2px rgb(255 0 0);
+}
+
+.room-time-tips {
+    position: absolute;
+    left: 3vw;
+    top: 6vw;
+    font-size: 1.9vw;
+    font-style: italic;
+    color: #e72727;
+    text-shadow: 7px 4px 10px #b30808;
+}

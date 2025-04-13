@@ -2,16 +2,22 @@ import {Player} from "../../../model/Player";
 import {Room} from "../../../model/Room";
 import {Event} from "../../Event";
 import {EventType} from "../../EventType";
+import {_3_PlayerRounding} from "./_3_PlayerRounding";
 
 export class _2_PlayerRoundStart implements Event {
-    private currentPlayer: Player ;
+    private currentPlayer: Player;
+    private hadEffect = false;
 
     constructor(currentPlayer: Player) {
         this.currentPlayer = currentPlayer;
     }
 
     getEffectType(room: Room): EventType {
-        throw new Error("Method not implemented.");
+        if (this.hadEffect) {
+            return EventType.REMOVE_AND_NEXT;
+        }
+        this.hadEffect = true;
+        return EventType.EFFECT;
     }
 
     prv(room: Room): void {
@@ -19,7 +25,20 @@ export class _2_PlayerRoundStart implements Event {
     }
 
     doEvent(room: Room): void {
-        throw new Error("Method not implemented.");
+        let newPlayerCardArray = room.getNewPlayerCard(2);
+        this.currentPlayer.addCardArray(newPlayerCardArray);
+
+        let handClientInfo = [];
+        for (let card of newPlayerCardArray) {
+            handClientInfo.push(card.getClientInfo());
+        }
+        this.currentPlayer.send("roomEvent/newHandCard", {handCard: handClientInfo,});
+
+        let otherData = {
+            account: this.currentPlayer.account,
+            handCardNum: this.currentPlayer.handCardArray.length,
+        };
+        room.broadcast("roomEvent/updateHandCardNum", otherData);
     }
 
     over(room: Room): void {
@@ -27,6 +46,6 @@ export class _2_PlayerRoundStart implements Event {
     }
 
     nextEvent(room: Room): Event {
-        throw new Error("Method not implemented.");
+        return new _3_PlayerRounding(this.currentPlayer);
     }
 }

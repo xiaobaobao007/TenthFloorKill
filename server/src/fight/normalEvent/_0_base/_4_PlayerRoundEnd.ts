@@ -3,15 +3,15 @@ import {Room} from "../../../model/Room";
 import {Event} from "../../Event";
 import {EventType} from "../../EventType";
 
-export class _2_PlayerRoundStart implements Event {
-    private currentPlayer: Player ;
+export class _4_PlayerRoundEnd implements Event {
+    private currentPlayer: Player;
 
     constructor(currentPlayer: Player) {
         this.currentPlayer = currentPlayer;
     }
 
     getEffectType(room: Room): EventType {
-        throw new Error("Method not implemented.");
+        return EventType.NONE;
     }
 
     prv(room: Room): void {

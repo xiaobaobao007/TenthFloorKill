@@ -12,8 +12,8 @@ const POSITION_DATA = [
     {type: "other3", intelligence: "bottom", left: 20, top: 1},
     {type: "other4", intelligence: "bottom", left: 42, top: 1},
     {type: "other5", intelligence: "bottom", left: 63, top: 1},
-    {type: "other6", intelligence: "top", right: 1, top: 16},
-    {type: "other7", intelligence: "top", right: 1, bottom: 1},
+    {type: "other6", intelligence: "top", right: 2, top: 16},
+    {type: "other7", intelligence: "top", right: 2, bottom: 1},
     {type: "other8", intelligence: "top", right: 20, bottom: 1},
 ];
 
@@ -89,7 +89,7 @@ function initHall() {
 function initRoom() {
     ALL_SEAT = [];
     ALL_PLAYER = {};
-    $(".room-event:first").html("");
+    $(".clear").html("");
     $("body")[0].style.backgroundColor = "#c6d9ee";
 }
 

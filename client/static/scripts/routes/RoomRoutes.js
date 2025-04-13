@@ -4,7 +4,9 @@ class RoomRoutes extends ClientBaseRoutes {
         updateRoomData();
     }
 
-    async roundStartGetCard(data) {
-        addMyCard(data.cardArray);
-    }
+    // async updateOnePlayer(data) {
+    //     let account = data.account;
+    //     let handCard = data.handCard;
+    //     addMyCard(data.cardArray);
+    // }
 }

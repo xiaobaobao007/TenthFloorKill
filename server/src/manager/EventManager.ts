@@ -26,6 +26,9 @@ export class EventManager {
                 case EventType.NEXT:
                     eventStack.push(currentEvent.nextEvent(room));
                     break;
+                case EventType.REMOVE:
+                    eventStack.pop();
+                    break;
                 case EventType.REMOVE_AND_NEXT:
                     eventStack.pop();
                     eventStack.push(currentEvent.nextEvent(room));

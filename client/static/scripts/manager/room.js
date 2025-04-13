@@ -67,7 +67,7 @@ function updateAllPlayer() {
         } else {
             const playerInfo = playerArray[startIndex];
 
-            let playerModel = new Player(playerInfo);
+            let playerModel = new PlayerModel(playerInfo);
             playerModel.init(playerInfo);
             ALL_PLAYER[playerModel.account] = playerModel;
             playerModel.div = newPlayerDiv;
@@ -91,7 +91,9 @@ function updateAllPlayer() {
 
             html += "<div class='box-heroName'></div>";
 
-            html += "<div class='my-card-num'>" + playerModel.handArray.length + "</div>";
+            if (ROOM_DATA.running) {
+                html += "<div class='my-card-num'>" + playerModel.handArray.length + "</div>";
+            }
         }
 
         html += "<div class='player-intelligence player-intelligence-" + positionInfo.intelligence + "'></div>";
@@ -127,115 +129,117 @@ function closeFloating() {
     overlay.style.display = 'none';
 }
 
-function addMyCard(cardArray) {
-    let html = "";
-    for (const card of cardArray) {
-        let class_ = "card";
-        if (card.color === "r") class_ += " card-red";
-        else if (card.color === "g") class_ += " card-grey";
-        else if (card.color === "b") class_ += " card-blue";
-        else if (card.color === "d") class_ += " card-double";
+function updateTimeTips(account, tips, time, allTime) {
+    let rate = Math.floor(100 * time / allTime);
 
-        const name = STRING_CONFIG[card.id + "_name"];
-        class_ += " card-name-" + name.length;
+    $(".room-time-tips:first").html(tips);
 
-        html += "<div class='" + class_ + "' onclick='openFloating(" + JSON.stringify(card) + ")'>";
-        html += "<div class='card-name'>" + name + "</div>";
+    const isMe = account === ACCOUNT;
 
-        let tips = "";
-
-        if (card.ope === "ope_z") {
-            tips += EMOJI_CONFIG.ope_z;
-        } else {
-            if (card.dir === "dir_") tips += EMOJI_CONFIG.dir_;
-            if (card.ope === "ope_m") tips += EMOJI_CONFIG.ope_m;
-            else if (card.ope === "ope_w") tips += EMOJI_CONFIG.ope_w;
-            else if (card.ope === "ope_") tips += EMOJI_CONFIG.ope_;
-        }
-
-        if (card.lock) tips += EMOJI_CONFIG.lock;
-
-        html += "<div class='card-tips'>" + tips + "</div>";
-        html += "</div>";
-    }
-
-    setHtml(".my-card", html);
-}
-
-function updateAllPlayerIntelligence() {
-    for (const account in ALL_PLAYER) {
+    {
         const player = ALL_PLAYER[account];
-        if (player.intelligenceArray.length === 0) {
-            continue
+        const timeDiv = $(player.div).children(".other-time-tips:first");
+        if (rate <= 0) {
+            timeDiv.remove();
+            return;
         }
 
-        const intelligence = $(player.div).children(".player-intelligence:first");
-        intelligence.html("");
+        if (timeDiv.length === 0) {
+            let html = "<div class='other-time-tips'>" +
+                "<div class='green-time-tips'></div>" +
+                "<div class='red-time-tips'></div>" +
+                "</div>";
 
-        for (const one of player.intelligenceArray) {
-            let class_ = undefined;
-            switch (one.color) {
-                case "r":
-                    class_ = "card-red";
-                    break;
-                case "g":
-                    class_ = "card-grey";
-                    break;
-                case "b":
-                    class_ = "card-blue";
-                    break;
-                case "d":
-                    class_ = "card-double";
-                    break;
-                default:
-                    break;
-            }
+            $(player.div).append(html);
+            return;
+        }
 
-            if (class_) {
-                intelligence.append("<div class='intelligence " + class_ + "'></div>");
-            }
+        const children = timeDiv.children();
+        const green = children[0];
+        green.style.height = rate + "%";
+
+        if (rate <= 30) {
+            $(children[1]).toggleClass('time-tips-light');
+        }
+    }
+
+    {
+        const timeDiv = $(".my-time-tips");
+        if (rate <= 0) {
+            timeDiv.remove();
+            return;
+        }
+
+        if (timeDiv.length === 0) {
+            let html = "<div class='my-time-tips'>" +
+                "<div class='green-time-tips'></div>" +
+                "<div class='red-time-tips'></div>" +
+                "</div>";
+
+            $("#body-room").append(html);
+            return;
+        }
+
+        const children = timeDiv.children();
+        const green = children[0];
+        green.style.width = rate + "%";
+
+        if (rate <= 30) {
+            $(children[1]).toggleClass('time-tips-light');
         }
     }
 }
 
-function updateMyHandCard() {
-    const player = ALL_PLAYER[ACCOUNT];
+function updateTimeTips(account, tips, time, allTime) {
+    let rate = Math.floor(100 * time / allTime);
 
-    const myHandCard = $(".my-card:first");
-    myHandCard.html("");
+    $(".room-time-tips:first").html(tips);
 
-    for (const one of player.handArray) {
-        addHandCard(one);
+    const isMe = account === ACCOUNT;
+
+    let timeDiv;
+    if (isMe) {
+        timeDiv = $(".my-time-tips");
+    } else {
+        const player = ALL_PLAYER[account];
+        timeDiv = $(player.div).children(".other-time-tips:first");
     }
-}
 
-function addHandCard(card) {
-    let html = "";
-    let class_ = "card";
+    if (rate <= 0) {
+        timeDiv.remove();
+        return;
+    }
 
-    if (card.color === "r") class_ += " card-red";
-    else if (card.color === "g") class_ += " card-grey";
-    else if (card.color === "b") class_ += " card-blue";
-    else if (card.color === "d") class_ += " card-double";
+    if (timeDiv.length === 0) {
+        let html;
+        if (isMe) {
+            html = "<div class='my-time-tips clear'>";
+        } else {
+            html = "<div class='other-time-tips clear'>";
+        }
 
-    const name = STRING_CONFIG[card.cardId + "_name"];
-    class_ += " card-name-" + name.length;
+        html += "<div class='green-time-tips'></div>" +
+            "<div class='red-time-tips'></div>" +
+            "</div>";
 
-    html += "<div class='" + class_ + "' onclick='openFloating(" + JSON.stringify(card) + ")'>";
-    html += "<div class='card-name'>" + name + "</div>";
+        if (isMe) {
+            $("#body-room").append(html);
+        } else {
+            $(ALL_PLAYER[account].div).append(html);
+        }
+        return;
+    }
 
-    let tips = "";
-    if (card.direction === "dir_") tips += EMOJI_CONFIG.dir_;
+    const children = timeDiv.children();
+    const green = children[0];
 
-    if (card.operation === "ope_z") tips += EMOJI_CONFIG.ope_z;
-    else if (card.operation === "ope_m") tips += EMOJI_CONFIG.ope_m;
-    else if (card.operation === "ope_w") tips += EMOJI_CONFIG.ope_w;
-    else if (card.operation === "ope_") tips += EMOJI_CONFIG.ope_;
+    if (isMe) {
+        green.style.width = rate + "%";
+    } else {
+        green.style.height = rate + "%";
+    }
 
-    if (card.lock) tips += EMOJI_CONFIG.lock;
-
-    html += "<div class='card-tips'>" + tips + "</div>";
-    html += "</div>";
-
-    $(".my-card:first").append(html);
+    if (rate <= 30) {
+        $(children[1]).toggleClass('time-tips-light');
+    }
 }

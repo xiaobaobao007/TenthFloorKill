@@ -1,4 +1,4 @@
-function Card() {
+function CardModel() {
     this.init = function (data) {
         this.allId = data.allId;
         this.cardId = data.cardId;

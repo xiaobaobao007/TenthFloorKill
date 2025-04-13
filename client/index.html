@@ -16,14 +16,16 @@
     <script src="static/scripts/routes/RoomSkillRoutes.js"></script>
     <script src="static/scripts/routes/Routes.js"></script>
 
-    <script src="static/scripts/model/card.js"></script>
-    <script src="static/scripts/model/player.js"></script>
+    <script src="static/scripts/model/cardModel.js"></script>
+    <script src="static/scripts/model/playerModel.js"></script>
     <script src="static/scripts/model/seat.js"></script>
 
     <script src="static/scripts/manager/init.js"></script>
     <script src="static/scripts/manager/base.js"></script>
     <script src="static/scripts/manager/hall.js"></script>
     <script src="static/scripts/manager/room.js"></script>
+    <script src="static/scripts/manager/intelligence.js"></script>
+    <script src="static/scripts/manager/card.js"></script>
 
     <link rel="stylesheet" href="static/css/base.css"/>
     <link rel="stylesheet" href="static/css/hall.css"/>
@@ -60,13 +62,13 @@
 <!--房间界面-->
 <div class="waiting-room body" id="body-room">
     <div class="roomInfo">房间号：123</div>
-    <div class="room-event"></div>
+    <div class="room-event clear"></div>
     <div class="room-operation">
         <div class="room-operation-button room-start" onclick="leaderStartGame()">开始游戏</div>
         <div class="room-operation-button room-quit" onclick="quitRoom()">退出</div>
     </div>
-    <div class="my-card"></div>
-
+    <div class="my-card clear"></div>
+    <div class="room-time-tips clear"></div>
     <div class="floating-window" id="floating-window" onclick="closeFloating()">
         <div class="floating-window-content"></div>
         <div class="floating-window-close">轻触面板关闭</div>
@@ -81,7 +83,7 @@
     // openBody("hall");
     // openBody("room");
 
-    initTestLogin();
+    // initTestLogin();
 
     function initTestLogin() {
         window.onload = function () {
@@ -89,6 +91,10 @@
             setTimeout(() => {
                 sendWsMessage('room/create');
             }, 200);
+
+            setTimeout(() => {
+                sendWsMessage('room/start');
+            }, 400);
         };
     }
 </script>

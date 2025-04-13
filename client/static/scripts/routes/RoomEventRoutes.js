@@ -11,10 +11,26 @@ class RoomEventRoutes extends ClientBaseRoutes {
         }
     }
 
+    async newHandCard(updateData) {
+        const player = ALL_PLAYER[ACCOUNT];
 
-    async updatePlayer(updateData) {
-        let account = updateData.account;
-        let data = updateData.data;
+        for (const handCardElement of updateData.handCard) {
+            const cardModel = new CardModel();
+            cardModel.init(handCardElement);
+
+            player.handArray.push(cardModel);
+
+            addHandCard(cardModel);
+        }
+    }
+
+    async updateHandCardNum(updateData) {
+        const player = ALL_PLAYER[updateData.account];
+        $(player.div).children(".my-card-num:first").html(updateData.handCardNum);
+    }
+
+    async updateTime(requestData) {
+        updateTimeTips(requestData.account, requestData.tips, requestData.time, requestData.allTime);
     }
 
 }

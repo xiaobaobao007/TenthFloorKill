@@ -97,6 +97,15 @@ export class Room {
         }
     }
 
+    public broadcastExclude(route: string, data: any, player: Player) {
+        for (let i = 0; i < this._playerArray.length; i++) {
+            if (this._playerArray[i] === player) {
+                continue;
+            }
+            this._playerArray[i].send(route, data);
+        }
+    }
+
     public updateRoom() {
         if (this._playerArray.length == 0) {
             return;

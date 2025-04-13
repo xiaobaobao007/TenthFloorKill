@@ -9,7 +9,8 @@ export class Player {
 
     private _room: Room | undefined;
 
-    private playerCardArray: Card[] = [];
+    private intelligenceCardArray: Card[] = [];
+    private _handCardArray: Card[] = [];
 
     constructor(socket: WebSocket, account: string) {
         this._socket = socket;
@@ -41,7 +42,7 @@ export class Player {
     }
 
     public clearCard() {
-        this.playerCardArray = [];
+        this._handCardArray = [];
     }
 
     public addCardArray(array: Card[]) {
@@ -51,7 +52,7 @@ export class Player {
     }
 
     public addCard(playerCard: Card) {
-        this.playerCardArray.push(playerCard);
+        this._handCardArray.push(playerCard);
     }
 
     public getClientPlayerInfo(): any {
@@ -63,7 +64,7 @@ export class Player {
 
     private getClientPlayerCardArray() {
         let cardArray: any[] = [];
-        for (let playerCard of this.playerCardArray) {
+        for (let playerCard of this._handCardArray) {
             cardArray.push(playerCard.getClientInfo());
         }
         return cardArray;
@@ -71,5 +72,9 @@ export class Player {
 
     public sendTips(tips: string) {
         SocketUtil.send(this._socket, "base/tips", {tips: tips});
+    }
+
+    get handCardArray(): Card[] {
+        return this._handCardArray;
     }
 }
