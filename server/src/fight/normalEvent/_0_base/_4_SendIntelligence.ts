@@ -3,13 +3,12 @@ import {Room} from "../../../model/Room";
 import {Event} from "../../Event";
 import {EventType} from "../../EventType";
 import {GAME_CONFIG} from "../../../util/Constant";
-import {_4_SendIntelligence} from "./_4_SendIntelligence";
+import {_5_PlayerRoundEnd} from "./_5_PlayerRoundEnd";
 
-export class _3_PlayerRounding implements Event {
+export class _4_SendIntelligence implements Event {
     private static readonly SEND_BUTTON_INFO = {
         buttonArray: [
-            {classType: "submit", needNum: 1, root: "1111", name: "出牌",},
-            {classType: "cancel", root: "2222", name: "结束出牌",},
+            {classType: "submit", needNum: 1, root: "1111", name: "发情报",},
         ]
     }
 
@@ -25,8 +24,8 @@ export class _3_PlayerRounding implements Event {
             account: this.currentPlayer.account,
             time: this.lastTime,
             allTime: GAME_CONFIG.ROUND_ALL_TIME,
-            allTips: this.currentPlayer.account + "的出牌阶段",
-            myTips: "出牌阶段，请选择1张卡牌",
+            allTips: this.currentPlayer.account + "的情报阶段",
+            myTips: "情报阶段，请选择1张情报发送",
         }
 
         room.broadcast("roomEvent/updateTime", data);
@@ -36,7 +35,7 @@ export class _3_PlayerRounding implements Event {
         }
 
         if (this.lastTime === GAME_CONFIG.ROUND_ALL_TIME) {
-            this.currentPlayer.send("roomEvent/showButton", _3_PlayerRounding.SEND_BUTTON_INFO);
+            this.currentPlayer.send("roomEvent/showButton", _4_SendIntelligence.SEND_BUTTON_INFO);
         }
 
         this.lastTime -= GAME_CONFIG.GAME_FRAME_TIME;
@@ -57,6 +56,6 @@ export class _3_PlayerRounding implements Event {
 
     nextEvent(room: Room): Event {
         this.currentPlayer.send("roomEvent/clearButton");
-        return new _4_SendIntelligence(this.currentPlayer);
+        return new _5_PlayerRoundEnd(this.currentPlayer);
     }
 }

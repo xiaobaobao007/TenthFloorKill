@@ -78,11 +78,18 @@ export class Room {
             return;
         }
 
+        //todo 添加机器人
+        if (this._playerArray.length == 1) {
+            for (let i = 1; i <= 3; i++) {
+                this._playerArray.push(new Player(undefined, "robot-" + i));
+            }
+        }
+
         //游戏卡牌打断
         this._cardIndex = CardManager.getInitCardIndex();
 
         //玩家位置打乱
-        shuffleArray(this._playerArray);
+        // shuffleArray(this._playerArray);
 
         this._eventStack.clear();
         this._eventStack.push(new _0_GameStartEvent());
@@ -141,6 +148,9 @@ export class Room {
             card.allId = this.getNewIncIndex();
             list.push(card);
         }
+
+        this.broadcast("roomEvent/updateLastCardNum", {lastCardNum: this._cardIndex.length});
+
         return list;
     }
 

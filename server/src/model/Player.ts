@@ -4,7 +4,7 @@ import {Room} from "./Room";
 import {Card} from "./Card";
 
 export class Player {
-    private _socket: WebSocket;
+    private _socket: WebSocket | undefined;
     private _account: string;
 
     private _room: Room | undefined;
@@ -12,7 +12,9 @@ export class Player {
     private intelligenceCardArray: Card[] = [];
     private _handCardArray: Card[] = [];
 
-    constructor(socket: WebSocket, account: string) {
+    private ai = false;//机器人或者是否为托管模式
+
+    constructor(socket: WebSocket | undefined, account: string) {
         this._socket = socket;
         this._account = account;
     }
@@ -21,8 +23,10 @@ export class Player {
         return this._account;
     }
 
-    public send(route: string, data: any) {
-        SocketUtil.send(this._socket, route, data);
+    public send(route: string, data: any = {}) {
+        if (this._socket) {
+            SocketUtil.send(this._socket, route, data);
+        }
     }
 
     get room(): Room | undefined {
@@ -34,10 +38,12 @@ export class Player {
     }
 
     public close() {
-        this._socket.close();
+        if (this._socket) {
+            this._socket.close();
+        }
     }
 
-    get socket(): WebSocket {
+    get socket(): WebSocket | undefined {
         return this._socket;
     }
 
@@ -71,7 +77,9 @@ export class Player {
     }
 
     public sendTips(tips: string) {
-        SocketUtil.send(this._socket, "base/tips", {tips: tips});
+        if (this._socket) {
+            SocketUtil.send(this._socket, "base/tips", {tips: tips});
+        }
     }
 
     get handCardArray(): Card[] {

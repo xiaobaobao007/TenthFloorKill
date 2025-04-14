@@ -32,14 +32,18 @@ function updateAllPlayer() {
     let startIndex = -1;
     for (let i = 0; i < playerArray.length; i++) {
         if (playerArray[i].name === ACCOUNT) {
-            startIndex = i;
+            if (i + 1 === playerArray.length) {
+                startIndex = 0;
+            } else {
+                startIndex = i + 1;
+            }
             break;
         }
     }
 
     const waitingRoom = document.getElementById('body-room');
 
-    for (let seatIndex = 0; seatIndex < POSITION_DATA.length; seatIndex++, startIndex++) {
+    for (let seatIndex = ROOM_DATA.running ? playerArray.length - 1 : POSITION_DATA.length - 1; seatIndex >= 0; seatIndex--, startIndex++) {
         if (seatIndex >= playerArray.length && ROOM_DATA.running) {
             continue;
         }
@@ -106,12 +110,18 @@ function updateAllPlayer() {
         newPlayerDiv.innerHTML = html;
         waitingRoom.appendChild(newPlayerDiv);
     }
+
+    setDivClickEvent(".player-box", selectPlayerBox, emptyFunction);
 }
 
-function updateTimeTips(account, tips, time, allTime) {
+function selectPlayerBox(div) {
+    // newPlayerDiv.classList.add("player-box-select");
+}
+
+function updateTimeTips(account, time, allTime, allTips, myTips) {
     let rate = Math.floor(100 * time / allTime);
 
-    $(".room-time-tips:first").html(tips);
+    $(".room-time-tips:first").html(allTips);
 
     const isMe = account === ACCOUNT;
 
@@ -131,14 +141,17 @@ function updateTimeTips(account, tips, time, allTime) {
     if (timeDiv.length === 0) {
         let html;
         if (isMe) {
-            html = "<div class='my-time-tips clear'>";
+            html = "<div class='my-time-tips clear'>" +
+                "<div class='green-time-tips'></div>" +
+                "<div class='red-time-tips'></div>" +
+                "<div class='room-time-tips-content'>" + myTips + "</div>" +
+                "</div>";
         } else {
-            html = "<div class='other-time-tips clear'>";
+            html = "<div class='other-time-tips clear'>" +
+                "<div class='green-time-tips'></div>" +
+                "<div class='red-time-tips'></div>" +
+                "</div>";
         }
-
-        html += "<div class='green-time-tips'></div>" +
-            "<div class='red-time-tips'></div>" +
-            "</div>";
 
         if (isMe) {
             $("#body-room").append(html);

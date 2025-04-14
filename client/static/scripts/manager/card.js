@@ -43,10 +43,8 @@ function addHandCard(card) {
 
     $(".my-card:first").append(html);
 
-    updateCardClickEvent(id, cardClick, cardPress);
+    setDivClickEvent('#' + id, cardClick, cardPress);
 }
-
-const maxSelection = 2;
 
 function cardClick(div) {
     for (const s of SELECTED_CARD_DIVS) {
@@ -57,7 +55,7 @@ function cardClick(div) {
         }
     }
 
-    while (SELECTED_CARD_DIVS.length >= maxSelection) {
+    while (SELECTED_CARD_DIVS.length >= SELECTED_CARD_NUM) {
         $(SELECTED_CARD_DIVS.shift()).children('.my-card-select').remove();
     }
     $(div).append("<div class='my-card-select'></div>");

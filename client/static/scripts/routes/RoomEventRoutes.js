@@ -33,7 +33,27 @@ class RoomEventRoutes extends ClientBaseRoutes {
     }
 
     async updateTime(requestData) {
-        updateTimeTips(requestData.account, requestData.tips, requestData.time, requestData.allTime);
+        updateTimeTips(requestData.account, requestData.time, requestData.allTime, requestData.allTips, requestData.myTips);
     }
 
+    async updateLastCardNum(requestData) {
+        $(".room-lastCard-tips:first").html("牌库剩余：" + requestData.lastCardNum);
+    }
+
+    async showButton(requestData) {
+        let html = "";
+        for (const button of requestData.buttonArray) {
+            if (button.classType === "submit") {
+                SELECTED_CARD_NUM = button.needNum;
+                html += "<div class='operation-button-grey' onclick='clickSubmit(this," + button.needNum + "," + button.root + ")'>" + button.name + "</div>";
+            } else if (button.classType === "cancel") {
+                html += "<div class='operation-button-small-grey' onclick='clickCancel(this," + button.root + ")'>" + button.name + "</div>";
+            }
+        }
+        $(".operation-button-father").html(html);
+    }
+
+    async clearButton() {
+        $(".operation-button-father").html("");
+    }
 }

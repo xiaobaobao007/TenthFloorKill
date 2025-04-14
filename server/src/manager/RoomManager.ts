@@ -10,7 +10,7 @@ export class RoomManager {
 
     public static create(player: Player) {
         if (player.room) {
-            PlayerManager.logout(player.socket, "已经在房间了，请重新登录");
+            PlayerManager.logout(player.socket!, "已经在房间了，请重新登录");
             return;
         }
         player.send("base/changeBody", {body: "room"});

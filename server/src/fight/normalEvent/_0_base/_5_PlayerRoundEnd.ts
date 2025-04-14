@@ -3,16 +3,8 @@ import {Room} from "../../../model/Room";
 import {Event} from "../../Event";
 import {EventType} from "../../EventType";
 import {GAME_CONFIG} from "../../../util/Constant";
-import {_4_SendIntelligence} from "./_4_SendIntelligence";
 
-export class _3_PlayerRounding implements Event {
-    private static readonly SEND_BUTTON_INFO = {
-        buttonArray: [
-            {classType: "submit", needNum: 1, root: "1111", name: "出牌",},
-            {classType: "cancel", root: "2222", name: "结束出牌",},
-        ]
-    }
-
+export class _5_PlayerRoundEnd implements Event {
     private currentPlayer: Player;
     private lastTime = GAME_CONFIG.ROUND_ALL_TIME;
 
@@ -21,22 +13,31 @@ export class _3_PlayerRounding implements Event {
     }
 
     getEffectType(room: Room): EventType {
+        const discardNumber = this.currentPlayer.handCardArray.length - GAME_CONFIG.MAX_CARD;
+        if (discardNumber <= 0) {
+            return EventType.REMOVE;
+        }
+
         let data = {
             account: this.currentPlayer.account,
             time: this.lastTime,
-            allTime: GAME_CONFIG.ROUND_ALL_TIME,
-            allTips: this.currentPlayer.account + "的出牌阶段",
-            myTips: "出牌阶段，请选择1张卡牌",
-        }
+            allTime: GAME_CONFIG.ROUND_OVER_TIME,
+            allTips: this.currentPlayer.account + "的弃牌阶段",
+            myTips: "弃牌阶段，请弃掉" + discardNumber + "张手牌",
+        };
 
         room.broadcast("roomEvent/updateTime", data);
 
         if (this.lastTime <= 0) {
-            return EventType.REMOVE_AND_NEXT;
+            return EventType.REMOVE;
         }
 
         if (this.lastTime === GAME_CONFIG.ROUND_ALL_TIME) {
-            this.currentPlayer.send("roomEvent/showButton", _3_PlayerRounding.SEND_BUTTON_INFO);
+            this.currentPlayer.send("roomEvent/showButton", {
+                buttonArray: [
+                    {classType: "submit", needNum: discardNumber, root: "1111", name: "弃掉",},
+                ]
+            });
         }
 
         this.lastTime -= GAME_CONFIG.GAME_FRAME_TIME;
@@ -57,6 +58,6 @@ export class _3_PlayerRounding implements Event {
 
     nextEvent(room: Room): Event {
         this.currentPlayer.send("roomEvent/clearButton");
-        return new _4_SendIntelligence(this.currentPlayer);
+        return new _5_PlayerRoundEnd(this.currentPlayer);
     }
 }

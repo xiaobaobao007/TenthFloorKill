@@ -25,11 +25,8 @@ export class PlayerManager {
     private static login(socket: WebSocket, account: string) {
         let oldPlayer = this.accountMap.get(account);
         if (oldPlayer) {
-            const oldSocket = oldPlayer.socket;
-
-            this.logout(oldSocket, "异地登录");
+            this.logout(oldPlayer.socket!, "异地登录");
         }
-
         return this.setNewAccount(socket, account);
     }
 

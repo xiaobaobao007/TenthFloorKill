@@ -7,6 +7,7 @@ let ALL_SEAT = [];
 let ALL_PLAYER = {};
 
 let SELECTED_CARD_DIVS = [];
+let SELECTED_CARD_NUM = -1;
 
 const POSITION_DATA = [
     {type: "me", intelligence: "top"},
@@ -91,8 +92,12 @@ function initHall() {
 function initRoom() {
     ALL_SEAT = [];
     ALL_PLAYER = {};
+
+    SELECTED_CARD_DIVS = [];
+    SELECTED_CARD_NUM = -1;
+
     $(".clear").html("");
-    $("body")[0].style.backgroundColor = "#c6d9ee";
+    $("body")[0].style.background = "linear-gradient(to bottom right, #6ac9c5, #c968c9)";
 }
 
 function changeShowOrHide(select, show) {
@@ -108,31 +113,51 @@ function setHtml(select, html) {
 }
 
 /**
- * @param id div id
+ * @param select 选择器
  * @param click 点击事件
  * @param press 长按事件
  */
-function updateCardClickEvent(id, click, press) {
-    $('#' + id).on({
-        mousedown: function () {
+function setDivClickEvent(select, click, press) {
+    $(select).on({
+        mousedown: function (e) {
+            DIV_CLICK_EVENT_DOWN_START = e.pageX;
             const $this = $(this);
             let timer = setTimeout(() => {
                 press($this);
-            }, 150);
+            }, 250);
             $this.data('longPressTimer', timer);
         },
         mouseup: function () {
             clearTimeout($(this).data('longPressTimer'));
         },
-        touchstart: function () {
+        mousemove: function (e) {
+            if (typeof DIV_CLICK_EVENT_DOWN_START == "undefined") {
+                return;
+            }
+
+            if (Math.abs(e.pageX - DIV_CLICK_EVENT_DOWN_START) > 5) {
+                clearTimeout($(this).data('longPressTimer'));
+            }
+        },
+        touchstart: function (e) {
+            DOWN_START = e.originalEvent.touches[0].pageX;
             const $this = $(this);
             let timer = setTimeout(() => {
                 press($this);
-            }, 150);
+            }, 250);
             $this.data('longPressTimer', timer);
         },
         touchend: function () {
             clearTimeout($(this).data('longPressTimer'));
+        },
+        touchmove: function (e) {
+            if (typeof DIV_CLICK_EVENT_DOWN_START == "undefined") {
+                return;
+            }
+
+            if (Math.abs(e.originalEvent.touches[0].pageX - DIV_CLICK_EVENT_DOWN_START) > 5) {
+                clearTimeout($(this).data('longPressTimer'));
+            }
         },
         click: function (e) {
             if (e.originalEvent.detail === 1) {
@@ -168,4 +193,15 @@ function closeFloating() {
     const overlay = document.getElementById('floating-window');
 
     overlay.classList.remove("floating-open")
+}
+
+function emptyFunction(a = undefined, b = undefined, c = undefined, d = undefined, e = undefined) {
+}
+
+function clickSubmit(div, needNum, root) {
+    console.info(div, needNum, root);
+}
+
+function clickCancel(div, root) {
+    console.info(div, root);
 }
