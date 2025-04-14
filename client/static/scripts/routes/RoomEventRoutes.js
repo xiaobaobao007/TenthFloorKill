@@ -55,5 +55,6 @@ class RoomEventRoutes extends ClientBaseRoutes {
 
     async clearButton() {
         $(".operation-button-father").html("");
+        $(".my-card-select").remove();
     }
 }
