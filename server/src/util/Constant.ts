@@ -111,6 +111,5 @@ export const GAME_CONFIG = {
     ROUND_INIT_CARD: 2,//回合开始卡牌数量
     MAX_CARD: 6,//最大卡牌数量
     GAME_FRAME_TIME: 250,//服务器游戏逻辑帧间隔（毫秒）
-    ROUND_ALL_TIME: 5 * 1000,//回合内操作等待时间（毫秒）
-    ROUND_OVER_TIME: 5 * 1000,//回合结束弃牌等待时间（毫秒）
+    ROUND_ALL_TIME: 30 * 1000,//回合内操作等待时间（毫秒）
 };
