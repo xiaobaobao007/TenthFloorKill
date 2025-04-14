@@ -104,13 +104,13 @@ export const CLIENT_STRING_DATA = {
     "color_b": "蓝色情报",
     "color_d": "红色加蓝色的双色情报",
 }
-export const EMOJI_DATA = {leader: "🏠", dir_: "🔄", ope_z: "🚀", ope_m: "📧", ope_w: "📝", ope_: "", lock: "🔒",};
+export const EMOJI_DATA = {leader: "🏠", dir_: "🔄", ope_z: "直达", ope_m: "密电", ope_w: "文本", ope_: "", lock: "🔒",};
 
 export const GAME_CONFIG = {
     GAME_INIT_CARD: 2,//初始卡牌数量
     ROUND_INIT_CARD: 2,//回合开始卡牌数量
     MAX_CARD: 6,//最大卡牌数量
-    GAME_FRAME_TIME: 100,//服务器游戏逻辑帧间隔（毫秒）
+    GAME_FRAME_TIME: 250,//服务器游戏逻辑帧间隔（毫秒）
     ROUND_ALL_TIME: 15 * 1000,//回合内操作等待时间（毫秒）
     ROUND_OVER_TIME: 10 * 1000,//回合结束弃牌等待时间（毫秒）
 };

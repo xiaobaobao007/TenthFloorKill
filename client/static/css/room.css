@@ -130,12 +130,12 @@ body {
     height: 11vw;
     background-color: #c47d41a6;
     overflow-x: auto;
-    overflow-y: hidden;
     display: flex;
     flex-wrap: nowrap;
     padding-bottom: 10px;
     user-select: none;
     border-radius: 8px;
+    box-shadow: 7px 8px 13px 1px rgb(183 146 115);
 }
 
 .my-card-num {
@@ -152,14 +152,23 @@ body {
     height: 100%;
     margin: 5px;
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-shrink: 0;
+    border-radius: 8px;
     box-shadow: 5px 5px 9px 1px rgb(73 79 89);
 }
 
+.my-card-select {
+    position: absolute;
+    width: 6vw;
+    height: 87%;
+    z-index: 999;
+    box-sizing: border-box;
+    border-radius: 7px;
+    border: 2px dashed #00ff4eb0;
+}
+
 .card-name {
-    margin-top: 2vw;
+    margin-left: 50%;
     writing-mode: vertical-lr;
     font-weight: bold;
     color: white;
@@ -168,18 +177,28 @@ body {
 
 .card-name-2 {
     font-size: 2.8vw;
+    transform: translate(-50%, 25%);
 }
 
 .card-name-4 {
     font-size: 1.6vw;
+    transform: translate(-50%, 20%);
+}
+
+.card-operation {
+    color: #ffffff;
+    position: absolute;
+    font-size: 1vw;
+    top: 7%;
+    margin-left: 6.9%;
 }
 
 .card-tips {
-    color: white;
+    color: #ffffff;
     position: absolute;
-    font-size: 1.4vw;
-    margin-top: -9vw;
-    white-space: nowrap;
+    font-size: 1vw;
+    margin-left: 1%;
+    bottom: 8%;
 }
 
 .card-red {
@@ -221,7 +240,6 @@ body {
 
 .floating-window {
     position: fixed;
-    display: none;
     z-index: 999;
     background-color: white;
     border-radius: 8px;
@@ -229,12 +247,19 @@ body {
     width: 300px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     translate: -50% -50%;
+
+    opacity: 0;
+    transition: .22s;
+}
+
+.floating-open {
+    opacity: 1;
 }
 
 .floating-window-close {
     position: absolute;
-    margin-top: -14%;
-    margin-left: 63%;
+    top: -14%;
+    right: 0;
 }
 
 .other-time-tips {
@@ -247,10 +272,10 @@ body {
 
 .my-time-tips {
     position: absolute;
-    left: 11vw;
-    bottom: 13.5vw;
-    width: 49vw;
-    height: 1vw;
+    left: 16vw;
+    bottom: 13.9vw;
+    width: 39vw;
+    height: 0.6vw;
 }
 
 .green-time-tips {
@@ -262,6 +287,7 @@ body {
     border-width: 1px;
     border-radius: 8px;
     background-color: #27a938;
+    transition: width 1s ease;
 }
 
 .red-time-tips {
@@ -272,12 +298,21 @@ body {
     width: 100%;
     border-width: 1px;
     border-radius: 8px;
-    border-color: rgb(255 0 0);
-    box-shadow: 0 0 5px 0px rgb(255 0 0);
+    border-color: #27a938;
+    box-shadow: 0 0 1px 1px #27a938;
 }
 
 .time-tips-light {
-    box-shadow: 0 0 5px 2px rgb(255 0 0);
+    animation: shadowFlicker 0.3s infinite alternate;
+}
+
+@keyframes shadowFlicker {
+    from {
+        box-shadow: 0 0 3px 3px rgba(241, 124, 124, 0.76);
+    }
+    to {
+        box-shadow: 0 0 10px 1px rgb(255 0 0);
+    }
 }
 
 .room-time-tips {

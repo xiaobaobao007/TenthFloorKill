@@ -1,6 +1,9 @@
 class RoomEventRoutes extends ClientBaseRoutes {
     async newEvent(data) {
         const div = $(".room-event");
+        if (div.length === 0) {
+            return;
+        }
 
         const downRate = div[0].scrollHeight - div.scrollTop() - div.height() * 1.5;
 

@@ -6,6 +6,8 @@ let ROOM_DATA = {};
 let ALL_SEAT = [];
 let ALL_PLAYER = {};
 
+let SELECTED_CARD_DIVS = [];
+
 const POSITION_DATA = [
     {type: "me", intelligence: "top"},
     {type: "other2", intelligence: "top", left: 1, top: 16},
@@ -103,4 +105,67 @@ function changeShowOrHide(select, show) {
 
 function setHtml(select, html) {
     $(select).html(html);
+}
+
+/**
+ * @param id div id
+ * @param click 点击事件
+ * @param press 长按事件
+ */
+function updateCardClickEvent(id, click, press) {
+    $('#' + id).on({
+        mousedown: function () {
+            const $this = $(this);
+            let timer = setTimeout(() => {
+                press($this);
+            }, 150);
+            $this.data('longPressTimer', timer);
+        },
+        mouseup: function () {
+            clearTimeout($(this).data('longPressTimer'));
+        },
+        touchstart: function () {
+            const $this = $(this);
+            let timer = setTimeout(() => {
+                press($this);
+            }, 150);
+            $this.data('longPressTimer', timer);
+        },
+        touchend: function () {
+            clearTimeout($(this).data('longPressTimer'));
+        },
+        click: function (e) {
+            if (e.originalEvent.detail === 1) {
+                click(this);
+            }
+        }
+    });
+}
+
+function openFloating(id) {
+    const handCard = ALL_PLAYER[ACCOUNT].getHandCard(id);
+    if (!handCard) {
+        return;
+    }
+
+    const overlay = document.getElementById('floating-window');
+
+    let html = "";
+    html += "卡牌介绍：</br>";
+    html += "名称：" + STRING_CONFIG[handCard.cardId + "_name"] + "</br>";
+    html += "描述：" + STRING_CONFIG[handCard.cardId + "_desc"] + "</br>";
+    html += "颜色：" + STRING_CONFIG["color_" + handCard.color] + "</br>";
+    html += "传递方式：" + STRING_CONFIG[handCard.operation] + "</br>";
+    if (handCard.operation !== "ope_z") html += "传递方向：" + STRING_CONFIG[handCard.direction] + "</br>";
+    if (handCard.lock) html += "锁定：无法被烧毁的情报</br>";
+
+    setHtml(".floating-window-content", html);
+
+    overlay.classList.add("floating-open")
+}
+
+function closeFloating() {
+    const overlay = document.getElementById('floating-window');
+
+    overlay.classList.remove("floating-open")
 }
