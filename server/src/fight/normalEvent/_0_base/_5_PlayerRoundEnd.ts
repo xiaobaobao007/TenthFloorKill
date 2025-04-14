@@ -21,7 +21,7 @@ export class _5_PlayerRoundEnd implements Event {
         let data = {
             account: this.currentPlayer.account,
             time: this.lastTime,
-            allTime: GAME_CONFIG.ROUND_OVER_TIME,
+            allTime: GAME_CONFIG.ROUND_ALL_TIME,
             allTips: this.currentPlayer.account + "的弃牌阶段",
             myTips: "弃牌阶段，请弃掉" + discardNumber + "张手牌",
         };
