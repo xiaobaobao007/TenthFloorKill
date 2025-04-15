@@ -38,10 +38,13 @@ function initWs() {
 }
 
 function sendWsMessage(route, message) {
+    if (typeof ws === "undefined") {
+        addTips("服务器已断开，无法发送消息");
+        return;
+    }
     if (ws.readyState !== WebSocket.OPEN) {
         initWs();
     }
-
     let data = {
         route: route.toLowerCase(), data: message
     };
