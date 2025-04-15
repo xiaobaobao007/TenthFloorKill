@@ -8,7 +8,7 @@ import {_5_PlayerRoundEnd} from "./_5_PlayerRoundEnd";
 export class _4_SendIntelligence implements Event {
     private static readonly SEND_BUTTON_INFO = {
         buttonArray: [
-            {classType: "submit", needNum: 1, root: "1111", name: "发情报",},
+            {classType: "submit", needCardNum: 1, needPlayerNum: 1, root: "game/sendIntelligence", name: "发情报",},
         ]
     }
 
@@ -25,7 +25,7 @@ export class _4_SendIntelligence implements Event {
             time: this.lastTime,
             allTime: GAME_CONFIG.ROUND_ALL_TIME,
             allTips: this.currentPlayer.account + "的情报阶段",
-            myTips: "情报阶段，请选择1张情报发送",
+            myTips: "请选择1张情报和1名玩家",
         }
 
         room.broadcast("roomEvent/updateTime", data);

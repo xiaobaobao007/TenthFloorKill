@@ -47,10 +47,15 @@ function addHandCard(card) {
 }
 
 function cardClick(div) {
+    if (SELECTED_CARD_NUM <= 0) {
+        return;
+    }
+
     for (const s of SELECTED_CARD_DIVS) {
         if (s === div) {
             SELECTED_CARD_DIVS.splice(s, 1);
             $(div).children('.my-card-select').remove();
+            updateButton();
             return;
         }
     }
@@ -60,6 +65,12 @@ function cardClick(div) {
     }
     $(div).append("<div class='my-card-select'></div>");
     SELECTED_CARD_DIVS.push(div);
+
+    updateButton();
+}
+
+function resetSelectCard() {
+    $('.my-card-select').remove();
 }
 
 function cardPress(div) {

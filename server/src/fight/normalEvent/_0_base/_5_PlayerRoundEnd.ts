@@ -64,7 +64,7 @@ export class _5_PlayerRoundEnd implements Event {
 
         player.send("roomEvent/showButton", {
             buttonArray: [
-                {classType: "submit", needNum: player.handCardArray.length - GAME_CONFIG.MAX_CARD, root: "1111", name: "弃掉",},
+                {classType: "submit", needCardNum: player.handCardArray.length - GAME_CONFIG.MAX_CARD, root: "1111", name: "弃掉",},
             ]
         });
     }

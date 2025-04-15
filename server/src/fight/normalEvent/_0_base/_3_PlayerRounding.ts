@@ -8,7 +8,7 @@ import {_4_SendIntelligence} from "./_4_SendIntelligence";
 export class _3_PlayerRounding implements Event {
     private static readonly SEND_BUTTON_INFO = {
         buttonArray: [
-            {classType: "submit", needNum: 1, root: "1111", name: "出牌",},
+            {classType: "submit", needCardNum: 1, root: "1111", name: "出牌",},
             {classType: "cancel", root: "2222", name: "结束出牌",},
         ]
     }
@@ -26,7 +26,7 @@ export class _3_PlayerRounding implements Event {
             time: this.lastTime,
             allTime: GAME_CONFIG.ROUND_ALL_TIME,
             allTips: this.currentPlayer.account + "的出牌阶段",
-            myTips: "出牌阶段，请选择1张卡牌",
+            myTips: "请选择1张卡牌",
         }
 
         room.broadcast("roomEvent/updateTime", data);

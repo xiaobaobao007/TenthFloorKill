@@ -44,12 +44,20 @@ class RoomEventRoutes extends ClientBaseRoutes {
         let html = "";
         for (const button of requestData.buttonArray) {
             if (button.classType === "submit") {
-                SELECTED_CARD_NUM = button.needNum;
-                html += "<div class='operation-button-grey' onclick='clickSubmit(this," + button.needNum + "," + button.root + ")'>" + button.name + "</div>";
+                if (button.needCardNum) {
+                    SELECTED_CARD_NUM = button.needCardNum;
+                }
+                if (button.needPlayerNum) {
+                    SELECTED_PLAYER_NUM = 1;
+                }
+                html += "<div class='operation-button operation-button-grey' onclick='clickSubmit(\"" + button.root + "\")'>" + button.name + "</div>";
             } else if (button.classType === "cancel") {
-                html += "<div class='operation-button-small-grey' onclick='clickCancel(this," + button.root + ")'>" + button.name + "</div>";
+                html += "<div class='operation-button-small-grey' onclick='clickCancel(\"" + button.root + "\")'>" + button.name + "</div>";
             }
         }
+
+        resetSelectPlayer();
+        resetSelectCard();
         $(".operation-button-father").html(html);
     }
 
@@ -57,4 +65,5 @@ class RoomEventRoutes extends ClientBaseRoutes {
         $(".operation-button-father").html("");
         $(".my-card-select").remove();
     }
+
 }

@@ -8,6 +8,8 @@ let ALL_PLAYER = {};
 
 let SELECTED_CARD_DIVS = [];
 let SELECTED_CARD_NUM = -1;
+let SELECTED_PLAYER = undefined;
+let SELECTED_PLAYER_NUM = -1;//目前暂时只支持选择其他玩家
 
 const POSITION_DATA = [
     {type: "me", intelligence: "top"},
@@ -83,25 +85,6 @@ function openBody(name) {
 
 function bodyIsShow(name) {
     return $("#body-" + name).css("display") !== "none";
-}
-
-function initLogin() {
-    $("body")[0].style.backgroundColor = "#6d7a8a";
-}
-
-function initHall() {
-    $("body")[0].style.backgroundColor = "#5385c3";
-}
-
-function initRoom() {
-    ALL_SEAT = [];
-    ALL_PLAYER = {};
-
-    SELECTED_CARD_DIVS = [];
-    SELECTED_CARD_NUM = -1;
-
-    $(".clear").html("");
-    $("body")[0].style.background = "linear-gradient(to bottom right, #6ac9c5, #c968c9)";
 }
 
 function changeShowOrHide(select, show) {
@@ -200,12 +183,4 @@ function closeFloating() {
 }
 
 function emptyFunction(a = undefined, b = undefined, c = undefined, d = undefined, e = undefined) {
-}
-
-function clickSubmit(div, needNum, root) {
-    console.info(div, needNum, root);
-}
-
-function clickCancel(div, root) {
-    console.info(div, root);
 }

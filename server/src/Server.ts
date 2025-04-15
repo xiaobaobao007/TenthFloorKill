@@ -54,5 +54,5 @@ ScheduleManager.init();
 const PORT = 8080;
 
 server.listen(PORT, () => {
-    console.log(`Server listening on port `, PORT);
+    console.log(new Date().toLocaleString("shanghai"), `：Server listening on port `, PORT);
 });
