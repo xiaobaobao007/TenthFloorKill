@@ -36,7 +36,7 @@ export class _3_PlayerRounding implements Event {
         }
 
         if (this.lastTime === GAME_CONFIG.ROUND_ALL_TIME) {
-            this.currentPlayer.send("roomEvent/showButton", _3_PlayerRounding.SEND_BUTTON_INFO);
+            this.sendClientInfo(room, this.currentPlayer);
         }
 
         this.lastTime -= GAME_CONFIG.GAME_FRAME_TIME;
@@ -58,5 +58,12 @@ export class _3_PlayerRounding implements Event {
     nextEvent(room: Room): Event {
         this.currentPlayer.send("roomEvent/clearButton");
         return new _4_SendIntelligence(this.currentPlayer);
+    }
+
+    sendClientInfo(room: Room, player: Player): void {
+        if (player != this.currentPlayer) {
+            return;
+        }
+        player.send("roomEvent/showButton", _3_PlayerRounding.SEND_BUTTON_INFO);
     }
 }

@@ -4,31 +4,18 @@ import {Room} from "./Room";
 import {Card} from "./Card";
 
 export class Player {
-    private _socket: WebSocket | undefined;
-    private _account: string;
-
-    private _room: Room | undefined;
-
-    private intelligenceCardArray: Card[] = [];
-    private _handCardArray: Card[] = [];
-
+    private _socket: WebSocket | undefined;//连接
+    public readonly account: string;//账号
     private _ai = false;//玩家掉线或者机器人为true
+    private _reLogin = false;//重新登录标记
+
+    private _room: Room | undefined;//房间
+    private _intelligenceCardArray: Card[] = [];//情报
+    private _handCardArray: Card[] = [];//手牌
 
     constructor(socket: WebSocket | undefined, account: string) {
         this._socket = socket;
-        this._account = account;
-    }
-
-    get account(): string {
-        return this._account;
-    }
-
-    get ai(): boolean {
-        return this._ai;
-    }
-
-    set ai(value: boolean) {
-        this._ai = value;
+        this.account = account;
     }
 
     public send(route: string, data: any = {}) {
@@ -37,22 +24,10 @@ export class Player {
         }
     }
 
-    get room(): Room | undefined {
-        return this._room;
-    }
-
-    set room(value: Room | undefined) {
-        this._room = value;
-    }
-
     public close() {
         if (this._socket) {
             this._socket.close();
         }
-    }
-
-    get socket(): WebSocket | undefined {
-        return this._socket;
     }
 
     public clearCard() {
@@ -90,7 +65,40 @@ export class Player {
         }
     }
 
+    get socket(): WebSocket | undefined {
+        return this._socket;
+    }
+
+    set socket(value: WebSocket | undefined) {
+        this._socket = value;
+    }
+
+    get ai(): boolean {
+        return this._ai;
+    }
+
+    set ai(value: boolean) {
+        this._ai = value;
+    }
+
+    get reLogin(): boolean {
+        return this._reLogin;
+    }
+
+    set reLogin(value: boolean) {
+        this._reLogin = value;
+    }
+
+    get room(): Room | undefined {
+        return this._room;
+    }
+
+    set room(value: Room | undefined) {
+        this._room = value;
+    }
+
     get handCardArray(): Card[] {
         return this._handCardArray;
     }
+
 }

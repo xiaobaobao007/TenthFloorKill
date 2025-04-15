@@ -2,6 +2,7 @@ import {RoomManager} from "./RoomManager";
 import {EventType} from "../fight/EventType";
 import {Stack} from "../util/Stack";
 import {Event} from "../fight/Event";
+import {Room} from "../model/Room";
 
 export class EventManager {
     public static doEvent() {
@@ -9,6 +10,8 @@ export class EventManager {
             if (!room.start) {
                 continue;
             }
+
+            this.judgeReLogin(room);
 
             const eventStack: Stack<Event> = room.eventStack;
             const currentEvent = eventStack.peek()!;
@@ -38,4 +41,20 @@ export class EventManager {
             }
         }
     }
+
+    //判断房间是否存在断线重连的玩家
+    private static judgeReLogin(room: Room) {
+        for (const player of room.playerArray) {
+            if (!player.reLogin) {
+                continue;
+            }
+
+            room.playerReLogin(player);
+
+            Stack.reLogin(player, room.eventStack);
+
+            player.reLogin = false;
+        }
+    }
+
 }

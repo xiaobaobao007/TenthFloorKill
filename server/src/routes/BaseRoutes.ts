@@ -10,5 +10,20 @@ export class BaseRoutes extends ServerClientRoutes {
         }
 
         player.send("base/loginBack", data);
+
+        if (!player.reLogin) {
+            return;
+        }
+
+        this.reLogin(player);
     }
+
+    reLogin(player: Player) {
+        if (!player.room || !player.room.start) {
+            return;
+        }
+        player.send("base/changeBody", {body: "room"});
+        player.room.updateRoom();
+    }
+
 }

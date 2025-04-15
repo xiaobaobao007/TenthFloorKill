@@ -48,4 +48,7 @@ export class _2_PlayerRoundStart implements Event {
     nextEvent(room: Room): Event {
         return new _3_PlayerRounding(this.currentPlayer);
     }
+
+    sendClientInfo(room: Room, player: Player): void {
+    }
 }

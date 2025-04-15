@@ -17,4 +17,7 @@ export interface Event {
 
     //寻找下个事件
     nextEvent(room: Room): Event;
+
+    //事件开始发送前端信息
+    sendClientInfo(room: Room, player: Player): void;
 }

@@ -21,28 +21,27 @@ wsApp.ws('*', (socket, req) => {
         const request = JSON.parse(message);
         const player = PlayerManager.get(socket, request.data);
 
-        if (request.route === 'base/login') {
-            if (player) {
-                console.info("登录成功", request.data);
+        if (player) {
+            if (request.route === 'base/login') {
+                if (player.reLogin) {
+                    console.info("重新登录成功", request.data);
+                } else {
+                    console.info("登录成功", request.data);
+                }
             } else {
-                SocketUtil.send(socket, "base/tips", {tips: "请重新输入账号"});
-                return;
+                console.info("收到", player.account, message);
             }
-
-            const router = routerHandelMap.get(request.route);
-            router(player, request.data, getWss());
+        } else {
+            SocketUtil.send(socket, "base/tips", {tips: "请重新输入账号"});
             return;
         }
 
-        if (player) {
-            console.info("收到", player.account, message);
-            const router = routerHandelMap.get(request.route);
-            if (!router) {
-                console.error(request.route, "不存在");
-                return;
-            }
-            router(player, request.data, getWss());
+        const router = routerHandelMap.get(request.route);
+        if (!router) {
+            console.error(request.route, "不存在");
+            return;
         }
+        router(player, request.data, getWss());
     });
 });
 

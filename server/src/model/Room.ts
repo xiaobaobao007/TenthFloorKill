@@ -160,6 +160,10 @@ export class Room {
         return "" + this._incIndex++;
     }
 
+    playerReLogin(player: Player): void {
+        player.send("roomEvent/updateLastCardNum", {lastCardNum: this._cardIndex.length});
+    }
+
     get leaderAccount(): string | undefined {
         return this._leaderAccount;
     }

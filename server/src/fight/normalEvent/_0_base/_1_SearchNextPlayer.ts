@@ -37,4 +37,7 @@ export class _1_SearchNextPlayer implements Event {
     nextEvent(room: Room): Event {
         throw new Error("Method not implemented.");
     }
+
+    sendClientInfo(room: Room, player: Player): void {
+    }
 }

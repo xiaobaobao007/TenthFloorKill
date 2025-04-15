@@ -81,6 +81,10 @@ function openBody(name) {
     });
 }
 
+function bodyIsShow(name) {
+    return $("#body-" + name).css("display") !== "none";
+}
+
 function initLogin() {
     $("body")[0].style.backgroundColor = "#6d7a8a";
 }

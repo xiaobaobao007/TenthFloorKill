@@ -33,11 +33,7 @@ export class _5_PlayerRoundEnd implements Event {
         }
 
         if (this.lastTime === GAME_CONFIG.ROUND_ALL_TIME) {
-            this.currentPlayer.send("roomEvent/showButton", {
-                buttonArray: [
-                    {classType: "submit", needNum: discardNumber, root: "1111", name: "弃掉",},
-                ]
-            });
+            this.sendClientInfo(room, this.currentPlayer);
         }
 
         this.lastTime -= GAME_CONFIG.GAME_FRAME_TIME;
@@ -59,5 +55,17 @@ export class _5_PlayerRoundEnd implements Event {
     nextEvent(room: Room): Event {
         this.currentPlayer.send("roomEvent/clearButton");
         return new _5_PlayerRoundEnd(this.currentPlayer);
+    }
+
+    sendClientInfo(room: Room, player: Player): void {
+        if (player != this.currentPlayer) {
+            return;
+        }
+
+        player.send("roomEvent/showButton", {
+            buttonArray: [
+                {classType: "submit", needNum: player.handCardArray.length - GAME_CONFIG.MAX_CARD, root: "1111", name: "弃掉",},
+            ]
+        });
     }
 }

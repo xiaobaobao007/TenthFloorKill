@@ -3,6 +3,7 @@ import {Event} from "../../Event";
 import {EventType} from "../../EventType";
 import {GAME_CONFIG} from "../../../util/Constant";
 import {_1_SearchNextPlayer} from "./_1_SearchNextPlayer";
+import {Player} from "../../../model/Player";
 
 export class _0_GameStartEvent implements Event {
     private hadOver: boolean = false;
@@ -35,5 +36,8 @@ export class _0_GameStartEvent implements Event {
 
     nextEvent(room: Room): Event {
         return new _1_SearchNextPlayer();
+    }
+
+    sendClientInfo(room: Room, player: Player): void {
     }
 }

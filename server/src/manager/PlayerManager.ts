@@ -9,7 +9,8 @@ export class PlayerManager {
 
     public static get(socket: WebSocket, data: any): Player | undefined {
         let player = this.socketMap.get(socket);
-        if ((!player || !player.account) && data && data.account) {
+
+        if (!player && data && data.account.length > 0) {
             return this.login(socket, data.account);
         }
 
@@ -24,11 +25,23 @@ export class PlayerManager {
 
     private static login(socket: WebSocket, account: string) {
         let oldPlayer = this.accountMap.get(account);
-        if (oldPlayer && !oldPlayer.ai) {
-            this.logout(socket, "账号已经登录");
-            return undefined;
+        if (oldPlayer) {
+            if (oldPlayer.ai) {
+                this.reLogin(socket, oldPlayer);
+                return oldPlayer;
+            } else {
+                this.logout(socket, "账号已经登录");
+                return undefined;
+            }
         }
         return this.setNewAccount(socket, account);
+    }
+
+    private static reLogin(socket: WebSocket, player: Player) {
+        this.socketMap.set(socket, player);
+        player.socket = socket;
+        player.ai = false;
+        player.reLogin = true;
     }
 
     private static setNewAccount(socket: WebSocket, account: string) {
@@ -52,7 +65,8 @@ export class PlayerManager {
         socket.close();
 
         let player = this.socketMap.get(socket);
-        if (player && player.account) {
+        if (player) {
+            player.socket = undefined;
             this.accountMap.delete(player.account);
         }
         this.socketMap.delete(socket);

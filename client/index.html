@@ -91,12 +91,14 @@
         window.onload = function () {
             login();
             setTimeout(() => {
+                if (bodyIsShow("room")) {
+                    return;
+                }
                 sendWsMessage('room/create');
+                setTimeout(() => {
+                    sendWsMessage('room/start');
+                }, 200);
             }, 200);
-
-            setTimeout(() => {
-                sendWsMessage('room/start');
-            }, 400);
         };
     }
 </script>
