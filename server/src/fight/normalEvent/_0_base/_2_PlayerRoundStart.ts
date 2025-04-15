@@ -2,10 +2,11 @@ import {Player} from "../../../model/Player";
 import {Room} from "../../../model/Room";
 import {Event} from "../../Event";
 import {EventType} from "../../EventType";
+import {GAME_CONFIG} from "../../../util/Constant";
 import {_3_PlayerRounding} from "./_3_PlayerRounding";
 
 export class _2_PlayerRoundStart implements Event {
-    private currentPlayer: Player;
+    private readonly currentPlayer: Player;
     private hadEffect = false;
 
     constructor(currentPlayer: Player) {
@@ -25,20 +26,7 @@ export class _2_PlayerRoundStart implements Event {
     }
 
     doEvent(room: Room): void {
-        let newPlayerCardArray = room.getNewPlayerCard(2);
-        this.currentPlayer.addCardArray(newPlayerCardArray);
-
-        let handClientInfo = [];
-        for (let card of newPlayerCardArray) {
-            handClientInfo.push(card.getClientInfo());
-        }
-        this.currentPlayer.send("roomEvent/newHandCard", {handCard: handClientInfo,});
-
-        let otherData = {
-            account: this.currentPlayer.account,
-            handCardNum: this.currentPlayer.handCardArray.length,
-        };
-        room.broadcast("roomEvent/updateHandCardNum", otherData);
+        this.currentPlayer.addCardArray(room.getNewPlayerCard(GAME_CONFIG.ROUND_INIT_CARD_NUM));
     }
 
     over(room: Room): void {
