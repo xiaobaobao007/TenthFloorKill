@@ -22,9 +22,7 @@ export class CardManager {
     }
 
     public static getNewPlayerCard(index: number): Card {
-        let card = this.ALL_CARD_LIST[index];
-        card.hand = true;
-        return card;
+        return this.ALL_CARD_LIST[index];
     }
 
     public static getInitCardIndex(): number[] {

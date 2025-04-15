@@ -29,6 +29,11 @@ export class Stack<T> {
         this.items = [];
     }
 
+    //反转所有元素
+    reverse(): void {
+        this.items.reverse();
+    }
+
     //玩家重新登录
     public static reLogin(player: Player, stack: Stack<Event>): void {
         for (let item of stack.items) {

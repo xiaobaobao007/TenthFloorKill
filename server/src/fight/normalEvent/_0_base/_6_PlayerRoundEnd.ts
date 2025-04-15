@@ -4,8 +4,8 @@ import {Event} from "../../Event";
 import {EventType} from "../../EventType";
 import {GAME_CONFIG} from "../../../util/Constant";
 
-export class _5_PlayerRoundEnd implements Event {
-    private currentPlayer: Player;
+export class _6_PlayerRoundEnd implements Event {
+    private readonly currentPlayer: Player;
     private lastTime = GAME_CONFIG.ROUND_ALL_TIME;
 
     constructor(currentPlayer: Player) {
@@ -54,7 +54,7 @@ export class _5_PlayerRoundEnd implements Event {
 
     nextEvent(room: Room): Event {
         this.currentPlayer.send("roomEvent/clearButton");
-        return new _5_PlayerRoundEnd(this.currentPlayer);
+        return new _6_PlayerRoundEnd(this.currentPlayer);
     }
 
     sendClientInfo(room: Room, player: Player): void {

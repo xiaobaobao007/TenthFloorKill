@@ -8,6 +8,8 @@ export class Card {
 
     //需要初始化的数据
     private _hand = true;//是否是手牌
+    private _clientOperation: string | undefined;
+    private _clientDirection: string | undefined;
 
     constructor(data: any) {
         this._cardId = data.id;
@@ -17,7 +19,20 @@ export class Card {
         this._lock = !!data.lock;
     }
 
-    public getClientInfo() {
+    public getSelfCardInfo() {
+        return {
+            allId: this._allId,
+            cardId: this._cardId,
+            color: this._color,
+            direction: this._direction,
+            operation: this._operation,
+            lock: this._lock,
+
+            hand: this._hand,
+        };
+    }
+
+    public getOtherCardInfo() {
         return {
             allId: this._allId,
             cardId: this._cardId,

@@ -83,8 +83,6 @@ function updateAllPlayer() {
         newPlayerDiv.innerHTML = html;
         waitingRoom.appendChild(newPlayerDiv);
     }
-
-    setDivClickEvent(".other-box", selectPlayerBox, emptyFunction);
 }
 
 function selectPlayerBox(div) {

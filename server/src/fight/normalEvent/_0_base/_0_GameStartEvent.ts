@@ -20,12 +20,12 @@ export class _0_GameStartEvent implements Event {
     }
 
     doEvent(room: Room): void {
+        room.updateRoom();
+
         for (const player of room.playerArray) {
-            let playerCard = room.getNewPlayerCard(GAME_CONFIG.GAME_INIT_CARD);
+            let playerCard = room.getNewPlayerCard(GAME_CONFIG.GAME_INIT_CARD_NUM);
             player.addCardArray(playerCard);
         }
-
-        room.updateRoom();
 
         this.hadOver = true;
     }

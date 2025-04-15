@@ -30,18 +30,37 @@ export class Player {
         }
     }
 
-    public clearCard() {
-        this._handCardArray = [];
-    }
-
     public addCardArray(array: Card[]) {
-        for (let card of array) {
-            this.addCard(card);
+        if (array.length == 0) {
+            return;
         }
+
+        for (let card of array) {
+            card.hand = true;
+            this._handCardArray.push(card);
+        }
+
+        let handClientInfo = [];
+        for (let card of array) {
+            handClientInfo.push(card.getSelfCardInfo());
+        }
+        this.send("roomEvent/newHandCard", {handCard: handClientInfo});
+
+        this.updateHandCardNum();
     }
 
-    public addCard(playerCard: Card) {
-        this._handCardArray.push(playerCard);
+    public removeCard(card: Card) {
+        this._handCardArray.splice(this._handCardArray.indexOf(card), 1);
+        card.hand = false;
+    }
+
+    private updateHandCardNum() {
+        this._room!.broadcast("roomEvent/updateHandCardNum",
+            {
+                account: this.account,
+                handCardNum: this._handCardArray.length,
+            }
+        );
     }
 
     public getClientPlayerInfo(): any {
@@ -54,7 +73,7 @@ export class Player {
     private getClientPlayerCardArray() {
         let cardArray: any[] = [];
         for (let playerCard of this._handCardArray) {
-            cardArray.push(playerCard.getClientInfo());
+            cardArray.push(playerCard.getSelfCardInfo());
         }
         return cardArray;
     }
@@ -65,6 +84,15 @@ export class Player {
         }
     }
 
+    findHandCardById(cardId: string) {
+        for (let card of this._handCardArray) {
+            if (card.allId == cardId) {
+                return card;
+            }
+        }
+    }
+
+    // get set
     get socket(): WebSocket | undefined {
         return this._socket;
     }

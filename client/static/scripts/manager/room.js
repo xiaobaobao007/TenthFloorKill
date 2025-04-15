@@ -40,11 +40,6 @@ function updateTimeTips(account, time, allTime, allTips, myTips) {
         timeDiv = $(player.div).children(".other-time-tips:first");
     }
 
-    if (rate <= 0) {
-        timeDiv.remove();
-        return;
-    }
-
     if (timeDiv.length === 0) {
         let html;
         if (isMe) {
@@ -119,7 +114,7 @@ function updateButtonToGreen() {
 function clickSubmit(root) {
     let cardIdArray = [];
     for (const cardDiv of SELECTED_CARD_DIVS) {
-        cardIdArray.push(cardDiv.id.split("-")[1]);
+        cardIdArray.push($(cardDiv).attr("cardid"));
     }
 
     let playerArray = [];

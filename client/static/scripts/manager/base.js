@@ -14,9 +14,9 @@ let SELECTED_PLAYER_NUM = -1;//目前暂时只支持选择其他玩家
 const POSITION_DATA = [
     {type: "me", intelligence: "top"},
     {type: "other2", intelligence: "top", left: 1, top: 16},
-    {type: "other3", intelligence: "bottom", left: 20, top: 1},
-    {type: "other4", intelligence: "bottom", left: 42, top: 1},
-    {type: "other5", intelligence: "bottom", left: 63, top: 1},
+    {type: "other3", intelligence: "bottom", left: 22, top: 1},
+    {type: "other4", intelligence: "bottom", left: 46, top: 1},
+    {type: "other5", intelligence: "bottom", left: 70, top: 1},
     {type: "other6", intelligence: "top", right: 2, top: 16},
     {type: "other7", intelligence: "top", right: 2, bottom: 1},
     {type: "other8", intelligence: "top", right: 20, bottom: 1},
@@ -54,11 +54,7 @@ function addTips(tips) {
     document.body.appendChild(popup);
 
     setTimeout(() => {
-        popup.style.top = '-100px';
-        // 动画结束后移除提示框
-        setTimeout(() => {
-            popup.remove();
-        }, 300);
+        popup.remove();
     }, 2000);
 }
 
@@ -152,6 +148,16 @@ function setDivClickEvent(select, click, press) {
             }
         }
     });
+}
+
+function removeDivClickEvent(select) {
+    $(select).off("mousedown");
+    $(select).off("mouseup");
+    $(select).off("mousemove");
+    $(select).off("touchstart");
+    $(select).off("touchend");
+    $(select).off("touchmove");
+    $(select).off("click");
 }
 
 function openFloating(id) {

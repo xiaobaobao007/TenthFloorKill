@@ -56,14 +56,43 @@ class RoomEventRoutes extends ClientBaseRoutes {
             }
         }
 
-        resetSelectPlayer();
-        resetSelectCard();
+        await this.clearButton();
         $(".operation-button-father").html(html);
+
+        if (0 < SELECTED_CARD_NUM) {
+            setDivClickEvent("[cardid]", cardClick, cardPress);
+        }
+        if (0 < SELECTED_PLAYER_NUM) {
+            setDivClickEvent(".other-box", selectPlayerBox, emptyFunction);
+        }
     }
 
     async clearButton() {
+        removeDivClickEvent("[cardid]");
+        removeDivClickEvent(".other-box");
+        $(".my-time-tips").remove();
         $(".operation-button-father").html("");
-        $(".my-card-select").remove();
+        resetSelectPlayer();
+        resetSelectCard();
+    }
+
+    async updateAllIntelligence(data) {
+        $(".intelligence-card-show").remove();
+
+        const card = new CardModel();
+        card.init(data);
+
+        let html = "";
+        html += "<div class='intelligence-card-show clear " + card.getColorClass() + "'>";
+        html += "   <div class='intelligence-card-show'>";
+        html += "   <div class='intelligence-card-tips'>当前情报</div>";
+        html += "   <div class='card intelligence-card " + card.getColorClass() + "'>";
+        html += card.getNameDiv();
+        html += card.getOperationDiv(false);
+        html += card.getTipsDiv();
+        html += "</div>";
+
+        $("body").append(html);
     }
 
 }

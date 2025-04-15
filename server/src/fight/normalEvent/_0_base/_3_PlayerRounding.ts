@@ -13,7 +13,7 @@ export class _3_PlayerRounding implements Event {
         ]
     }
 
-    private currentPlayer: Player;
+    private readonly currentPlayer: Player;
     private lastTime = GAME_CONFIG.ROUND_ALL_TIME;
 
     constructor(currentPlayer: Player) {

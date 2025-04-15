@@ -7,7 +7,7 @@ import {_0_GameStartEvent} from "../fight/normalEvent/_0_base/_0_GameStartEvent"
 import {Stack} from "../util/Stack";
 
 export class Room {
-    private _roomId: string;//房间号
+    private readonly _roomId: string;//房间号
     private _playerArray: Player[] = [];//玩家集合
     private _start = false;//房间是否开始了
     private _leaderAccount: string | undefined;//房主
@@ -82,6 +82,7 @@ export class Room {
         if (this._playerArray.length == 1) {
             for (let i = 1; i <= 3; i++) {
                 const robot = new Player(undefined, "robot-" + i);
+                robot.room = this;
                 robot.ai = true;
                 this._playerArray.push(robot);
             }
@@ -134,7 +135,7 @@ export class Room {
         this.broadcast("room/update", roomData);
     }
 
-    public getNewPlayerCard(num: number): Card[] {
+    getNewPlayerCard(num: number): Card[] {
         let list: Card[] = [];
         for (let i = 0; i < num; i++) {
             let index = this._cardIndex.pop();
@@ -162,6 +163,14 @@ export class Room {
 
     playerReLogin(player: Player): void {
         player.send("roomEvent/updateLastCardNum", {lastCardNum: this._cardIndex.length});
+    }
+
+    findPlayerByAccount(account: string): Player | undefined {
+        for (let player of this.playerArray) {
+            if (player.account === account) {
+                return player;
+            }
+        }
     }
 
     get leaderAccount(): string | undefined {

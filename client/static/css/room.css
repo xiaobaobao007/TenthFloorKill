@@ -158,13 +158,14 @@ body {
     flex-shrink: 0;
     border-radius: 8px;
     box-shadow: 5px 5px 9px 1px rgb(73 79 89);
+    background-color: #00000000;
 }
 
 .my-card-select {
     position: absolute;
     width: 6vw;
-    height: 87%;
-    z-index: 999;
+    height: 11vw;
+    z-index: 888;
     box-sizing: border-box;
     border-radius: 7px;
     border: 2px dashed #00ff4eb0;
@@ -190,20 +191,26 @@ body {
 
 .card-operation {
     color: #ffffff;
-    position: absolute;
     font-size: 1vw;
-    top: 7%;
-    margin-left: 6.9%;
+    height: 3vw;
+    margin-top: 0.1vw;
+    margin-left: -3.2vw;
+    padding-left: 1.5vw;
     white-space: nowrap;
+    z-index: 999;
 }
 
 .card-tips {
     color: #ffffff;
     position: absolute;
     font-size: 1vw;
-    margin-left: 1%;
-    bottom: 8%;
+    margin-top: 9.3vw;
+    margin-left: 0.4vw;
     white-space: nowrap;
+}
+
+.card-none {
+    background-color: rgb(45 191 51 / 75%);
 }
 
 .card-red {
@@ -320,7 +327,7 @@ body {
 
 .roomInfo {
     position: absolute;
-    left: 1vw;
+    right: 1vw;
     top: 1vw;
     color: #b51c7e;
     font-size: 1.5vw;
@@ -330,7 +337,7 @@ body {
 
 .room-time-tips {
     position: absolute;
-    left: 1vw;
+    right: 1vw;
     top: 3.5vw;
     font-size: 1.5vw;
     font-style: italic;
@@ -340,7 +347,7 @@ body {
 
 .room-lastCard-tips {
     position: absolute;
-    left: 1vw;
+    right: 1vw;
     top: 6vw;
     font-size: 1.5vw;
     color: #0500cb;
@@ -403,4 +410,30 @@ body {
     font-size: 1.3vw;
     color: white;
     z-index: 999;
+}
+
+.intelligence-card-show {
+    z-index: 999;
+    position: absolute;
+    height: 11vw;
+    left: 1vw;
+    top: 1vw;
+}
+
+.intelligence-card-tips {
+    z-index: 999;
+    position: absolute;
+    left: 1.6vw;
+    top: 2vw;
+    font-size: 2vw;
+    color: white;
+    writing-mode: vertical-lr;
+}
+
+.intelligence-card {
+    z-index: 999;
+    position: absolute;
+    height: 11vw;
+    left: 4vw;
+    top: 0vw;
 }
