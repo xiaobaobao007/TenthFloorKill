@@ -23,7 +23,8 @@ export class PlayerManager {
     }
 
     private static login(socket: WebSocket, account: string) {
-        if (this.accountMap.get(account)) {
+        let oldPlayer = this.accountMap.get(account);
+        if (oldPlayer && !oldPlayer.ai) {
             this.logout(socket, "账号已经登录");
             return undefined;
         }
@@ -63,16 +64,11 @@ export class PlayerManager {
             return;
         }
 
-        const room = player.room;
-        if (!room) {
-            return;
+        if (RoomManager.leave(player)) {
+            this.accountMap.delete(player.account);
+        } else {
+            player.ai = true;
         }
-
-        if (room.start) {
-            return;
-        }
-
-        //房间未开始则自动退出房间
-        RoomManager.level(player);
+        this.socketMap.delete(socket);
     }
 }

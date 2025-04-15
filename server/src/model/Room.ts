@@ -81,7 +81,9 @@ export class Room {
         //todo 添加机器人
         if (this._playerArray.length == 1) {
             for (let i = 1; i <= 3; i++) {
-                this._playerArray.push(new Player(undefined, "robot-" + i));
+                const robot = new Player(undefined, "robot-" + i);
+                robot.ai = true;
+                this._playerArray.push(robot);
             }
         }
 

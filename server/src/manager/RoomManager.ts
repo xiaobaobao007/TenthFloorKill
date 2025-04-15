@@ -44,15 +44,15 @@ export class RoomManager {
         room.updateRoom();
     }
 
-    public static level(player: Player) {
+    public static leave(player: Player): boolean {
         const room = player.room;
         if (!room) {
-            return;
+            return true;
         }
 
         if (room.start) {
             player.sendTips("游戏已开始无法退出");
-            return;
+            return false;
         }
 
         room.removePlayer(player);
@@ -64,6 +64,8 @@ export class RoomManager {
         }
 
         player.send("base/changeBody", {body: "hall"});
+
+        return true;
     }
 
     public static start(player: Player) {

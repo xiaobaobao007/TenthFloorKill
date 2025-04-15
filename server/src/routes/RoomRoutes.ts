@@ -12,7 +12,7 @@ export class RoomRoutes extends ServerClientRoutes {
     }
 
     async leave(player: Player) {
-        RoomManager.level(player);
+        RoomManager.leave(player);
     }
 
     async start(player: Player) {

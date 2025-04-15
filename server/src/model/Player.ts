@@ -12,7 +12,7 @@ export class Player {
     private intelligenceCardArray: Card[] = [];
     private _handCardArray: Card[] = [];
 
-    private ai = false;//机器人或者是否为托管模式
+    private _ai = false;//玩家掉线或者机器人为true
 
     constructor(socket: WebSocket | undefined, account: string) {
         this._socket = socket;
@@ -21,6 +21,14 @@ export class Player {
 
     get account(): string {
         return this._account;
+    }
+
+    get ai(): boolean {
+        return this._ai;
+    }
+
+    set ai(value: boolean) {
+        this._ai = value;
     }
 
     public send(route: string, data: any = {}) {
