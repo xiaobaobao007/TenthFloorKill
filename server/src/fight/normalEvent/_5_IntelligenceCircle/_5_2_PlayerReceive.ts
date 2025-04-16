@@ -35,7 +35,7 @@ export class _5_2_PlayerReceive implements Event {
 
     doEvent(room: Room): void {
         this.currentPlayer.addIntelligenceCard(this.intelligenceCard);
-        this.currentEventType = EventType.REMOVE;
+        this.currentEventType = EventType.REMOVE_2;
     }
 
     over(room: Room): void {

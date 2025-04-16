@@ -5,5 +5,6 @@ export enum EventType {
     OVER,
     NEXT,
     REMOVE,
+    REMOVE_2,
     REMOVE_AND_NEXT,
 }

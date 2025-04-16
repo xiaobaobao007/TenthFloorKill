@@ -79,7 +79,7 @@ export class _5_IntelligenceCircle implements Event {
             this.currentEventType = EventType.REMOVE_AND_NEXT;
             room.eventStack.push(new _5_2_PlayerReceive(this.currentPlayer, this.intelligenceCard));
         } else {
-            room.eventStack.push(new _5_1_WaitingPlayerReceive(this.currentPlayer));
+            room.eventStack.push(new _5_1_WaitingPlayerReceive(this.currentPlayer, this.intelligenceCard));
         }
     }
 

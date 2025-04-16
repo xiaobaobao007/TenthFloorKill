@@ -1,5 +1,6 @@
 # 十楼杀项目
 
+- 测试地址 ```http://localhost:5500/index.html?account=9&url=ws://localhost:8080```
 - 无数据库设计
 - 登录只需要一个账号即可
 - 当前版本为【0.1】开发阶段

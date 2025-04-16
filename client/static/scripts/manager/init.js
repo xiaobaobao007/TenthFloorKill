@@ -9,6 +9,10 @@ function login() {
 
 function initLogin() {
     $("body")[0].style.backgroundColor = "#6d7a8a";
+
+    const params = getQueryParams();
+    if (params.account && params.account.length > 0) $("#account").val(params.account)
+    if (params.url && params.url.length > 0) $("#url").val(params.url)
 }
 
 function initHall() {

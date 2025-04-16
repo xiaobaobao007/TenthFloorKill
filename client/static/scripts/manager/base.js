@@ -191,3 +191,13 @@ function closeFloating() {
 
 function emptyFunction(a = undefined, b = undefined, c = undefined, d = undefined, e = undefined) {
 }
+
+function getQueryParams() {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const params = {};
+    urlParams.forEach((value, key) => {
+        params[key] = value;
+    });
+    return params;
+}

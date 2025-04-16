@@ -89,7 +89,6 @@ class RoomEventRoutes extends ClientBaseRoutes {
     }
 
     async clearButton() {
-        $(".my-time-tips").remove();
         $(".operation-button-father").html("");
         resetSelectPlayer();
         resetSelectCard();

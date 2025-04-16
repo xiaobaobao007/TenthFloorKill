@@ -9,7 +9,7 @@ export class _3_PlayerRounding implements Event {
     private static readonly SEND_BUTTON_INFO = {
         buttonArray: [
             {classType: "submit", needCardNum: 1, root: "", name: "出牌",},
-            {classType: "cancel", root: "game/end3To4", name: "结束出牌",},
+            {classType: "cancel", root: "game/end3to_4_SendIntelligence", name: "结束出牌",},
         ]
     }
 
@@ -65,7 +65,7 @@ export class _3_PlayerRounding implements Event {
         player.send("roomEvent/showButton", _3_PlayerRounding.SEND_BUTTON_INFO);
     }
 
-    end3To4(player: Player): void {
+    end3to_4_SendIntelligence(player: Player): void {
         if (player == this.currentPlayer) {
             this.lastTime = 0;
         }

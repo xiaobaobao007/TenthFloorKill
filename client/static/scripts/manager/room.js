@@ -61,10 +61,12 @@ function updateTimeTips(account, time, allTime, allTips, myTips) {
 
         if (isMe) {
             $("#body-room").append(html);
+            timeDiv = $(".my-time-tips");
         } else {
             $(ALL_PLAYER[account].div).append(html);
+            const player = ALL_PLAYER[account];
+            timeDiv = $(player.div).children(".other-time-tips:first");
         }
-        return;
     }
 
     const children = timeDiv.children();
@@ -82,7 +84,7 @@ function updateTimeTips(account, time, allTime, allTips, myTips) {
         }
     }
 
-    if (rate <= 0) {
+    if (time <= 0) {
         timeDiv.remove();
     }
 }

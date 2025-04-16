@@ -4,7 +4,7 @@ function initWs() {
         return;
     }
 
-    ws = new WebSocket(document.getElementById("url").value);
+    ws = new WebSocket($("#url").val());
 
     // 连接建立时触发
     ws.onopen = function () {

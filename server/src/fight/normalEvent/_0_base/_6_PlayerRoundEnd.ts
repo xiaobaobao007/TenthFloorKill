@@ -18,34 +18,34 @@ export class _6_PlayerRoundEnd implements Event {
 
     getEffectType(room: Room): EventType {
         const discardNumber = this.currentPlayer.handCardArray.length - GAME_CONFIG.MAX_CARD;
-        if (discardNumber <= 0 || this.lastTime <= 0) {
-            if (discardNumber > 0) {
-                this.disCard();
-                //下次事件再继续检测是否弃干净了
-                return EventType.NONE;
-            }
-
-            this.currentPlayer.send("roomEvent/clearButton");
-            room.broadcast("roomEvent/clearAllIntelligence");
+        if (discardNumber <= 0) {
             return EventType.REMOVE;
         }
 
-        let data = {
+        if (this.deleteCardArray && this.deleteCardArray.length >= discardNumber) {
+            this.lastTime = 0;
+        } else if (this.lastTime === GAME_CONFIG.ROUND_ALL_TIME) {
+            this.sendClientInfo(room, this.currentPlayer);
+        }
+
+        this.lastTime -= GAME_CONFIG.GAME_FRAME_TIME;
+        room.broadcast("roomEvent/updateTime", {
             account: this.currentPlayer.account,
             time: this.lastTime,
             allTime: GAME_CONFIG.ROUND_ALL_TIME,
             allTips: this.currentPlayer.account + "的弃牌阶段",
             myTips: "弃牌阶段，请弃掉" + discardNumber + "张手牌",
-        };
+        });
 
-        room.broadcast("roomEvent/updateTime", data);
-
-        if (this.lastTime === GAME_CONFIG.ROUND_ALL_TIME) {
-            this.sendClientInfo(room, this.currentPlayer);
+        if (this.lastTime > 0) {
+            return EventType.NONE;
         }
 
-        this.lastTime -= GAME_CONFIG.GAME_FRAME_TIME;
-        return EventType.NONE;
+        this.disCard();
+
+        this.currentPlayer.send("roomEvent/clearButton");
+        room.broadcast("roomEvent/clearAllIntelligence");
+        return EventType.REMOVE;
     }
 
     prv(room: Room): void {

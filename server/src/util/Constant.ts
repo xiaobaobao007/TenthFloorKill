@@ -108,7 +108,7 @@ export const EMOJI_DATA = {leader: "🏠", dir_: "🔄", ope_z: "直达", ope_m:
 export const GAME_CONFIG = {
     GAME_INIT_CARD_NUM: 2,//初始卡牌数量
     ROUND_INIT_CARD_NUM: 2,//回合开始卡牌数量
-    MAX_CARD: 1,//最大卡牌数量
+    MAX_CARD: 6,//最大卡牌数量
     GAME_FRAME_TIME: 100,//服务器游戏逻辑帧间隔（毫秒）
     ROUND_ALL_TIME: 30 * 1000,//回合内操作等待时间（毫秒）
 };

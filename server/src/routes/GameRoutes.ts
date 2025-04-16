@@ -4,6 +4,7 @@ import {_4_SendIntelligence} from "../fight/normalEvent/_0_base/_4_SendIntellige
 import {_3_PlayerRounding} from "../fight/normalEvent/_0_base/_3_PlayerRounding";
 import {_6_PlayerRoundEnd} from "../fight/normalEvent/_0_base/_6_PlayerRoundEnd";
 import {Card} from "../model/Card";
+import {_5_1_WaitingPlayerReceive} from "../fight/normalEvent/_5_IntelligenceCircle/_5_1_WaitingPlayerReceive";
 
 export class GameRoutes extends ServerClientRoutes {
 
@@ -42,14 +43,14 @@ export class GameRoutes extends ServerClientRoutes {
         (peek as _4_SendIntelligence).setIntelligenceCard(player, cardModel, targetPlayer);
     }
 
-    async end3To4(player: Player) {
+    async end3to_4_SendIntelligence(player: Player) {
         const peek = player.room?.eventStack!.peek();
         if (!(peek instanceof _3_PlayerRounding)) {
             player.sendTips("操作超时");
             return;
         }
 
-        (peek as _3_PlayerRounding).end3To4(player);
+        (peek as _3_PlayerRounding).end3to_4_SendIntelligence(player);
     }
 
     async disCard(player: Player, data: any) {
@@ -67,6 +68,23 @@ export class GameRoutes extends ServerClientRoutes {
             }
         }
         (peek as _6_PlayerRoundEnd).setDeleteCardArray(disCardArray);
+    }
+
+    async receiveIntelligence(player: Player) {
+        this.operationWaitingPlayerReceive(player, true);
+    }
+
+    async refuseIntelligence(player: Player) {
+        this.operationWaitingPlayerReceive(player, false);
+    }
+
+    operationWaitingPlayerReceive(player: Player, receive: boolean) {
+        const peek = player.room?.eventStack!.peek();
+        if (!(peek instanceof _5_1_WaitingPlayerReceive)) {
+            player.sendTips("操作超时");
+            return;
+        }
+        (peek as _5_1_WaitingPlayerReceive).setIsReceive(player, receive);
     }
 
 }

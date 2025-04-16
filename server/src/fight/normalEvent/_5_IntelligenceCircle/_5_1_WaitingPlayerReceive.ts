@@ -3,28 +3,32 @@ import {Room} from "../../../model/Room";
 import {Event} from "../../Event";
 import {EventType} from "../../EventType";
 import {GAME_CONFIG} from "../../../util/Constant";
+import {_5_2_PlayerReceive} from "./_5_2_PlayerReceive";
+import {Card} from "../../../model/Card";
 
 export class _5_1_WaitingPlayerReceive implements Event {
     private static readonly SEND_BUTTON_INFO = {
         buttonArray: [
-            {classType: "success", root: "game/sendIntelligence", name: "接收",},
-            {classType: "cancel", root: "game/sendIntelligence", name: "拒绝",},
+            {classType: "success", root: "game/receiveIntelligence", name: "接收",},
+            {classType: "cancel", root: "game/refuseIntelligence", name: "拒绝",},
         ]
     }
 
     private readonly currentPlayer: Player;
+    private readonly intelligenceCard: Card;
+
     private receive: boolean | undefined;
 
     private lastTime = GAME_CONFIG.ROUND_ALL_TIME;
 
-    constructor(currentPlayer: Player) {
+    constructor(currentPlayer: Player, intelligenceCard: Card) {
         this.currentPlayer = currentPlayer;
+        this.intelligenceCard = intelligenceCard;
     }
 
     getEffectType(room: Room): EventType {
-        if (this.lastTime <= 0) {
-            this.currentPlayer.send("roomEvent/clearButton");
-            return EventType.REMOVE;
+        if (this.receive != undefined) {
+            this.lastTime = 0;
         }
 
         if (this.lastTime === GAME_CONFIG.ROUND_ALL_TIME) {
@@ -32,14 +36,7 @@ export class _5_1_WaitingPlayerReceive implements Event {
         }
 
         this.lastTime -= GAME_CONFIG.GAME_FRAME_TIME;
-        return EventType.EFFECT;
-    }
 
-    prv(room: Room): void {
-        throw new Error("Method not implemented.");
-    }
-
-    doEvent(room: Room): void {
         let data = {
             account: this.currentPlayer.account,
             time: this.lastTime,
@@ -49,6 +46,24 @@ export class _5_1_WaitingPlayerReceive implements Event {
         }
 
         room.broadcast("roomEvent/updateTime", data);
+
+        if (this.lastTime > 0) {
+            return EventType.NONE;
+        }
+
+        this.currentPlayer.send("roomEvent/clearButton");
+
+        if (this.receive) {
+            return EventType.REMOVE_AND_NEXT;
+        }
+        return EventType.REMOVE;
+    }
+
+    prv(room: Room): void {
+        throw new Error("Method not implemented.");
+    }
+
+    doEvent(room: Room): void {
     }
 
     over(room: Room): void {
@@ -56,7 +71,7 @@ export class _5_1_WaitingPlayerReceive implements Event {
     }
 
     nextEvent(room: Room): Event {
-        throw new Error("Method not implemented.");
+        return new _5_2_PlayerReceive(this.currentPlayer, this.intelligenceCard);
     }
 
     sendClientInfo(room: Room, player: Player): void {
@@ -68,6 +83,13 @@ export class _5_1_WaitingPlayerReceive implements Event {
 
     getEventPlayer(): Player | undefined {
         return this.currentPlayer;
+    }
+
+    setIsReceive(player: Player, receive: boolean) {
+        if (player != this.currentPlayer || this.receive != undefined) {
+            return;
+        }
+        this.receive = receive;
     }
 
 }
