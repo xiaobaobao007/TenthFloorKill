@@ -31,29 +31,9 @@ export class _5_IntelligenceCircle implements Event {
         switch (this.currentEventType) {
             case EventType.NONE:
                 return EventType.PRE;
+            default:
+                return this.currentEventType;
         }
-        return EventType.NONE;
-
-        // let data = {
-        //     account: this.currentPlayer.account,
-        //     time: this.lastTime,
-        //     allTime: GAME_CONFIG.ROUND_ALL_TIME,
-        //     allTips: this.currentPlayer.account + "的情报阶段",
-        //     myTips: "请选择1张情报和1名玩家",
-        // }
-        //
-        // room.broadcast("roomEvent/updateTime", data);
-        //
-        // if (this.lastTime <= 0) {
-        //     return EventType.REMOVE_AND_NEXT;
-        // }
-        //
-        // if (this.lastTime === GAME_CONFIG.ROUND_ALL_TIME) {
-        //     this.sendClientInfo(room, this.currentPlayer);
-        // }
-        //
-        // this.lastTime -= GAME_CONFIG.GAME_FRAME_TIME;
-        // return EventType.NONE;
     }
 
     prv(room: Room): void {
@@ -61,10 +41,13 @@ export class _5_IntelligenceCircle implements Event {
             //移除玩家手牌
             this.currentPlayer.removeCard(this.intelligenceCard);
         }
+
+        this.sendClientInfo(room, this.currentPlayer);
+
+        this.currentEventType = EventType.EFFECT;
     }
 
     doEvent(room: Room): void {
-        throw new Error("Method not implemented.");
     }
 
     over(room: Room): void {
@@ -77,6 +60,7 @@ export class _5_IntelligenceCircle implements Event {
     }
 
     sendClientInfo(room: Room, player: Player): void {
+        room.broadcast("roomEvent/updateAllIntelligence", this.intelligenceCard!.getSelfCardInfo());
     }
 
     private getCirclePlayerArray(targetPlayer: Player): Stack<Player> {

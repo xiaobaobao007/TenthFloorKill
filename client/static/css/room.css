@@ -19,7 +19,6 @@ body {
     height: 12vw;
     border: 1px solid #ccc;
     border-radius: 8px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .player-box-select {
@@ -61,7 +60,8 @@ body {
 .me-box {
     left: 1vw;
     bottom: 1vw;
-    background-color: rgba(196, 30, 30, 0.81);
+    background-color: rgb(204, 49, 49);
+    box-shadow: 0 0 10px 8px rgb(204, 49, 49);
 }
 
 .empty-box {
@@ -70,6 +70,7 @@ body {
 
 .other-box {
     background-color: #c441b4;
+    box-shadow: 0 0 10px 8px #c441b4;
 }
 
 .player-intelligence {
@@ -191,11 +192,11 @@ body {
 
 .card-operation {
     color: #ffffff;
+    position: absolute;
     font-size: 1vw;
-    height: 3vw;
     margin-top: 0.1vw;
-    margin-left: -3.2vw;
-    padding-left: 1.5vw;
+    margin-left: 3.4vw;
+    padding: 0vw 0.3vw 0vw 0.3vw;
     white-space: nowrap;
     z-index: 999;
 }
@@ -388,6 +389,7 @@ body {
     text-shadow: 3px 1px 5px #7b7373;
     display: flex;
     align-items: center;
+    box-shadow: 0 0 9px 3px rgb(51 185 56);
 }
 
 .operation-button-small-grey {
@@ -420,20 +422,20 @@ body {
     top: 1vw;
 }
 
-.intelligence-card-tips {
-    z-index: 999;
-    position: absolute;
-    left: 1.6vw;
-    top: 2vw;
-    font-size: 2vw;
-    color: white;
-    writing-mode: vertical-lr;
-}
-
 .intelligence-card {
     z-index: 999;
     position: absolute;
     height: 11vw;
-    left: 4vw;
-    top: 0vw;
+    left: 3vw;
+    top: 1vw;
+}
+
+.intelligence-card-tips {
+    z-index: 999;
+    position: absolute;
+    top: 0.3vw;
+    font-size: 1.1vw;
+    color: #f3f0f0;
+    writing-mode: vertical-lr;
+    text-shadow: 2px 3px 11px #ff0000;
 }

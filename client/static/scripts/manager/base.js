@@ -101,6 +101,7 @@ function setHtml(select, html) {
  * @param press 长按事件
  */
 function setDivClickEvent(select, click, press) {
+    removeDivClickEvent(select);
     $(select).on({
         mousedown: function (e) {
             DIV_CLICK_EVENT_DOWN_START = e.pageX;

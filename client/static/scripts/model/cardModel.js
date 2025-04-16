@@ -51,7 +51,7 @@ function CardModel() {
         }
 
         if (isHand && this.operation === "ope_") {
-            return "<div class='card-operation' onclick='changeOperation(this)'>切换</div>";
+            return "<div class='card-operation' onclick='changeOperation(event,this)'>切换</div>";
         }
         return "<div class='card-operation'>" + op + "</div>";
     };

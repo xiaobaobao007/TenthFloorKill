@@ -74,8 +74,6 @@ export class _4_SendIntelligence implements Event {
             AIManager._4_SendIntelligence(this.currentPlayer, this);
         }
 
-        room.broadcast("roomEvent/updateAllIntelligence", this.intelligenceCard!.getSelfCardInfo());
-        room.broadcast("roomEvent/updateAllIntelligence", this.intelligenceCard!.getSelfCardInfo());
         return new _5_IntelligenceCircle(this.currentPlayer, this.intelligenceCard!, this.targetPlayer!);
     }
 

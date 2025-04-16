@@ -80,12 +80,12 @@ function updateTimeTips(account, time, allTime, allTips, myTips) {
 }
 
 function updateButton() {
-    if (SELECTED_CARD_NUM <= 0 || SELECTED_PLAYER_NUM <= 0) {
+    if (0 < SELECTED_CARD_NUM && SELECTED_CARD_DIVS.length < SELECTED_CARD_NUM) {
         updateButtonToGrey();
         return;
     }
 
-    if (SELECTED_CARD_DIVS.length < SELECTED_CARD_NUM || SELECTED_PLAYER === undefined) {
+    if (0 < SELECTED_PLAYER_NUM && SELECTED_PLAYER === undefined) {
         updateButtonToGrey();
         return;
     }

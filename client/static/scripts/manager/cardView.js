@@ -17,6 +17,8 @@ function addHandCard(card) {
     html += card.getTipsDiv();
     html += "</div>";
     $(".my-card:first").append(html);
+
+    setDivClickEvent("[cardid=" + card.allId + "]", emptyFunction, cardPress);
 }
 
 function cardClick(div) {
@@ -51,7 +53,8 @@ function cardPress(div) {
     openFloating($(div).attr("cardid"));
 }
 
-function changeOperation(div) {
+function changeOperation(event, div) {
+    event.stopPropagation();
     let array = ["ope_z", "ope_m", "ope_w"];
     const jq = $(div);
     let index = array.indexOf(jq.attr("ope"));

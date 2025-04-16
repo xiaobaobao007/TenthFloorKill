@@ -68,8 +68,6 @@ class RoomEventRoutes extends ClientBaseRoutes {
     }
 
     async clearButton() {
-        removeDivClickEvent("[cardid]");
-        removeDivClickEvent(".other-box");
         $(".my-time-tips").remove();
         $(".operation-button-father").html("");
         resetSelectPlayer();
@@ -83,10 +81,8 @@ class RoomEventRoutes extends ClientBaseRoutes {
         card.init(data);
 
         let html = "";
-        html += "<div class='intelligence-card-show clear " + card.getColorClass() + "'>";
-        html += "   <div class='intelligence-card-show'>";
+        html += "<div class='intelligence-card-show card intelligence-card " + card.getColorClass() + "'>";
         html += "   <div class='intelligence-card-tips'>当前情报</div>";
-        html += "   <div class='card intelligence-card " + card.getColorClass() + "'>";
         html += card.getNameDiv();
         html += card.getOperationDiv(false);
         html += card.getTipsDiv();
