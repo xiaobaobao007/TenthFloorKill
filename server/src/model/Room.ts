@@ -7,7 +7,7 @@ import {_0_GameStartEvent} from "../fight/normalEvent/_0_base/_0_GameStartEvent"
 import {Stack} from "../util/Stack";
 
 export class Room {
-    private readonly _roomId: string;//房间号
+    public readonly roomId: string;//房间号
     private _playerArray: Player[] = [];//玩家集合
     private _start = false;//房间是否开始了
     private _leaderAccount: string | undefined;//房主
@@ -18,11 +18,7 @@ export class Room {
     private _discardIndex: number[] = [];
 
     constructor(roomId: string) {
-        this._roomId = roomId;
-    }
-
-    get roomId(): string {
-        return this._roomId;
+        this.roomId = roomId;
     }
 
     get start(): boolean {
@@ -80,7 +76,7 @@ export class Room {
 
         //todo 添加机器人
         if (this._playerArray.length == 1) {
-            for (let i = 1; i <= 3; i++) {
+            for (let i = 1; i <= 1; i++) {
                 const robot = new Player(undefined, "robot-" + i);
                 robot.room = this;
                 robot.ai = true;
@@ -101,13 +97,13 @@ export class Room {
         this._start = true;
     }
 
-    public broadcast(route: string, data: any) {
+    public broadcast(route: string, data: any = undefined) {
         for (let i = 0; i < this._playerArray.length; i++) {
             this._playerArray[i].send(route, data);
         }
     }
 
-    public broadcastExclude(route: string, data: any, player: Player) {
+    public broadcastExclude(route: string, player: Player, data: any = undefined) {
         for (let i = 0; i < this._playerArray.length; i++) {
             if (this._playerArray[i] === player) {
                 continue;
@@ -123,7 +119,7 @@ export class Room {
 
         let roomData = {
             running: this._start,
-            roomId: this._roomId,
+            roomId: this.roomId,
             leaderAccount: this._leaderAccount,
             player: [] as any[],
         };

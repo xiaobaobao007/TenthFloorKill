@@ -26,9 +26,13 @@ function updateRoomData() {
 }
 
 function updateTimeTips(account, time, allTime, allTips, myTips) {
-    let rate = Math.floor(100 * time / allTime);
-
     $(".room-time-tips:first").html(allTips);
+
+    if (!account) {
+        return;
+    }
+
+    let rate = Math.floor(100 * time / allTime);
 
     const isMe = account === ACCOUNT;
 
@@ -77,6 +81,10 @@ function updateTimeTips(account, time, allTime, allTips, myTips) {
             $(children[1]).addClass('time-tips-light');
         }
     }
+
+    if (rate <= 0) {
+        timeDiv.remove();
+    }
 }
 
 function updateButton() {
@@ -114,7 +122,10 @@ function updateButtonToGreen() {
 function clickSubmit(root) {
     let cardIdArray = [];
     for (const cardDiv of SELECTED_CARD_DIVS) {
-        cardIdArray.push($(cardDiv).attr("cardid"));
+        cardIdArray.push({
+            cardId: $(cardDiv).attr("cardid"),
+            opz: $(cardDiv).children(".card-operation:first").attr("ope"),
+        });
     }
 
     let playerArray = [];
@@ -122,9 +133,10 @@ function clickSubmit(root) {
         playerArray.push($(SELECTED_PLAYER).children(".box-account").html());
     }
 
-    let data = {cardIdArray: cardIdArray, playerArray: playerArray};
+    let data = {cardArray: cardIdArray, playerAccountArray: playerArray};
     sendWsMessage(root, data);
 }
 
 function clickCancel(root) {
+    sendWsMessage(root);
 }

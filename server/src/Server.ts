@@ -29,7 +29,7 @@ wsApp.ws('*', (socket, req) => {
                     console.info("登录成功", request.data);
                 }
             } else {
-                console.info("收到", player.account, message);
+                console.info("收到", player.account, "--->", message);
             }
         } else {
             SocketUtil.send(socket, "base/tips", {tips: "请重新输入账号"});

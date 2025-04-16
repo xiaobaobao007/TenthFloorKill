@@ -1,15 +1,14 @@
 export class Card {
     private _allId: string = "";
-    private _cardId: string;
-    private _color: string;
-    private _direction: string;
-    private _operation: string;
-    private _lock: boolean;
+    private readonly _cardId: string;
+    private readonly _color: string;
+    private readonly _direction: string;
+    private readonly _operation: string;
+    private readonly _lock: boolean;
 
     //需要初始化的数据
     private _hand = true;//是否是手牌
-    private _clientOperation: string | undefined;
-    private _clientDirection: string | undefined;
+    private _clientOperation: string | undefined;//客户端选择的情报传递方式
 
     constructor(data: any) {
         this._cardId = data.id;
@@ -27,8 +26,6 @@ export class Card {
             direction: this._direction,
             operation: this._operation,
             lock: this._lock,
-
-            hand: this._hand,
         };
     }
 
@@ -40,8 +37,6 @@ export class Card {
             direction: this._direction,
             operation: this._operation,
             lock: this._lock,
-
-            hand: this._hand,
         };
     }
 
@@ -79,5 +74,13 @@ export class Card {
 
     set hand(value: boolean) {
         this._hand = value;
+    }
+
+    get clientOperation(): string | undefined {
+        return this._clientOperation;
+    }
+
+    set clientOperation(value: string | undefined) {
+        this._clientOperation = value;
     }
 }

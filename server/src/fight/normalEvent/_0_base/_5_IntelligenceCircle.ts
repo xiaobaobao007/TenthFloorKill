@@ -2,10 +2,10 @@ import {Player} from "../../../model/Player";
 import {Room} from "../../../model/Room";
 import {Event} from "../../Event";
 import {EventType} from "../../EventType";
-import {GAME_CONFIG} from "../../../util/Constant";
 import {Card} from "../../../model/Card";
 import {_6_PlayerRoundEnd} from "./_6_PlayerRoundEnd";
-import {Stack} from "../../../util/Stack";
+import {_5_1_WaitingPlayerReceive} from "../_5_IntelligenceCircle/_5_1_WaitingPlayerReceive";
+import {_5_2_PlayerReceive} from "../_5_IntelligenceCircle/_5_2_PlayerReceive";
 
 export class _5_IntelligenceCircle implements Event {
     private static readonly SEND_BUTTON_INFO = {
@@ -14,17 +14,19 @@ export class _5_IntelligenceCircle implements Event {
         ]
     }
 
-    private readonly currentPlayer: Player;
+    private readonly sendPlayer: Player;//传出者
     private readonly intelligenceCard: Card;//要传出的情报
-    private readonly circlePlayerStack: Stack<Player>;//情报传递顺序
-    private lastTime = GAME_CONFIG.ROUND_ALL_TIME;
+    private readonly targetPlayer: Player;//接收者
+    private readonly indexIsInc: boolean;//是否为按照正常座位顺序传递情报
 
     private currentEventType = EventType.NONE;
+    private currentPlayer: Player | undefined;
 
     constructor(currentPlayer: Player, intelligenceCard: Card, targetPlayer: Player) {
-        this.currentPlayer = currentPlayer;
+        this.sendPlayer = currentPlayer;
         this.intelligenceCard = intelligenceCard;
-        this.circlePlayerStack = this.getCirclePlayerArray(targetPlayer);
+        this.targetPlayer = targetPlayer;
+        this.indexIsInc = this.getIndexIsInc();
     }
 
     getEffectType(room: Room): EventType {
@@ -39,15 +41,46 @@ export class _5_IntelligenceCircle implements Event {
     prv(room: Room): void {
         if (this.intelligenceCard.hand) {
             //移除玩家手牌
-            this.currentPlayer.removeCard(this.intelligenceCard);
+            this.sendPlayer.removeCard(this.intelligenceCard);
         }
 
-        this.sendClientInfo(room, this.currentPlayer);
+        this.sendClientInfo(room, this.sendPlayer);
 
         this.currentEventType = EventType.EFFECT;
     }
 
     doEvent(room: Room): void {
+        if (this.intelligenceCard.operation == "ope_z" || this.intelligenceCard.clientOperation == "ope_z") {
+            if (this.currentPlayer) {
+                this.currentPlayer = this.sendPlayer;
+            } else {
+                this.currentPlayer = this.targetPlayer;
+            }
+        } else {
+            if (!this.currentPlayer) {
+                this.currentPlayer = this.sendPlayer;
+            }
+
+            let index = room.playerArray.indexOf(this.currentPlayer);
+            if (this.indexIsInc) {
+                if (++index >= room.playerArray.length) {
+                    index = 0;
+                }
+            } else {
+                if (-index < 0) {
+                    index = room.playerArray.length - 1;
+                }
+            }
+
+            this.currentPlayer = room.playerArray[index];
+        }
+
+        if (this.currentPlayer == this.sendPlayer) {
+            this.currentEventType = EventType.REMOVE_AND_NEXT;
+            room.eventStack.push(new _5_2_PlayerReceive(this.currentPlayer, this.intelligenceCard));
+        } else {
+            room.eventStack.push(new _5_1_WaitingPlayerReceive(this.currentPlayer));
+        }
     }
 
     over(room: Room): void {
@@ -55,16 +88,40 @@ export class _5_IntelligenceCircle implements Event {
     }
 
     nextEvent(room: Room): Event {
-        this.currentPlayer.send("roomEvent/clearButton");
-        return new _6_PlayerRoundEnd(this.currentPlayer);
+        this.sendPlayer.send("roomEvent/clearButton");
+        return new _6_PlayerRoundEnd(this.sendPlayer);
     }
 
     sendClientInfo(room: Room, player: Player): void {
         room.broadcast("roomEvent/updateAllIntelligence", this.intelligenceCard!.getSelfCardInfo());
     }
 
-    private getCirclePlayerArray(targetPlayer: Player): Stack<Player> {
-        return new Stack<Player>();
+    getEventPlayer(): Player | undefined {
+        return this.sendPlayer;
+    }
+
+    private getIndexIsInc(): boolean {
+        if (this.intelligenceCard.operation == "ope_z" ||
+            this.intelligenceCard.clientOperation == "ope_z" ||
+            this.intelligenceCard.direction == "dir_r") {
+            return true;
+        }
+
+        const allPlayerArray = this.sendPlayer.room!.playerArray!;
+        const myIndex = allPlayerArray.indexOf(this.sendPlayer);
+        const targetIndex = allPlayerArray.indexOf(this.targetPlayer);
+
+        let incIndex = targetIndex - myIndex;
+        if (incIndex < 0) {
+            incIndex += allPlayerArray.length;
+        }
+
+        let decIndex = myIndex - targetIndex;
+        if (decIndex < 0) {
+            decIndex += allPlayerArray.length;
+        }
+
+        return incIndex <= decIndex;
     }
 
 }

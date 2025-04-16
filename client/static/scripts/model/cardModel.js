@@ -6,7 +6,6 @@ function CardModel() {
         this.direction = data.direction;
         this.operation = data.operation;
         this.lock = data.lock;
-        this.hand = data.hand;
     }
 
     this.getColorClass = function () {
@@ -66,5 +65,9 @@ function CardModel() {
         }
         return "<div class='card-name  card-name-" + name.length + "'>" + name + "</div>";
     };
+
+    this.getIntelligenceDiv = function () {
+        return "<div class='intelligence " + this.getColorClass() + "'></div>";
+    }
 
 }

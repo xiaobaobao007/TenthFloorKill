@@ -3,17 +3,18 @@ import {Room} from "../../../model/Room";
 import {Event} from "../../Event";
 import {EventType} from "../../EventType";
 import {GAME_CONFIG} from "../../../util/Constant";
-import {_4_SendIntelligence} from "./_4_SendIntelligence";
 
-export class _3_PlayerRounding implements Event {
+export class _5_1_WaitingPlayerReceive implements Event {
     private static readonly SEND_BUTTON_INFO = {
         buttonArray: [
-            {classType: "submit", needCardNum: 1, root: "", name: "出牌",},
-            {classType: "cancel", root: "game/end3To4", name: "结束出牌",},
+            {classType: "success", root: "game/sendIntelligence", name: "接收",},
+            {classType: "cancel", root: "game/sendIntelligence", name: "拒绝",},
         ]
     }
 
     private readonly currentPlayer: Player;
+    private receive: boolean | undefined;
+
     private lastTime = GAME_CONFIG.ROUND_ALL_TIME;
 
     constructor(currentPlayer: Player) {
@@ -22,7 +23,8 @@ export class _3_PlayerRounding implements Event {
 
     getEffectType(room: Room): EventType {
         if (this.lastTime <= 0) {
-            return EventType.REMOVE_AND_NEXT;
+            this.currentPlayer.send("roomEvent/clearButton");
+            return EventType.REMOVE;
         }
 
         if (this.lastTime === GAME_CONFIG.ROUND_ALL_TIME) {
@@ -42,8 +44,8 @@ export class _3_PlayerRounding implements Event {
             account: this.currentPlayer.account,
             time: this.lastTime,
             allTime: GAME_CONFIG.ROUND_ALL_TIME,
-            allTips: this.currentPlayer.account + "的出牌阶段",
-            myTips: "请选择1张卡牌",
+            allTips: this.currentPlayer.account + "的犹豫接收阶段",
+            myTips: "请选择是否接收左上角展示的情报",
         }
 
         room.broadcast("roomEvent/updateTime", data);
@@ -54,24 +56,18 @@ export class _3_PlayerRounding implements Event {
     }
 
     nextEvent(room: Room): Event {
-        this.currentPlayer.send("roomEvent/clearButton");
-        return new _4_SendIntelligence(this.currentPlayer);
+        throw new Error("Method not implemented.");
     }
 
     sendClientInfo(room: Room, player: Player): void {
         if (player != this.currentPlayer) {
             return;
         }
-        player.send("roomEvent/showButton", _3_PlayerRounding.SEND_BUTTON_INFO);
-    }
-
-    end3To4(player: Player): void {
-        if (player == this.currentPlayer) {
-            this.lastTime = 0;
-        }
+        player.send("roomEvent/showButton", _5_1_WaitingPlayerReceive.SEND_BUTTON_INFO);
     }
 
     getEventPlayer(): Player | undefined {
         return this.currentPlayer;
     }
+
 }

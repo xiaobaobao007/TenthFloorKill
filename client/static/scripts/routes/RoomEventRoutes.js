@@ -17,7 +17,7 @@ class RoomEventRoutes extends ClientBaseRoutes {
     async newHandCard(updateData) {
         const player = ALL_PLAYER[ACCOUNT];
 
-        for (const handCardElement of updateData.handCard) {
+        for (const handCardElement of updateData.cardArray) {
             const cardModel = new CardModel();
             cardModel.init(handCardElement);
 
@@ -27,9 +27,27 @@ class RoomEventRoutes extends ClientBaseRoutes {
         }
     }
 
+    async removeHandCard(updateData) {
+        const player = ALL_PLAYER[ACCOUNT];
+        const cardModel = player.getHandCard(updateData.handCardId);
+        if (cardModel) {
+            removeHandCard(cardModel);
+        }
+    }
+
     async updateHandCardNum(updateData) {
         const player = ALL_PLAYER[updateData.account];
         $(player.div).children(".my-card-num:first").html(updateData.handCardNum);
+    }
+
+    async newIntelligenceCard(updateData) {
+        const player = ALL_PLAYER[updateData.account];
+
+        const cardModel = new CardModel();
+        cardModel.init(updateData.card);
+        player.intelligenceArray.push(cardModel);
+
+        addIntelligenceCard(player, cardModel);
     }
 
     async updateTime(requestData) {
@@ -41,9 +59,13 @@ class RoomEventRoutes extends ClientBaseRoutes {
     }
 
     async showButton(requestData) {
+        await this.clearButton();
+
         let html = "";
         for (const button of requestData.buttonArray) {
-            if (button.classType === "submit") {
+            if (button.classType === "success") {
+                html += "<div class='operation-button operation-button-green' onclick='clickSubmit(\"" + button.root + "\")'>" + button.name + "</div>";
+            } else if (button.classType === "submit") {
                 if (button.needCardNum) {
                     SELECTED_CARD_NUM = button.needCardNum;
                 }
@@ -56,7 +78,6 @@ class RoomEventRoutes extends ClientBaseRoutes {
             }
         }
 
-        await this.clearButton();
         $(".operation-button-father").html(html);
 
         if (0 < SELECTED_CARD_NUM) {
@@ -89,6 +110,10 @@ class RoomEventRoutes extends ClientBaseRoutes {
         html += "</div>";
 
         $("body").append(html);
+    }
+
+    async clearAllIntelligence() {
+        $(".intelligence-card-show").remove();
     }
 
 }

@@ -21,7 +21,11 @@ export class ScheduleManager {
                 }
 
                 for (const oneTask of array) {
-                    oneTask.run();
+                    try {
+                        oneTask.run();
+                    } catch (e) {
+                        console.error(e);
+                    }
                 }
             }, time);
         }

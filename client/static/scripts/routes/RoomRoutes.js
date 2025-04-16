@@ -3,10 +3,4 @@ class RoomRoutes extends ClientBaseRoutes {
         ROOM_DATA = roomData;
         updateRoomData();
     }
-
-    // async updateOnePlayer(data) {
-    //     let account = data.account;
-    //     let handCard = data.handCard;
-    //     addMyCard(data.cardArray);
-    // }
 }

@@ -7,11 +7,14 @@ export class Stack<T> {
     // 入栈操作
     push(item: T): void {
         this.items.push(item);
+        console.info("add stack", this.printStack());
     }
 
     // 出栈操作
     pop(): T | undefined {
-        return this.items.pop();
+        let pop = this.items.pop();
+        console.info("pop stack", this.printStack());
+        return pop;
     }
 
     // 获取栈顶元素
@@ -32,6 +35,25 @@ export class Stack<T> {
     //反转所有元素
     reverse(): void {
         this.items.reverse();
+    }
+
+    printStack(): string {
+        let s = "";
+        for (let i = 0; i < this.items.length; i++) {
+            if (s != "") {
+                s += ","
+            }
+            s += this.getEventToString(this.items[i] as Event);
+        }
+        return "[" + s + "]";
+    }
+
+    getEventToString(event: Event): string {
+        if (event.getEventPlayer()) {
+            return event.getEventPlayer()?.account + event.constructor.name;
+        } else {
+            return event.constructor.name;
+        }
     }
 
     //玩家重新登录

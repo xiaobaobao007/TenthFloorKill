@@ -18,7 +18,7 @@ export class Player {
         this.account = account;
     }
 
-    public send(route: string, data: any = {}) {
+    public send(route: string, data: any = undefined) {
         if (this._socket) {
             SocketUtil.send(this._socket, route, data);
         }
@@ -44,14 +44,22 @@ export class Player {
         for (let card of array) {
             handClientInfo.push(card.getSelfCardInfo());
         }
-        this.send("roomEvent/newHandCard", {handCard: handClientInfo});
 
+        this.send("roomEvent/newHandCard", {cardArray: handClientInfo});
         this.updateHandCardNum();
     }
 
     public removeCard(card: Card) {
         this._handCardArray.splice(this._handCardArray.indexOf(card), 1);
         card.hand = false;
+
+        this.send("roomEvent/removeHandCard", {handCardId: card.allId});
+        this.updateHandCardNum();
+    }
+
+    public addIntelligenceCard(intelligenceCard: Card) {
+        this._intelligenceCardArray.push(intelligenceCard);
+        this._room?.broadcast("roomEvent/newIntelligenceCard", {account: this.account, card: intelligenceCard.getSelfCardInfo()});
     }
 
     private updateHandCardNum() {
@@ -66,13 +74,14 @@ export class Player {
     public getClientPlayerInfo(): any {
         return {
             name: this.account,
-            cardArray: this.getClientPlayerCardArray()
+            handCardArray: this.getClientPlayerCardArray(this._handCardArray),
+            intelligenceCardArray: this.getClientPlayerCardArray(this._intelligenceCardArray),
         }
     }
 
-    private getClientPlayerCardArray() {
+    private getClientPlayerCardArray(array: Card[]) {
         let cardArray: any[] = [];
-        for (let playerCard of this._handCardArray) {
+        for (let playerCard of array) {
             cardArray.push(playerCard.getSelfCardInfo());
         }
         return cardArray;

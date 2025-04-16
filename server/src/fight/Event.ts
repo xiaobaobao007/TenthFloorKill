@@ -20,4 +20,6 @@ export interface Event {
 
     //事件开始发送前端信息
     sendClientInfo(room: Room, player: Player): void;
+
+    getEventPlayer(): Player | undefined;
 }

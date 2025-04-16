@@ -84,6 +84,10 @@ export class _4_SendIntelligence implements Event {
         player.send("roomEvent/showButton", _4_SendIntelligence.SEND_BUTTON_INFO);
     }
 
+    getEventPlayer(): Player | undefined {
+        return this.currentPlayer;
+    }
+
     setIntelligenceCard(player: Player, card: Card, targetPlayer: Player): void {
         if (this.intelligenceCard !== undefined || player != this.currentPlayer) {
             return;

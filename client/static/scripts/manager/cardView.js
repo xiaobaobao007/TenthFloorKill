@@ -9,16 +9,29 @@ function updateMyHandCard() {
     }
 }
 
-function addHandCard(card) {
+function addHandCard(cardModel) {
     let html = "";
-    html += "<div class='card " + card.getColorClass() + "' cardid='" + card.allId + "'>";
-    html += card.getNameDiv();
-    html += card.getOperationDiv(true);
-    html += card.getTipsDiv();
+    html += "<div class='card " + cardModel.getColorClass() + "' cardid='" + cardModel.allId + "'>";
+    html += cardModel.getNameDiv();
+    html += cardModel.getOperationDiv(true);
+    html += cardModel.getTipsDiv();
     html += "</div>";
     $(".my-card:first").append(html);
 
-    setDivClickEvent("[cardid=" + card.allId + "]", emptyFunction, cardPress);
+    setDivClickEvent("[cardid=" + cardModel.allId + "]", emptyFunction, cardPress);
+}
+
+function removeHandCard(cardModel) {
+    for (let i = 0; i < SELECTED_CARD_DIVS.length; i++) {
+        if ($(SELECTED_CARD_DIVS[i]).attr("cardid") == cardModel.allId) {
+            SELECTED_CARD_DIVS.splice(i, 1);
+            SELECTED_CARD_NUM--;
+            break;
+        }
+    }
+
+    $("[cardid=" + cardModel.allId + "]").remove();
+    updateButton();
 }
 
 function cardClick(div) {
@@ -46,6 +59,7 @@ function cardClick(div) {
 
 function resetSelectCard() {
     SELECTED_CARD_DIVS = [];
+    SELECTED_CARD_NUM = -1;
     $('.my-card-select').remove();
 }
 

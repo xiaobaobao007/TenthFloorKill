@@ -40,4 +40,8 @@ export class _0_GameStartEvent implements Event {
 
     sendClientInfo(room: Room, player: Player): void {
     }
+
+    getEventPlayer(): Player | undefined {
+        return undefined;
+    }
 }

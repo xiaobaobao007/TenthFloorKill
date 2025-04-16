@@ -27,10 +27,10 @@ body {
 
 @keyframes selectPlayerFlash {
     from {
-        box-shadow: 0 0 12px 2px rgb(10 28 248);
+        box-shadow: 0 0 10px 8px #c441b4;
     }
     to {
-        box-shadow: 0 0 12px 2px rgb(221, 6, 255);
+        box-shadow: 0 0 35px 6px rgb(10 28 248);
     }
 }
 
@@ -61,7 +61,7 @@ body {
     left: 1vw;
     bottom: 1vw;
     background-color: rgb(204, 49, 49);
-    box-shadow: 0 0 10px 8px rgb(204, 49, 49);
+    box-shadow: 0 0 7px 2px rgb(204, 49, 49);
 }
 
 .empty-box {
@@ -70,7 +70,7 @@ body {
 
 .other-box {
     background-color: #c441b4;
-    box-shadow: 0 0 10px 8px #c441b4;
+    box-shadow: 0 0 7px 2px #c441b4;
 }
 
 .player-intelligence {
@@ -100,7 +100,7 @@ body {
     display: flex;
     flex-wrap: nowrap;
 
-    right: 2vw;
+    left: 2vw;
     top: 1vw;
 }
 
@@ -137,7 +137,6 @@ body {
     display: flex;
     flex-wrap: nowrap;
     padding-bottom: 10px;
-    user-select: none;
     border-radius: 8px;
     box-shadow: 7px 8px 13px 1px rgb(183 146 115);
 }
@@ -338,9 +337,9 @@ body {
 
 .room-time-tips {
     position: absolute;
-    right: 1vw;
-    top: 3.5vw;
-    font-size: 1.5vw;
+    left: 38vw;
+    top: 21.5vw;
+    font-size: 3vw;
     font-style: italic;
     color: #e72727;
     text-shadow: 5px 4px 5px #e58484;
@@ -349,7 +348,7 @@ body {
 .room-lastCard-tips {
     position: absolute;
     right: 1vw;
-    top: 6vw;
+    top: 3.5vw;
     font-size: 1.5vw;
     color: #0500cb;
 }
@@ -375,6 +374,7 @@ body {
     text-shadow: 0px 0px 7px #060606;
     display: flex;
     align-items: center;
+    pointer-events: none; /*灰色状态按钮屏蔽点击事件*/
 }
 
 .operation-button-green {
@@ -412,6 +412,7 @@ body {
     font-size: 1.3vw;
     color: white;
     z-index: 999;
+    text-shadow: 0 0 7px #000000;
 }
 
 .intelligence-card-show {

@@ -16,28 +16,37 @@ export class EventManager {
             const eventStack: Stack<Event> = room.eventStack;
             const currentEvent = eventStack.peek()!;
 
-            switch (currentEvent.getEffectType(room)) {
-                case EventType.PRE:
-                    currentEvent.prv(room);
-                    break;
-                case EventType.EFFECT:
-                    currentEvent.doEvent(room);
-                    break;
-                case EventType.OVER:
-                    currentEvent.over(room);
-                    break;
-                case EventType.NEXT:
-                    eventStack.push(currentEvent.nextEvent(room));
-                    break;
-                case EventType.REMOVE:
+            try {
+                switch (currentEvent.getEffectType(room)) {
+                    case EventType.PRE:
+                        currentEvent.prv(room);
+                        break;
+                    case EventType.EFFECT:
+                        currentEvent.doEvent(room);
+                        break;
+                    case EventType.OVER:
+                        currentEvent.over(room);
+                        break;
+                    case EventType.NEXT:
+                        eventStack.push(currentEvent.nextEvent(room));
+                        break;
+                    case EventType.REMOVE:
+                        eventStack.pop();
+                        break;
+                    case EventType.REMOVE_AND_NEXT:
+                        eventStack.pop();
+                        eventStack.push(currentEvent.nextEvent(room));
+                        break;
+                    default:
+                        break;
+                }
+            } catch (err) {
+                if (eventStack.size() > 1) {
+                    //事件异常时将异常事件删除，回归到上个事件，肯定会引起bug，只是为了优化下流程，防止服务器卡死
                     eventStack.pop();
-                    break;
-                case EventType.REMOVE_AND_NEXT:
-                    eventStack.pop();
-                    eventStack.push(currentEvent.nextEvent(room));
-                    break;
-                default:
-                    break;
+                    console.error(room.roomId, "房间异常事件回归到", eventStack.peek()!.constructor);
+                }
+                console.error(err);
             }
         }
     }
