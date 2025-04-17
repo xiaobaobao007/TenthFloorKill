@@ -198,6 +198,11 @@ body {
     z-index: 999;
 }
 
+.card-operation-ope_ {
+    color: #00ffea;
+    font-style: oblique;
+}
+
 .card-tips {
     color: #ffffff;
     position: absolute;

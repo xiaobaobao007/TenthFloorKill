@@ -5,6 +5,7 @@ import {EventType} from "../../EventType";
 import {GAME_CONFIG} from "../../../util/Constant";
 import {_5_2_PlayerReceive} from "./_5_2_PlayerReceive";
 import {Card} from "../../../model/Card";
+import {_5_IntelligenceCircle} from "../_0_base/_5_IntelligenceCircle";
 
 export class _5_1_WaitingPlayerReceive implements Event {
     static readonly SEND_BUTTON_INFO = {
@@ -14,6 +15,7 @@ export class _5_1_WaitingPlayerReceive implements Event {
         ]
     }
 
+    private readonly fatherEvent: _5_IntelligenceCircle;
     private readonly sendPlayer: Player;
     private readonly currentPlayer: Player;
     private readonly intelligenceCard: Card;
@@ -22,7 +24,8 @@ export class _5_1_WaitingPlayerReceive implements Event {
 
     private lastTime = GAME_CONFIG._5_1_WaitingPlayerReceive_TIME;
 
-    constructor(sendPlayer: Player, currentPlayer: Player, intelligenceCard: Card) {
+    constructor(fatherEvent: _5_IntelligenceCircle, sendPlayer: Player, currentPlayer: Player, intelligenceCard: Card) {
+        this.fatherEvent = fatherEvent;
         this.sendPlayer = sendPlayer;
         this.currentPlayer = currentPlayer;
         this.intelligenceCard = intelligenceCard;
@@ -74,7 +77,7 @@ export class _5_1_WaitingPlayerReceive implements Event {
     }
 
     nextEvent(room: Room): Event {
-        return new _5_2_PlayerReceive(this.currentPlayer, this.intelligenceCard);
+        return new _5_2_PlayerReceive(this.fatherEvent, this.currentPlayer, this.intelligenceCard);
     }
 
     sendClientInfo(room: Room, player: Player): void {

@@ -29,9 +29,11 @@ export class _5_IntelligenceCircle implements Event {
         } else if (this.currentEventType == EventType.EFFECT) {
             this.currentEventType = EventType.NEXT;
             return EventType.EFFECT;
-        } else {
+        } else if (this.currentEventType == EventType.NEXT) {
             this.currentEventType = EventType.EFFECT;
             return this.currentPlayer == this.sendPlayer ? EventType.REMOVE_AND_NEXT : EventType.NEXT;
+        } else {
+            return EventType.REMOVE;
         }
     }
 
@@ -40,9 +42,7 @@ export class _5_IntelligenceCircle implements Event {
             //移除玩家手牌
             this.sendPlayer.removeCard(this.intelligenceCard);
         }
-
         this.sendClientInfo(room, this.sendPlayer);
-
         this.currentEventType = EventType.EFFECT;
     }
 
@@ -78,21 +78,20 @@ export class _5_IntelligenceCircle implements Event {
 
     nextEvent(room: Room): Event {
         this.sendPlayer.send("roomEvent/clearButton");
-        return new _5_1_WaitingPlayerReceive(this.sendPlayer, this.currentPlayer!, this.intelligenceCard);
+        return new _5_1_WaitingPlayerReceive(this, this.sendPlayer, this.currentPlayer!, this.intelligenceCard);
     }
 
     sendClientInfo(room: Room, player: Player): void {
         const otherCardInfo = this.intelligenceCard!.getOtherCardInfo();
         otherCardInfo.direction = this.indexIsInc ? undefined : CARD_OPERATION.FAN_ZHUAN;
 
-        if (this.currentPlayer != player) {
+        if (this.sendPlayer != player) {
             player.send("roomEvent/updateAllIntelligence", otherCardInfo);
             return;
         }
 
-        room.broadcastExclude("roomEvent/updateAllIntelligence", this.currentPlayer, otherCardInfo);
-
-        this.currentPlayer.send("roomEvent/updateAllIntelligence", this.intelligenceCard!.getSelfCardInfo());
+        room.broadcastExclude("roomEvent/updateAllIntelligence", this.sendPlayer, otherCardInfo);
+        this.sendPlayer.send("roomEvent/updateAllIntelligence", this.intelligenceCard!.getSelfCardInfo());
     }
 
     private getIndexIsInc(): boolean {
@@ -117,6 +116,10 @@ export class _5_IntelligenceCircle implements Event {
         }
 
         return incIndex <= decIndex;
+    }
+
+    setOver() {
+        this.currentEventType = EventType.REMOVE;
     }
 
 }

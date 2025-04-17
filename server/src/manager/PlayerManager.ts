@@ -30,6 +30,7 @@ export class PlayerManager {
                 this.reLogin(socket, oldPlayer);
                 return oldPlayer;
             } else {
+                oldPlayer.sendTips("有人试图顶你的号耶");
                 this.logout(socket, "账号已经登录");
                 return undefined;
             }
