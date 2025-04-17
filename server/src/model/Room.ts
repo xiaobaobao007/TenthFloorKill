@@ -5,6 +5,7 @@ import {Event} from "../fight/Event";
 import {shuffleArray} from "../util/MathUtil";
 import {_0_GameStartEvent} from "../fight/normalEvent/_0_base/_0_GameStartEvent";
 import {Stack} from "../util/Stack";
+import {CAMP_BLUE, CAMP_CONFIG, CAMP_GREY, CAMP_RED} from "../util/Constant";
 
 export class Room {
     public readonly roomId: string;//房间号
@@ -90,6 +91,9 @@ export class Room {
         //玩家位置打乱
         // shuffleArray(this._playerArray);
 
+        //分配阵营
+        this.resetAllCamp();
+
         this._eventStack.clear();
         this._eventStack.push(new _0_GameStartEvent());
 
@@ -170,6 +174,26 @@ export class Room {
             if (player.account === account) {
                 return player;
             }
+        }
+    }
+
+    private resetAllCamp() {
+        const config = CAMP_CONFIG[this._playerArray.length - 1];
+        let campArray: string[] = [];
+
+        for (let i = 0; i < config[1]; i++) {
+            campArray.push(CAMP_BLUE);
+            campArray.push(CAMP_RED);
+        }
+
+        for (let i = 0; i < config[3]; i++) {
+            campArray.push(CAMP_GREY);
+        }
+
+        shuffleArray(campArray);
+
+        for (let i = 0; i < this._playerArray.length; i++) {
+            this._playerArray[i].camp = campArray[i];
         }
     }
 

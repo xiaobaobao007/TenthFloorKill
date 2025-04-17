@@ -2,6 +2,7 @@ import {WebSocket} from "ws";
 import {SocketUtil} from "../util/SocketUtil";
 import {Room} from "./Room";
 import {Card} from "./Card";
+import {CAMP_GREY} from "../util/Constant";
 
 export class Player {
     private _socket: WebSocket | undefined;//连接
@@ -12,6 +13,7 @@ export class Player {
     private _room: Room | undefined;//房间
     private _intelligenceCardArray: Card[] = [];//情报
     private _handCardArray: Card[] = [];//手牌
+    private _camp: string = CAMP_GREY;
 
     constructor(socket: WebSocket | undefined, account: string) {
         this._socket = socket;
@@ -73,7 +75,8 @@ export class Player {
 
     public getClientPlayerInfo(): any {
         return {
-            name: this.account,
+            account: this.account,
+            camp: this._camp,
             handCardArray: this.getClientPlayerCardArray(this._handCardArray),
             intelligenceCardArray: this.getClientPlayerCardArray(this._intelligenceCardArray),
         }
@@ -138,4 +141,11 @@ export class Player {
         return this._handCardArray;
     }
 
+    get camp(): string {
+        return this._camp;
+    }
+
+    set camp(value: string) {
+        this._camp = value;
+    }
 }

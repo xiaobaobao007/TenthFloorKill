@@ -1,3 +1,4 @@
+//所有卡牌配置
 export const CARD_ALL = [
     {id: "lj", color: "g", dir: "", ope: "ope_z", num: 3},//5+
     {id: "lj", color: "b", dir: "", ope: "ope_z", num: 1},//5+
@@ -74,6 +75,8 @@ export const CARD_ALL = [
     {id: "st", color: "g", dir: "dir_r", ope: "ope_m", num: 3},//9+
     {id: "st", color: "g", dir: "", ope: "ope_z", num: 3},//9+
 ];
+
+//客户端字符串配置
 export const CLIENT_STRING_DATA = {
     "dir_r": "向右边方向传递",
     "dir_": "自定义方向传递",
@@ -103,8 +106,16 @@ export const CLIENT_STRING_DATA = {
     "color_g": "灰色情报",
     "color_b": "蓝色情报",
     "color_d": "红色加蓝色的双色情报",
-}
+
+    "camp_red": "潜伏",
+    "camp_blue": "军情",
+    "camp_grey": "特工",
+};
+
+//表情包字符串提示
 export const EMOJI_DATA = {leader: "🏠", dir_: "🔄", ope_z: "直达", ope_m: "密电", ope_w: "文本", ope_: "", lock: "🔒",};
+
+//游戏相关配置
 export const GAME_CONFIG = {
     GAME_INIT_CARD_NUM: 2,//初始卡牌数量
     ROUND_INIT_CARD_NUM: 2,//回合开始卡牌数量
@@ -116,4 +127,12 @@ export const GAME_CONFIG = {
     _6_PlayerRoundEnd_TIME: 60 * 1000,//弃牌操作(毫秒)
     _5_1_WaitingPlayerReceive_TIME: 60 * 1000,//等待接收操作(毫秒)
 };
+
+//操作方式
 export const CARD_OPERATION = {ZHI_DA: "ope_z", MI_DIAN: "ope_m", WEN_BEN: "ope_w", REN_YI: "ope_", FAN_ZHUAN: "dir_"}
+
+//人数，潜伏人数-red，军情人数-blue，特工人数-grey
+export const CAMP_CONFIG = [[1, 0, 0, 1], [2, 1, 1, 1], [3, 1, 1, 1], [4, 2, 2, 2], [5, 2, 2, 1], [6, 2, 2, 2], [7, 3, 3, 1], [8, 3, 3, 2]];
+export const CAMP_RED = "camp_red";
+export const CAMP_BLUE = "camp_blue";
+export const CAMP_GREY = "camp_grey";

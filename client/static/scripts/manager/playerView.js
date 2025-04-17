@@ -4,7 +4,7 @@ function updateAllPlayer() {
     //寻找我在玩家数组中的位置
     let startIndex = -1;
     for (let i = 0; i < playerArray.length; i++) {
-        if (playerArray[i].name === ACCOUNT) {
+        if (playerArray[i].account === ACCOUNT) {
             if (i + 1 === playerArray.length) {
                 startIndex = 0;
             } else {
@@ -60,9 +60,11 @@ function updateAllPlayer() {
                 newPlayerDiv.classList.add("other-box");
             }
 
-            html += "<div class='box-account'>" + playerInfo.name + "</div>";
+            html += "<div class='box-account'>" + playerModel.account + "</div>";
 
-            if (ROOM_DATA.leaderAccount === playerInfo.name) {
+            if (ROOM_DATA.running) {
+                html += "<div class='box-camp box-camp-" + playerModel.camp + "'>" + STRING_CONFIG[playerModel.camp] + "</div>";
+            } else if (ROOM_DATA.leaderAccount === playerModel.account) {
                 html += "<div class='box-leader'>" + EMOJI_CONFIG.leader + "</div>";
             }
 
