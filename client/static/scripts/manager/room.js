@@ -44,6 +44,11 @@ function updateTimeTips(account, time, allTime, allTips, myTips) {
         timeDiv = $(player.div).children(".other-time-tips:first");
     }
 
+    if (time <= 0) {
+        timeDiv.remove();
+        return;
+    }
+
     if (timeDiv.length === 0) {
         let html;
         if (isMe) {
@@ -82,10 +87,6 @@ function updateTimeTips(account, time, allTime, allTips, myTips) {
         if (!$(children[1]).hasClass('time-tips-light')) {
             $(children[1]).addClass('time-tips-light');
         }
-    }
-
-    if (time <= 0) {
-        timeDiv.remove();
     }
 }
 

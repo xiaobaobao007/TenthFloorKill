@@ -15,7 +15,7 @@ export class _4_SendIntelligence implements Event {
     }
 
     private readonly currentPlayer: Player;
-    private lastTime = GAME_CONFIG.ROUND_ALL_TIME;
+    private lastTime = GAME_CONFIG._4_SendIntelligence_TIME;
 
     private intelligenceCard: Card | undefined = undefined;//要传出的情报
     private targetPlayer: Player | undefined;//情报传递给谁玩家
@@ -25,46 +25,41 @@ export class _4_SendIntelligence implements Event {
     }
 
     getEffectType(room: Room): EventType {
-        if (this.intelligenceCard) {
+        if (this.lastTime === GAME_CONFIG._4_SendIntelligence_TIME) {
+            return EventType.PRE;
+        } else if (this.lastTime >= 0) {
+            return EventType.EFFECT;
+        } else {
             return EventType.REMOVE_AND_NEXT;
         }
+    }
 
+    prv(room: Room): void {
+        if (this.currentPlayer.handCardArray.length == 0) {
+            //当玩家手牌为0，则将牌堆顶加入玩家手牌
+            this.currentPlayer.addCardArray(room.getNewPlayerCard(1));
+        }
+        this.sendClientInfo(room, this.currentPlayer);
+
+        if (this.currentPlayer.ai) {
+            this.lastTime = 0;
+        }
+    }
+
+    doEvent(room: Room): void {
         let data = {
             account: this.currentPlayer.account,
             time: this.lastTime,
-            allTime: GAME_CONFIG.ROUND_ALL_TIME,
+            allTime: GAME_CONFIG._4_SendIntelligence_TIME,
             allTips: this.currentPlayer.account + "的情报阶段",
             myTips: "请选择1张情报和1名玩家",
         };
 
         room.broadcast("roomEvent/updateTime", data);
+    }
 
-        if (this.lastTime <= 0) {
-            return EventType.REMOVE_AND_NEXT;
-        }
-
-        if (this.lastTime === GAME_CONFIG.ROUND_ALL_TIME) {
-            if (this.currentPlayer.handCardArray.length == 0) {
-                //当玩家手牌为0，则将牌堆顶加入玩家手牌
-                this.currentPlayer.addCardArray(room.getNewPlayerCard(1));
-            }
-            this.sendClientInfo(room, this.currentPlayer);
-        }
-
+    frameOver(room: Room): void {
         this.lastTime -= GAME_CONFIG.GAME_FRAME_TIME;
-        return EventType.NONE;
-    }
-
-    prv(room: Room): void {
-        throw new Error("Method not implemented.");
-    }
-
-    doEvent(room: Room): void {
-        throw new Error("Method not implemented.");
-    }
-
-    over(room: Room): void {
-        throw new Error("Method not implemented.");
     }
 
     nextEvent(room: Room): Event {
@@ -84,15 +79,12 @@ export class _4_SendIntelligence implements Event {
         player.send("roomEvent/showButton", _4_SendIntelligence.SEND_BUTTON_INFO);
     }
 
-    getEventPlayer(): Player | undefined {
-        return this.currentPlayer;
-    }
-
     setIntelligenceCard(player: Player, card: Card, targetPlayer: Player): void {
         if (this.intelligenceCard !== undefined || player != this.currentPlayer) {
             return;
         }
         this.intelligenceCard = card;
         this.targetPlayer = targetPlayer;
+        this.lastTime = 0;
     }
 }

@@ -7,7 +7,7 @@ import {_5_2_PlayerReceive} from "./_5_2_PlayerReceive";
 import {Card} from "../../../model/Card";
 
 export class _5_1_WaitingPlayerReceive implements Event {
-    private static readonly SEND_BUTTON_INFO = {
+    static readonly SEND_BUTTON_INFO = {
         buttonArray: [
             {classType: "success", root: "game/receiveIntelligence", name: "接收",},
             {classType: "cancel", root: "game/refuseIntelligence", name: "拒绝",},
@@ -19,36 +19,23 @@ export class _5_1_WaitingPlayerReceive implements Event {
 
     private receive: boolean | undefined;
 
-    private lastTime = GAME_CONFIG.ROUND_ALL_TIME;
+    private lastTime = GAME_CONFIG._5_1_WaitingPlayerReceive_TIME;
 
-    constructor(currentPlayer: Player, intelligenceCard: Card) {
+    constructor(sendPlayer: Player, currentPlayer: Player, intelligenceCard: Card) {
         this.currentPlayer = currentPlayer;
         this.intelligenceCard = intelligenceCard;
+
+        if (sendPlayer == currentPlayer) {
+            this.lastTime = 0;
+            this.receive = true;
+        }
     }
 
     getEffectType(room: Room): EventType {
-        if (this.receive != undefined) {
-            this.lastTime = 0;
-        }
-
-        if (this.lastTime === GAME_CONFIG.ROUND_ALL_TIME) {
-            this.sendClientInfo(room, this.currentPlayer);
-        }
-
-        this.lastTime -= GAME_CONFIG.GAME_FRAME_TIME;
-
-        let data = {
-            account: this.currentPlayer.account,
-            time: this.lastTime,
-            allTime: GAME_CONFIG.ROUND_ALL_TIME,
-            allTips: this.currentPlayer.account + "的犹豫接收阶段",
-            myTips: "请选择是否接收左上角展示的情报",
-        }
-
-        room.broadcast("roomEvent/updateTime", data);
-
-        if (this.lastTime > 0) {
-            return EventType.NONE;
+        if (this.lastTime === GAME_CONFIG._5_1_WaitingPlayerReceive_TIME) {
+            return EventType.PRE;
+        } else if (this.lastTime >= 0) {
+            return EventType.EFFECT;
         }
 
         this.currentPlayer.send("roomEvent/clearButton");
@@ -60,14 +47,27 @@ export class _5_1_WaitingPlayerReceive implements Event {
     }
 
     prv(room: Room): void {
-        throw new Error("Method not implemented.");
+        this.sendClientInfo(room, this.currentPlayer);
+
+        if (this.currentPlayer.ai) {
+            this.lastTime = 0;
+        }
     }
 
     doEvent(room: Room): void {
+        let data = {
+            account: this.currentPlayer.account,
+            time: this.lastTime,
+            allTime: GAME_CONFIG._5_1_WaitingPlayerReceive_TIME,
+            allTips: this.currentPlayer.account + "的犹豫接收阶段",
+            myTips: "请选择是否接收左上角展示的情报",
+        }
+
+        room.broadcast("roomEvent/updateTime", data);
     }
 
-    over(room: Room): void {
-        throw new Error("Method not implemented.");
+    frameOver(room: Room): void {
+        this.lastTime -= GAME_CONFIG.GAME_FRAME_TIME;
     }
 
     nextEvent(room: Room): Event {
@@ -81,15 +81,12 @@ export class _5_1_WaitingPlayerReceive implements Event {
         player.send("roomEvent/showButton", _5_1_WaitingPlayerReceive.SEND_BUTTON_INFO);
     }
 
-    getEventPlayer(): Player | undefined {
-        return this.currentPlayer;
-    }
-
     setIsReceive(player: Player, receive: boolean) {
         if (player != this.currentPlayer || this.receive != undefined) {
             return;
         }
         this.receive = receive;
+        this.lastTime = 0;
     }
 
 }

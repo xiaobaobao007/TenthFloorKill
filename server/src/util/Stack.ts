@@ -43,17 +43,9 @@ export class Stack<T> {
             if (s != "") {
                 s += ","
             }
-            s += this.getEventToString(this.items[i] as Event);
+            s += (this.items[i] as Event).constructor.name;
         }
         return "[" + s + "]";
-    }
-
-    getEventToString(event: Event): string {
-        if (event.getEventPlayer()) {
-            return event.getEventPlayer()?.account + event.constructor.name;
-        } else {
-            return event.constructor.name;
-        }
     }
 
     //玩家重新登录

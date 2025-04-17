@@ -114,6 +114,9 @@ function setDivClickEvent(select, click, press) {
         mouseup: function () {
             clearTimeout($(this).data('longPressTimer'));
         },
+        mouseout: function () {
+            clearTimeout($(this).data('longPressTimer'));
+        },
         mousemove: function (e) {
             if (typeof DIV_CLICK_EVENT_DOWN_START == "undefined") {
                 return;
@@ -132,6 +135,9 @@ function setDivClickEvent(select, click, press) {
             $this.data('longPressTimer', timer);
         },
         touchend: function () {
+            clearTimeout($(this).data('longPressTimer'));
+        },
+        touchcancel: function () {
             clearTimeout($(this).data('longPressTimer'));
         },
         touchmove: function (e) {
@@ -154,9 +160,11 @@ function setDivClickEvent(select, click, press) {
 function removeDivClickEvent(select) {
     $(select).off("mousedown");
     $(select).off("mouseup");
+    $(select).off("mouseout");
     $(select).off("mousemove");
     $(select).off("touchstart");
     $(select).off("touchend");
+    $(select).off("touchcancel");
     $(select).off("touchmove");
     $(select).off("click");
 }

@@ -8,49 +8,53 @@ import {_4_SendIntelligence} from "./_4_SendIntelligence";
 export class _3_PlayerRounding implements Event {
     private static readonly SEND_BUTTON_INFO = {
         buttonArray: [
-            {classType: "submit", needCardNum: 1, root: "", name: "出牌",},
-            {classType: "cancel", root: "game/end3to_4_SendIntelligence", name: "结束出牌",},
+            // {classType: "submit", needCardNum: 1, root: "", name: "出牌",},
+            // {classType: "cancel", root: "game/end3to_4_SendIntelligence", name: "结束出牌",},
+
+            {classType: "success", needCardNum: 0, root: "game/end3to_4_SendIntelligence", name: "结束出牌",},
         ]
     }
 
     private readonly currentPlayer: Player;
-    private lastTime = GAME_CONFIG.ROUND_ALL_TIME;
+    private lastTime = GAME_CONFIG._3_PlayerRounding_TIME;
 
     constructor(currentPlayer: Player) {
         this.currentPlayer = currentPlayer;
     }
 
     getEffectType(room: Room): EventType {
-        if (this.lastTime <= 0) {
+        if (this.lastTime === GAME_CONFIG._3_PlayerRounding_TIME) {
+            return EventType.PRE;
+        } else if (this.lastTime >= 0) {
+            return EventType.EFFECT;
+        } else {
             return EventType.REMOVE_AND_NEXT;
         }
-
-        if (this.lastTime === GAME_CONFIG.ROUND_ALL_TIME) {
-            this.sendClientInfo(room, this.currentPlayer);
-        }
-
-        this.lastTime -= GAME_CONFIG.GAME_FRAME_TIME;
-        return EventType.EFFECT;
     }
 
     prv(room: Room): void {
-        throw new Error("Method not implemented.");
+        this.sendClientInfo(room, this.currentPlayer);
+
+        if (this.currentPlayer.ai) {
+            this.lastTime = 0;
+        }
     }
 
     doEvent(room: Room): void {
         let data = {
             account: this.currentPlayer.account,
             time: this.lastTime,
-            allTime: GAME_CONFIG.ROUND_ALL_TIME,
+            allTime: GAME_CONFIG._3_PlayerRounding_TIME,
             allTips: this.currentPlayer.account + "的出牌阶段",
-            myTips: "请选择1张卡牌",
-        }
+            // myTips: "请选择1张卡牌",
+            myTips: "请直接点击【结束出牌】，卡牌效果暂时还未实现",
+        };
 
         room.broadcast("roomEvent/updateTime", data);
     }
 
-    over(room: Room): void {
-        throw new Error("Method not implemented.");
+    frameOver(room: Room): void {
+        this.lastTime -= GAME_CONFIG.GAME_FRAME_TIME;
     }
 
     nextEvent(room: Room): Event {
@@ -69,9 +73,5 @@ export class _3_PlayerRounding implements Event {
         if (player == this.currentPlayer) {
             this.lastTime = 0;
         }
-    }
-
-    getEventPlayer(): Player | undefined {
-        return this.currentPlayer;
     }
 }

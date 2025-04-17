@@ -8,18 +8,20 @@ import {_6_PlayerRoundEnd} from "./_6_PlayerRoundEnd";
 
 export class _2_PlayerRoundStart implements Event {
     private readonly currentPlayer: Player;
-    private hadEffect = false;
+
+    private currentEventType = EventType.NONE;
 
     constructor(currentPlayer: Player) {
         this.currentPlayer = currentPlayer;
     }
 
     getEffectType(room: Room): EventType {
-        if (this.hadEffect) {
+        if (this.currentEventType == EventType.NONE) {
+            this.currentEventType = EventType.EFFECT;
+            return EventType.EFFECT;
+        } else {
             return EventType.REMOVE_AND_NEXT;
         }
-        this.hadEffect = true;
-        return EventType.EFFECT;
     }
 
     prv(room: Room): void {
@@ -31,8 +33,7 @@ export class _2_PlayerRoundStart implements Event {
         room.eventStack.push(new _3_PlayerRounding(this.currentPlayer));
     }
 
-    over(room: Room): void {
-        throw new Error("Method not implemented.");
+    frameOver(room: Room): void {
     }
 
     nextEvent(room: Room): Event {
@@ -40,9 +41,5 @@ export class _2_PlayerRoundStart implements Event {
     }
 
     sendClientInfo(room: Room, player: Player): void {
-    }
-
-    getEventPlayer(): Player | undefined {
-        return this.currentPlayer;
     }
 }

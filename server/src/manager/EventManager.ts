@@ -24,17 +24,10 @@ export class EventManager {
                     case EventType.EFFECT:
                         currentEvent.doEvent(room);
                         break;
-                    case EventType.OVER:
-                        currentEvent.over(room);
-                        break;
                     case EventType.NEXT:
                         eventStack.push(currentEvent.nextEvent(room));
                         break;
                     case EventType.REMOVE:
-                        eventStack.pop();
-                        break;
-                    case EventType.REMOVE_2:
-                        eventStack.pop();
                         eventStack.pop();
                         break;
                     case EventType.REMOVE_AND_NEXT:
@@ -44,6 +37,8 @@ export class EventManager {
                     default:
                         break;
                 }
+
+                currentEvent.frameOver(room);
             } catch (err) {
                 if (eventStack.size() > 1) {
                     //事件异常时将异常事件删除，回归到上个事件，肯定会引起bug，只是为了优化下流程，防止服务器卡死

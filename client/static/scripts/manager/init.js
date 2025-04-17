@@ -16,6 +16,8 @@ function initLogin() {
 }
 
 function initHall() {
+    const params = getQueryParams();
+    if (params.roomId && params.roomId.length > 0) $("#joinRoomId").val(params.roomId)
     $("body")[0].style.backgroundColor = "#5385c3";
 }
 

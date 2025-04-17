@@ -16,30 +16,24 @@ export class _5_2_PlayerReceive implements Event {
     }
 
     getEffectType(room: Room): EventType {
-        switch (this.currentEventType) {
-            case EventType.NONE:
-                return EventType.PRE;
-            default:
-                return this.currentEventType;
+        if (this.currentEventType == EventType.NONE) {
+            this.currentEventType = EventType.EFFECT;
+            return EventType.EFFECT;
+        } else {
+            return EventType.REMOVE;
         }
     }
 
     prv(room: Room): void {
-        // let data = {
-        //     allTips: this.currentPlayer.account + "的成功接收阶段",
-        // }
-        // room.broadcast("roomEvent/updateTime", data);
-
-        this.currentEventType = EventType.EFFECT;
+        throw new Error("Method not implemented.");
     }
 
     doEvent(room: Room): void {
+        room.broadcast("roomEvent/clearAllIntelligence");
         this.currentPlayer.addIntelligenceCard(this.intelligenceCard);
-        this.currentEventType = EventType.REMOVE_2;
     }
 
-    over(room: Room): void {
-        throw new Error("Method not implemented.");
+    frameOver(room: Room): void {
     }
 
     nextEvent(room: Room): Event {
@@ -48,9 +42,4 @@ export class _5_2_PlayerReceive implements Event {
 
     sendClientInfo(room: Room, player: Player): void {
     }
-
-    getEventPlayer(): Player | undefined {
-        return this.currentPlayer;
-    }
-
 }

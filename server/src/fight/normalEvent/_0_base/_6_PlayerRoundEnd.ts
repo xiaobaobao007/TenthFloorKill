@@ -8,7 +8,7 @@ import {AIManager} from "../../../manager/AIManager";
 
 export class _6_PlayerRoundEnd implements Event {
     private readonly currentPlayer: Player;
-    private lastTime = GAME_CONFIG.ROUND_ALL_TIME;
+    private lastTime = GAME_CONFIG._6_PlayerRoundEnd_TIME;
 
     private deleteCardArray: Card[] | undefined;
 
@@ -17,47 +17,50 @@ export class _6_PlayerRoundEnd implements Event {
     }
 
     getEffectType(room: Room): EventType {
-        const discardNumber = this.currentPlayer.handCardArray.length - GAME_CONFIG.MAX_CARD;
-        if (discardNumber <= 0) {
+        if (this.deleteCardArray != undefined) {
+            this.disCard();
+        }
+
+        if (this.lastTime === GAME_CONFIG._6_PlayerRoundEnd_TIME) {
+            return EventType.PRE;
+        } else if (this.lastTime >= 0) {
+            return EventType.EFFECT;
+        } else {
+            this.disCard();
+            this.currentPlayer.send("roomEvent/clearButton");
             return EventType.REMOVE;
         }
-
-        if (this.deleteCardArray && this.deleteCardArray.length >= discardNumber) {
-            this.lastTime = 0;
-        } else if (this.lastTime === GAME_CONFIG.ROUND_ALL_TIME) {
-            this.sendClientInfo(room, this.currentPlayer);
-        }
-
-        this.lastTime -= GAME_CONFIG.GAME_FRAME_TIME;
-        room.broadcast("roomEvent/updateTime", {
-            account: this.currentPlayer.account,
-            time: this.lastTime,
-            allTime: GAME_CONFIG.ROUND_ALL_TIME,
-            allTips: this.currentPlayer.account + "的弃牌阶段",
-            myTips: "弃牌阶段，请弃掉" + discardNumber + "张手牌",
-        });
-
-        if (this.lastTime > 0) {
-            return EventType.NONE;
-        }
-
-        this.disCard();
-
-        this.currentPlayer.send("roomEvent/clearButton");
-        room.broadcast("roomEvent/clearAllIntelligence");
-        return EventType.REMOVE;
     }
 
     prv(room: Room): void {
-        throw new Error("Method not implemented.");
+        const discardNumber = this.currentPlayer.handCardArray.length - GAME_CONFIG.MAX_CARD;
+
+        if (discardNumber <= 0) {
+            this.lastTime = 0;
+            return;
+        }
+
+        this.sendClientInfo(room, this.currentPlayer);
+
+        if (this.currentPlayer.ai) {
+            this.lastTime = 0;
+        }
     }
 
     doEvent(room: Room): void {
-        throw new Error("Method not implemented.");
+        const discardNumber = this.currentPlayer.handCardArray.length - GAME_CONFIG.MAX_CARD;
+
+        room.broadcast("roomEvent/updateTime", {
+            account: this.currentPlayer.account,
+            time: this.lastTime,
+            allTime: GAME_CONFIG._6_PlayerRoundEnd_TIME,
+            allTips: this.currentPlayer.account + "的弃牌阶段",
+            myTips: "弃牌阶段，请弃掉" + discardNumber + "张手牌",
+        });
     }
 
-    over(room: Room): void {
-        throw new Error("Method not implemented.");
+    frameOver(room: Room): void {
+        this.lastTime -= GAME_CONFIG.GAME_FRAME_TIME;
     }
 
     nextEvent(room: Room): Event {
@@ -76,26 +79,31 @@ export class _6_PlayerRoundEnd implements Event {
         });
     }
 
-    getEventPlayer(): Player | undefined {
-        return this.currentPlayer;
-    }
-
     setDeleteCardArray(cardArray: Card[]): void {
         this.deleteCardArray = cardArray;
     }
 
     private disCard() {
         const discardNumber = this.currentPlayer.handCardArray.length - GAME_CONFIG.MAX_CARD;
-        if (discardNumber > 0 && (this.deleteCardArray == undefined || this.deleteCardArray.length < discardNumber)) {
-            AIManager._6_PlayerRoundEnd(this.currentPlayer, this);
-        }
-
-        if (this.deleteCardArray == undefined) {
+        if (discardNumber <= 0) {
             return;
         }
 
-        for (let i = Math.min(discardNumber, this.deleteCardArray.length) - 1; i >= 0; i--) {
-            this.currentPlayer.removeCard(this.deleteCardArray[i]);
+        if ((this.deleteCardArray == undefined)) {
+            AIManager._6_PlayerRoundEnd(this.currentPlayer, this);
+        } else if (this.deleteCardArray.length < discardNumber) {
+            if (this.lastTime < 0) {
+                AIManager._6_PlayerRoundEnd(this.currentPlayer, this);
+            } else {
+                this.currentPlayer.sendTips("请选择" + discardNumber + "张卡牌进行丢弃");
+                return;
+            }
         }
+
+        for (let i = Math.min(discardNumber, this.deleteCardArray!.length) - 1; i >= 0; i--) {
+            this.currentPlayer.removeCard(this.deleteCardArray![i]);
+        }
+
+        this.lastTime = 0;
     }
 }

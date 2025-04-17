@@ -3,17 +3,9 @@ import {Room} from "../../../model/Room";
 import {Event} from "../../Event";
 import {EventType} from "../../EventType";
 import {Card} from "../../../model/Card";
-import {_6_PlayerRoundEnd} from "./_6_PlayerRoundEnd";
 import {_5_1_WaitingPlayerReceive} from "../_5_IntelligenceCircle/_5_1_WaitingPlayerReceive";
-import {_5_2_PlayerReceive} from "../_5_IntelligenceCircle/_5_2_PlayerReceive";
 
 export class _5_IntelligenceCircle implements Event {
-    private static readonly SEND_BUTTON_INFO = {
-        buttonArray: [
-            {classType: "submit", needCardNum: 1, needPlayerNum: 1, root: "game/sendIntelligence", name: "发情报",},
-        ]
-    }
-
     private readonly sendPlayer: Player;//传出者
     private readonly intelligenceCard: Card;//要传出的情报
     private readonly targetPlayer: Player;//接收者
@@ -30,11 +22,15 @@ export class _5_IntelligenceCircle implements Event {
     }
 
     getEffectType(room: Room): EventType {
-        switch (this.currentEventType) {
-            case EventType.NONE:
-                return EventType.PRE;
-            default:
-                return this.currentEventType;
+        if (this.currentEventType == EventType.NONE) {
+            this.currentEventType = EventType.EFFECT;
+            return EventType.PRE;
+        } else if (this.currentEventType == EventType.EFFECT) {
+            this.currentEventType = EventType.NEXT;
+            return EventType.EFFECT;
+        } else {
+            this.currentEventType = EventType.EFFECT;
+            return this.currentPlayer == this.sendPlayer ? EventType.REMOVE_AND_NEXT : EventType.NEXT;
         }
     }
 
@@ -74,30 +70,18 @@ export class _5_IntelligenceCircle implements Event {
 
             this.currentPlayer = room.playerArray[index];
         }
-
-        if (this.currentPlayer == this.sendPlayer) {
-            this.currentEventType = EventType.REMOVE_AND_NEXT;
-            room.eventStack.push(new _5_2_PlayerReceive(this.currentPlayer, this.intelligenceCard));
-        } else {
-            room.eventStack.push(new _5_1_WaitingPlayerReceive(this.currentPlayer, this.intelligenceCard));
-        }
     }
 
-    over(room: Room): void {
-        throw new Error("Method not implemented.");
+    frameOver(room: Room): void {
     }
 
     nextEvent(room: Room): Event {
         this.sendPlayer.send("roomEvent/clearButton");
-        return new _6_PlayerRoundEnd(this.sendPlayer);
+        return new _5_1_WaitingPlayerReceive(this.sendPlayer, this.currentPlayer!, this.intelligenceCard);
     }
 
     sendClientInfo(room: Room, player: Player): void {
         room.broadcast("roomEvent/updateAllIntelligence", this.intelligenceCard!.getSelfCardInfo());
-    }
-
-    getEventPlayer(): Player | undefined {
-        return this.sendPlayer;
     }
 
     private getIndexIsInc(): boolean {

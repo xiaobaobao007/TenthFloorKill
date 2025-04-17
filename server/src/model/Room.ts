@@ -112,7 +112,7 @@ export class Room {
         }
     }
 
-    public updateRoom() {
+    public updateRoom(sendPlayer: Player | undefined = undefined) {
         if (this._playerArray.length == 0) {
             return;
         }
@@ -128,7 +128,11 @@ export class Room {
             roomData.player.push(player.getClientPlayerInfo());
         }
 
-        this.broadcast("room/update", roomData);
+        if (sendPlayer) {
+            sendPlayer.send("room/update", roomData);
+        } else {
+            this.broadcast("room/update", roomData);
+        }
     }
 
     getNewPlayerCard(num: number): Card[] {
