@@ -5,10 +5,11 @@ import {_3_PlayerRounding} from "../fight/normalEvent/_0_base/_3_PlayerRounding"
 import {_6_PlayerRoundEnd} from "../fight/normalEvent/_0_base/_6_PlayerRoundEnd";
 import {Card} from "../model/Card";
 import {_5_1_WaitingPlayerReceive} from "../fight/normalEvent/_5_IntelligenceCircle/_5_1_WaitingPlayerReceive";
+import {CARD_OPERATION} from "../util/Constant";
 
 export class GameRoutes extends ServerClientRoutes {
 
-    // {"route":"game/sendIntelligence","data":{"cardArray":[{"cardId":"10","opz":"ope_z"}],"playerAccountArray":["robot-2"]}}
+    // {"route":"game/sendIntelligence","data":{"cardArray":[{"cardId":"10","opz":""}],"playerAccountArray":["robot-2"]}}
     async sendIntelligence(player: Player, data: any) {
         const cardClientInfo = data.cardArray[0];
         let cardModel = player.findHandCardById(cardClientInfo.cardId);
@@ -17,9 +18,9 @@ export class GameRoutes extends ServerClientRoutes {
             return;
         }
 
-        if (cardModel.operation === "ope_") {
+        if (cardModel.operation === CARD_OPERATION.REN_YI) {
             const clientOperation = cardClientInfo.opz;
-            if (!clientOperation || (clientOperation != "ope_z" && clientOperation != "ope_m" && clientOperation != "ope_w")) {
+            if (!clientOperation || (clientOperation != CARD_OPERATION.ZHI_DA && clientOperation != CARD_OPERATION.MI_DIAN && clientOperation != CARD_OPERATION.WEN_BEN)) {
                 player.sendTips("请点击卡牌右上角选择传递方式");
                 return;
             }

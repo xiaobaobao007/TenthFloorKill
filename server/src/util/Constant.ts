@@ -108,11 +108,12 @@ export const EMOJI_DATA = {leader: "🏠", dir_: "🔄", ope_z: "直达", ope_m:
 export const GAME_CONFIG = {
     GAME_INIT_CARD_NUM: 2,//初始卡牌数量
     ROUND_INIT_CARD_NUM: 2,//回合开始卡牌数量
-    MAX_CARD: 0,//最大卡牌数量
+    MAX_CARD: 6,//最大卡牌数量
     GAME_FRAME_TIME: 100,//服务器游戏逻辑帧间隔（毫秒）
 
-    _3_PlayerRounding_TIME: 6000 * 1000,//出牌操作(毫秒)
+    _3_PlayerRounding_TIME: 60 * 1000,//出牌操作(毫秒)
     _4_SendIntelligence_TIME: 60 * 1000,//发情报操作(毫秒)
-    _6_PlayerRoundEnd_TIME: 5 * 1000,//弃牌操作(毫秒)
+    _6_PlayerRoundEnd_TIME: 60 * 1000,//弃牌操作(毫秒)
     _5_1_WaitingPlayerReceive_TIME: 60 * 1000,//等待接收操作(毫秒)
 };
+export const CARD_OPERATION = {ZHI_DA: "ope_z", MI_DIAN: "ope_m", WEN_BEN: "ope_w", REN_YI: "ope_", FAN_ZHUAN: "dir_"}

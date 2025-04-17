@@ -41,7 +41,7 @@ export class Stack<T> {
         let s = "";
         for (let i = 0; i < this.items.length; i++) {
             if (s != "") {
-                s += ","
+                s += " , "
             }
             s += (this.items[i] as Event).constructor.name;
         }

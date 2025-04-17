@@ -14,6 +14,7 @@ export class _5_1_WaitingPlayerReceive implements Event {
         ]
     }
 
+    private readonly sendPlayer: Player;
     private readonly currentPlayer: Player;
     private readonly intelligenceCard: Card;
 
@@ -22,6 +23,7 @@ export class _5_1_WaitingPlayerReceive implements Event {
     private lastTime = GAME_CONFIG._5_1_WaitingPlayerReceive_TIME;
 
     constructor(sendPlayer: Player, currentPlayer: Player, intelligenceCard: Card) {
+        this.sendPlayer = sendPlayer;
         this.currentPlayer = currentPlayer;
         this.intelligenceCard = intelligenceCard;
 
@@ -51,6 +53,7 @@ export class _5_1_WaitingPlayerReceive implements Event {
 
         if (this.currentPlayer.ai) {
             this.lastTime = 0;
+            this.receive = false;
         }
     }
 
@@ -59,7 +62,7 @@ export class _5_1_WaitingPlayerReceive implements Event {
             account: this.currentPlayer.account,
             time: this.lastTime,
             allTime: GAME_CONFIG._5_1_WaitingPlayerReceive_TIME,
-            allTips: this.currentPlayer.account + "的犹豫接收阶段",
+            allTips: this.currentPlayer.account + "考虑" + this.sendPlayer.account + "接收阶段",
             myTips: "请选择是否接收左上角展示的情报",
         }
 

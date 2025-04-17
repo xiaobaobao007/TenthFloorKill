@@ -1,42 +1,45 @@
+import {CARD_OPERATION} from "../util/Constant";
+
 export class Card {
     private _allId: string = "";
-    private readonly _cardId: string;
-    private readonly _color: string;
-    private readonly _direction: string;
-    private readonly _operation: string;
-    private readonly _lock: boolean;
+    public readonly cardId: string;
+    public readonly color: string;
+    public readonly direction: string;
+    public readonly operation: string;
+    public readonly lock: boolean;
 
     //需要初始化的数据
     private _hand = true;//是否是手牌
     private _clientOperation: string | undefined;//客户端选择的情报传递方式
 
     constructor(data: any) {
-        this._cardId = data.id;
-        this._color = data.color;
-        this._direction = data.dir;
-        this._operation = data.ope;
-        this._lock = !!data.lock;
+        this.cardId = data.id;
+        this.color = data.color;
+        this.direction = data.dir;
+        this.operation = data.ope;
+        this.lock = !!data.lock;
     }
 
     public getSelfCardInfo() {
         return {
             allId: this._allId,
-            cardId: this._cardId,
-            color: this._color,
-            direction: this._direction,
-            operation: this._operation,
-            lock: this._lock,
+            cardId: this.cardId,
+            color: this.color,
+            direction: this.direction,
+            operation: this.operation,
+            lock: this.lock,
         };
     }
 
-    public getOtherCardInfo() {
+    public getOtherCardInfo(): any {
+        if (this.operation == CARD_OPERATION.WEN_BEN || this.clientOperation == CARD_OPERATION.WEN_BEN) {
+            return this.getSelfCardInfo();
+        }
+
         return {
             allId: this._allId,
-            cardId: this._cardId,
-            color: this._color,
-            direction: this._direction,
-            operation: this._operation,
-            lock: this._lock,
+            direction: this.direction,
+            operation: this._clientOperation ? this._clientOperation : this.operation,
         };
     }
 
@@ -46,26 +49,6 @@ export class Card {
 
     set allId(value: string) {
         this._allId = value;
-    }
-
-    get cardId(): string {
-        return this._cardId;
-    }
-
-    get color(): string {
-        return this._color;
-    }
-
-    get direction(): string {
-        return this._direction;
-    }
-
-    get operation(): string {
-        return this._operation;
-    }
-
-    get lock(): boolean {
-        return this._lock;
     }
 
     get hand(): boolean {
