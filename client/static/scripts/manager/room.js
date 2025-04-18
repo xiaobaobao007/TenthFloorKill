@@ -5,15 +5,11 @@
  *     </div>
  */
 function updateRoomData() {
-    //清理数据
-    $(".player-box").remove();
-
     //设置房间号
     setHtml(".roomInfo", "房间号：" + ROOM_DATA.roomId);
 
     //按钮显示控制问题
-    changeShowOrHide(".room-start", ACCOUNT === ROOM_DATA.leaderAccount && !ROOM_DATA.running);
-    changeShowOrHide(".room-quit", !ROOM_DATA.running);
+    changeShowOrHide(".room-statistics-button", !ROOM_DATA.running);
 
     //组装玩家信息
     updateAllPlayer();
@@ -123,9 +119,13 @@ function updateButtonToGreen() {
 }
 
 function clickSubmit(root) {
-    let cardIdArray = [];
+    if (!root || root.length === 0) {
+        return;
+    }
+
+    let cardArray = [];
     for (const cardDiv of SELECTED_CARD_DIVS) {
-        cardIdArray.push({
+        cardArray.push({
             cardId: $(cardDiv).attr("cardid"),
             opz: $(cardDiv).children(".card-operation:first").attr("ope"),
         });
@@ -136,10 +136,18 @@ function clickSubmit(root) {
         playerArray.push($(SELECTED_PLAYER).children(".box-account").html());
     }
 
-    let data = {cardArray: cardIdArray, playerAccountArray: playerArray};
+    let data = {cards: cardArray, accounts: playerArray};
     sendWsMessage(root, data);
 }
 
 function clickCancel(root) {
     sendWsMessage(root);
+}
+
+function getStatistics() {
+    sendWsMessage("room/getStatistics");
+}
+
+function closeStatistics() {
+    $(".room-statistics").remove();
 }

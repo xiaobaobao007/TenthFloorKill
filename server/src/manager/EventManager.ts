@@ -3,6 +3,7 @@ import {EventType} from "../fight/EventType";
 import {Stack} from "../util/Stack";
 import {Event} from "../fight/Event";
 import {Room} from "../model/Room";
+import {GameOverError} from "../exception/GameOverError";
 
 export class EventManager {
     public static doEvent() {
@@ -40,12 +41,16 @@ export class EventManager {
 
                 currentEvent.frameOver(room);
             } catch (err) {
-                if (eventStack.size() > 1) {
-                    //事件异常时将异常事件删除，回归到上个事件，肯定会引起bug，只是为了优化下流程，防止服务器卡死
-                    eventStack.pop();
-                    console.error(room.roomId, "房间异常事件回归到", eventStack.peek()!.constructor);
+                if (err instanceof GameOverError) {
+                    this.gameOver(room, err);
+                } else {
+                    if (eventStack.size() > 1) {
+                        //事件异常时将异常事件删除，回归到上个事件，肯定会引起bug，只是为了优化下流程，防止服务器卡死
+                        eventStack.pop();
+                        console.error(room.roomId, "房间异常事件回归到", eventStack.peek()!.constructor);
+                    }
+                    console.error(err);
                 }
-                console.error(err);
             }
         }
     }
@@ -63,6 +68,16 @@ export class EventManager {
 
             player.reLogin = false;
         }
+    }
+
+    private static gameOver(room: Room, err: GameOverError) {
+        room.start = false;
+
+        err.win(room);
+
+        room.gameOver();
+
+        console.info("游戏结束", room.roomId, err.message);
     }
 
 }

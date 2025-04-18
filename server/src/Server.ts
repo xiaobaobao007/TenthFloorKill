@@ -7,6 +7,7 @@ import {PlayerManager} from "./manager/PlayerManager";
 import {ScheduleManager} from "./manager/schedule/ScheduleManager";
 import {CardManager} from "./manager/CardManager";
 import {SocketUtil} from "./util/SocketUtil";
+import {getNowStr} from "./util/MathUtil";
 
 const app = express();
 const server = createServer(app);
@@ -14,34 +15,42 @@ const {app: wsApp, getWss} = expressWs(app, server);
 
 wsApp.ws('*', (socket, req) => {
     socket.on('close', async (message: string) => {
-        PlayerManager.level(socket);
+        try {
+            PlayerManager.level(socket);
+        } catch (err) {
+            console.log(err);
+        }
     });
 
     socket.on('message', async (message: string) => {
-        const request = JSON.parse(message);
-        const player = PlayerManager.get(socket, request.data);
+        try {
+            const request = JSON.parse(message);
+            const player = PlayerManager.get(socket, request.data);
 
-        if (player) {
-            if (request.route === 'base/login') {
-                if (player.reLogin) {
-                    console.info("重新登录成功", request.data);
+            if (player) {
+                if (request.route === 'base/login') {
+                    if (player.reLogin) {
+                        console.info("重新登录成功", request.data);
+                    } else {
+                        console.info("登录成功", request.data);
+                    }
                 } else {
-                    console.info("登录成功", request.data);
+                    console.info("收到", player.account, "--->", message);
                 }
             } else {
-                console.info("收到", player.account, "--->", message);
+                SocketUtil.send(socket, "base/tips", {tips: "请重新输入账号"});
+                return;
             }
-        } else {
-            SocketUtil.send(socket, "base/tips", {tips: "请重新输入账号"});
-            return;
-        }
 
-        const router = routerHandelMap.get(request.route);
-        if (!router) {
-            console.error(request.route, "不存在");
-            return;
+            const router = routerHandelMap.get(request.route);
+            if (!router) {
+                console.error(request.route, "不存在");
+                return;
+            }
+            router(player, request.data, getWss());
+        } catch (err) {
+            console.log(err);
         }
-        router(player, request.data, getWss());
     });
 });
 
@@ -54,5 +63,5 @@ ScheduleManager.init();
 const PORT = 8080;
 
 server.listen(PORT, () => {
-    console.log(new Date().toLocaleString("shanghai"), `：Server listening on port `, PORT);
+    console.log(getNowStr(), `：Server listening on port `, PORT);
 });

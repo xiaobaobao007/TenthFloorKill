@@ -4,6 +4,7 @@ import {Event} from "../../Event";
 import {EventType} from "../../EventType";
 import {Card} from "../../../model/Card";
 import {_5_IntelligenceCircle} from "../_0_base/_5_IntelligenceCircle";
+import {COLOR_GREY} from "../../../util/Constant";
 
 export class _5_2_PlayerReceive implements Event {
     private readonly fatherEvent: _5_IntelligenceCircle;
@@ -35,6 +36,19 @@ export class _5_2_PlayerReceive implements Event {
         this.fatherEvent.setOver();
         room.broadcast("roomEvent/clearAllIntelligence");
         this.currentPlayer.addIntelligenceCard(this.intelligenceCard);
+
+        //收到情报后检测是否胜利了
+        this.currentPlayer.judgeWin();
+
+        if (this.intelligenceCard.color == COLOR_GREY) {
+            //收到假情报检测自己是否死了
+            this.currentPlayer.judgeDie();
+
+            if (!this.currentPlayer.live) {
+                //判断房间是否为仅剩一人获胜
+                room.judgeOnlyOnePlayerLive();
+            }
+        }
     }
 
     frameOver(room: Room): void {

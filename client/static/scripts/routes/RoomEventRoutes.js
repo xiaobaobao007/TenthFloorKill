@@ -73,7 +73,7 @@ class RoomEventRoutes extends ClientBaseRoutes {
                     SELECTED_PLAYER_NUM = 1;
                 }
                 html += "<div class='operation-button operation-button-grey' onclick='clickSubmit(\"" + button.root + "\")'>" + button.name + "</div>";
-            } else if (button.classType === "cancel") {
+            } else {
                 html += "<div class='operation-button-small-grey' onclick='clickCancel(\"" + button.root + "\")'>" + button.name + "</div>";
             }
         }
@@ -86,6 +86,8 @@ class RoomEventRoutes extends ClientBaseRoutes {
         if (0 < SELECTED_PLAYER_NUM) {
             setDivClickEvent(".other-box", selectPlayerBox, emptyFunction);
         }
+
+        updateButton();
     }
 
     async clearButton() {

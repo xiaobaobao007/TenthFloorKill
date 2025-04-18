@@ -8,17 +8,16 @@ function login() {
 }
 
 function initLogin() {
-    $("body")[0].style.backgroundColor = "#6d7a8a";
-
     const params = getQueryParams();
-    if (params.account && params.account.length > 0) $("#account").val(params.account)
-    if (params.url && params.url.length > 0) $("#url").val(params.url)
+    if (params.account && params.account.length > 0) $("#account").val(params.account);
+    if (params.url && params.url.length > 0) $("#url").val(params.url);
+    $("body")[0].style.background = "#6d7a8a";
 }
 
 function initHall() {
     const params = getQueryParams();
-    if (params.roomId && params.roomId.length > 0) $("#joinRoomId").val(params.roomId)
-    $("body")[0].style.backgroundColor = "#5385c3";
+    if (params.roomId && params.roomId.length > 0) $("#joinRoomId").val(params.roomId);
+    $("body")[0].style.background = "#5385c3";
 }
 
 function initRoom() {

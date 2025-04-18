@@ -68,6 +68,11 @@ body {
     background-color: #595959;
 }
 
+.box-camp-camp_ {
+    color: #bf1010db;
+    background-color: #e1ff00;
+}
+
 .box-heroName {
     position: absolute;
     left: 0;
@@ -112,37 +117,6 @@ body {
     width: 1.2vw;
     height: 1.2vw;
     margin: 0.1vw;
-}
-
-.room-operation {
-    position: absolute;
-    display: flex;
-    flex-wrap: nowrap;
-
-    left: 2vw;
-    top: 1vw;
-}
-
-.room-operation-button {
-    margin-left: 10px;
-}
-
-.room-start {
-    color: #1ce506eb;
-    background-color: #575ce9de;
-    padding: 3px 9px 5px 9px;
-    font-size: 2vw;
-    font-weight: bolder;
-    border-radius: 20px;
-}
-
-.room-quit {
-    color: #eb0000a3;
-    background-color: #e9a265d6;
-    padding: 3px 9px 5px 9px;
-    font-size: 2vw;
-    font-weight: bolder;
-    border-radius: 20px;
 }
 
 .my-card {
@@ -403,6 +377,20 @@ body {
     display: flex;
 }
 
+.room-statistics-button {
+    position: absolute;
+    display: flex;
+    flex-wrap: nowrap;
+    left: 3vw;
+    top: 2vw;
+    color: #c5fbb9;
+    background-color: #635fef;
+    padding: 3px 9px 5px 9px;
+    font-size: 2vw;
+    font-weight: bolder;
+    border-radius: 20px;
+}
+
 .operation-button-grey {
     font-size: 2.2vw;
     margin-left: 0.5vw;
@@ -481,4 +469,64 @@ body {
     color: #f3f0f0;
     writing-mode: vertical-lr;
     text-shadow: 2px 3px 11px #ff0000;
+}
+
+.room-statistics {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70vw;
+    max-height: 90vh;
+    border-radius: 25px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    transition: all 0.3s ease;
+    font-size: 1.6vw;
+}
+
+.room-statistics table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.room-statistics th, td {
+    padding: 5px;
+    border-bottom: 2px solid #ffefef;
+    text-align: center;
+}
+
+.room-statistics th {
+    background-color: #d5c7c7;
+}
+
+.room-statistics td {
+    background-color: #ffefef;
+}
+
+.room-statistics .game-time {
+    color: #999;
+}
+
+.room-statistics .win {
+    color: #28a745;
+}
+
+.room-statistics .lose {
+    color: #dc3545;
+}
+
+.room-statistics .camp_blue {
+    color: white;
+    background-color: #0680f8;
+}
+
+.room-statistics .camp_red {
+    color: white;
+    background-color: #f80622;
+}
+
+.room-statistics .camp_grey {
+    color: white;
+    background-color: #595959;
 }

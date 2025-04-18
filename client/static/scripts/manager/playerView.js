@@ -1,28 +1,21 @@
 function updateAllPlayer() {
+    //清理数据
+    $(".player-box").remove();
+
     const playerArray = ROOM_DATA.player;
 
-    //寻找我在玩家数组中的位置
-    let startIndex = -1;
-    for (let i = 0; i < playerArray.length; i++) {
-        if (playerArray[i].account === ACCOUNT) {
-            if (i + 1 === playerArray.length) {
-                startIndex = 0;
-            } else {
-                startIndex = i + 1;
-            }
+    let playerStartIndex = 0;
+    for (; playerStartIndex < playerArray.length; playerStartIndex++) {
+        if (playerArray[playerStartIndex].account === ACCOUNT) {
             break;
         }
     }
 
     const waitingRoom = document.getElementById('body-room');
 
-    for (let seatIndex = ROOM_DATA.running ? playerArray.length - 1 : POSITION_DATA.length - 1; seatIndex >= 0; seatIndex--, startIndex++) {
+    for (let seatIndex = POSITION_DATA.length - 1; seatIndex >= 0; seatIndex--) {
         if (seatIndex >= playerArray.length && ROOM_DATA.running) {
             continue;
-        }
-
-        if (startIndex >= playerArray.length) {
-            startIndex = 0;
         }
 
         let newPlayerDiv = document.createElement("div");
@@ -42,7 +35,11 @@ function updateAllPlayer() {
             //空位
             newPlayerDiv.classList.add("empty-box");
         } else {
-            const playerInfo = playerArray[startIndex];
+            if (++playerStartIndex >= playerArray.length) {
+                playerStartIndex = 0;
+            }
+
+            const playerInfo = playerArray[playerStartIndex];
 
             let playerModel = new PlayerModel(playerInfo);
             playerModel.init(playerInfo);
@@ -63,7 +60,7 @@ function updateAllPlayer() {
             html += "<div class='box-account'>" + playerModel.account + "</div>";
 
             if (ROOM_DATA.running) {
-                html += "<div class='box-camp box-camp-" + playerModel.camp + "'>" + STRING_CONFIG[playerModel.camp] + "</div>";
+                html += "<div class='box-camp box-camp-" + playerModel.camp + "' onclick ='changeCamp(event,this)' camp='" + playerModel.camp + "'> " + STRING_CONFIG[playerModel.camp] + "</div>";
             } else if (ROOM_DATA.leaderAccount === playerModel.account) {
                 html += "<div class='box-leader'>" + EMOJI_CONFIG.leader + "</div>";
             }
@@ -73,9 +70,9 @@ function updateAllPlayer() {
             if (ROOM_DATA.running) {
                 html += "<div class='my-card-num'>" + playerModel.handArray.length + "</div>";
             }
-        }
 
-        html += "<div class='player-intelligence player-intelligence-" + positionInfo.intelligence + " clear'></div>";
+            html += "<div class='player-intelligence player-intelligence-" + positionInfo.intelligence + " clear'></div>";
+        }
 
         if (positionInfo.left) newPlayerDiv.style.left = positionInfo.left + "vw";
         if (positionInfo.top) newPlayerDiv.style.top = positionInfo.top + "vw";
@@ -115,4 +112,18 @@ function updateAllPlayerIntelligence() {
 
 function addIntelligenceCard(player, cardModel) {
     $(player.div).children(".player-intelligence:first").append(cardModel.getIntelligenceDiv());
+}
+
+function changeCamp(event, div) {
+    event.stopPropagation();
+    if ($(div).parent().hasClass("me-box")) {
+        return;
+    }
+    let index = ALL_CAMP.indexOf($(div).attr("camp")) + 1;
+    if (index >= ALL_CAMP.length) {
+        index = 0;
+    }
+
+    $(div).attr("camp", ALL_CAMP[index]);
+    $(div).html(STRING_CONFIG[ALL_CAMP[index]]);
 }

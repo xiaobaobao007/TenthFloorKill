@@ -8,3 +8,7 @@ export function shuffleArray(array: any[]) {
         [array[i], array[j]] = [array[j], array[i]];
     }
 }
+
+export function getNowStr() {
+    return new Date().toLocaleString("shanghai");
+}

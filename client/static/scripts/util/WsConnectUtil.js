@@ -38,6 +38,10 @@ function initWs() {
 }
 
 function sendWsMessage(route, message) {
+    if (!route || route.length === 0) {
+        return;
+    }
+
     if (typeof ws === "undefined") {
         addTips("服务器已断开，无法发送消息");
         return;

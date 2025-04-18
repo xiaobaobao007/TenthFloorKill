@@ -4,7 +4,7 @@ import {Event} from "../../Event";
 import {EventType} from "../../EventType";
 import {Card} from "../../../model/Card";
 import {_5_1_WaitingPlayerReceive} from "../_5_IntelligenceCircle/_5_1_WaitingPlayerReceive";
-import {CARD_OPERATION} from "../../../util/Constant";
+import {DIRECTION_ALL, DIRECTION_RIGHT, OPERATION_ZHI_DA} from "../../../util/Constant";
 
 export class _5_IntelligenceCircle implements Event {
     private readonly sendPlayer: Player;//传出者
@@ -47,7 +47,7 @@ export class _5_IntelligenceCircle implements Event {
     }
 
     doEvent(room: Room): void {
-        if (this.intelligenceCard.operation == CARD_OPERATION.ZHI_DA || this.intelligenceCard.clientOperation == CARD_OPERATION.ZHI_DA) {
+        if (this.intelligenceCard.operation == OPERATION_ZHI_DA || this.intelligenceCard.clientOperation == OPERATION_ZHI_DA) {
             if (this.currentPlayer) {
                 this.currentPlayer = this.sendPlayer;
             } else {
@@ -83,7 +83,7 @@ export class _5_IntelligenceCircle implements Event {
 
     sendClientInfo(room: Room, player: Player): void {
         const otherCardInfo = this.intelligenceCard!.getOtherCardInfo();
-        otherCardInfo.direction = this.indexIsInc ? undefined : CARD_OPERATION.FAN_ZHUAN;
+        otherCardInfo.direction = this.indexIsInc ? undefined : DIRECTION_ALL;
 
         if (this.sendPlayer != player) {
             player.send("roomEvent/updateAllIntelligence", otherCardInfo);
@@ -95,9 +95,9 @@ export class _5_IntelligenceCircle implements Event {
     }
 
     private getIndexIsInc(): boolean {
-        if (this.intelligenceCard.operation == CARD_OPERATION.ZHI_DA ||
-            this.intelligenceCard.clientOperation == CARD_OPERATION.ZHI_DA ||
-            this.intelligenceCard.direction == "dir_r") {
+        if (this.intelligenceCard.operation == OPERATION_ZHI_DA ||
+            this.intelligenceCard.clientOperation == OPERATION_ZHI_DA ||
+            this.intelligenceCard.direction == DIRECTION_RIGHT) {
             return true;
         }
 

@@ -1,4 +1,4 @@
-import {CARD_OPERATION} from "../util/Constant";
+import {OPERATION_WEN_BEN} from "../util/Constant";
 
 export class Card {
     private _allId: string = "";
@@ -32,7 +32,7 @@ export class Card {
     }
 
     public getOtherCardInfo(): any {
-        if (this.operation == CARD_OPERATION.WEN_BEN || this.clientOperation == CARD_OPERATION.WEN_BEN) {
+        if (this.operation == OPERATION_WEN_BEN || this.clientOperation == OPERATION_WEN_BEN) {
             return this.getSelfCardInfo();
         }
 

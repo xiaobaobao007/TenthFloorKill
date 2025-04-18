@@ -2,16 +2,19 @@ import {Player} from "./Player";
 import {Card} from "./Card";
 import {CardManager} from "../manager/CardManager";
 import {Event} from "../fight/Event";
-import {shuffleArray} from "../util/MathUtil";
+import {getNowStr, shuffleArray} from "../util/MathUtil";
 import {_0_GameStartEvent} from "../fight/normalEvent/_0_base/_0_GameStartEvent";
 import {Stack} from "../util/Stack";
 import {CAMP_BLUE, CAMP_CONFIG, CAMP_GREY, CAMP_RED} from "../util/Constant";
+import {RoomManager} from "../manager/RoomManager";
 
 export class Room {
     public readonly roomId: string;//房间号
     private _playerArray: Player[] = [];//玩家集合
     private _start = false;//房间是否开始了
     private _leaderAccount: string | undefined;//房主
+    private _statistics: any[] = [];//战局记录
+
     private _incIndex: number = 1;//自增长id
     private _eventStack = new Stack<Event>();//事件栈
 
@@ -20,14 +23,6 @@ export class Room {
 
     constructor(roomId: string) {
         this.roomId = roomId;
-    }
-
-    get start(): boolean {
-        return this._start;
-    }
-
-    set start(value: boolean) {
-        this._start = value;
     }
 
     get playerArray(): Player[] {
@@ -43,15 +38,17 @@ export class Room {
             return;
         }
 
+        player.initInRoom(this);
+
         this.broadcast("roomEvent/newEvent", {name: player.account + "加入房间"});
 
         this._playerArray.push(player);
 
         if (this._playerArray.length == 1) {
             this._leaderAccount = player.account;
+        } else {
+            this.updateLeaderButton();
         }
-
-        player.room = this;
     }
 
     public removePlayer(player: Player) {
@@ -70,30 +67,28 @@ export class Room {
         this.broadcast("roomEvent/newEvent", {name: player.account + "离开房间"});
     }
 
-    public gameStart() {
+    gameStart() {
         if (this._start) {
             return;
         }
 
-        //todo 添加机器人
-        if (this._playerArray.length == 1) {
-            for (let i = 1; i <= 1; i++) {
-                const robot = new Player(undefined, "robot-" + i);
-                robot.room = this;
-                robot.ai = true;
-                this._playerArray.push(robot);
-            }
-        }
+        //清理所有前端按钮
+        this.broadcast("roomEvent/clearButton");
 
         //游戏卡牌打断
         this._cardIndex = CardManager.getInitCardIndex();
+        this._discardIndex = [];
 
         //玩家位置打乱
-        // shuffleArray(this._playerArray);
+        shuffleArray(this._playerArray);
 
         //分配阵营
         this.resetAllCamp();
 
+        //重置玩家数据
+        this.initGameStart();
+
+        this._incIndex = 1;
         this._eventStack.clear();
         this._eventStack.push(new _0_GameStartEvent());
 
@@ -101,13 +96,40 @@ export class Room {
         this._start = true;
     }
 
-    public broadcast(route: string, data: any = undefined) {
+    gameOver() {
+        for (let player of this._playerArray) {
+            player.initGameStart();
+        }
+
+        for (let player of this._playerArray) {
+            if (player.account == this._leaderAccount) {
+                this.updateLeaderButton();
+            } else {
+                player.showButton(RoomManager.OTHER_READY_BUTTON_INFO);
+            }
+        }
+
+        this.updateRoomToAllPlayer();
+
+        let data = {
+            all: this.statistics
+        };
+        this.broadcast("room/openStatistics", data);
+    }
+
+    private initGameStart() {
+        for (let player of this._playerArray) {
+            player.initGameStart();
+        }
+    }
+
+    broadcast(route: string, data: any = undefined) {
         for (let i = 0; i < this._playerArray.length; i++) {
             this._playerArray[i].send(route, data);
         }
     }
 
-    public broadcastExclude(route: string, player: Player, data: any = undefined) {
+    broadcastExclude(route: string, player: Player, data: any = undefined) {
         for (let i = 0; i < this._playerArray.length; i++) {
             if (this._playerArray[i] === player) {
                 continue;
@@ -116,11 +138,17 @@ export class Room {
         }
     }
 
-    public updateRoom(sendPlayer: Player | undefined = undefined) {
-        if (this._playerArray.length == 0) {
-            return;
+    updateRoomToAllPlayer(sendPlayer: Player | undefined = undefined) {
+        if (sendPlayer) {
+            this.updateRoomToOnePlayer(sendPlayer);
+        } else {
+            for (let player of this._playerArray) {
+                this.updateRoomToOnePlayer(player);
+            }
         }
+    }
 
+    updateRoomToOnePlayer(sendPlayer: Player) {
         let roomData = {
             running: this._start,
             roomId: this.roomId,
@@ -129,14 +157,10 @@ export class Room {
         };
 
         for (let player of this._playerArray) {
-            roomData.player.push(player.getClientPlayerInfo());
+            roomData.player.push(player.getClientPlayerInfo(sendPlayer));
         }
 
-        if (sendPlayer) {
-            sendPlayer.send("room/update", roomData);
-        } else {
-            this.broadcast("room/update", roomData);
-        }
+        sendPlayer.send("room/update", roomData);
     }
 
     getNewPlayerCard(num: number): Card[] {
@@ -197,11 +221,81 @@ export class Room {
         }
     }
 
+    //判断是否仅剩一人存活
+    judgeOnlyOnePlayerLive() {
+        let player: Player | undefined = undefined;
+        for (let i = 0; i < this._playerArray.length; i++) {
+            if (this._playerArray[i].live) {
+                if (player == undefined) {
+                    player = this._playerArray[i];
+                } else {
+                    return;
+                }
+            }
+        }
+        player!.setWin();
+    }
+
+    updateLeaderButton() {
+        for (let player of this.playerArray) {
+            if (player.account === this._leaderAccount || player.ready) {
+                continue;
+            }
+
+            this.getLeaderAccount().showButton({
+                buttonArray: [{classType: "cancel", root: "", name: player.account + "未准备",}, RoomManager.QUIT_ROOM_BUTTON]
+            });
+            return;
+        }
+
+        this.getLeaderAccount().showButton(RoomManager.LEADER_START_BUTTON_INFO);
+    }
+
+    private getLeaderAccount(): Player {
+        for (const player of this._playerArray) {
+            if (player.account === this._leaderAccount) {
+                return player;
+            }
+        }
+        throw new Error("房主未找到");
+    }
+
+    addStatistics(winPlayerArray: Player[]): void {
+        let players: any[] = [];
+        for (let player of this._playerArray) {
+            players.push({
+                account: player.account,
+                hero: "",
+                camp: player.camp,
+                win: winPlayerArray.indexOf(player) >= 0,
+            });
+        }
+
+        let newStatistics = {
+            round: this._statistics.length + 1,
+            time: getNowStr(),
+            players: players
+        };
+        this._statistics.push(newStatistics);
+    }
+
     get leaderAccount(): string | undefined {
         return this._leaderAccount;
     }
 
     get eventStack(): Stack<Event> {
         return this._eventStack;
+    }
+
+    get start(): boolean {
+        return this._start;
+    }
+
+    set start(value: boolean) {
+        this._start = value;
+    }
+
+    get statistics(): any[] {
+        return this._statistics;
     }
 }

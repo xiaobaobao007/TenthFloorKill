@@ -84,7 +84,7 @@ export class _5_1_WaitingPlayerReceive implements Event {
         if (player != this.currentPlayer) {
             return;
         }
-        player.send("roomEvent/showButton", _5_1_WaitingPlayerReceive.SEND_BUTTON_INFO);
+        player.showButton(_5_1_WaitingPlayerReceive.SEND_BUTTON_INFO);
     }
 
     setIsReceive(player: Player, receive: boolean) {

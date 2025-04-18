@@ -1,13 +1,3 @@
-body {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #5385c3;
-}
-
 .hall-container {
     height: 60vh;
     width: 80vw;
@@ -16,38 +6,51 @@ body {
     touch-action: pan-x;
     overflow-x: auto;
     overflow-y: hidden;
-    background-color: #536bc3;
-    padding: 18px 3px 18px 18px;
+    background-color: #5671c9;
+    padding: 20px 5px 20px 20px;
     border-radius: 30px;
-    box-shadow: 9px 8px 15px 0px rgb(60 101 151);
+    box-shadow: 10px 10px 20px 0px rgba(60, 101, 151, 0.6);
+    transition: box-shadow 0.3s ease;
+}
+
+.hall-container:hover {
+    box-shadow: 10px 10px 30px 0px rgba(60, 101, 151, 0.8);
 }
 
 .hall-container .block {
     height: 100%;
     margin-right: 15px;
-    background-color: #27a938;
+    background-color: #35c749;
     flex-shrink: 0;
-    font-size: 10vh;
-    color: red;
+    font-size: 8vh;
+    color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    padding: 0px 20px 0px 20px;
+    padding: 0 20px;
+    border-radius: 15px;
 }
 
 .block input {
     background-color: #97e7a1a1;
-    color: #ffffff;
-    font-size: 5vh;
+    color: #fff;
+    font-size: 5.5vh;
     width: 19vh;
     height: 8vh;
+    margin-bottom: 1vw;
+    border: none;
+    border-radius: 10px;
+    padding: 0 10px;
+    box-shadow: 3px 3px 8px 0px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s ease;
+}
+
+.block input:focus {
+    outline: none;
+    box-shadow: 3px 3px 12px 0px rgba(0, 0, 0, 0.3);
 }
 
 .hall-container::-webkit-scrollbar {
     display: none;
-}
-
-#leaveAccount {
-    padding: 0 15px 0 15px;
 }

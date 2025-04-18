@@ -3,7 +3,7 @@ import {Player} from "../model/Player";
 import {random} from "../util/MathUtil";
 import {Card} from "../model/Card";
 import {_6_PlayerRoundEnd} from "../fight/normalEvent/_0_base/_6_PlayerRoundEnd";
-import {CARD_OPERATION, GAME_CONFIG} from "../util/Constant";
+import {DIRECTION_ALL, GAME_CONFIG, OPERATION_MI_DIAN} from "../util/Constant";
 
 export class AIManager {
     public static _4_SendIntelligence(player: Player, event: _4_SendIntelligence): void {
@@ -22,8 +22,8 @@ export class AIManager {
             randomIndex++;
         }
 
-        if (playerCard.operation == CARD_OPERATION.REN_YI) {
-            playerCard.clientOperation = CARD_OPERATION.MI_DIAN;
+        if (playerCard.operation == DIRECTION_ALL) {
+            playerCard.clientOperation = OPERATION_MI_DIAN;
         }
 
         event.setIntelligenceCard(player, playerCard, allPlayerArray[randomIndex]);

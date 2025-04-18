@@ -66,7 +66,7 @@ export class _3_PlayerRounding implements Event {
         if (player != this.currentPlayer) {
             return;
         }
-        player.send("roomEvent/showButton", _3_PlayerRounding.SEND_BUTTON_INFO);
+        player.showButton(_3_PlayerRounding.SEND_BUTTON_INFO);
     }
 
     end3to_4_SendIntelligence(player: Player): void {

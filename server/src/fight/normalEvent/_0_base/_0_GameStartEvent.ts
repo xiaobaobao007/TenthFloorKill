@@ -21,7 +21,7 @@ export class _0_GameStartEvent implements Event {
     }
 
     prv(room: Room): void {
-        room.updateRoom();
+        room.updateRoomToAllPlayer();
     }
 
     doEvent(room: Room): void {

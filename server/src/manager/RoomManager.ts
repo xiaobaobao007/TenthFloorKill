@@ -3,6 +3,20 @@ import {Player} from "../model/Player";
 import {PlayerManager} from "./PlayerManager";
 
 export class RoomManager {
+    public static QUIT_ROOM_BUTTON = {classType: "cancel", root: "room/leave", name: "离开房间",};
+
+    public static readonly LEADER_START_BUTTON_INFO = {
+        buttonArray: [{classType: "success", root: "room/start", name: "开始游戏",}, RoomManager.QUIT_ROOM_BUTTON]
+    }
+
+    public static readonly OTHER_READY_BUTTON_INFO = {
+        buttonArray: [{classType: "success", root: "room/ready", name: "准备",}, RoomManager.QUIT_ROOM_BUTTON]
+    }
+
+    public static readonly OTHER_UNREADY_BUTTON_INFO = {
+        buttonArray: [{classType: "success", root: "room/unready", name: "已准备",}]
+    }
+
     private static roomId: number = 1000;
     private static _roomMap = new Map<string, Room>();
 
@@ -15,10 +29,11 @@ export class RoomManager {
         }
         player.send("base/changeBody", {body: "room"});
 
-        const room = new Room("" + this.roomId++);
+        const room = new Room("" + this.roomId);
         room.addPlayer(player);
         this._roomMap.set(room.roomId, room);
-        room.updateRoom();
+        room.updateRoomToAllPlayer();
+        room.updateLeaderButton();
     }
 
     public static join(player: Player, roomId: string) {
@@ -41,7 +56,8 @@ export class RoomManager {
         room.addPlayer(player);
 
         player.send("base/changeBody", {body: "room"});
-        room.updateRoom();
+        room.updateRoomToAllPlayer();
+        player.showButton(RoomManager.OTHER_READY_BUTTON_INFO);
     }
 
     public static leave(player: Player): boolean {
@@ -60,11 +76,11 @@ export class RoomManager {
         if (room.playerArray.length == 0) {
             this._roomMap.delete(room.roomId);
         } else {
-            room.updateRoom();
+            room.updateRoomToAllPlayer();
+            room.updateLeaderButton();
         }
 
         player.send("base/changeBody", {body: "hall"});
-
         return true;
     }
 
@@ -84,7 +100,37 @@ export class RoomManager {
             return;
         }
 
+        for (let p of room.playerArray) {
+            if (p == player) {
+                continue;
+            }
+            if (!p.ready) {
+                player.sendTips(p.account + "未准备");
+                return;
+            }
+        }
+
         room.gameStart();
+    }
+
+    public static ready(player: Player) {
+        const room = player.room;
+        if (!room || room.start) {
+            return;
+        }
+        player.ready = true;
+        player.showButton(RoomManager.OTHER_UNREADY_BUTTON_INFO);
+        room.updateLeaderButton();
+    }
+
+    public static unready(player: Player) {
+        const room = player.room;
+        if (!room || room.start) {
+            return;
+        }
+        player.ready = false;
+        player.showButton(RoomManager.OTHER_READY_BUTTON_INFO);
+        room.updateLeaderButton();
     }
 
     static get roomMap(): Map<string, Room> {

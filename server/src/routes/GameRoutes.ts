@@ -5,22 +5,22 @@ import {_3_PlayerRounding} from "../fight/normalEvent/_0_base/_3_PlayerRounding"
 import {_6_PlayerRoundEnd} from "../fight/normalEvent/_0_base/_6_PlayerRoundEnd";
 import {Card} from "../model/Card";
 import {_5_1_WaitingPlayerReceive} from "../fight/normalEvent/_5_IntelligenceCircle/_5_1_WaitingPlayerReceive";
-import {CARD_OPERATION} from "../util/Constant";
+import {OPERATION_MI_DIAN, OPERATION_REN_YI, OPERATION_WEN_BEN, OPERATION_ZHI_DA} from "../util/Constant";
 
 export class GameRoutes extends ServerClientRoutes {
 
-    // {"route":"game/sendIntelligence","data":{"cardArray":[{"cardId":"10","opz":""}],"playerAccountArray":["robot-2"]}}
+    // {"route":"game/sendIntelligence","data":{"cards":[{"cardId":"10","opz":""}],"accounts":["robot-2"]}}
     async sendIntelligence(player: Player, data: any) {
-        const cardClientInfo = data.cardArray[0];
+        const cardClientInfo = data.cards[0];
         let cardModel = player.findHandCardById(cardClientInfo.cardId);
         if (!cardModel) {
             player.sendTips("请重新选择情报");
             return;
         }
 
-        if (cardModel.operation === CARD_OPERATION.REN_YI) {
+        if (cardModel.operation === OPERATION_REN_YI) {
             const clientOperation = cardClientInfo.opz;
-            if (!clientOperation || (clientOperation != CARD_OPERATION.ZHI_DA && clientOperation != CARD_OPERATION.MI_DIAN && clientOperation != CARD_OPERATION.WEN_BEN)) {
+            if (!clientOperation || (clientOperation != OPERATION_ZHI_DA && clientOperation != OPERATION_MI_DIAN && clientOperation != OPERATION_WEN_BEN)) {
                 player.sendTips("请点击卡牌右上角选择传递方式");
                 return;
             }
@@ -29,7 +29,7 @@ export class GameRoutes extends ServerClientRoutes {
             cardModel.clientOperation = undefined;
         }
 
-        const targetPlayer = player.room!.findPlayerByAccount(data.playerAccountArray[0]);
+        const targetPlayer = player.room!.findPlayerByAccount(data.accounts[0]);
         if (!targetPlayer) {
             player.sendTips("请重新选择玩家");
             return;

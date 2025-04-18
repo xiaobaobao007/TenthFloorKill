@@ -11,6 +11,13 @@ class BaseRoutes extends ClientBaseRoutes {
         STRING_CONFIG = data.stringConfig
         EMOJI_CONFIG = data.emojiConfig
         openBody("hall");
+
+        ALL_CAMP = [];
+        for (const key in STRING_CONFIG) {
+            if (key.startsWith("camp_")) {
+                ALL_CAMP.push(key);
+            }
+        }
     }
 
 }

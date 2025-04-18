@@ -23,7 +23,7 @@ export class BaseRoutes extends ServerClientRoutes {
             return;
         }
         player.send("base/changeBody", {body: "room"});
-        player.room.updateRoom(player);
+        player.room.updateRoomToOnePlayer(player);
     }
 
 }

@@ -1,11 +1,15 @@
-let ACCOUNT = "";
+//当前配置
 let STRING_CONFIG = {};
 let EMOJI_CONFIG = {};
-let ROOM_DATA = {};
+let ALL_CAMP = [];
 
+//信息
+let ACCOUNT = "";
+let ROOM_DATA = {};
 let ALL_SEAT = [];
 let ALL_PLAYER = {};
 
+//缓存信息
 let SELECTED_CARD_DIVS = [];
 let SELECTED_CARD_NUM = -1;
 let SELECTED_PLAYER = undefined;
@@ -60,6 +64,12 @@ function addTips(tips) {
 
 function openBody(name) {
     $(".body").each(function () {
+        if (this.id !== "body-" + name) {
+            $(this).hide();
+        }
+    });
+
+    $(".body").each(function () {
         if (this.id === "body-" + name) {
             $(this).show();
             switch (name) {
@@ -73,8 +83,6 @@ function openBody(name) {
                     initRoom();
                     break;
             }
-        } else {
-            $(this).hide();
         }
     });
 }
