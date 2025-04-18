@@ -84,10 +84,10 @@ export const CAMP_BLUE = "camp_blue";
 export const CAMP_GREY = "camp_grey";
 
 //情报颜色
-export const COLOR_RED = "color_r";
-export const COLOR_GREY = "color_g";
-export const COLOR_BLUE = "color_b";
-export const COLOR_DOUBLE = "color_d";
+export const COLOR_RED = "r";
+export const COLOR_GREY = "g";
+export const COLOR_BLUE = "b";
+export const COLOR_DOUBLE = "d";
 
 //情报传递方式
 export const OPERATION_ZHI_DA = "ope_z";
