@@ -55,18 +55,15 @@
         <div onclick="joinRoom()">加入房间</div>
     </div>
     <div class="block" onclick="changeAccount()">切换<br>账号</div>
-    <div class="block"> 帮助</div>
-    <div class="block"> 更新<br>日志</div>
+    <div class="block">帮助</div>
+    <div class="block">更新<br>日志</div>
 </div>
 
 <!--房间界面-->
 <div class="waiting-room body" id="body-room">
     <div class="roomInfo">房间号：123</div>
     <!--    <div class="room-event clear"></div>-->
-    <div class="room-operation">
-        <div class="room-operation-button room-quit" onclick="quitRoom()">退出</div>
-        <div class="room-operation-button room-start" onclick="leaderStartGame()">开始游戏</div>
-    </div>
+    <div class="room-statistics-button" onclick="getStatistics()">查看战绩</div>
     <div class="my-card clear"></div>
     <div class="room-time-tips clear"></div>
     <div class="room-lastCard-tips clear"></div>
