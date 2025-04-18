@@ -31,9 +31,10 @@ export class RoomManager {
 
         const room = new Room("" + this.roomId);
         room.addPlayer(player);
-        this._roomMap.set(room.roomId, room);
         room.updateRoomToAllPlayer();
         room.updateLeaderButton();
+
+        this._roomMap.set(room.roomId, room);
     }
 
     public static join(player: Player, roomId: string) {
@@ -52,11 +53,12 @@ export class RoomManager {
             player.sendTips("房间满员了");
             return;
         }
+        player.send("base/changeBody", {body: "room"});
 
         room.addPlayer(player);
-
-        player.send("base/changeBody", {body: "room"});
         room.updateRoomToAllPlayer();
+        room.updateLeaderButton();
+
         player.showButton(RoomManager.OTHER_READY_BUTTON_INFO);
     }
 

@@ -5,6 +5,9 @@
  *     </div>
  */
 function updateRoomData() {
+    $(".room-time-tips").html("");
+    $(".room-lastCard-tips").html("");
+
     //设置房间号
     setHtml(".roomInfo", "房间号：" + ROOM_DATA.roomId);
 

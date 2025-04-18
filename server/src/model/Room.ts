@@ -46,8 +46,6 @@ export class Room {
 
         if (this._playerArray.length == 1) {
             this._leaderAccount = player.account;
-        } else {
-            this.updateLeaderButton();
         }
     }
 
@@ -101,6 +99,8 @@ export class Room {
             player.initGameStart();
         }
 
+        this.updateRoomToAllPlayer();
+
         for (let player of this._playerArray) {
             if (player.account == this._leaderAccount) {
                 this.updateLeaderButton();
@@ -109,12 +109,10 @@ export class Room {
             }
         }
 
-        this.updateRoomToAllPlayer();
-
-        let data = {
+        let openStatisticsData = {
             all: this.statistics
         };
-        this.broadcast("room/openStatistics", data);
+        this.broadcast("room/openStatistics", openStatisticsData);
     }
 
     private initGameStart() {
