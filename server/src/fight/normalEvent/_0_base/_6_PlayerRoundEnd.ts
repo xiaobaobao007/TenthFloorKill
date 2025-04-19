@@ -54,7 +54,7 @@ export class _6_PlayerRoundEnd implements Event {
             account: this.currentPlayer.account,
             time: this.lastTime,
             allTime: GAME_CONFIG._6_PlayerRoundEnd_TIME,
-            allTips: this.currentPlayer.account + "弃牌阶段",
+            allTips: "【" + this.currentPlayer.account + "】正在弃牌",
             myTips: "弃牌阶段，请弃掉" + discardNumber + "张手牌",
         });
     }

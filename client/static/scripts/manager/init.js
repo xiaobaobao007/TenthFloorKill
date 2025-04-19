@@ -31,5 +31,5 @@ function initRoom() {
     SELECTED_PLAYER_NUM = -1;
 
     $(".clear").html("");
-    $("body")[0].style.background = "linear-gradient(to right bottom, rgb(93 181 83 / 60%), rgb(255 4 4 / 45%))";
+    $("body")[0].style.background = "rgb(114 201 104 / 60%)";
 }

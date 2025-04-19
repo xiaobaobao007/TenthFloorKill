@@ -45,7 +45,7 @@ export class _3_PlayerRounding implements Event {
             account: this.currentPlayer.account,
             time: this.lastTime,
             allTime: GAME_CONFIG._3_PlayerRounding_TIME,
-            allTips: this.currentPlayer.account + "出牌阶段",
+            allTips: "【" + this.currentPlayer.account + "】的出牌阶段",
             // myTips: "请选择1张卡牌",
             myTips: "请直接点击【结束出牌】，卡牌效果暂时还未实现",
         };

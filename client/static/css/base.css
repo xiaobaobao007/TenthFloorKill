@@ -1,17 +1,22 @@
 body {
-    display: none;
+    display: flex;
     -webkit-user-select: none; /* Chrome, Safari, Opera */
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera and Firefox */
 
+    touch-action: manipulation;
+
     margin: 0;
     padding: 0;
     justify-content: center;
     align-items: center;
+    width: 100vw;
     height: 100vh;
-    font-family: Arial, sans-serif;
-    transition: background-color 0.2s ease;
+}
+
+::-webkit-scrollbar {
+    display: none;
 }
 
 .floating-popup {

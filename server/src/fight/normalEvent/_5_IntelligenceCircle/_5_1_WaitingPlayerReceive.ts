@@ -65,7 +65,7 @@ export class _5_1_WaitingPlayerReceive implements Event {
             account: this.currentPlayer.account,
             time: this.lastTime,
             allTime: GAME_CONFIG._5_1_WaitingPlayerReceive_TIME,
-            allTips: this.currentPlayer.account + "考虑" + this.sendPlayer.account + "接收阶段",
+            allTips: "【" + this.currentPlayer.account + "】正在考虑是否接收【" + this.sendPlayer.account + "】发出的情报",
             myTips: "请选择是否接收左上角展示的情报",
         }
 

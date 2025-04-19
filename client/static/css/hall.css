@@ -50,7 +50,3 @@
     outline: none;
     box-shadow: 3px 3px 12px 0px rgba(0, 0, 0, 0.3);
 }
-
-.hall-container::-webkit-scrollbar {
-    display: none;
-}

@@ -51,7 +51,7 @@ export class _4_SendIntelligence implements Event {
             account: this.currentPlayer.account,
             time: this.lastTime,
             allTime: GAME_CONFIG._4_SendIntelligence_TIME,
-            allTips: this.currentPlayer.account + "发情报阶段",
+            allTips: "【" + this.currentPlayer.account + "】正在思考发哪张情报",
             myTips: "请选择1张情报和1名玩家",
         };
 

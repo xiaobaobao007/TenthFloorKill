@@ -31,6 +31,10 @@ export class RoomRoutes extends ServerClientRoutes {
         if (!player.room) {
             return;
         }
+        if (player.room.statistics.length == 0) {
+            player.sendTips("当前还未进行过战斗");
+            return;
+        }
         let data = {
             all: player.room.statistics
         };

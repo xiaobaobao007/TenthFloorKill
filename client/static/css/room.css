@@ -1,18 +1,3 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
-
-::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-}
-
 .player-box {
     position: absolute;
     width: 8vw;
@@ -44,6 +29,7 @@ body {
     position: absolute;
     top: 0;
     right: 0;
+    font-size: 1.5vw;
 }
 
 .box-camp {
@@ -53,7 +39,7 @@ body {
     color: white;
     border-radius: 8px;
     font-size: 1vw;
-    padding: 0px 2px 1px 2px;
+    padding: 0px 2px 0px 2px;
 }
 
 .box-camp-camp_blue {
@@ -70,7 +56,7 @@ body {
 
 .box-camp-camp_ {
     color: #bf1010db;
-    background-color: #e1ff00;
+    background-color: rgba(225, 255, 0, 0.82);
 }
 
 .box-heroName {
@@ -140,7 +126,6 @@ body {
     left: 0.4vw;
     bottom: 0.2vw;
     color: rgb(40 247 4);
-    font-family: fantasy;
     font-size: 1.5vw;
 }
 
@@ -166,7 +151,7 @@ body {
 }
 
 .card-name {
-    margin-left: 50%;
+    margin-left: 3vw;
     writing-mode: vertical-lr;
     font-weight: bold;
     color: white;
@@ -195,7 +180,9 @@ body {
 }
 
 .card-operation-ope_ {
-    color: #00ffea;
+    color: #fb0000;
+    background-color: rgba(255, 255, 0, 0.57);
+    border-radius: 7px;
     font-style: oblique;
 }
 
@@ -280,7 +267,6 @@ body {
     top: 0vw;
     right: 0.6vw;
     font-size: 1.3vw;
-    font-family: fantasy;
 }
 
 .other-time-tips {
@@ -356,7 +342,7 @@ body {
     font-size: 3vw;
     font-style: italic;
     color: #e72727;
-    text-shadow: 5px 4px 5px #e58484;
+    text-shadow: 3px 3px 11px #e58484;
     justify-content: center;
 }
 
