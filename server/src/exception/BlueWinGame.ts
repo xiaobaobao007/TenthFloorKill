@@ -9,9 +9,6 @@ export class BlueWinGame extends GameOverError {
     }
 
     win(room: Room): void {
-        //强制重置前端所有玩家的阵营
-        //显示胜利玩家
-
         let winPlayer: Player[] = [];
         for (let player of room.playerArray) {
             if (player.camp == CAMP_BLUE) {

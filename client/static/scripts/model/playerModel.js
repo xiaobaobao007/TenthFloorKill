@@ -1,6 +1,7 @@
 function PlayerModel() {
     this.account = "";//账号
     this.camp = "";//阵营
+    this.live = true;//是否存活了
     this.handArray = [];//手牌
     this.intelligenceArray = [];//收到的情报
     this.div = undefined;
@@ -8,6 +9,7 @@ function PlayerModel() {
     this.init = function (data) {
         this.account = data.account;
         this.camp = data.camp;
+        this.live = data.live;
         for (const card of data.handCardArray) {
             const cardModel = new CardModel();
             cardModel.init(card);

@@ -93,6 +93,7 @@ export class Player {
         return {
             account: this.account,
             camp: sendPlayer == this ? this._camp : CAMP_,
+            live: this._live,
             handCardArray: this.getClientPlayerCardArray(this._handCardArray),
             intelligenceCardArray: this.getClientPlayerCardArray(this._intelligenceCardArray),
         }
@@ -145,6 +146,7 @@ export class Player {
     judgeDie() {
         if (this.intelligenceCardColorNum(COLOR_GREY) >= 3) {
             this._live = false;
+            this._room!.broadcast("roomEvent/dead", {account: this.account});
         }
     }
 

@@ -30,7 +30,7 @@ export class GameRoutes extends ServerClientRoutes {
         }
 
         const targetPlayer = player.room!.findPlayerByAccount(data.accounts[0]);
-        if (!targetPlayer) {
+        if (!targetPlayer || !targetPlayer.live) {
             player.sendTips("请重新选择玩家");
             return;
         }

@@ -44,6 +44,7 @@ export class _5_IntelligenceCircle implements Event {
         }
         this.sendClientInfo(room, this.sendPlayer);
         this.currentEventType = EventType.EFFECT;
+        this.sendPlayer.send("roomEvent/clearButton");
     }
 
     doEvent(room: Room): void {
@@ -71,13 +72,16 @@ export class _5_IntelligenceCircle implements Event {
 
             this.currentPlayer = room.playerArray[index];
         }
+
+        if (!this.currentPlayer.live) {
+            this.doEvent(room);
+        }
     }
 
     frameOver(room: Room): void {
     }
 
     nextEvent(room: Room): Event {
-        this.sendPlayer.send("roomEvent/clearButton");
         return new _5_1_WaitingPlayerReceive(this, this.sendPlayer, this.currentPlayer!, this.intelligenceCard);
     }
 

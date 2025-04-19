@@ -34,7 +34,11 @@ export class _1_SearchNextPlayer implements Event {
             this.currentPlayer = playerArray[0];
         }
 
-        return new _2_PlayerRoundStart(this.currentPlayer);
+        if (this.currentPlayer.live) {
+            return new _2_PlayerRoundStart(this.currentPlayer);
+        } else {
+            return this.nextEvent(room);
+        }
     }
 
     sendClientInfo(room: Room, player: Player): void {

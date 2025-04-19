@@ -217,3 +217,7 @@ function getQueryParams() {
     });
     return params;
 }
+
+function notPenetrate(event) {
+    event.stopPropagation();
+}

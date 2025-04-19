@@ -72,6 +72,10 @@ function updateAllPlayer() {
             }
 
             html += "<div class='player-intelligence player-intelligence-" + positionInfo.intelligence + " clear'></div>";
+
+            if (!playerModel.live) {
+                html += "<div class='dead' onclick='notPenetrate(event)'>已死亡</div>";
+            }
         }
 
         if (positionInfo.left) newPlayerDiv.style.left = positionInfo.left + "vw";

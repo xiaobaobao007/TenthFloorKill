@@ -113,6 +113,8 @@ export class Room {
             all: this.statistics
         };
         this.broadcast("room/openStatistics", openStatisticsData);
+
+        this.broadcast("room/gameOver");
     }
 
     private initGameStart() {

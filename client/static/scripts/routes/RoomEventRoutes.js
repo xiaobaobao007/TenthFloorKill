@@ -117,4 +117,7 @@ class RoomEventRoutes extends ClientBaseRoutes {
         $(".intelligence-card-show").remove();
     }
 
+    async dead(data) {
+        $(ALL_PLAYER[data.account].div).append("<div class='dead' onclick='notPenetrate(event)'>已死亡</div>");
+    }
 }
