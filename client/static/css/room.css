@@ -89,6 +89,9 @@
     position: absolute;
     flex-wrap: wrap;
     left: 0.5vw;
+    padding: 0.3vw;
+    width: 7.1vw;
+    background-color: #0000001a;
 }
 
 .player-intelligence-top {
@@ -337,7 +340,7 @@
     display: flex;
     left: 50vw;
     top: 17.5vw;
-    width: 68vw;
+    width: 90vw;
     translate: -50% 0;
     font-size: 3vw;
     font-style: italic;
@@ -531,4 +534,14 @@
     align-items: center;
     font-size: 3vw;
     color: #ffffffb5;
+}
+
+.my-intelligence-card {
+    display: none;
+    left: 19vw;
+    bottom: 26vw;
+    width: 51vw;
+    height: 11vw;
+    background: #fff8f8d1;
+    z-index: 999;
 }

@@ -9,14 +9,23 @@ function updateMyHandCard() {
     }
 }
 
+function addShowIntelligenceCard(cardModel) {
+    addCard(".my-intelligence-card", cardModel);
+}
+
 function addHandCard(cardModel) {
+    addCard(".my-card", cardModel);
+}
+
+function addCard(divSelect, cardModel) {
     let html = "";
     html += "<div class='card " + cardModel.getColorClass() + "' cardid='" + cardModel.allId + "'>";
     html += cardModel.getNameDiv();
     html += cardModel.getOperationDiv(true);
     html += cardModel.getTipsDiv();
     html += "</div>";
-    $(".my-card:first").append(html);
+
+    $(divSelect).append(html);
 
     setDivClickEvent("[cardid=" + cardModel.allId + "]", emptyFunction, cardPress);
 }
@@ -77,4 +86,20 @@ function changeOperation(event, div) {
     }
     jq.attr("ope", array[index])
     div.innerHTML = STRING_CONFIG[array[index]];
+}
+
+function showIntelligence(div) {
+    let chooseAccount = $(div).parent().children(".box-account:first").html();
+    const player = ALL_PLAYER[chooseAccount];
+
+    for (const card of player.intelligenceArray) {
+        addShowIntelligenceCard(card);
+    }
+
+    $(".my-intelligence-card").show();
+}
+
+function closeIntelligence() {
+    $(".my-intelligence-card").hide();
+    $(".my-intelligence-card").html("");
 }

@@ -71,7 +71,7 @@ function updateAllPlayer() {
                 html += "<div class='my-card-num'>" + playerModel.handArray.length + "</div>";
             }
 
-            html += "<div class='player-intelligence player-intelligence-" + positionInfo.intelligence + " clear'></div>";
+            html += "<div class='player-intelligence player-intelligence-" + positionInfo.intelligence + " clear' onclick='showIntelligence(this)'></div>";
 
             if (!playerModel.live) {
                 html += "<div class='dead' onclick='notPenetrate(event)'>已死亡</div>";
