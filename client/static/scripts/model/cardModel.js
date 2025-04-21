@@ -6,6 +6,7 @@ function CardModel() {
         this.direction = data.direction;
         this.operation = data.operation;
         this.lock = data.lock;
+        this.belong = data.belong;
     }
 
     this.getColorClass = function () {
@@ -68,6 +69,13 @@ function CardModel() {
 
     this.getIntelligenceDiv = function () {
         return "<div class='intelligence " + this.getColorClass() + "'></div>";
+    }
+
+    this.getAccountDiv = function () {
+        if (this.belong && this.belong.length > 0) {
+            return "<div class='card-account'>" + this.belong + "</div>";
+        }
+        return "";
     }
 
 }

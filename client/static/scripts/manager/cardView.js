@@ -1,7 +1,7 @@
 function updateMyHandCard() {
     const player = ALL_PLAYER[ACCOUNT];
 
-    const myHandCard = $(".my-card:first");
+    const myHandCard = $("#myHandCardPanel");
     myHandCard.html("");
 
     for (const one of player.handArray) {
@@ -10,11 +10,11 @@ function updateMyHandCard() {
 }
 
 function addShowIntelligenceCard(cardModel) {
-    addCard(".my-intelligence-card", cardModel);
+    addCard(".other-card", cardModel);
 }
 
 function addHandCard(cardModel) {
-    addCard(".my-card", cardModel);
+    addCard("#myHandCardPanel", cardModel);
 }
 
 function addCard(divSelect, cardModel) {
@@ -23,6 +23,7 @@ function addCard(divSelect, cardModel) {
     html += cardModel.getNameDiv();
     html += cardModel.getOperationDiv(true);
     html += cardModel.getTipsDiv();
+    html += cardModel.getAccountDiv();
     html += "</div>";
 
     $(divSelect).append(html);
@@ -90,16 +91,18 @@ function changeOperation(event, div) {
 
 function showIntelligence(div) {
     let chooseAccount = $(div).parent().children(".box-account:first").html();
+
+    $(".other-card-panel-tips").html(chooseAccount + "收到的情报展示");
+
     const player = ALL_PLAYER[chooseAccount];
 
     for (const card of player.intelligenceArray) {
         addShowIntelligenceCard(card);
     }
 
-    $(".my-intelligence-card").show();
+    $("#otherCardPanel").css("display", "flex");
 }
 
 function closeIntelligence() {
-    $(".my-intelligence-card").hide();
-    $(".my-intelligence-card").html("");
+    $("#otherCardPanel").css("display", "none");
 }

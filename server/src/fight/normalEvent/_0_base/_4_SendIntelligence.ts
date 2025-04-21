@@ -37,7 +37,7 @@ export class _4_SendIntelligence implements Event {
     prv(room: Room): void {
         if (this.currentPlayer.handCardArray.length == 0) {
             //当玩家手牌为0，则将牌堆顶加入玩家手牌
-            this.currentPlayer.addCardArray(room.getNewPlayerCard(1));
+            room.playerAddNewHandCard(this.currentPlayer, 1);
         }
         this.sendClientInfo(room, this.currentPlayer);
 

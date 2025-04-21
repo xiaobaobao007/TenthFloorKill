@@ -1,4 +1,5 @@
 import {OPERATION_WEN_BEN} from "../util/Constant";
+import {Player} from "./Player";
 
 export class Card {
     private _allId: string = "";
@@ -11,6 +12,7 @@ export class Card {
     //需要初始化的数据
     private _hand = true;//是否是手牌
     private _clientOperation: string | undefined;//客户端选择的情报传递方式
+    private belong: Player | undefined;//这是谁的牌
 
     constructor(data: any) {
         this.cardId = data.id;
@@ -18,6 +20,11 @@ export class Card {
         this.direction = data.dir;
         this.operation = data.ope;
         this.lock = !!data.lock;
+    }
+
+    public init(allId: string, belong: Player) {
+        this._allId = allId;
+        this.belong = belong;
     }
 
     public getSelfCardInfo() {
@@ -28,6 +35,7 @@ export class Card {
             direction: this.direction,
             operation: this.operation,
             lock: this.lock,
+            belong: this._hand ? undefined : this.belong?.account,
         };
     }
 
@@ -40,6 +48,7 @@ export class Card {
             allId: this._allId,
             direction: this.direction,
             operation: this._clientOperation ? this._clientOperation : this.operation,
+            belong: this.belong?.account,
         };
     }
 

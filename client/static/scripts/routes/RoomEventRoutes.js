@@ -99,15 +99,16 @@ class RoomEventRoutes extends ClientBaseRoutes {
     async updateAllIntelligence(data) {
         $(".intelligence-card-show").remove();
 
-        const card = new CardModel();
-        card.init(data);
+        const cardModel = new CardModel();
+        cardModel.init(data);
 
         let html = "";
-        html += "<div class='intelligence-card-show card intelligence-card " + card.getColorClass() + "'>";
+        html += "<div class='intelligence-card-show card intelligence-card " + cardModel.getColorClass() + "'>";
         html += "   <div class='intelligence-card-tips'>当前情报</div>";
-        html += card.getNameDiv();
-        html += card.getOperationDiv(false);
-        html += card.getTipsDiv();
+        html += cardModel.getNameDiv();
+        html += cardModel.getOperationDiv(false);
+        html += cardModel.getTipsDiv();
+        html += cardModel.getAccountDiv();
         html += "</div>";
 
         $("body").append(html);

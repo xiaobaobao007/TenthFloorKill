@@ -7,6 +7,7 @@ export class GameError extends GameOverError {
     }
 
     win(room: Room): void {
+        console.error(this);
         room.addStatistics(room.playerArray);
     }
 }

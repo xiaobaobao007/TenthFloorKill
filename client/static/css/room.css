@@ -161,6 +161,21 @@
     text-shadow: 2px 5px 11px #060606;
 }
 
+.card-account {
+    position: absolute;
+    writing-mode: vertical-rl;
+    text-wrap-mode: nowrap;
+    margin-left: 6.2vw;
+    margin-top: 10.8vw;
+    /*noinspection CssNegativeValue*/
+    height: -1vw;
+    width: 1px;
+    translate: 0 -100%;
+    font-size: 1.2vw;
+    font-style: italic;
+    color: #edff00;
+}
+
 .card-name-2 {
     font-size: 2.8vw;
     transform: translate(-50%, 25%);
@@ -536,12 +551,27 @@
     color: #ffffffb5;
 }
 
-.my-intelligence-card {
+#otherCardPanel {
     display: none;
-    left: 19vw;
-    bottom: 26vw;
-    width: 51vw;
-    height: 11vw;
-    background: #fff8f8d1;
-    z-index: 999;
+}
+
+.other-card {
+    position: absolute;
+    left: 50vw;
+    top: 20vw;
+    translate: -50% -50%;
+    background-color: #fff8f8d1;
+    z-index: 1000;
+}
+
+.other-card-panel-tips {
+    position: absolute;
+    left: 75vw;
+    top: 12.4vw;
+    translate: -100% -50%;
+    font-size: 1.5vw;
+    color: #ffffff;
+    z-index: 1001;
+    text-shadow: 0 0 4px #000000;
+    overflow-y: visible;
 }

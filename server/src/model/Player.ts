@@ -33,9 +33,13 @@ export class Player {
 
     initGameStart() {
         this._intelligenceCardArray.length = 0;
+        this.initGameOver();
+    }
+
+    initGameOver() {
         this._handCardArray.length = 0;
-        this._live = true;
         this._ready = false;
+        this._live = true;
     }
 
     public send(route: string, data: any = undefined) {

@@ -77,6 +77,8 @@ export class Room {
         this._cardIndex = CardManager.getInitCardIndex();
         this._discardIndex = [];
 
+        this.addRobot(1);
+
         //玩家位置打乱
         shuffleArray(this._playerArray);
 
@@ -96,7 +98,7 @@ export class Room {
 
     gameOver() {
         for (let player of this._playerArray) {
-            player.initGameStart();
+            player.initGameOver();
         }
 
         this.updateRoomToAllPlayer();
@@ -163,7 +165,7 @@ export class Room {
         sendPlayer.send("room/update", roomData);
     }
 
-    getNewPlayerCard(num: number): Card[] {
+    playerAddNewHandCard(player: Player, num: number) {
         let list: Card[] = [];
         for (let i = 0; i < num; i++) {
             let index = this._cardIndex.pop();
@@ -176,13 +178,13 @@ export class Room {
             }
 
             let card = CardManager.getNewPlayerCard(index);
-            card.allId = this.getNewIncIndex();
+            card.init(this.getNewIncIndex(), player);
             list.push(card);
         }
 
         this.broadcast("roomEvent/updateLastCardNum", {lastCardNum: this._cardIndex.length});
 
-        return list;
+        player.addCardArray(list);
     }
 
     private getNewIncIndex(): string {
@@ -277,6 +279,15 @@ export class Room {
             players: players
         };
         this._statistics.push(newStatistics);
+    }
+
+    private addRobot(num: number) {
+        for (let i = 1; i <= num; i++) {
+            const robot = new Player(undefined, "robot-" + i);
+            robot.room = this;
+            robot.ai = true;
+            this._playerArray.push(robot);
+        }
     }
 
     get leaderAccount(): string | undefined {

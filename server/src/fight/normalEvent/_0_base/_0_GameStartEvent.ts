@@ -26,8 +26,7 @@ export class _0_GameStartEvent implements Event {
 
     doEvent(room: Room): void {
         for (const player of room.playerArray) {
-            let playerCard = room.getNewPlayerCard(GAME_CONFIG.GAME_INIT_CARD_NUM);
-            player.addCardArray(playerCard);
+            room.playerAddNewHandCard(player, GAME_CONFIG.GAME_INIT_CARD_NUM);
         }
     }
 
