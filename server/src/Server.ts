@@ -8,6 +8,7 @@ import {ScheduleManager} from "./manager/schedule/ScheduleManager";
 import {CardManager} from "./manager/CardManager";
 import {SocketUtil} from "./util/SocketUtil";
 import {getNowStr} from "./util/MathUtil";
+import {InitManager} from "./manager/InitManager";
 
 const app = express();
 const server = createServer(app);
@@ -56,6 +57,9 @@ wsApp.ws('*', (socket, req) => {
 
 //初始化所有卡牌
 CardManager.initAllCard();
+
+//初始化
+InitManager.iniStringData();
 
 //添加定时任务
 ScheduleManager.init();

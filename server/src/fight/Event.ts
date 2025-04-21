@@ -15,9 +15,9 @@ export interface Event {
     //当前事件帧执行结束
     frameOver(room: Room): void;
 
-    //寻找下个事件
-    nextEvent(room: Room): Event;
+    //寻找下个事件 or 事件结束后的操作
+    nextEvent(room: Room): Event | undefined;
 
     //事件开始发送前端信息，同时为了断线重连恢复数据
-    sendClientInfo(room: Room, player: Player): void;
+    sendClientInfo(room: Room, player: Player | undefined): void;
 }

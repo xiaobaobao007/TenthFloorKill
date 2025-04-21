@@ -6,6 +6,7 @@ import {GAME_CONFIG} from "../../../util/Constant";
 import {_5_2_PlayerReceive} from "./_5_2_PlayerReceive";
 import {Card} from "../../../model/Card";
 import {_5_IntelligenceCircle} from "../_0_base/_5_IntelligenceCircle";
+import {CardManager} from "../../../manager/CardManager";
 
 export class _5_1_WaitingPlayerReceive implements Event {
     static readonly SEND_BUTTON_INFO = {
@@ -20,7 +21,7 @@ export class _5_1_WaitingPlayerReceive implements Event {
     private readonly currentPlayer: Player;
     private readonly intelligenceCard: Card;
 
-    private receive: boolean | undefined;
+    private receive: boolean | undefined;//当前玩家是否要接收这个情报
 
     private lastTime = GAME_CONFIG._5_1_WaitingPlayerReceive_TIME;
 
@@ -43,7 +44,7 @@ export class _5_1_WaitingPlayerReceive implements Event {
             return EventType.EFFECT;
         }
 
-        this.currentPlayer.send("roomEvent/clearButton");
+        this.currentPlayer.clearButton();
 
         if (this.receive) {
             return EventType.REMOVE_AND_NEXT;
@@ -53,6 +54,8 @@ export class _5_1_WaitingPlayerReceive implements Event {
 
     prv(room: Room): void {
         this.sendClientInfo(room, this.currentPlayer);
+
+        CardManager.judgeNewCardEventBy_5_1_WaitingPlayerReceive_before(room, this.fatherEvent, this.intelligenceCard);
 
         if (this.currentPlayer.ai) {
             this.lastTime = 0;
@@ -81,10 +84,10 @@ export class _5_1_WaitingPlayerReceive implements Event {
     }
 
     sendClientInfo(room: Room, player: Player): void {
-        if (player != this.currentPlayer) {
+        if (player && player != this.currentPlayer) {
             return;
         }
-        player.showButton(_5_1_WaitingPlayerReceive.SEND_BUTTON_INFO);
+        this.currentPlayer.showButton(_5_1_WaitingPlayerReceive.SEND_BUTTON_INFO);
     }
 
     setIsReceive(player: Player, receive: boolean) {

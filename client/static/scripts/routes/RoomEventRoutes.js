@@ -51,7 +51,24 @@ class RoomEventRoutes extends ClientBaseRoutes {
     }
 
     async updateTime(requestData) {
-        updateTimeTips(requestData.account, requestData.time, requestData.allTime, requestData.allTips, requestData.myTips);
+        let playerArray = undefined;
+        if (requestData.account) {
+            if (!ALL_PLAYER[requestData.account]) {
+                return;
+            }
+            playerArray = [ALL_PLAYER[requestData.account]];
+        } else {
+            playerArray = [];
+            for (const key in ALL_PLAYER) {
+                playerArray.push(ALL_PLAYER[key]);
+            }
+        }
+
+        if (!playerArray) {
+            return;
+        }
+
+        updateTimeTips(playerArray, requestData.time, requestData.allTime, requestData.allTips, requestData.myTips);
     }
 
     async updateLastCardNum(requestData) {

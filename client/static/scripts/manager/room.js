@@ -21,67 +21,63 @@ function updateRoomData() {
     updateMyHandCard();
 }
 
-function updateTimeTips(account, time, allTime, allTips, myTips) {
+function updateTimeTips(playerArray, time, allTime, allTips, myTips) {
     $(".room-time-tips:first").html(allTips);
-
-    if (!account) {
-        return;
-    }
 
     let rate = Math.floor(100 * time / allTime);
 
-    const isMe = account === ACCOUNT;
+    for (let player of playerArray) {
+        const isMe = player.account === ACCOUNT;
 
-    let timeDiv;
-    if (isMe) {
-        timeDiv = $(".my-time-tips");
-    } else {
-        const player = ALL_PLAYER[account];
-        timeDiv = $(player.div).children(".other-time-tips:first");
-    }
-
-    if (time <= 0) {
-        timeDiv.remove();
-        return;
-    }
-
-    if (timeDiv.length === 0) {
-        let html;
+        let timeDiv;
         if (isMe) {
-            html = "<div class='my-time-tips clear'>" +
-                "<div class='green-time-tips'></div>" +
-                "<div class='red-time-tips'></div>" +
-                "<div class='room-time-tips-content'>" + myTips + "</div>" +
-                "</div>";
-        } else {
-            html = "<div class='other-time-tips clear'>" +
-                "<div class='green-time-tips'></div>" +
-                "<div class='red-time-tips'></div>" +
-                "</div>";
-        }
-
-        if (isMe) {
-            $("#body-room").append(html);
             timeDiv = $(".my-time-tips");
         } else {
-            $(ALL_PLAYER[account].div).append(html);
-            const player = ALL_PLAYER[account];
             timeDiv = $(player.div).children(".other-time-tips:first");
         }
-    }
 
-    const children = timeDiv.children();
-    const green = children[0];
+        if (time <= 0) {
+            timeDiv.remove();
+            continue;
+        }
 
-    if (isMe) {
-        green.style.width = rate + "%";
-    } else {
-        green.style.height = rate + "%";
-    }
+        if (timeDiv.length === 0) {
+            let html;
+            if (isMe) {
+                html = "<div class='my-time-tips clear'>" +
+                    "<div class='green-time-tips'></div>" +
+                    "<div class='red-time-tips'></div>" +
+                    "<div class='room-time-tips-content'>" + myTips + "</div>" +
+                    "</div>";
+            } else {
+                html = "<div class='other-time-tips clear'>" +
+                    "<div class='green-time-tips'></div>" +
+                    "<div class='red-time-tips'></div>" +
+                    "</div>";
+            }
 
-    if (rate <= 30) {
-        if (!$(children[1]).hasClass('time-tips-light')) {
-            $(children[1]).addClass('time-tips-light');
+            if (isMe) {
+                $("#body-room").append(html);
+                timeDiv = $(".my-time-tips");
+            } else {
+                $(player.div).append(html);
+                timeDiv = $(player.div).children(".other-time-tips:first");
+            }
+        }
+
+        const children = timeDiv.children();
+        const green = children[0];
+
+        if (isMe) {
+            green.style.width = rate + "%";
+        } else {
+            green.style.height = rate + "%";
+        }
+
+        if (rate <= 30) {
+            if (!$(children[1]).hasClass('time-tips-light')) {
+                $(children[1]).addClass('time-tips-light');
+            }
         }
     }
 }

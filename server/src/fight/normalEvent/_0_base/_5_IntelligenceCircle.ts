@@ -14,6 +14,7 @@ export class _5_IntelligenceCircle implements Event {
 
     private currentEventType = EventType.NONE;
     private currentPlayer: Player | undefined;
+    private roundEvent: Event[] = [];//已成功执行影响的事件
 
     constructor(currentPlayer: Player, intelligenceCard: Card, targetPlayer: Player) {
         this.sendPlayer = currentPlayer;
@@ -45,7 +46,7 @@ export class _5_IntelligenceCircle implements Event {
         }
         this.sendClientInfo(room, this.sendPlayer);
         this.currentEventType = EventType.EFFECT;
-        this.sendPlayer.send("roomEvent/clearButton");
+        this.sendPlayer.clearButton();
     }
 
     doEvent(room: Room): void {
@@ -90,13 +91,18 @@ export class _5_IntelligenceCircle implements Event {
         const otherCardInfo = this.intelligenceCard!.getOtherCardInfo();
         otherCardInfo.direction = this.indexIsInc ? undefined : DIRECTION_ALL;
 
-        if (this.sendPlayer != player) {
-            player.send("roomEvent/updateAllIntelligence", otherCardInfo);
-            return;
+        if (player) {
+            if (this.sendPlayer == player) {
+                room.broadcastExclude("roomEvent/updateAllIntelligence", this.sendPlayer, otherCardInfo);
+                this.sendPlayer.send("roomEvent/updateAllIntelligence", this.intelligenceCard!.getSelfCardInfo());
+            } else {
+                player.send("roomEvent/updateAllIntelligence", otherCardInfo);
+            }
         }
 
-        room.broadcastExclude("roomEvent/updateAllIntelligence", this.sendPlayer, otherCardInfo);
-        this.sendPlayer.send("roomEvent/updateAllIntelligence", this.intelligenceCard!.getSelfCardInfo());
+        for (const event of this.roundEvent) {
+            event.sendClientInfo(room, undefined);
+        }
     }
 
     private getIndexIsInc(): boolean {
@@ -127,4 +133,7 @@ export class _5_IntelligenceCircle implements Event {
         this.currentEventType = EventType.REMOVE;
     }
 
+    addSuccessRoundEvent(event: Event): void {
+        this.roundEvent.push(event);
+    }
 }

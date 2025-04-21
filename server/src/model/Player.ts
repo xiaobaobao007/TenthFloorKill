@@ -44,6 +44,10 @@ export class Player {
 
     public send(route: string, data: any = undefined) {
         SocketUtil.send(this._socket, route, data);
+
+        if (route != "roomEvent/updateTime") {
+            console.info("发送", this.account, "--->", route, JSON.stringify(data));
+        }
     }
 
     public close() {
@@ -112,11 +116,15 @@ export class Player {
     }
 
     public sendTips(tips: string) {
-        SocketUtil.send(this._socket, "base/tips", {tips: tips});
+        this.send("base/tips", {tips: tips});
     }
 
     public showButton(info: any) {
-        SocketUtil.send(this._socket, "roomEvent/showButton", info);
+        this.send("roomEvent/showButton", info);
+    }
+
+    public clearButton() {
+        this.send("roomEvent/clearButton");
     }
 
     findHandCardById(cardId: string) {

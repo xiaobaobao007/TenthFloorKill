@@ -18,7 +18,8 @@ export class EventManager {
             const currentEvent = eventStack.peek()!;
 
             try {
-                switch (currentEvent.getEffectType(room)) {
+                const effectType = currentEvent.getEffectType(room);
+                switch (effectType) {
                     case EventType.PRE:
                         currentEvent.prv(room);
                         break;
@@ -26,14 +27,18 @@ export class EventManager {
                         currentEvent.doEvent(room);
                         break;
                     case EventType.NEXT:
-                        eventStack.push(currentEvent.nextEvent(room));
-                        break;
                     case EventType.REMOVE:
-                        eventStack.pop();
-                        break;
                     case EventType.REMOVE_AND_NEXT:
-                        eventStack.pop();
-                        eventStack.push(currentEvent.nextEvent(room));
+                        if (effectType != EventType.NEXT) {
+                            eventStack.pop();
+                        }
+                        if (effectType != EventType.REMOVE) {
+                            const nextEvent = currentEvent.nextEvent(room);
+                            if (nextEvent) eventStack.push(nextEvent);
+                        }
+                        if (effectType != EventType.NEXT) {
+                            eventStack.peek()?.sendClientInfo(room, undefined);
+                        }
                         break;
                     default:
                         break;

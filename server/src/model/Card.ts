@@ -57,7 +57,7 @@ export class Card {
         };
     }
 
-    public doEvent() {
+    public doEvent(player: Player, toCard: Card) {
     }
 
     get allId(): string {

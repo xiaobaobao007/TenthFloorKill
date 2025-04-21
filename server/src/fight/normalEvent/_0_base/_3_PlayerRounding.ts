@@ -58,15 +58,15 @@ export class _3_PlayerRounding implements Event {
     }
 
     nextEvent(room: Room): Event {
-        this.currentPlayer.send("roomEvent/clearButton");
+        this.currentPlayer.clearButton();
         return new _4_SendIntelligence(this.currentPlayer);
     }
 
     sendClientInfo(room: Room, player: Player): void {
-        if (player != this.currentPlayer) {
+        if (player && player != this.currentPlayer) {
             return;
         }
-        player.showButton(_3_PlayerRounding.SEND_BUTTON_INFO);
+        this.currentPlayer.showButton(_3_PlayerRounding.SEND_BUTTON_INFO);
     }
 
     end3to_4_SendIntelligence(player: Player): void {

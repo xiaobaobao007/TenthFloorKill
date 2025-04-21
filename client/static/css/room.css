@@ -88,9 +88,10 @@
     flex-direction: row;
     position: absolute;
     flex-wrap: wrap;
-    left: 0.5vw;
+    left: 0.2vw;
     padding: 0.3vw;
-    width: 7.1vw;
+    min-height: 0.7vw;
+    width: 7vw;
     background-color: #0000001a;
 }
 

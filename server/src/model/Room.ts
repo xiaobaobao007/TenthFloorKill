@@ -34,7 +34,7 @@ export class Room {
             return;
         }
 
-        if (this._playerArray.indexOf(player) >= 0) {
+        if (this._playerArray.includes(player)) {
             return;
         }
 
@@ -77,7 +77,7 @@ export class Room {
         this._cardIndex = CardManager.getInitCardIndex();
         this._discardIndex = [];
 
-        this.addRobot(1);
+        // this.addRobot(1);
 
         //玩家位置打乱
         shuffleArray(this._playerArray);
@@ -137,6 +137,18 @@ export class Room {
                 continue;
             }
             this._playerArray[i].send(route, data);
+        }
+    }
+
+    broadcastPlayers(route: string, players: Player[], data: any = undefined) {
+        for (let player of players) {
+            player.send(route, data);
+        }
+    }
+
+    clearButton() {
+        for (let i = 0; i < this._playerArray.length; i++) {
+            this._playerArray[i].clearButton();
         }
     }
 
@@ -269,7 +281,7 @@ export class Room {
                 account: player.account,
                 hero: "",
                 camp: player.camp,
-                win: winPlayerArray.indexOf(player) >= 0,
+                win: winPlayerArray.includes(player),
             });
         }
 

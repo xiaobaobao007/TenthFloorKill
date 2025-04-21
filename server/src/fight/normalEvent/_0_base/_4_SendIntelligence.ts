@@ -63,7 +63,7 @@ export class _4_SendIntelligence implements Event {
     }
 
     nextEvent(room: Room): Event {
-        this.currentPlayer.send("roomEvent/clearButton");
+        this.currentPlayer.clearButton();
 
         if (!this.intelligenceCard) {
             AIManager._4_SendIntelligence(this.currentPlayer, this);
@@ -73,10 +73,10 @@ export class _4_SendIntelligence implements Event {
     }
 
     sendClientInfo(room: Room, player: Player): void {
-        if (player != this.currentPlayer) {
+        if (player && player != this.currentPlayer) {
             return;
         }
-        player.showButton(_4_SendIntelligence.SEND_BUTTON_INFO);
+        this.currentPlayer.showButton(_4_SendIntelligence.SEND_BUTTON_INFO);
     }
 
     setIntelligenceCard(player: Player, card: Card, targetPlayer: Player): void {

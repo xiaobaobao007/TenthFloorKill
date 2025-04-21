@@ -27,7 +27,7 @@ export class _6_PlayerRoundEnd implements Event {
             return EventType.EFFECT;
         } else {
             this.disCard();
-            this.currentPlayer.send("roomEvent/clearButton");
+            this.currentPlayer.clearButton();
             return EventType.REMOVE;
         }
     }
@@ -68,14 +68,17 @@ export class _6_PlayerRoundEnd implements Event {
     }
 
     sendClientInfo(room: Room, player: Player): void {
-        if (player != this.currentPlayer) {
+        if (!player) {
             return;
         }
 
-        player.showButton({
-            buttonArray: [
-                {classType: "submit", needCardNum: player.handCardArray.length - GAME_CONFIG.MAX_CARD, root: "game/disCard", name: "弃掉",},
-            ]
+        if (player && player != this.currentPlayer) {
+            return;
+        }
+
+        let discardNumber = this.currentPlayer.handCardArray.length - GAME_CONFIG.MAX_CARD;
+        this.currentPlayer.showButton({
+            buttonArray: [{classType: "submit", needCardNum: discardNumber, root: "game/disCard", name: "弃掉"}]
         });
     }
 

@@ -6,6 +6,7 @@ import {_6_PlayerRoundEnd} from "../fight/normalEvent/_0_base/_6_PlayerRoundEnd"
 import {Card} from "../model/Card";
 import {_5_1_WaitingPlayerReceive} from "../fight/normalEvent/_5_IntelligenceCircle/_5_1_WaitingPlayerReceive";
 import {OPERATION_MI_DIAN, OPERATION_REN_YI, OPERATION_WEN_BEN, OPERATION_ZHI_DA} from "../util/Constant";
+import {_0_WaitPlayerUseCard} from "../fight/cardEvent/_0_WaitPlayerUseCard";
 
 export class GameRoutes extends ServerClientRoutes {
 
@@ -86,6 +87,32 @@ export class GameRoutes extends ServerClientRoutes {
             return;
         }
         (peek as _5_1_WaitingPlayerReceive).setIsReceive(player, receive);
+    }
+
+    async useCard(player: Player, data: any) {
+        const cardClientInfo = data.cards[0];
+        let cardModel = player.findHandCardById(cardClientInfo.cardId);
+        if (!cardModel) {
+            player.sendTips("请重新选择情报");
+            return;
+        }
+
+        const peek = player.room?.eventStack!.peek();
+        if (!(peek instanceof _0_WaitPlayerUseCard)) {
+            player.sendTips("操作超时");
+            return;
+        }
+
+        (peek as _0_WaitPlayerUseCard).use(player, cardModel);
+    }
+
+    async skipUseCard(player: Player) {
+        const peek = player.room?.eventStack!.peek();
+        if (!(peek instanceof _0_WaitPlayerUseCard)) {
+            player.sendTips("操作超时");
+            return;
+        }
+        (peek as _0_WaitPlayerUseCard).skip(player);
     }
 
 }

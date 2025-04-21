@@ -1,4 +1,5 @@
 import {
+    CARD_PO_YI,
     COLOR_BLUE,
     COLOR_DOUBLE,
     COLOR_GREY,
@@ -14,16 +15,20 @@ import {
 import {shuffleArray} from "../util/MathUtil";
 import {Card} from "../model/Card";
 import {Room} from "../model/Room";
+import {Player} from "../model/Player";
+import {_0_WaitPlayerUseCard} from "../fight/cardEvent/_0_WaitPlayerUseCard";
+import {_5_IntelligenceCircle} from "../fight/normalEvent/_0_base/_5_IntelligenceCircle";
+import {PoYi} from "../fight/card/PoYi";
 import {None} from "../fight/card/None";
 
 export class CardManager {
     private static readonly ALL_CARD_LIST: Card[] = [
-        new None("py", COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
-        new None("py", COLOR_GREY, DIRECTION_ALL, OPERATION_MI_DIAN, false),
-        new None("py", COLOR_BLUE, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
-        new None("py", COLOR_BLUE, DIRECTION_ALL, OPERATION_MI_DIAN, false),
-        new None("py", COLOR_RED, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
-        new None("py", COLOR_RED, DIRECTION_ALL, OPERATION_MI_DIAN, false),
+        new PoYi("py", COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new PoYi("py", COLOR_GREY, DIRECTION_ALL, OPERATION_MI_DIAN, false),
+        new PoYi("py", COLOR_BLUE, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new PoYi("py", COLOR_BLUE, DIRECTION_ALL, OPERATION_MI_DIAN, false),
+        new PoYi("py", COLOR_RED, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new PoYi("py", COLOR_RED, DIRECTION_ALL, OPERATION_MI_DIAN, false),
 
         new None("lj", COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
         new None("lj", COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
@@ -137,6 +142,36 @@ export class CardManager {
         return array;
     }
 
-    public static judgeNewCardEventBy_5_1_WaitingPlayerReceive_before(room: Room) {
+    private static readonly _5_1_WaitingPlayerReceive_before_card_array = [CARD_PO_YI];
+
+    public static judgeNewCardEventBy_5_1_WaitingPlayerReceive_before(room: Room, event: _5_IntelligenceCircle, eventCard: Card) {
+        let waitPlayers: Player[] | undefined;
+        let waitCardId: string | undefined;
+
+        for (let judgeCardId of this._5_1_WaitingPlayerReceive_before_card_array) {
+            for (let player of room.playerArray) {
+                for (let handCard of player.handCardArray) {
+                    if (handCard.cardId != judgeCardId) {
+                        continue;
+                    }
+                    if (!waitPlayers) {
+                        waitPlayers = [];
+                        waitCardId = handCard.cardId;
+                    }
+                    waitPlayers.push(player);
+                    break;
+                }
+            }
+
+            if (waitPlayers != undefined) {
+                break;
+            }
+        }
+
+        if (waitPlayers == undefined) {
+            return;
+        }
+
+        room.eventStack.push(new _0_WaitPlayerUseCard(event, waitPlayers, eventCard, waitCardId!));
     }
 }
