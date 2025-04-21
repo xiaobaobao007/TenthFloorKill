@@ -62,7 +62,7 @@ function updateAllPlayer() {
             if (ROOM_DATA.running) {
                 html += "<div class='box-camp box-camp-" + playerModel.camp + "' onclick ='changeCamp(event,this)' camp='" + playerModel.camp + "'> " + STRING_CONFIG[playerModel.camp] + "</div>";
             } else if (ROOM_DATA.leaderAccount === playerModel.account) {
-                html += "<div class='box-leader'>" + EMOJI_CONFIG.leader + "</div>";
+                html += "<div class='box-leader'>" + getEmoji("leader") + "</div>";
             }
 
             html += "<div class='box-heroName'></div>";

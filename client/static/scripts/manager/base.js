@@ -221,3 +221,11 @@ function getQueryParams() {
 function notPenetrate(event) {
     event.stopPropagation();
 }
+
+function getEmoji(name) {
+    const s = STRING_CONFIG[name + "_emoji"];
+    if (s && s.length > 0) {
+        return s;
+    }
+    return "";
+}

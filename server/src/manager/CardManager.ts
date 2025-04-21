@@ -1,23 +1,127 @@
-import {CARD_ALL} from "../util/Constant";
+import {
+    COLOR_BLUE,
+    COLOR_DOUBLE,
+    COLOR_GREY,
+    COLOR_RED,
+    DIRECTION_ALL,
+    DIRECTION_RIGHT,
+    OPERATION_MI_DIAN,
+    OPERATION_REN_YI,
+    OPERATION_WEN_BEN,
+    OPERATION_ZHI_DA
+} from "../util/Constant";
+
 import {shuffleArray} from "../util/MathUtil";
 import {Card} from "../model/Card";
+import {Room} from "../model/Room";
+import {None} from "../fight/card/None";
 
 export class CardManager {
-    private static ALL_CARD_LIST: Card[] = [];
+    private static readonly ALL_CARD_LIST: Card[] = [
+        new None("py", COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new None("py", COLOR_GREY, DIRECTION_ALL, OPERATION_MI_DIAN, false),
+        new None("py", COLOR_BLUE, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new None("py", COLOR_BLUE, DIRECTION_ALL, OPERATION_MI_DIAN, false),
+        new None("py", COLOR_RED, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new None("py", COLOR_RED, DIRECTION_ALL, OPERATION_MI_DIAN, false),
+
+        new None("lj", COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new None("lj", COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new None("lj", COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new None("lj", COLOR_BLUE, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new None("lj", COLOR_RED, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+
+        new None("mmxd", COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new None("mmxd", COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new None("mmxd", COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new None("mmxd", COLOR_BLUE, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new None("mmxd", COLOR_BLUE, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new None("mmxd", COLOR_BLUE, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new None("mmxd", COLOR_RED, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new None("mmxd", COLOR_RED, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new None("mmxd", COLOR_RED, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+
+        new None("sp", COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new None("sp", COLOR_GREY, DIRECTION_ALL, OPERATION_MI_DIAN, false),
+        new None("sp", COLOR_BLUE, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new None("sp", COLOR_BLUE, DIRECTION_ALL, OPERATION_MI_DIAN, false),
+        new None("sp", COLOR_RED, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new None("sp", COLOR_RED, DIRECTION_ALL, OPERATION_MI_DIAN, false),
+
+        new None("db", COLOR_GREY, DIRECTION_RIGHT, OPERATION_WEN_BEN, true),
+        new None("db", COLOR_BLUE, DIRECTION_ALL, OPERATION_WEN_BEN, true),
+        new None("db", COLOR_BLUE, DIRECTION_ALL, OPERATION_WEN_BEN, true),
+        new None("db", COLOR_RED, DIRECTION_ALL, OPERATION_WEN_BEN, true),
+        new None("db", COLOR_RED, DIRECTION_ALL, OPERATION_WEN_BEN, true),
+
+        new None("jh", COLOR_GREY, DIRECTION_ALL, OPERATION_MI_DIAN, false),
+        new None("jh", COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new None("jh", COLOR_BLUE, DIRECTION_ALL, OPERATION_MI_DIAN, false),
+        new None("jh", COLOR_BLUE, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new None("jh", COLOR_RED, DIRECTION_ALL, OPERATION_MI_DIAN, false),
+        new None("jh", COLOR_RED, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+
+        new None("dhls", COLOR_GREY, DIRECTION_ALL, OPERATION_MI_DIAN, false),
+        new None("dhls", COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new None("dhls", COLOR_BLUE, DIRECTION_ALL, OPERATION_MI_DIAN, false),
+        new None("dhls", COLOR_BLUE, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new None("dhls", COLOR_RED, DIRECTION_ALL, OPERATION_MI_DIAN, false),
+        new None("dhls", COLOR_RED, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+
+        new None("gkwb", COLOR_GREY, DIRECTION_ALL, OPERATION_WEN_BEN, false),
+        new None("gkwb", COLOR_GREY, DIRECTION_ALL, OPERATION_WEN_BEN, false),
+        new None("gkwb", COLOR_GREY, DIRECTION_ALL, OPERATION_WEN_BEN, false),
+        new None("gkwb", COLOR_BLUE, DIRECTION_RIGHT, OPERATION_WEN_BEN, true),
+        new None("gkwb", COLOR_RED, DIRECTION_RIGHT, OPERATION_WEN_BEN, true),
+
+        new None("sh", COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new None("sh", COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new None("sh", COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new None("sh", COLOR_BLUE, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new None("sh", COLOR_RED, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+
+        new None("zhuanyi", COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new None("zhuanyi", COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new None("zhuanyi", COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new None("zhuanyi", COLOR_BLUE, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new None("zhuanyi", COLOR_RED, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+
+        new None("jmwj", COLOR_DOUBLE, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new None("jmwj", COLOR_DOUBLE, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new None("jmwj", COLOR_DOUBLE, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+
+        new None("sd", COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new None("sd", COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new None("sd", COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, true),
+        new None("sd", COLOR_BLUE, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new None("sd", COLOR_BLUE, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new None("sd", COLOR_BLUE, DIRECTION_ALL, OPERATION_ZHI_DA, true),
+        new None("sd", COLOR_RED, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new None("sd", COLOR_RED, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new None("sd", COLOR_RED, DIRECTION_ALL, OPERATION_ZHI_DA, true),
+
+        new None("wxqb", COLOR_GREY, DIRECTION_RIGHT, OPERATION_REN_YI, true),
+        new None("wxqb", COLOR_GREY, DIRECTION_RIGHT, OPERATION_REN_YI, true),
+        new None("wxqb", COLOR_GREY, DIRECTION_ALL, OPERATION_REN_YI, true),
+        new None("wxqb", COLOR_GREY, DIRECTION_ALL, OPERATION_REN_YI, true),
+        new None("wxqb", COLOR_GREY, DIRECTION_ALL, OPERATION_REN_YI, true),
+
+        new None("zengyuan", COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new None("zengyuan", COLOR_BLUE, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new None("zengyuan", COLOR_RED, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+
+        new None("st", COLOR_GREY, DIRECTION_ALL, OPERATION_MI_DIAN, false),
+        new None("st", COLOR_GREY, DIRECTION_ALL, OPERATION_MI_DIAN, false),
+        new None("st", COLOR_GREY, DIRECTION_ALL, OPERATION_MI_DIAN, false),
+        new None("st", COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new None("st", COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new None("st", COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new None("st", COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new None("st", COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new None("st", COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+    ];
 
     public static initAllCard() {
-        let map = new Map<string, Card>();
-        let list = [];
-
-        for (let oneCard of CARD_ALL) {
-            for (let i = 0; i < oneCard.num; i++) {
-                const card = new Card(oneCard);
-                map.set(card.allId, card);
-                list.push(card);
-            }
-        }
-
-        this.ALL_CARD_LIST = list;
         console.info("卡牌初始化成功，数量：", this.ALL_CARD_LIST.length);
     }
 
@@ -31,5 +135,8 @@ export class CardManager {
         for (let i = 0; i < length; i++) array.push(i);
         shuffleArray(array);
         return array;
+    }
+
+    public static judgeNewCardEventBy_5_1_WaitingPlayerReceive_before(room: Room) {
     }
 }

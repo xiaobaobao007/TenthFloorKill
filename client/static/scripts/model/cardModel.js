@@ -27,33 +27,17 @@ function CardModel() {
     this.getTipsDiv = function () {
         let tips = "";
         if (this.operation !== "ope_z" && this.direction === "dir_") {
-            tips += EMOJI_CONFIG.dir_;
+            tips += getEmoji("dir_");
         }
-        if (this.lock) tips += EMOJI_CONFIG.lock;
+        if (this.lock) tips += getEmoji("lock");
         return "<div class='card-tips'>" + tips + "</div>";
     };
 
     this.getOperationDiv = function (isHand) {
-        let op = "";
-        switch (this.operation) {
-            case "ope_z" :
-                op = EMOJI_CONFIG.ope_z;
-                break;
-            case "ope_m" :
-                op = EMOJI_CONFIG.ope_m;
-                break;
-            case "ope_w" :
-                op = EMOJI_CONFIG.ope_w;
-                break;
-            case "ope_" :
-                op = EMOJI_CONFIG.ope_;
-                break;
-        }
-
         if (isHand && this.operation === "ope_") {
             return "<div class='card-operation card-operation-ope_' onclick='changeOperation(event,this)'>切换</div>";
         }
-        return "<div class='card-operation'>" + op + "</div>";
+        return "<div class='card-operation'>" + getEmoji(this.operation) + "</div>";
     };
 
 

@@ -1,23 +1,24 @@
 class BaseRoutes extends ClientBaseRoutes {
-    async tips(data) {
-        addTips(data.tips);
+    async tips(response) {
+        addTips(response.tips);
     }
 
-    async changeBody(data) {
-        openBody(data.body);
+    async changeBody(response) {
+        openBody(response.body);
     }
 
-    async loginBack(data) {
-        STRING_CONFIG = data.stringConfig
-        EMOJI_CONFIG = data.emojiConfig
-        openBody("hall");
-
+    async loginBack(response) {
+        STRING_CONFIG = {};
         ALL_CAMP = [];
-        for (const key in STRING_CONFIG) {
-            if (key.startsWith("camp_")) {
-                ALL_CAMP.push(key);
+
+        for (const data of response.stringConfig) {
+            STRING_CONFIG[data.name] = data.value;
+            if (data.name.startsWith("camp_")) {
+                ALL_CAMP.push(data.name);
             }
         }
+
+        openBody("hall");
     }
 
 }
