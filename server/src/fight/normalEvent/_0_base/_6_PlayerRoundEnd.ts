@@ -76,11 +76,7 @@ export class _6_PlayerRoundEnd implements Event {
     }
 
     sendClientInfo(room: Room, player: Player): void {
-        if (!player) {
-            return;
-        }
-
-        if (player && player != this.currentPlayer) {
+        if (!player || (player && player != this.currentPlayer)) {
             return;
         }
 

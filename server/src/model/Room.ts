@@ -42,9 +42,9 @@ export class Room {
 
         player.initInRoom(this);
 
-        this.addEventTips(player.account + "加入房间");
-
         this._playerArray.push(player);
+
+        this.addEventTips(player.account + "加入房间");
 
         if (this._playerArray.length == 1) {
             this._leaderAccount = player.account;
@@ -80,6 +80,9 @@ export class Room {
         this._discardIndex = [];
 
         // this.addRobot(1);
+        // for (let player of this._playerArray.splice(0, 1)) {
+        //     this._playerArray.push(player);
+        // }
 
         //玩家位置打乱
         shuffleArray(this._playerArray);
@@ -212,7 +215,7 @@ export class Room {
     }
 
     playerReLogin(player: Player): void {
-        this.updateLastCardNum();
+        player.send(ROUTER.roomEvent.UPDATE_LAST_CARD_NUM, this._cardIndex.length + "/" + this._discardIndex.length);
     }
 
     updateLastCardNum() {

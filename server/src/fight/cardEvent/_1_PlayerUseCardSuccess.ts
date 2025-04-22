@@ -6,17 +6,17 @@ import {Card} from "../../model/Card";
 
 export class _1_PlayerUseCardSuccess implements Event {
     private readonly player: Player;
-    private readonly useCard: Card;
+    private readonly playerCard: Card;
     private readonly eventCard: Card;
 
     /**
      * @param player 使用玩家
-     * @param useCard 玩家使用了什么卡牌
+     * @param playerCard 玩家使用了什么卡牌
      * @param effectCard 对什么卡牌使用的
      */
-    constructor(player: Player, useCard: Card, effectCard: Card) {
+    constructor(player: Player, playerCard: Card, effectCard: Card) {
         this.player = player;
-        this.useCard = useCard;
+        this.playerCard = playerCard;
         this.eventCard = effectCard;
     }
 
@@ -44,7 +44,7 @@ export class _1_PlayerUseCardSuccess implements Event {
         if (!player || player != this.player) {
             return;
         }
-        this.useCard.doEvent(this.player, this.eventCard);
+        this.playerCard.doEvent(this.player, this.eventCard);
         room.clearButton();
     }
 

@@ -58,7 +58,7 @@ export class Card {
         };
     }
 
-    public doEvent(player: Player, toCard: Card) {
+    public doEvent(player: Player, eventCard: Card) {
     }
 
     public canUse(toCard: Card): boolean {

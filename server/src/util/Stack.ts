@@ -32,9 +32,9 @@ export class Stack<T> {
         this.items = [];
     }
 
-    //反转所有元素
-    reverse(): void {
-        this.items.reverse();
+    //获得数组
+    getItems(): T[] {
+        return this.items;
     }
 
     printStack(): string {

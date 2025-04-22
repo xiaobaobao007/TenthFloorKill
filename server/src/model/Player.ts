@@ -45,7 +45,12 @@ export class Player {
     public send(route: string, data: any = undefined) {
         SocketUtil.send(this._socket, route, data);
 
-        if (route == ROUTER.roomEvent.UPDATE_TIME || route == ROUTER.base.LOGIN_BACK) {
+        if (route == ROUTER.roomEvent.UPDATE_TIME) {
+            return;
+        }
+
+        if (route == ROUTER.base.LOGIN_BACK || route == ROUTER.room.UPDATE || !route) {
+            console.info("发送", this.account, "--->", route);
             return;
         }
 

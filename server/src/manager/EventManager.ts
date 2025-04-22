@@ -85,4 +85,13 @@ export class EventManager {
         console.info("游戏结束", room.roomId, err.message);
     }
 
+    static getEvent(room: Room, name: string): Event | undefined {
+        for (let event of room.eventStack.getItems()) {
+            if (event.constructor.name === name) {
+                return event;
+            }
+        }
+        return undefined;
+    }
+
 }

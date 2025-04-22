@@ -1,5 +1,6 @@
 import {
     CARD_PO_YI,
+    CARD_SHI_PO,
     COLOR_BLUE,
     COLOR_DOUBLE,
     COLOR_GREY,
@@ -11,24 +12,23 @@ import {
     OPERATION_WEN_BEN,
     OPERATION_ZHI_DA
 } from "../util/Constant";
-
-import {shuffleArray} from "../util/MathUtil";
 import {Card} from "../model/Card";
 import {Room} from "../model/Room";
 import {Player} from "../model/Player";
 import {_0_WaitPlayerUseCard} from "../fight/cardEvent/_0_WaitPlayerUseCard";
-import {_5_IntelligenceCircle} from "../fight/normalEvent/_0_base/_5_IntelligenceCircle";
 import {PoYi} from "../fight/card/PoYi";
 import {None} from "../fight/card/None";
+import {shuffleArray} from "../util/MathUtil";
+import {ShiPo} from "../fight/card/ShiPo";
 
 export class CardManager {
     private static readonly ALL_CARD_LIST: Card[] = [
-        new PoYi("py", COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
-        new PoYi("py", COLOR_GREY, DIRECTION_ALL, OPERATION_MI_DIAN, false),
-        new PoYi("py", COLOR_BLUE, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
-        new PoYi("py", COLOR_BLUE, DIRECTION_ALL, OPERATION_MI_DIAN, false),
-        new PoYi("py", COLOR_RED, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
-        new PoYi("py", COLOR_RED, DIRECTION_ALL, OPERATION_MI_DIAN, false),
+        new PoYi(CARD_PO_YI, COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new PoYi(CARD_PO_YI, COLOR_GREY, DIRECTION_ALL, OPERATION_MI_DIAN, false),
+        new PoYi(CARD_PO_YI, COLOR_BLUE, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new PoYi(CARD_PO_YI, COLOR_BLUE, DIRECTION_ALL, OPERATION_MI_DIAN, false),
+        new PoYi(CARD_PO_YI, COLOR_RED, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new PoYi(CARD_PO_YI, COLOR_RED, DIRECTION_ALL, OPERATION_MI_DIAN, false),
 
         new None("lj", COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
         new None("lj", COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
@@ -46,12 +46,12 @@ export class CardManager {
         new None("mmxd", COLOR_RED, DIRECTION_ALL, OPERATION_ZHI_DA, false),
         new None("mmxd", COLOR_RED, DIRECTION_ALL, OPERATION_ZHI_DA, false),
 
-        new None("sp", COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
-        new None("sp", COLOR_GREY, DIRECTION_ALL, OPERATION_MI_DIAN, false),
-        new None("sp", COLOR_BLUE, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
-        new None("sp", COLOR_BLUE, DIRECTION_ALL, OPERATION_MI_DIAN, false),
-        new None("sp", COLOR_RED, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
-        new None("sp", COLOR_RED, DIRECTION_ALL, OPERATION_MI_DIAN, false),
+        new ShiPo(CARD_SHI_PO, COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new ShiPo(CARD_SHI_PO, COLOR_GREY, DIRECTION_ALL, OPERATION_MI_DIAN, false),
+        new ShiPo(CARD_SHI_PO, COLOR_BLUE, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new ShiPo(CARD_SHI_PO, COLOR_BLUE, DIRECTION_ALL, OPERATION_MI_DIAN, false),
+        new ShiPo(CARD_SHI_PO, COLOR_RED, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new ShiPo(CARD_SHI_PO, COLOR_RED, DIRECTION_ALL, OPERATION_MI_DIAN, false),
 
         new None("db", COLOR_GREY, DIRECTION_RIGHT, OPERATION_WEN_BEN, true),
         new None("db", COLOR_BLUE, DIRECTION_ALL, OPERATION_WEN_BEN, true),
@@ -143,12 +143,14 @@ export class CardManager {
     }
 
     public static readonly _5_1_WaitingPlayerReceive_before_card_array: string[] = [CARD_PO_YI];
+    public static readonly WAIT_SHI_PO: string[] = [CARD_SHI_PO];
 
-    public static judgeCardEvent(room: Room, event: _5_IntelligenceCircle, eventCard: Card, cardEventArray: string[]) {
+    public static judgeCardEvent(room: Room, eventCard: Card, cardEventArray: string[], startIndex: number = 0): boolean {
         let waitPlayers: Player[] | undefined;
         let waitCardId: string | undefined;
 
-        for (let judgeCardId of cardEventArray) {
+        for (; startIndex < cardEventArray.length; startIndex++) {
+            let judgeCardId = cardEventArray[startIndex];
             for (let player of room.playerArray) {
                 if (player.ai || !player.live) {
                     continue;
@@ -167,9 +169,10 @@ export class CardManager {
             }
 
             if (waitPlayers != undefined) {
-                room.eventStack.push(new _0_WaitPlayerUseCard(event, waitPlayers, eventCard, waitCardId!, cardEventArray));
-                return;
+                room.eventStack.push(new _0_WaitPlayerUseCard(waitPlayers, eventCard, waitCardId!, cardEventArray, startIndex));
+                return true;
             }
         }
+        return false;
     }
 }

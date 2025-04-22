@@ -20,8 +20,8 @@ function scanRoutesFolder(folderPath: string) {
     return routeClasses;
 }
 
-function loadRoutes() {
-    const routerHandelMap = new Map<string, any>();
+export function loadRoutes() {
+    const _routerHandelMap = new Map<string, any>();
     const folderPath = path.join(__dirname, ''); // 假设路由类文件都在 'routes' 文件夹下
     const routeClasses = scanRoutesFolder(folderPath);
 
@@ -38,7 +38,7 @@ function loadRoutes() {
             const fullRoute = (routePrefix ? `${routePrefix}/${handlerName}` : handlerName).toLowerCase();
             // console.info("addRoute：", fullRoute);
             const handler = routeInstance[handlerName].bind(routeInstance);
-            routerHandelMap.set(fullRoute, handler);
+            _routerHandelMap.set(fullRoute, handler);
 
             routeNum++;
         }
@@ -46,7 +46,5 @@ function loadRoutes() {
 
     console.info("路由加载成功！！！,数量：", routeNum);
 
-    return routerHandelMap;
+    return _routerHandelMap;
 }
-
-export const routerHandelMap = loadRoutes();

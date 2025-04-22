@@ -2,17 +2,19 @@ import express from 'express';
 import {createServer} from 'http';
 import expressWs from 'express-ws';
 import 'reflect-metadata';
-import {routerHandelMap} from "./routes/Routes";
 import {PlayerManager} from "./manager/PlayerManager";
 import {ScheduleManager} from "./manager/schedule/ScheduleManager";
 import {CardManager} from "./manager/CardManager";
 import {ROUTER, SocketUtil} from "./util/SocketUtil";
 import {getNowStr} from "./util/MathUtil";
 import {InitManager} from "./manager/InitManager";
+import {loadRoutes} from "./routes/Routes";
 
 const app = express();
 const server = createServer(app);
 const {app: wsApp, getWss} = expressWs(app, server);
+
+export const routerHandelMap = loadRoutes();
 
 wsApp.ws('*', (socket, req) => {
     socket.on('close', async (message: string) => {

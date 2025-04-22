@@ -240,28 +240,29 @@
 
 .room-event {
     position: absolute;
-    left: 50vw;
-    top: 16vw;
-    width: 37vw;
-    height: 8vw;
-    translate: -50% 0;
+    right: 13vw;
+    bottom: 18vw;
+    width: 23vw;
+    height: 14vw;
     background-color: rgba(199, 136, 136, 0.89);
     border-radius: 22px;
-    padding: 0 17px 10px 17px;
+    padding: 0 17px 3px 17px;
     overflow-y: scroll;
     transition: all 0.3s ease;
 }
 
 .room-event.large {
-    top: 4vh;
+    bottom: 4vh;
+    width: 38vw;
     height: 90vh;
     z-index: 2000;
 }
 
 .room-event-one {
     color: #9f0048;
-    font-size: 1vw;
-    margin-top: 7px;
+    font-size: 1.5vw;
+    margin-top: 3px;
+    margin-bottom: 4px;
     border-width: 0 0 1px 0;
     border-style: dashed;
     border-color: #b3ff4e;
@@ -384,7 +385,7 @@
     top: 2vw;
     color: #c5fbb9;
     background-color: #635fef;
-    padding: 3px 9px 5px 9px;
+    padding: 1px 9px 1px 9px;
     font-size: 2vw;
     font-weight: bolder;
     border-radius: 20px;

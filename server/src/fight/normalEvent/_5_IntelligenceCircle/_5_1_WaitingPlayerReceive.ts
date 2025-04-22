@@ -56,7 +56,7 @@ export class _5_1_WaitingPlayerReceive implements Event {
     prv(room: Room): void {
         this.sendClientInfo(room, this.currentPlayer);
 
-        CardManager.judgeCardEvent(room, this.fatherEvent, this.intelligenceCard, CardManager._5_1_WaitingPlayerReceive_before_card_array);
+        CardManager.judgeCardEvent(room, this.intelligenceCard, CardManager._5_1_WaitingPlayerReceive_before_card_array);
 
         if (this.currentPlayer.ai) {
             this.lastTime = 0;

@@ -4,7 +4,7 @@ import {EventType} from "../EventType";
 import {PoYi} from "../card/PoYi";
 import {ROUTER} from "../../util/SocketUtil";
 
-export class PoYiCardEvent implements Event {
+export class ShiPoCardEvent implements Event {
     poyiCard: PoYi;
     effectToCard: PoYi;
 

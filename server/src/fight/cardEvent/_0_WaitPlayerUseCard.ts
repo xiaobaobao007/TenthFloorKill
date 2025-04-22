@@ -3,12 +3,13 @@ import {Event} from "../Event";
 import {EventType} from "../EventType";
 import {Player} from "../../model/Player";
 import {Card} from "../../model/Card";
-import {CARD_NAME, GAME_CONFIG} from "../../util/Constant";
+import {_CARD_NAME, GAME_CONFIG} from "../../util/Constant";
 import {InitManager} from "../../manager/InitManager";
-import {_5_IntelligenceCircle} from "../normalEvent/_0_base/_5_IntelligenceCircle";
 import {_1_PlayerUseCardSuccess} from "./_1_PlayerUseCardSuccess";
 import {CardManager} from "../../manager/CardManager";
 import {ROUTER} from "../../util/SocketUtil";
+import {EventManager} from "../../manager/EventManager";
+import {_5_IntelligenceCircle} from "../normalEvent/_0_base/_5_IntelligenceCircle";
 
 export class _0_WaitPlayerUseCard implements Event {
     private static readonly SEND_BUTTON_INFO = {
@@ -18,26 +19,28 @@ export class _0_WaitPlayerUseCard implements Event {
         ]
     }
 
-    private readonly fatherEvent: _5_IntelligenceCircle;
     private readonly playerArray: Player[];
     private readonly eventCard: Card;
     private readonly cardId: string;
     private readonly cardName: string;
-    private readonly cardEventArray: string[];
+    private readonly eventArray: string[];
+    private readonly eventIndex: number;
 
     private skipPlayerArray: Player[] = [];//跳过使用
+
     private player: Player | undefined;//谁使用了卡牌
     private useCard: Card | undefined;//使用了什么卡牌
 
+    private canAskShiPo = true;
     private lastTime = GAME_CONFIG._0_WaitPlayerUseCard_TIME;
 
-    constructor(fatherEvent: _5_IntelligenceCircle, playerArray: Player[], eventCard: Card, cardId: string, cardEventArray: string[]) {
-        this.fatherEvent = fatherEvent;
+    constructor(playerArray: Player[], eventCard: Card, cardId: string, eventArray: string[], eventIndex: number) {
         this.playerArray = playerArray;
         this.eventCard = eventCard;
         this.cardId = cardId;
-        this.cardName = InitManager.getStringValue(cardId + CARD_NAME)!;
-        this.cardEventArray = cardEventArray;
+        this.cardName = InitManager.getStringValue(cardId + _CARD_NAME)!;
+        this.eventArray = eventArray;
+        this.eventIndex = eventIndex;
     }
 
     getEffectType(room: Room): EventType {
@@ -45,7 +48,15 @@ export class _0_WaitPlayerUseCard implements Event {
             return EventType.PRE;
         } else if (this.lastTime >= 0) {
             return EventType.NONE;
+        } else if (!this.player) {
+            return EventType.REMOVE;
         } else {
+            //等待识破
+            if (this.canAskShiPo && CardManager.judgeCardEvent(room, this.useCard!, CardManager.WAIT_SHI_PO)) {
+                this.canAskShiPo = false;
+                return EventType.NONE;
+            }
+            //使用成功
             return EventType.REMOVE_AND_NEXT;
         }
     }
@@ -82,12 +93,11 @@ export class _0_WaitPlayerUseCard implements Event {
 
     nextEvent(room: Room): undefined {
         if (this.player) {
-            this.player.removeCard(this.useCard!, true);
-            let event = new _1_PlayerUseCardSuccess(this.player, this.useCard!, this.eventCard);
-            event.sendClientInfo(room, this.player);
-            this.fatherEvent.addSuccessRoundEvent(event);
-            CardManager.judgeCardEvent(room, this.fatherEvent, this.eventCard, this.cardEventArray);
+            const fatherEvent = EventManager.getEvent(this.player.room!, _5_IntelligenceCircle.name) as _5_IntelligenceCircle;
+            const currentEvent = fatherEvent.roundEvent.peek();
+            currentEvent?.sendClientInfo(room, this.player);
         }
+        CardManager.judgeCardEvent(room, this.eventCard, this.eventArray, this.eventIndex + 1);
         return;
     }
 
@@ -114,6 +124,13 @@ export class _0_WaitPlayerUseCard implements Event {
         this.player = player;
         this.useCard = useCard;
         this.lastTime = 0;
+
+        this.player.removeCard(this.useCard!, true);
+
+        const fatherEvent = EventManager.getEvent(player.room!, _5_IntelligenceCircle.name) as _5_IntelligenceCircle;
+        fatherEvent.roundEvent.push(new _1_PlayerUseCardSuccess(this.player, this.useCard!, this.eventCard));
+
+        player.room!.addEventTips("【" + player.account + "】使用了一张【" + this.cardName + "】");
     }
 
     skip(player: Player) {
