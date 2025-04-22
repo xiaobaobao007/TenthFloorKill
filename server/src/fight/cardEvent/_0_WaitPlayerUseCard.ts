@@ -7,6 +7,7 @@ import {CARD_NAME, GAME_CONFIG} from "../../util/Constant";
 import {InitManager} from "../../manager/InitManager";
 import {_5_IntelligenceCircle} from "../normalEvent/_0_base/_5_IntelligenceCircle";
 import {_1_PlayerUseCardSuccess} from "./_1_PlayerUseCardSuccess";
+import {CardManager} from "../../manager/CardManager";
 
 export class _0_WaitPlayerUseCard implements Event {
     private static readonly SEND_BUTTON_INFO = {
@@ -21,6 +22,7 @@ export class _0_WaitPlayerUseCard implements Event {
     private readonly eventCard: Card;
     private readonly cardId: string;
     private readonly cardName: string;
+    private readonly cardEventArray: string[];
 
     private skipPlayerArray: Player[] = [];//跳过使用
     private player: Player | undefined;//谁使用了卡牌
@@ -28,19 +30,20 @@ export class _0_WaitPlayerUseCard implements Event {
 
     private lastTime = GAME_CONFIG._0_WaitPlayerUseCard_TIME;
 
-    constructor(fatherEvent: _5_IntelligenceCircle, playerArray: Player[], eventCard: Card, cardId: string) {
+    constructor(fatherEvent: _5_IntelligenceCircle, playerArray: Player[], eventCard: Card, cardId: string, cardEventArray: string[]) {
         this.fatherEvent = fatherEvent;
         this.playerArray = playerArray;
         this.eventCard = eventCard;
         this.cardId = cardId;
         this.cardName = InitManager.getStringValue(cardId + CARD_NAME)!;
+        this.cardEventArray = cardEventArray;
     }
 
     getEffectType(room: Room): EventType {
         if (this.lastTime === GAME_CONFIG._4_SendIntelligence_TIME) {
             return EventType.PRE;
         } else if (this.lastTime >= 0) {
-            return EventType.EFFECT;
+            return EventType.NONE;
         } else {
             return EventType.REMOVE_AND_NEXT;
         }
@@ -51,42 +54,49 @@ export class _0_WaitPlayerUseCard implements Event {
     }
 
     doEvent(room: Room): void {
-        let data = {
-            time: this.lastTime,
-            allTime: GAME_CONFIG._0_WaitPlayerUseCard_TIME,
-            allTips: "某人正在思考是否使用【" + this.cardName + "】",
-            myTips: "",
-        };
-
-        for (let player of room.playerArray) {
-            if (this.playerArray.includes(player)) {
-                data.myTips = "请选择1张【" + this.cardName + "】卡牌使用";
-            } else {
-                data.myTips = "其他玩家正在思考是否使用【" + this.cardName + "】";
-            }
-            player.send("roomEvent/updateTime", data);
-        }
+        throw new Error("Method not implemented.");
     }
 
     frameOver(room: Room): void {
+        if (this.lastTime % GAME_CONFIG.UPDATE_PLAYER_TIME == 0) {
+            let data = {
+                time: this.lastTime,
+                allTime: GAME_CONFIG._0_WaitPlayerUseCard_TIME,
+                allTips: "某人正在思考是否使用【" + this.cardName + "】",
+                myTips: "",
+            };
+
+            for (let player of room.playerArray) {
+                if (this.playerArray.includes(player) && !this.skipPlayerArray.includes(player)) {
+                    data.myTips = "请选择1张【" + this.cardName + "】卡牌使用";
+                } else {
+                    data.myTips = "其他玩家正在思考是否使用【" + this.cardName + "】";
+                }
+                player.send("roomEvent/updateTime", data);
+            }
+        }
+
         this.lastTime -= GAME_CONFIG.GAME_FRAME_TIME;
     }
 
     nextEvent(room: Room): undefined {
         if (this.player) {
+            this.player.removeCard(this.useCard!);
             let event = new _1_PlayerUseCardSuccess(this.player, this.useCard!, this.eventCard);
             event.sendClientInfo(room, this.player);
             this.fatherEvent.addSuccessRoundEvent(event);
+            CardManager.judgeCardEvent(room, this.fatherEvent, this.eventCard, this.cardEventArray);
         }
         return;
     }
 
     sendClientInfo(room: Room): void {
-        for (let player of this.playerArray) {
-            if (this.skipPlayerArray.includes(player)) {
-                continue;
+        for (let player of room.playerArray) {
+            if (this.playerArray.includes(player) && player.haveCardByCardId(this.cardId)) {
+                player.showButton(_0_WaitPlayerUseCard.SEND_BUTTON_INFO);
+            } else {
+                player.clearButton();
             }
-            player.showButton(_0_WaitPlayerUseCard.SEND_BUTTON_INFO);
         }
     }
 

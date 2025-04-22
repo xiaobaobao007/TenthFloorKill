@@ -26,7 +26,7 @@ export class _3_PlayerRounding implements Event {
         if (this.lastTime === GAME_CONFIG._3_PlayerRounding_TIME) {
             return EventType.PRE;
         } else if (this.lastTime >= 0) {
-            return EventType.EFFECT;
+            return EventType.NONE;
         } else {
             return EventType.REMOVE_AND_NEXT;
         }
@@ -41,19 +41,23 @@ export class _3_PlayerRounding implements Event {
     }
 
     doEvent(room: Room): void {
-        let data = {
-            account: this.currentPlayer.account,
-            time: this.lastTime,
-            allTime: GAME_CONFIG._3_PlayerRounding_TIME,
-            allTips: "【" + this.currentPlayer.account + "】的出牌阶段",
-            // myTips: "请选择1张卡牌",
-            myTips: "请直接点击【结束出牌】，卡牌效果暂时还未实现",
-        };
-
-        room.broadcast("roomEvent/updateTime", data);
+        throw new Error("Method not implemented.");
     }
 
     frameOver(room: Room): void {
+        if (this.lastTime % GAME_CONFIG.UPDATE_PLAYER_TIME == 0) {
+            let data = {
+                account: this.currentPlayer.account,
+                time: this.lastTime,
+                allTime: GAME_CONFIG._3_PlayerRounding_TIME,
+                allTips: "【" + this.currentPlayer.account + "】的出牌阶段",
+                // myTips: "请选择1张卡牌",
+                myTips: "请直接点击【结束出牌】，卡牌效果暂时还未实现",
+            };
+
+            room.updateTime(data);
+        }
+
         this.lastTime -= GAME_CONFIG.GAME_FRAME_TIME;
     }
 

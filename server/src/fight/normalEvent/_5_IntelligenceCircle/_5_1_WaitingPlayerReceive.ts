@@ -41,7 +41,7 @@ export class _5_1_WaitingPlayerReceive implements Event {
         if (this.lastTime === GAME_CONFIG._5_1_WaitingPlayerReceive_TIME) {
             return EventType.PRE;
         } else if (this.lastTime >= 0) {
-            return EventType.EFFECT;
+            return EventType.NONE;
         }
 
         this.currentPlayer.clearButton();
@@ -55,7 +55,7 @@ export class _5_1_WaitingPlayerReceive implements Event {
     prv(room: Room): void {
         this.sendClientInfo(room, this.currentPlayer);
 
-        CardManager.judgeNewCardEventBy_5_1_WaitingPlayerReceive_before(room, this.fatherEvent, this.intelligenceCard);
+        CardManager.judgeCardEvent(room, this.fatherEvent, this.intelligenceCard, CardManager._5_1_WaitingPlayerReceive_before_card_array);
 
         if (this.currentPlayer.ai) {
             this.lastTime = 0;
@@ -64,18 +64,22 @@ export class _5_1_WaitingPlayerReceive implements Event {
     }
 
     doEvent(room: Room): void {
-        let data = {
-            account: this.currentPlayer.account,
-            time: this.lastTime,
-            allTime: GAME_CONFIG._5_1_WaitingPlayerReceive_TIME,
-            allTips: "【" + this.currentPlayer.account + "】正在考虑是否接收【" + this.sendPlayer.account + "】发出的情报",
-            myTips: "请选择是否接收左上角展示的情报",
-        }
-
-        room.broadcast("roomEvent/updateTime", data);
+        throw new Error("Method not implemented.");
     }
 
     frameOver(room: Room): void {
+        if (this.lastTime % GAME_CONFIG.UPDATE_PLAYER_TIME == 0) {
+            let data = {
+                account: this.currentPlayer.account,
+                time: this.lastTime,
+                allTime: GAME_CONFIG._5_1_WaitingPlayerReceive_TIME,
+                allTips: "【" + this.currentPlayer.account + "】正在考虑是否接收【" + this.sendPlayer.account + "】发出的情报",
+                myTips: "请选择是否接收左上角展示的情报",
+            }
+
+            room.updateTime(data);
+        }
+
         this.lastTime -= GAME_CONFIG.GAME_FRAME_TIME;
     }
 

@@ -172,6 +172,15 @@ export class Player {
         return num;
     }
 
+    haveCardByCardId(cardId: string): boolean {
+        for (let card of this._handCardArray) {
+            if (card.cardId == cardId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // get set
     get socket(): WebSocket | undefined {
         return this._socket;

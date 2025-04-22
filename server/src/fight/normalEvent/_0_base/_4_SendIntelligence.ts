@@ -28,7 +28,7 @@ export class _4_SendIntelligence implements Event {
         if (this.lastTime === GAME_CONFIG._4_SendIntelligence_TIME) {
             return EventType.PRE;
         } else if (this.lastTime >= 0) {
-            return EventType.EFFECT;
+            return EventType.NONE;
         } else {
             return EventType.REMOVE_AND_NEXT;
         }
@@ -47,18 +47,20 @@ export class _4_SendIntelligence implements Event {
     }
 
     doEvent(room: Room): void {
-        let data = {
-            account: this.currentPlayer.account,
-            time: this.lastTime,
-            allTime: GAME_CONFIG._4_SendIntelligence_TIME,
-            allTips: "【" + this.currentPlayer.account + "】正在思考发哪张情报",
-            myTips: "请选择1张情报和1名玩家",
-        };
-
-        room.broadcast("roomEvent/updateTime", data);
+        throw new Error("Method not implemented.");
     }
 
     frameOver(room: Room): void {
+        if (this.lastTime % GAME_CONFIG.UPDATE_PLAYER_TIME == 0) {
+            room.updateTime({
+                account: this.currentPlayer.account,
+                time: this.lastTime,
+                allTime: GAME_CONFIG._4_SendIntelligence_TIME,
+                allTips: "【" + this.currentPlayer.account + "】正在思考发哪张情报",
+                myTips: "请选择1张情报和1名玩家",
+            });
+        }
+
         this.lastTime -= GAME_CONFIG.GAME_FRAME_TIME;
     }
 

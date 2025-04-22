@@ -24,7 +24,7 @@ export class _6_PlayerRoundEnd implements Event {
         if (this.lastTime === GAME_CONFIG._6_PlayerRoundEnd_TIME) {
             return EventType.PRE;
         } else if (this.lastTime >= 0) {
-            return EventType.EFFECT;
+            return EventType.NONE;
         } else {
             this.disCard();
             this.currentPlayer.clearButton();
@@ -48,18 +48,22 @@ export class _6_PlayerRoundEnd implements Event {
     }
 
     doEvent(room: Room): void {
-        const discardNumber = this.currentPlayer.handCardArray.length - GAME_CONFIG.MAX_CARD;
-
-        room.broadcast("roomEvent/updateTime", {
-            account: this.currentPlayer.account,
-            time: this.lastTime,
-            allTime: GAME_CONFIG._6_PlayerRoundEnd_TIME,
-            allTips: "【" + this.currentPlayer.account + "】正在弃牌",
-            myTips: "弃牌阶段，请弃掉" + discardNumber + "张手牌",
-        });
+        throw new Error("Method not implemented.");
     }
 
     frameOver(room: Room): void {
+        if (this.lastTime % GAME_CONFIG.UPDATE_PLAYER_TIME == 0) {
+            const discardNumber = this.currentPlayer.handCardArray.length - GAME_CONFIG.MAX_CARD;
+
+            room.updateTime({
+                account: this.currentPlayer.account,
+                time: this.lastTime,
+                allTime: GAME_CONFIG._6_PlayerRoundEnd_TIME,
+                allTips: "【" + this.currentPlayer.account + "】正在弃牌",
+                myTips: "弃牌阶段，请弃掉" + discardNumber + "张手牌",
+            });
+        }
+
         this.lastTime -= GAME_CONFIG.GAME_FRAME_TIME;
     }
 

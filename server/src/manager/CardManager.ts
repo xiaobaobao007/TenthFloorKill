@@ -142,13 +142,13 @@ export class CardManager {
         return array;
     }
 
-    private static readonly _5_1_WaitingPlayerReceive_before_card_array = [CARD_PO_YI];
+    public static readonly _5_1_WaitingPlayerReceive_before_card_array: string[] = [CARD_PO_YI];
 
-    public static judgeNewCardEventBy_5_1_WaitingPlayerReceive_before(room: Room, event: _5_IntelligenceCircle, eventCard: Card) {
+    public static judgeCardEvent(room: Room, event: _5_IntelligenceCircle, eventCard: Card, cardEventArray: string[]) {
         let waitPlayers: Player[] | undefined;
         let waitCardId: string | undefined;
 
-        for (let judgeCardId of this._5_1_WaitingPlayerReceive_before_card_array) {
+        for (let judgeCardId of cardEventArray) {
             for (let player of room.playerArray) {
                 for (let handCard of player.handCardArray) {
                     if (handCard.cardId != judgeCardId) {
@@ -164,14 +164,9 @@ export class CardManager {
             }
 
             if (waitPlayers != undefined) {
-                break;
+                room.eventStack.push(new _0_WaitPlayerUseCard(event, waitPlayers, eventCard, waitCardId!, cardEventArray));
+                return;
             }
         }
-
-        if (waitPlayers == undefined) {
-            return;
-        }
-
-        room.eventStack.push(new _0_WaitPlayerUseCard(event, waitPlayers, eventCard, waitCardId!));
     }
 }

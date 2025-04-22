@@ -152,6 +152,10 @@ export class Room {
         }
     }
 
+    updateTime(data: any) {
+        this.broadcast("roomEvent/updateTime", data);
+    }
+
     updateRoomToAllPlayer(sendPlayer: Player | undefined = undefined) {
         if (sendPlayer) {
             this.updateRoomToOnePlayer(sendPlayer);

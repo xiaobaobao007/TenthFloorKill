@@ -63,6 +63,8 @@ function updateTimeTips(playerArray, time, allTime, allTips, myTips) {
                 $(player.div).append(html);
                 timeDiv = $(player.div).children(".other-time-tips:first");
             }
+        } else if (isMe) {
+            $(".room-time-tips-content").html(myTips);
         }
 
         const children = timeDiv.children();
