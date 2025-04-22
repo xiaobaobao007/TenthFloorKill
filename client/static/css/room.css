@@ -240,14 +240,22 @@
 
 .room-event {
     position: absolute;
-    left: 26vw;
-    top: 18vw;
-    width: 26vw;
-    height: 15vw;
-    background-color: rgb(199 136 136 / 78%);
+    left: 50vw;
+    top: 16vw;
+    width: 37vw;
+    height: 8vw;
+    translate: -50% 0;
+    background-color: rgba(199, 136, 136, 0.89);
     border-radius: 22px;
     padding: 0 17px 10px 17px;
     overflow-y: scroll;
+    transition: all 0.3s ease;
+}
+
+.room-event.large {
+    top: 4vh;
+    height: 90vh;
+    z-index: 2000;
 }
 
 .room-event-one {
@@ -349,20 +357,6 @@
     font-size: 1.5vw;
     font-weight: bolder;
     border-radius: 5px;
-}
-
-.room-time-tips {
-    position: absolute;
-    display: flex;
-    left: 50vw;
-    top: 17.5vw;
-    width: 90vw;
-    translate: -50% 0;
-    font-size: 3vw;
-    font-style: italic;
-    color: #e72727;
-    text-shadow: 3px 3px 11px #e58484;
-    justify-content: center;
 }
 
 .room-lastCard-tips {

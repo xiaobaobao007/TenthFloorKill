@@ -1,6 +1,6 @@
 import {Player} from "../model/Player";
 import {WebSocket} from "ws";
-import {SocketUtil} from "../util/SocketUtil";
+import {ROUTER, SocketUtil} from "../util/SocketUtil";
 import {RoomManager} from "./RoomManager";
 
 export class PlayerManager {
@@ -61,8 +61,8 @@ export class PlayerManager {
     }
 
     public static logout(socket: WebSocket, tips: string) {
-        SocketUtil.send(socket, "base/changeBody", {body: "login"});
-        SocketUtil.send(socket, "base/tips", {tips: tips});
+        SocketUtil.send(socket, ROUTER.base.CHANGE_BODY, "login");
+        SocketUtil.send(socket, ROUTER.base.TIPS, tips);
         socket.close();
 
         let player = this.socketMap.get(socket);
@@ -78,12 +78,12 @@ export class PlayerManager {
         if (!player) {
             return;
         }
+        player.ai = true;
 
         if (RoomManager.leave(player)) {
             this.accountMap.delete(player.account);
-        } else {
-            player.ai = true;
         }
+
         this.socketMap.delete(socket);
     }
 }

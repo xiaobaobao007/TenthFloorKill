@@ -47,6 +47,7 @@ export class _5_1_WaitingPlayerReceive implements Event {
         this.currentPlayer.clearButton();
 
         if (this.receive) {
+            room.addEventTips("【" + this.currentPlayer.account + "】选择接收情报")
             return EventType.REMOVE_AND_NEXT;
         }
         return EventType.REMOVE;
@@ -74,6 +75,7 @@ export class _5_1_WaitingPlayerReceive implements Event {
                 time: this.lastTime,
                 allTime: GAME_CONFIG._5_1_WaitingPlayerReceive_TIME,
                 allTips: "【" + this.currentPlayer.account + "】正在考虑是否接收【" + this.sendPlayer.account + "】发出的情报",
+                allTipsHideEvent: true,
                 myTips: "请选择是否接收左上角展示的情报",
             }
 

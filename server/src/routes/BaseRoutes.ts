@@ -1,6 +1,7 @@
 import {Player} from "../model/Player";
 import {CLIENT_STRING_DATA} from "../util/Constant";
 import {ServerClientRoutes} from "./ServerClientRoutes";
+import {ROUTER} from "../util/SocketUtil";
 
 export class BaseRoutes extends ServerClientRoutes {
     async login(player: Player) {
@@ -8,7 +9,7 @@ export class BaseRoutes extends ServerClientRoutes {
             stringConfig: CLIENT_STRING_DATA
         }
 
-        player.send("base/loginBack", data);
+        player.send(ROUTER.base.LOGIN_BACK, data);
 
         if (!player.reLogin) {
             return;
@@ -21,7 +22,7 @@ export class BaseRoutes extends ServerClientRoutes {
         if (!player.room || !player.room.start) {
             return;
         }
-        player.send("base/changeBody", {body: "room"});
+        player.send(ROUTER.base.CHANGE_BODY, "room");
         player.room.updateRoomToOnePlayer(player);
     }
 

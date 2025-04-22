@@ -8,6 +8,7 @@ import {InitManager} from "../../manager/InitManager";
 import {_5_IntelligenceCircle} from "../normalEvent/_0_base/_5_IntelligenceCircle";
 import {_1_PlayerUseCardSuccess} from "./_1_PlayerUseCardSuccess";
 import {CardManager} from "../../manager/CardManager";
+import {ROUTER} from "../../util/SocketUtil";
 
 export class _0_WaitPlayerUseCard implements Event {
     private static readonly SEND_BUTTON_INFO = {
@@ -72,7 +73,7 @@ export class _0_WaitPlayerUseCard implements Event {
                 } else {
                     data.myTips = "其他玩家正在思考是否使用【" + this.cardName + "】";
                 }
-                player.send("roomEvent/updateTime", data);
+                player.send(ROUTER.roomEvent.UPDATE_TIME, data);
             }
         }
 
@@ -81,7 +82,7 @@ export class _0_WaitPlayerUseCard implements Event {
 
     nextEvent(room: Room): undefined {
         if (this.player) {
-            this.player.removeCard(this.useCard!);
+            this.player.removeCard(this.useCard!, true);
             let event = new _1_PlayerUseCardSuccess(this.player, this.useCard!, this.eventCard);
             event.sendClientInfo(room, this.player);
             this.fatherEvent.addSuccessRoundEvent(event);

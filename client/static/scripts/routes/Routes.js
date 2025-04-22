@@ -12,11 +12,8 @@ function loadRoutes() {
 
         for (const handlerName of routeHandlers) {
             const fullRoute = (routePrefix ? `${routePrefix}/${handlerName}` : handlerName).toLowerCase();
-            // console.info("addRoute：", fullRoute);
             const handler = routeInstance[handlerName].bind(routeInstance);
             routerHandelMap.set(fullRoute, handler);
         }
     }
-
-    console.info("路由加载成功");
 }

@@ -7,6 +7,8 @@ import {_0_GameStartEvent} from "../fight/normalEvent/_0_base/_0_GameStartEvent"
 import {Stack} from "../util/Stack";
 import {CAMP_BLUE, CAMP_CONFIG, CAMP_GREY, CAMP_RED} from "../util/Constant";
 import {RoomManager} from "../manager/RoomManager";
+import {GameSpecialError} from "../exception/GameSpecialError";
+import {ROUTER} from "../util/SocketUtil";
 
 export class Room {
     public readonly roomId: string;//房间号
@@ -40,7 +42,7 @@ export class Room {
 
         player.initInRoom(this);
 
-        this.broadcast("roomEvent/newEvent", {name: player.account + "加入房间"});
+        this.addEventTips(player.account + "加入房间");
 
         this._playerArray.push(player);
 
@@ -62,7 +64,7 @@ export class Room {
             this._leaderAccount = this._playerArray[0].account;
         }
 
-        this.broadcast("roomEvent/newEvent", {name: player.account + "离开房间"});
+        this.addEventTips(player.account + "离开房间");
     }
 
     gameStart() {
@@ -71,7 +73,7 @@ export class Room {
         }
 
         //清理所有前端按钮
-        this.broadcast("roomEvent/clearButton");
+        this.broadcast(ROUTER.roomEvent.CLEAR_BUTTON);
 
         //游戏卡牌打断
         this._cardIndex = CardManager.getInitCardIndex();
@@ -92,7 +94,7 @@ export class Room {
         this._eventStack.clear();
         this._eventStack.push(new _0_GameStartEvent());
 
-        this.broadcast("roomEvent/newEvent", {name: "游戏开始"});
+        this.addEventTips("游戏开始");
         this._start = true;
     }
 
@@ -111,12 +113,8 @@ export class Room {
             }
         }
 
-        let openStatisticsData = {
-            all: this.statistics
-        };
-        this.broadcast("room/openStatistics", openStatisticsData);
-
-        this.broadcast("room/gameOver");
+        this.broadcast(ROUTER.room.OPEN_STATISTICS, {all: this.statistics});
+        this.broadcast(ROUTER.room.GAME_OVER);
     }
 
     private initGameStart() {
@@ -140,12 +138,6 @@ export class Room {
         }
     }
 
-    broadcastPlayers(route: string, players: Player[], data: any = undefined) {
-        for (let player of players) {
-            player.send(route, data);
-        }
-    }
-
     clearButton() {
         for (let i = 0; i < this._playerArray.length; i++) {
             this._playerArray[i].clearButton();
@@ -153,7 +145,11 @@ export class Room {
     }
 
     updateTime(data: any) {
-        this.broadcast("roomEvent/updateTime", data);
+        this.broadcast(ROUTER.roomEvent.UPDATE_TIME, data);
+    }
+
+    addEventTips(tips: string) {
+        this.broadcast(ROUTER.roomEvent.ADD_EVENT_TIPS, tips);
     }
 
     updateRoomToAllPlayer(sendPlayer: Player | undefined = undefined) {
@@ -178,7 +174,7 @@ export class Room {
             roomData.player.push(player.getClientPlayerInfo(sendPlayer));
         }
 
-        sendPlayer.send("room/update", roomData);
+        sendPlayer.send(ROUTER.room.UPDATE, roomData);
     }
 
     playerAddNewHandCard(player: Player, num: number) {
@@ -191,16 +187,24 @@ export class Room {
                 this._discardIndex = [];
                 shuffleArray(this._cardIndex);
                 index = this._cardIndex.pop()!;
+
+                if (index == undefined) {
+                    this.addEventTips("牌都给用完了，那我能怎么办，直接全部获胜喽");
+                    this.broadcast(ROUTER.base.TIPS, "牌都给用完了，那我能怎么办，直接全部获胜喽");
+                    throw new GameSpecialError("牌库没了");
+                }
             }
 
             let card = CardManager.getNewPlayerCard(index);
-            card.init(this.getNewIncIndex(), player);
+            card.init(index, this.getNewIncIndex(), player);
             list.push(card);
         }
-
-        this.broadcast("roomEvent/updateLastCardNum", {lastCardNum: this._cardIndex.length});
-
+        this.updateLastCardNum();
         player.addCardArray(list);
+    }
+
+    addDiscardCard(card: Card): void {
+        this._discardIndex.push(card.cardIndex);
     }
 
     private getNewIncIndex(): string {
@@ -208,7 +212,11 @@ export class Room {
     }
 
     playerReLogin(player: Player): void {
-        player.send("roomEvent/updateLastCardNum", {lastCardNum: this._cardIndex.length});
+        this.updateLastCardNum();
+    }
+
+    updateLastCardNum() {
+        this.broadcast(ROUTER.roomEvent.UPDATE_LAST_CARD_NUM, this._cardIndex.length + "/" + this._discardIndex.length);
     }
 
     findPlayerByAccount(account: string): Player | undefined {

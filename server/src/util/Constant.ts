@@ -97,12 +97,13 @@ export const GAME_CONFIG = {
     GAME_INIT_CARD_NUM: 2,//初始卡牌数量
     ROUND_INIT_CARD_NUM: 2,//回合开始卡牌数量
     MAX_CARD: 6,//最大卡牌数量
-    GAME_FRAME_TIME: 10,//服务器游戏逻辑帧间隔（毫秒）
-    UPDATE_PLAYER_TIME: 100,//更新前端倒计时时间(毫秒)
+    GAME_FRAME_TIME: 20,//服务器游戏逻辑帧间隔（毫秒）
+    UPDATE_PLAYER_TIME: 200,//更新前端倒计时时间(毫秒)
 
     RED_WIN_GAME_CARD_NUM: 3,//潜伏获胜需要数量
     BLUE_WIN_GAME_CARD_NUM: 3,//军情获胜需要数量
     GREY_WIN_GAME_CARD_NUM: 6,//特工获胜需要数量
+    DEAD_GREY_CARD_NUM: 3,//灰色情报几张死亡
 
     _3_PlayerRounding_TIME: 60 * 1000,//出牌操作(毫秒)
     _4_SendIntelligence_TIME: 60 * 1000,//发情报操作(毫秒)

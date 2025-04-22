@@ -62,14 +62,13 @@
 <!--房间界面-->
 <div class="waiting-room body" id="body-room">
     <div class="roomInfo">房间号：123</div>
-    <!--    <div class="room-event clear"></div>-->
+    <div class="room-event clear" onclick="this.classList.toggle('large')"></div>
     <div class="room-statistics-button" onclick="getStatistics()">查看战绩</div>
     <div class="my-card clear" id="myHandCardPanel"></div>
     <div id="otherCardPanel" onclick="closeIntelligence()">
         <div class="other-card-panel-tips">我是标题</div>
         <div class="my-card other-card clear"></div>
     </div>
-    <div class="room-time-tips clear"></div>
     <div class="room-lastCard-tips clear"></div>
     <div class="floating-window" id="floating-window" onclick="closeFloating()">
         <div class="floating-window-content"></div>

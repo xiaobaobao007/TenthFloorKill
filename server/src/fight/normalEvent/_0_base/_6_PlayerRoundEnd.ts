@@ -17,6 +17,10 @@ export class _6_PlayerRoundEnd implements Event {
     }
 
     getEffectType(room: Room): EventType {
+        if (!this.currentPlayer.live) {
+            return EventType.REMOVE;
+        }
+
         if (this.deleteCardArray != undefined) {
             this.disCard();
         }
@@ -108,7 +112,7 @@ export class _6_PlayerRoundEnd implements Event {
         }
 
         for (let i = Math.min(discardNumber, this.deleteCardArray!.length) - 1; i >= 0; i--) {
-            this.currentPlayer.removeCard(this.deleteCardArray![i]);
+            this.currentPlayer.removeCard(this.deleteCardArray![i], true);
         }
 
         this.lastTime = 0;

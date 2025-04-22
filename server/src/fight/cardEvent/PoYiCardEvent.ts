@@ -2,6 +2,7 @@ import {Room} from "../../model/Room";
 import {Event} from "../Event";
 import {EventType} from "../EventType";
 import {PoYi} from "../card/PoYi";
+import {ROUTER} from "../../util/SocketUtil";
 
 export class PoYiCardEvent implements Event {
     poyiCard: PoYi;
@@ -34,7 +35,7 @@ export class PoYiCardEvent implements Event {
 
     sendClientInfo(room: Room): void {
         const otherCardInfo = this.effectToCard.getSelfCardInfo();
-        this.poyiCard.belong!.send("roomEvent/updateAllIntelligence", otherCardInfo);
+        this.poyiCard.belong!.send(ROUTER.roomEvent.UPDATE_ALL_INTELLIGENCE, otherCardInfo);
     }
 
     public static canUse() {

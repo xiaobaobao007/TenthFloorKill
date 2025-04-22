@@ -4,7 +4,8 @@ import {Event} from "../../Event";
 import {EventType} from "../../EventType";
 import {Card} from "../../../model/Card";
 import {_5_1_WaitingPlayerReceive} from "../_5_IntelligenceCircle/_5_1_WaitingPlayerReceive";
-import {DIRECTION_ALL, DIRECTION_RIGHT, OPERATION_ZHI_DA} from "../../../util/Constant";
+import {DIRECTION_ALL, DIRECTION_RIGHT} from "../../../util/Constant";
+import {ROUTER} from "../../../util/SocketUtil";
 
 export class _5_IntelligenceCircle implements Event {
     private readonly sendPlayer: Player;//传出者
@@ -41,16 +42,24 @@ export class _5_IntelligenceCircle implements Event {
     prv(room: Room): void {
         if (this.intelligenceCard.hand) {
             //移除玩家手牌
-            this.sendPlayer.removeCard(this.intelligenceCard);
+            this.sendPlayer.removeCard(this.intelligenceCard, false);
             this.intelligenceCard.hand = false;
         }
         this.sendClientInfo(room, this.sendPlayer);
         this.currentEventType = EventType.EFFECT;
         this.sendPlayer.clearButton();
+
+        if (this.intelligenceCard.isZhiDa()) {
+            room.addEventTips("【" + this.sendPlayer.account + "】向【" + this.targetPlayer.account + "】发送了直达情报");
+        } else if (this.indexIsInc) {
+            room.addEventTips("【" + this.sendPlayer.account + "】逆时针发送了情报");
+        } else {
+            room.addEventTips("【" + this.sendPlayer.account + "】顺时针发送了情报");
+        }
     }
 
     doEvent(room: Room): void {
-        if (this.intelligenceCard.operation == OPERATION_ZHI_DA || this.intelligenceCard.clientOperation == OPERATION_ZHI_DA) {
+        if (this.intelligenceCard.isZhiDa()) {
             if (this.currentPlayer) {
                 this.currentPlayer = this.sendPlayer;
             } else {
@@ -93,10 +102,10 @@ export class _5_IntelligenceCircle implements Event {
 
         if (player) {
             if (this.sendPlayer == player) {
-                room.broadcastExclude("roomEvent/updateAllIntelligence", this.sendPlayer, otherCardInfo);
-                this.sendPlayer.send("roomEvent/updateAllIntelligence", this.intelligenceCard!.getSelfCardInfo());
+                room.broadcastExclude(ROUTER.roomEvent.UPDATE_ALL_INTELLIGENCE, this.sendPlayer, otherCardInfo);
+                this.sendPlayer.send(ROUTER.roomEvent.UPDATE_ALL_INTELLIGENCE, this.intelligenceCard!.getSelfCardInfo());
             } else {
-                player.send("roomEvent/updateAllIntelligence", otherCardInfo);
+                player.send(ROUTER.roomEvent.UPDATE_ALL_INTELLIGENCE, otherCardInfo);
             }
         }
 
@@ -106,9 +115,7 @@ export class _5_IntelligenceCircle implements Event {
     }
 
     private getIndexIsInc(): boolean {
-        if (this.intelligenceCard.operation == OPERATION_ZHI_DA ||
-            this.intelligenceCard.clientOperation == OPERATION_ZHI_DA ||
-            this.intelligenceCard.direction == DIRECTION_RIGHT) {
+        if (this.intelligenceCard.isZhiDa() || this.intelligenceCard.direction == DIRECTION_RIGHT) {
             return true;
         }
 

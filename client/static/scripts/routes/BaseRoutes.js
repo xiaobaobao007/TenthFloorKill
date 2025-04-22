@@ -1,10 +1,10 @@
 class BaseRoutes extends ClientBaseRoutes {
-    async tips(response) {
-        addTips(response.tips);
+    async tips(tips) {
+        addTips(tips);
     }
 
-    async changeBody(response) {
-        openBody(response.body);
+    async changeBody(body) {
+        openBody(body);
     }
 
     async loginBack(response) {

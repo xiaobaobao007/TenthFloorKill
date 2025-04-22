@@ -90,6 +90,8 @@ function changeOperation(event, div) {
 }
 
 function showIntelligence(div) {
+    $(".other-card").html("");
+
     let chooseAccount = $(div).parent().children(".box-account:first").html();
 
     $(".other-card-panel-tips").html(chooseAccount + "收到的情报展示");

@@ -1,6 +1,7 @@
 import {ServerClientRoutes} from "./ServerClientRoutes";
 import {Player} from "../model/Player";
 import {RoomManager} from "../manager/RoomManager";
+import {ROUTER} from "../util/SocketUtil";
 
 export class RoomRoutes extends ServerClientRoutes {
     async create(player: Player): Promise<void> {
@@ -38,6 +39,6 @@ export class RoomRoutes extends ServerClientRoutes {
         let data = {
             all: player.room.statistics
         };
-        player.send("room/openStatistics", data);
+        player.send(ROUTER.room.OPEN_STATISTICS, data);
     }
 }

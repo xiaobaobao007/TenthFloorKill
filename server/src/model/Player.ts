@@ -1,5 +1,5 @@
 import {WebSocket} from "ws";
-import {SocketUtil} from "../util/SocketUtil";
+import {ROUTER, SocketUtil} from "../util/SocketUtil";
 import {Room} from "./Room";
 import {Card} from "./Card";
 import {CAMP_, CAMP_BLUE, CAMP_GREY, CAMP_RED, COLOR_BLUE, COLOR_DOUBLE, COLOR_GREY, COLOR_RED, GAME_CONFIG} from "../util/Constant";
@@ -45,9 +45,11 @@ export class Player {
     public send(route: string, data: any = undefined) {
         SocketUtil.send(this._socket, route, data);
 
-        if (route != "roomEvent/updateTime") {
-            console.info("发送", this.account, "--->", route, JSON.stringify(data));
+        if (route == ROUTER.roomEvent.UPDATE_TIME || route == ROUTER.base.LOGIN_BACK) {
+            return;
         }
+
+        console.info("发送", this.account, "--->", route, JSON.stringify(data));
     }
 
     public close() {
@@ -71,25 +73,30 @@ export class Player {
             handClientInfo.push(card.getSelfCardInfo());
         }
 
-        this.send("roomEvent/newHandCard", {cardArray: handClientInfo});
+        this.send(ROUTER.roomEvent.NEW_HAND_CARD, {cardArray: handClientInfo});
         this.updateHandCardNum();
     }
 
-    public removeCard(card: Card) {
+    public removeCard(card: Card, inGarbage: boolean) {
         this._handCardArray.splice(this._handCardArray.indexOf(card), 1);
         card.hand = false;
 
-        this.send("roomEvent/removeHandCard", {handCardId: card.allId});
+        this.send(ROUTER.roomEvent.REMOVE_HAND_CARD, {handCardId: card.allId});
         this.updateHandCardNum();
+
+        if (inGarbage) {
+            this._room?.addDiscardCard(card);
+        }
     }
 
     public addIntelligenceCard(intelligenceCard: Card) {
         this._intelligenceCardArray.push(intelligenceCard);
-        this._room?.broadcast("roomEvent/newIntelligenceCard", {account: this.account, card: intelligenceCard.getSelfCardInfo()});
+        this._room!.broadcast(ROUTER.roomEvent.NEW_INTELLIGENCE_CARD, {account: this.account, card: intelligenceCard.getSelfCardInfo()});
+        this._room!.addEventTips("【" + this.account + "】成功收到一张情报")
     }
 
     private updateHandCardNum() {
-        this._room!.broadcast("roomEvent/updateHandCardNum",
+        this._room!.broadcast(ROUTER.roomEvent.UPDATE_HAND_CARD_NUM,
             {
                 account: this.account,
                 handCardNum: this._handCardArray.length,
@@ -116,15 +123,15 @@ export class Player {
     }
 
     public sendTips(tips: string) {
-        this.send("base/tips", {tips: tips});
+        this.send(ROUTER.base.TIPS, tips);
     }
 
     public showButton(info: any) {
-        this.send("roomEvent/showButton", info);
+        this.send(ROUTER.roomEvent.SHOW_BUTTON, info);
     }
 
     public clearButton() {
-        this.send("roomEvent/clearButton");
+        this.send(ROUTER.roomEvent.CLEAR_BUTTON);
     }
 
     findHandCardById(cardId: string) {
@@ -156,10 +163,26 @@ export class Player {
     }
 
     judgeDie() {
-        if (this.intelligenceCardColorNum(COLOR_GREY) >= 3) {
-            this._live = false;
-            this._room!.broadcast("roomEvent/dead", {account: this.account});
+        if (this.intelligenceCardColorNum(COLOR_GREY) < GAME_CONFIG.DEAD_GREY_CARD_NUM) {
+            return;
         }
+
+        for (const card of this._intelligenceCardArray) {
+            this.room?.addDiscardCard(card);
+        }
+        this._intelligenceCardArray.length = 0;
+
+        for (const card of this._handCardArray) {
+            this.room?.addDiscardCard(card);
+        }
+        this._handCardArray.length = 0;
+
+        this._live = false;
+        this._room!.broadcast(ROUTER.roomEvent.DIE, this.account);
+        this._room!.addEventTips("【" + this.account + "】死亡");
+
+        this.updateHandCardNum();
+        this._room!.updateLastCardNum();
     }
 
     private intelligenceCardColorNum(color: string) {

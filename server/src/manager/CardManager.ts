@@ -150,8 +150,11 @@ export class CardManager {
 
         for (let judgeCardId of cardEventArray) {
             for (let player of room.playerArray) {
+                if (player.ai || !player.live) {
+                    continue;
+                }
                 for (let handCard of player.handCardArray) {
-                    if (handCard.cardId != judgeCardId) {
+                    if (handCard.cardId != judgeCardId || !handCard.canUse(eventCard)) {
                         continue;
                     }
                     if (!waitPlayers) {

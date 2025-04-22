@@ -1,4 +1,4 @@
-import {OPERATION_WEN_BEN} from "../util/Constant";
+import {OPERATION_WEN_BEN, OPERATION_ZHI_DA} from "../util/Constant";
 import {Player} from "./Player";
 
 export class Card {
@@ -9,11 +9,12 @@ export class Card {
     public readonly lock: boolean;
 
     //需要初始化的数据
+    private _cardIndex: number = 0;//牌库的唯一id
     protected _allId: string = "";//房间内卡牌的唯一id
+    protected _belong: Player | undefined;//这是谁的牌
+
     protected _hand = true;//是否是手牌
     protected _clientOperation: string | undefined;//客户端选择的情报传递方式
-    protected _belong: Player | undefined;//这是谁的牌
-    protected _showAll = false;//是否被翻为正面
 
     constructor(cardId: string, color: string, direction: string, operation: string, lock: boolean) {
         this.cardId = cardId;
@@ -23,13 +24,13 @@ export class Card {
         this.lock = lock;
     }
 
-    public init(allId: string, belong: Player) {
+    public init(cardIndex: number, allId: string, belong: Player) {
+        this._cardIndex = cardIndex;
         this._allId = allId;
+        this._belong = belong;
 
         this._hand = true;
         this._clientOperation = undefined;
-        this._belong = belong;
-        this._showAll = false;
     }
 
     public getSelfCardInfo() {
@@ -45,7 +46,7 @@ export class Card {
     }
 
     public getOtherCardInfo(): any {
-        if (this._showAll || this.operation == OPERATION_WEN_BEN || this.clientOperation == OPERATION_WEN_BEN) {
+        if (this.operation == OPERATION_WEN_BEN || this.clientOperation == OPERATION_WEN_BEN) {
             return this.getSelfCardInfo();
         }
 
@@ -58,6 +59,19 @@ export class Card {
     }
 
     public doEvent(player: Player, toCard: Card) {
+    }
+
+    public canUse(toCard: Card): boolean {
+        return true;
+    }
+
+    //当前卡牌是否是正面
+    isShow() {
+        return this.operation == OPERATION_WEN_BEN || this.clientOperation == OPERATION_WEN_BEN;
+    }
+
+    isZhiDa(): boolean {
+        return this.operation == OPERATION_ZHI_DA || this.clientOperation == OPERATION_ZHI_DA;
     }
 
     get allId(): string {
@@ -86,5 +100,9 @@ export class Card {
 
     get belong(): Player | undefined {
         return this._belong;
+    }
+
+    get cardIndex(): number {
+        return this._cardIndex;
     }
 }

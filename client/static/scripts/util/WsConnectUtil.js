@@ -1,6 +1,6 @@
 function initWs() {
     if (typeof ws !== "undefined") {
-        console.info("已经建立连接！！！");
+        addTips("已经建立连接！！！");
         return;
     }
 
@@ -17,7 +17,7 @@ function initWs() {
         const route = data.route.toLowerCase();
         const router = routerHandelMap.get(route);
         if (!router) {
-            console.info(route, "不存在");
+            addTips(route + "路由不存在");
             return;
         }
         router(data.data);

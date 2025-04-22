@@ -1,6 +1,7 @@
 import {Room} from "../model/Room";
 import {Player} from "../model/Player";
 import {PlayerManager} from "./PlayerManager";
+import {ROUTER} from "../util/SocketUtil";
 
 export class RoomManager {
     public static QUIT_ROOM_BUTTON = {classType: "cancel", root: "room/leave", name: "离开房间",};
@@ -27,7 +28,7 @@ export class RoomManager {
             PlayerManager.logout(player.socket!, "已经在房间了，请重新登录");
             return;
         }
-        player.send("base/changeBody", {body: "room"});
+        player.send(ROUTER.base.CHANGE_BODY, "room");
 
         const room = new Room("" + this.roomId);
         room.addPlayer(player);
@@ -53,7 +54,7 @@ export class RoomManager {
             player.sendTips("房间满员了");
             return;
         }
-        player.send("base/changeBody", {body: "room"});
+        player.send(ROUTER.base.CHANGE_BODY, "room");
 
         room.addPlayer(player);
         room.updateRoomToAllPlayer();
@@ -69,7 +70,9 @@ export class RoomManager {
         }
 
         if (room.start) {
-            player.sendTips("游戏已开始无法退出");
+            if (!player.ai) {
+                player.sendTips("游戏已开始无法退出");
+            }
             return false;
         }
 
@@ -82,7 +85,7 @@ export class RoomManager {
             room.updateLeaderButton();
         }
 
-        player.send("base/changeBody", {body: "hall"});
+        player.send(ROUTER.base.CHANGE_BODY, "hall");
         return true;
     }
 

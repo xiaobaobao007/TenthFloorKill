@@ -21,9 +21,7 @@ function updateRoomData() {
     updateMyHandCard();
 }
 
-function updateTimeTips(playerArray, time, allTime, allTips, myTips) {
-    $(".room-time-tips:first").html(allTips);
-
+function updateTimeTips(playerArray, time, allTime, myTips) {
     let rate = Math.floor(100 * time / allTime);
 
     for (let player of playerArray) {
@@ -143,6 +141,11 @@ function clickCancel(root) {
 }
 
 function getStatistics() {
+    if ($(".room-statistics").length > 0) {
+        closeStatistics();
+        return;
+    }
+
     sendWsMessage("room/getStatistics");
 }
 

@@ -89,6 +89,10 @@ function updateAllPlayer() {
 }
 
 function selectPlayerBox(div) {
+    if (SELECTED_PLAYER_NUM < 0) {
+        return;
+    }
+
     if (div === SELECTED_PLAYER) {
         resetSelectPlayer();
     } else {

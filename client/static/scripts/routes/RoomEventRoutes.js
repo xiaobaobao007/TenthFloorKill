@@ -1,17 +1,6 @@
 class RoomEventRoutes extends ClientBaseRoutes {
-    async newEvent(data) {
-        const div = $(".room-event");
-        if (div.length === 0) {
-            return;
-        }
-
-        const downRate = div[0].scrollHeight - div.scrollTop() - div.height() * 1.5;
-
-        div.append("<div class='room-event-one'>" + data.name + "</div>");
-
-        if (downRate < 0) {
-            div.scrollTop(div[0].scrollHeight - div.height());
-        }
+    async addEventTips(tips) {
+        addNewEventTips(tips);
     }
 
     async newHandCard(updateData) {
@@ -51,6 +40,10 @@ class RoomEventRoutes extends ClientBaseRoutes {
     }
 
     async updateTime(requestData) {
+        if (!requestData.allTipsHideEvent) {
+            addNewEventTips(requestData.allTips);
+        }
+
         let playerArray = undefined;
         if (requestData.account) {
             if (!ALL_PLAYER[requestData.account]) {
@@ -68,11 +61,11 @@ class RoomEventRoutes extends ClientBaseRoutes {
             return;
         }
 
-        updateTimeTips(playerArray, requestData.time, requestData.allTime, requestData.allTips, requestData.myTips);
+        updateTimeTips(playerArray, requestData.time, requestData.allTime, requestData.myTips);
     }
 
-    async updateLastCardNum(requestData) {
-        $(".room-lastCard-tips:first").html("牌库剩余：" + requestData.lastCardNum);
+    async updateLastCardNum(lastCardNum) {
+        $(".room-lastCard-tips:first").html("牌库信息：" + lastCardNum);
     }
 
     async showButton(requestData) {
@@ -135,7 +128,7 @@ class RoomEventRoutes extends ClientBaseRoutes {
         $(".intelligence-card-show").remove();
     }
 
-    async dead(data) {
-        $(ALL_PLAYER[data.account].div).append("<div class='dead' onclick='notPenetrate(event)'>已死亡</div>");
+    async die(account) {
+        $(ALL_PLAYER[account].div).append("<div class='dead' onclick='notPenetrate(event)'>已死亡</div>");
     }
 }

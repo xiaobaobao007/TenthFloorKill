@@ -61,7 +61,6 @@ class RoomRoutes extends ClientBaseRoutes {
     }
 
     async gameOver() {
-        $(".room-time-tips").html("");
         $(".room-lastCard-tips").html("");
         $(".dead").remove();
     }

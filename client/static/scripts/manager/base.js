@@ -229,3 +229,22 @@ function getEmoji(name) {
     }
     return "";
 }
+
+function addNewEventTips(tips) {
+    const div = $(".room-event");
+    if (div.length === 0) {
+        return;
+    }
+
+    if (div.children(":last").html() === tips) {
+        return;
+    }
+
+    const downRate = div[0].scrollHeight - div.scrollTop() - div.height() * 1.5;
+
+    div.append("<div class='room-event-one'>" + tips + "</div>");
+
+    if (downRate < 0) {
+        div.scrollTop(div[0].scrollHeight - div.height());
+    }
+}
