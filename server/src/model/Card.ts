@@ -39,7 +39,7 @@ export class Card {
             cardId: this.cardId,
             color: this.color,
             direction: this.direction,
-            operation: this.operation,
+            operation: this._clientOperation ? this._clientOperation : this.operation,
             lock: this.lock,
             belong: this._hand ? undefined : this._belong?.account,
         };
