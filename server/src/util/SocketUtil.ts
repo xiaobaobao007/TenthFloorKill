@@ -28,7 +28,7 @@ export const ROUTER = {
         NEW_INTELLIGENCE_CARD: "roomEvent/newIntelligenceCard",//玩家收到一张情报
         UPDATE_HAND_CARD_NUM: "roomEvent/updateHandCardNum",//更新玩家的手牌数量
 
-        DIE: "roomEvent/die",//玩家死了
+        DIE: "roomEvent/die",//玩家挂了
         UPDATE_TIME: "roomEvent/updateTime",//更新玩家的时间进度条展示
         ADD_EVENT_TIPS: "roomEvent/addEventTips",//在事件窗口添加新的事件提醒
         UPDATE_LAST_CARD_NUM: "roomEvent/updateLastCardNum",//更新玩家展示的剩余牌库数量

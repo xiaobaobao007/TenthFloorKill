@@ -29,10 +29,11 @@ export class _7_DiscardEvent implements Event {
                 AIManager._7_DiscardEvent(this.currentPlayer, this);
             }
 
-            for (let i = Math.min(this.discardNum, this.deleteCardArray!.length) - 1; i >= 0; i--) {
+            for (let i = this.discardNum - 1; i >= 0; i--) {
                 this.currentPlayer.removeCard(this.deleteCardArray![i], true);
             }
 
+            room.addEventTips("【" + this.currentPlayer.account + "】丢弃了【" + this.discardNum + "】张手牌");
             this.currentPlayer.clearButton();
             return EventType.REMOVE;
         }

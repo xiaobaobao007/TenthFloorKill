@@ -6,16 +6,15 @@ import {Card} from "../../../model/Card";
 import {_5_IntelligenceCircle} from "../_0_base/_5_IntelligenceCircle";
 import {COLOR_GREY} from "../../../util/Constant";
 import {ROUTER} from "../../../util/SocketUtil";
+import {EventManager} from "../../../manager/EventManager";
 
 export class _5_2_PlayerReceive implements Event {
-    private readonly fatherEvent: _5_IntelligenceCircle;
     private readonly currentPlayer: Player;
     private readonly intelligenceCard: Card;//情报
 
     private currentEventType = EventType.NONE;
 
-    constructor(fatherEvent: _5_IntelligenceCircle, currentPlayer: Player, intelligenceCard: Card) {
-        this.fatherEvent = fatherEvent;
+    constructor(currentPlayer: Player, intelligenceCard: Card) {
         this.currentPlayer = currentPlayer;
         this.intelligenceCard = intelligenceCard;
     }
@@ -34,7 +33,7 @@ export class _5_2_PlayerReceive implements Event {
     }
 
     doEvent(room: Room): void {
-        this.fatherEvent.setOver();
+        (EventManager.getEvent(room, _5_IntelligenceCircle.name) as _5_IntelligenceCircle).setOver();
         room.broadcast(ROUTER.roomEvent.CLEAR_ALL_INTELLIGENCE);
         this.currentPlayer.addIntelligenceCard(this.intelligenceCard);
 

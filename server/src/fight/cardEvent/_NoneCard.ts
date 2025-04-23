@@ -3,7 +3,7 @@ import {Event} from "../Event";
 import {EventType} from "../EventType";
 import {Player} from "../../model/Player";
 import {EventManager} from "../../manager/EventManager";
-import {_5_IntelligenceCircle} from "../normalEvent/_0_base/_5_IntelligenceCircle";
+import {_0_GameStartEvent} from "../normalEvent/_0_base/_0_GameStartEvent";
 
 export class _NoneCard implements Event {
     getEffectType(room: Room): EventType {
@@ -27,6 +27,6 @@ export class _NoneCard implements Event {
     }
 
     sendClientInfo(room: Room, player: Player | undefined): void {
-        (EventManager.getEvent(room, _5_IntelligenceCircle.name) as _5_IntelligenceCircle).roundEvent.pop();
+        (EventManager.getEvent(room, _0_GameStartEvent.name) as _0_GameStartEvent).roundEvent.pop();
     }
 }

@@ -4,9 +4,12 @@ import {EventType} from "../../EventType";
 import {GAME_CONFIG} from "../../../util/Constant";
 import {_1_SearchNextPlayer} from "./_1_SearchNextPlayer";
 import {Player} from "../../../model/Player";
+import {Stack} from "../../../util/Stack";
 
 export class _0_GameStartEvent implements Event {
     private currentEventType = EventType.NONE;
+
+    private _roundEvent: Stack<Event> = new Stack();//已成功执行影响的事件
 
     getEffectType(room: Room): EventType {
         if (this.currentEventType == EventType.NONE) {
@@ -38,5 +41,15 @@ export class _0_GameStartEvent implements Event {
     }
 
     sendClientInfo(room: Room, player: Player): void {
+    }
+
+    get roundEvent(): Stack<Event> {
+        return this._roundEvent;
+    }
+
+    reLogin(room: Room, player: Player) {
+        for (const event of this._roundEvent.getItems()) {
+            event.sendClientInfo(room, player);
+        }
     }
 }

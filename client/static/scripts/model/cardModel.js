@@ -7,6 +7,7 @@ function CardModel() {
         this.operation = data.operation;
         this.lock = data.lock;
         this.belong = data.belong;
+        this.otherTips = data.otherTips;
     }
 
     this.getColorClass = function () {
@@ -58,6 +59,16 @@ function CardModel() {
     this.getAccountDiv = function () {
         if (this.belong && this.belong.length > 0) {
             return "<div class='card-account'>" + this.belong + "</div>";
+        }
+        return "";
+    }
+
+    this.getOtherTipsDiv = function () {
+        if (this.otherTips && this.otherTips.length > 0) {
+            const tips = STRING_CONFIG[this.otherTips];
+            if (tips.includes("【") && tips.includes("】")) {
+                return "<div class='card-other-tips'>" + tips.substring(tips.indexOf("【") + 1, tips.indexOf("】")) + "</div>";
+            }
         }
         return "";
     }

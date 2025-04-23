@@ -1,5 +1,6 @@
-import {OPERATION_WEN_BEN, OPERATION_ZHI_DA} from "../util/Constant";
+import {_CARD_NAME, OPERATION_WEN_BEN, OPERATION_ZHI_DA} from "../util/Constant";
 import {Player} from "./Player";
+import {InitManager} from "../manager/InitManager";
 
 export class Card {
     public readonly cardId: string;
@@ -7,6 +8,7 @@ export class Card {
     public readonly direction: string;
     public readonly operation: string;
     public readonly lock: boolean;
+    public readonly otherTips: string;
 
     //需要初始化的数据
     private _cardIndex: number = 0;//牌库的唯一id
@@ -16,12 +18,13 @@ export class Card {
     protected _hand = true;//是否是手牌
     protected _clientOperation: string | undefined;//客户端选择的情报传递方式
 
-    constructor(cardId: string, color: string, direction: string, operation: string, lock: boolean) {
+    constructor(cardId: string, color: string, direction: string, operation: string, lock: boolean, otherTips: string = "") {
         this.cardId = cardId;
         this.color = color;
         this.direction = direction;
         this.operation = operation;
         this.lock = lock;
+        this.otherTips = otherTips;
     }
 
     public init(cardIndex: number, allId: string, belong: Player) {
@@ -42,6 +45,7 @@ export class Card {
             operation: this._clientOperation ? this._clientOperation : this.operation,
             lock: this.lock,
             belong: this._hand ? undefined : this._belong?.account,
+            otherTips: this.otherTips,
         };
     }
 
@@ -58,7 +62,7 @@ export class Card {
         };
     }
 
-    public doEvent(player: Player, eventCard: Card) {
+    public doEvent(player: Player, eventCard: Card, eventPlayer: Player | undefined = undefined) {
     }
 
     public canUse(toCard: Card): boolean {
@@ -72,6 +76,10 @@ export class Card {
 
     isZhiDa(): boolean {
         return this.operation == OPERATION_ZHI_DA || this.clientOperation == OPERATION_ZHI_DA;
+    }
+
+    getName() {
+        return InitManager.getStringValue(this.cardId + _CARD_NAME);
     }
 
     get allId(): string {

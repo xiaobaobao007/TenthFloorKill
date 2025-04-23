@@ -105,8 +105,12 @@ function selectPlayerBox(div) {
 
 function resetSelectPlayer() {
     SELECTED_PLAYER = undefined;
-    SELECTED_PLAYER_NUM = -1;
     $(".player-box-select").removeClass("player-box-select");
+
+    if (IN_ROUNDING) {
+        return;
+    }
+    SELECTED_PLAYER_NUM = -1;
 }
 
 function updateAllPlayerIntelligence() {

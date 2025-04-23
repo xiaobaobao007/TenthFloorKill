@@ -9,7 +9,7 @@ import {_1_PlayerUseCardSuccess} from "./_1_PlayerUseCardSuccess";
 import {CardManager} from "../../manager/CardManager";
 import {ROUTER} from "../../util/SocketUtil";
 import {EventManager} from "../../manager/EventManager";
-import {_5_IntelligenceCircle} from "../normalEvent/_0_base/_5_IntelligenceCircle";
+import {_0_GameStartEvent} from "../normalEvent/_0_base/_0_GameStartEvent";
 
 export class _0_WaitPlayerUseCard implements Event {
     private static readonly SEND_BUTTON_INFO = {
@@ -34,7 +34,7 @@ export class _0_WaitPlayerUseCard implements Event {
     private canAskShiPo = true;
     private lastTime = GAME_CONFIG._0_WaitPlayerUseCard_TIME;
 
-    constructor(playerArray: Player[], eventCard: Card, cardId: string, eventArray: string[], eventIndex: number) {
+    constructor(playerArray: Player[], eventCard: Card, cardId: string, eventArray: string[] = [], eventIndex: number = 0) {
         this.playerArray = playerArray;
         this.eventCard = eventCard;
         this.cardId = cardId;
@@ -93,7 +93,7 @@ export class _0_WaitPlayerUseCard implements Event {
 
     nextEvent(room: Room): undefined {
         if (this.player) {
-            const fatherEvent = EventManager.getEvent(this.player.room!, _5_IntelligenceCircle.name) as _5_IntelligenceCircle;
+            const fatherEvent = EventManager.getEvent(this.player.room!, _0_GameStartEvent.name) as _0_GameStartEvent;
             const currentEvent = fatherEvent.roundEvent.peek();
             currentEvent?.sendClientInfo(room, this.player);
         }
@@ -111,7 +111,7 @@ export class _0_WaitPlayerUseCard implements Event {
         }
     }
 
-    use(player: Player, useCard: Card) {
+    use(player: Player, useCard: Card, targetPlayer: Player | undefined = undefined) {
         if (!this.playerArray.includes(player) || this.player != undefined || this.skipPlayerArray.includes(player)) {
             return;
         }
@@ -123,12 +123,17 @@ export class _0_WaitPlayerUseCard implements Event {
 
         this.player = player;
         this.useCard = useCard;
-        this.lastTime = 0;
+
+        if (targetPlayer) {
+            this.lastTime = -1;
+        } else {
+            this.lastTime = 0;
+        }
 
         this.player.removeCard(this.useCard!, true);
 
-        const fatherEvent = EventManager.getEvent(player.room!, _5_IntelligenceCircle.name) as _5_IntelligenceCircle;
-        fatherEvent.roundEvent.push(new _1_PlayerUseCardSuccess(this.player, this.useCard!, this.eventCard));
+        const fatherEvent = EventManager.getEvent(player.room!, _0_GameStartEvent.name) as _0_GameStartEvent;
+        fatherEvent.roundEvent.push(new _1_PlayerUseCardSuccess(this.player, this.useCard!, targetPlayer, this.eventCard));
 
         player.room!.addEventTips("【" + player.account + "】使用了一张【" + this.cardName + "】");
     }

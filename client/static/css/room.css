@@ -177,6 +177,15 @@
     color: #edff00;
 }
 
+.card-other-tips {
+    position: absolute;
+    margin-left: 0.2vw;
+    margin-top: 1.6vw;
+    font-size: 0.9vw;
+    font-style: italic;
+    color: #edff00;
+}
+
 .card-name-2 {
     font-size: 2.8vw;
     transform: translate(-50%, 25%);
@@ -241,10 +250,10 @@
 .room-event {
     position: absolute;
     right: 16vw;
-    bottom: 18vw;
-    width: 26vw;
-    height: 11vw;
-    background-color: rgba(199, 136, 136, 0.89);
+    bottom: 16vw;
+    width: 34vw;
+    height: 12vw;
+    background-color: rgb(219 146 146 / 51%);
     border-radius: 22px;
     padding: 0 17px 3px 17px;
     overflow-y: scroll;
@@ -256,11 +265,12 @@
     width: 38vw;
     height: 90vh;
     z-index: 2000;
+    background-color: rgb(213 144 144);
 }
 
 .room-event-one {
-    color: #9f0048;
-    font-size: 1.5vw;
+    color: #000000;
+    font-size: 1vw;
     margin-top: 3px;
     margin-bottom: 4px;
     border-width: 0 0 1px 0;

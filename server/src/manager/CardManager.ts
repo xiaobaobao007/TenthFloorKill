@@ -1,6 +1,10 @@
 import {
+    CAMP_BLUE,
+    CAMP_GREY,
+    CAMP_RED,
     CARD_PO_YI,
     CARD_SHI_PO,
+    CARD_SHI_TAN,
     COLOR_BLUE,
     COLOR_DOUBLE,
     COLOR_GREY,
@@ -18,6 +22,7 @@ import {Player} from "../model/Player";
 import {_0_WaitPlayerUseCard} from "../fight/cardEvent/_0_WaitPlayerUseCard";
 import {PoYi} from "../fight/card/PoYi";
 import {None} from "../fight/card/None";
+import {ShiTan2} from "../fight/card/ShiTan2";
 import {shuffleArray} from "../util/MathUtil";
 import {ShiPo} from "../fight/card/ShiPo";
 
@@ -115,15 +120,15 @@ export class CardManager {
         new None("zengyuan", COLOR_BLUE, DIRECTION_ALL, OPERATION_ZHI_DA, false),
         new None("zengyuan", COLOR_RED, DIRECTION_ALL, OPERATION_ZHI_DA, false),
 
-        new None("st", COLOR_GREY, DIRECTION_ALL, OPERATION_MI_DIAN, false),
-        new None("st", COLOR_GREY, DIRECTION_ALL, OPERATION_MI_DIAN, false),
-        new None("st", COLOR_GREY, DIRECTION_ALL, OPERATION_MI_DIAN, false),
-        new None("st", COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
-        new None("st", COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
-        new None("st", COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
-        new None("st", COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
-        new None("st", COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
-        new None("st", COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new ShiTan2(CARD_SHI_TAN, COLOR_GREY, DIRECTION_ALL, OPERATION_MI_DIAN, false, CAMP_RED),
+        new ShiTan2(CARD_SHI_TAN, COLOR_GREY, DIRECTION_ALL, OPERATION_MI_DIAN, false, CAMP_BLUE),
+        new ShiTan2(CARD_SHI_TAN, COLOR_GREY, DIRECTION_ALL, OPERATION_MI_DIAN, false, CAMP_GREY),
+        new ShiTan2(CARD_SHI_TAN, COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false, CAMP_RED),
+        new ShiTan2(CARD_SHI_TAN, COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false, CAMP_BLUE),
+        new ShiTan2(CARD_SHI_TAN, COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false, CAMP_GREY),
+        new None(CARD_SHI_TAN, COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new None(CARD_SHI_TAN, COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new None(CARD_SHI_TAN, COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
     ];
 
     public static initAllCard() {

@@ -6,7 +6,6 @@ import {Card} from "../../../model/Card";
 import {_5_1_WaitingPlayerReceive} from "../_5_IntelligenceCircle/_5_1_WaitingPlayerReceive";
 import {DIRECTION_ALL, DIRECTION_RIGHT} from "../../../util/Constant";
 import {ROUTER} from "../../../util/SocketUtil";
-import {Stack} from "../../../util/Stack";
 
 export class _5_IntelligenceCircle implements Event {
     private readonly sendPlayer: Player;//传出者
@@ -16,7 +15,6 @@ export class _5_IntelligenceCircle implements Event {
 
     private currentEventType = EventType.NONE;
     private currentPlayer: Player | undefined;
-    private _roundEvent: Stack<Event> = new Stack();//已成功执行影响的事件
 
     constructor(currentPlayer: Player, intelligenceCard: Card, targetPlayer: Player) {
         this.sendPlayer = currentPlayer;
@@ -94,7 +92,7 @@ export class _5_IntelligenceCircle implements Event {
     }
 
     nextEvent(room: Room): Event {
-        return new _5_1_WaitingPlayerReceive(this, this.sendPlayer, this.currentPlayer!, this.intelligenceCard);
+        return new _5_1_WaitingPlayerReceive(this.sendPlayer, this.currentPlayer!, this.intelligenceCard);
     }
 
     sendClientInfo(room: Room, player: Player): void {
@@ -108,10 +106,6 @@ export class _5_IntelligenceCircle implements Event {
             } else {
                 player.send(ROUTER.roomEvent.UPDATE_ALL_INTELLIGENCE, otherCardInfo);
             }
-        }
-
-        for (const event of this._roundEvent.getItems()) {
-            event.sendClientInfo(room, player);
         }
     }
 
@@ -139,9 +133,5 @@ export class _5_IntelligenceCircle implements Event {
 
     setOver() {
         this.currentEventType = EventType.REMOVE;
-    }
-
-    get roundEvent(): Stack<Event> {
-        return this._roundEvent;
     }
 }

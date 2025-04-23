@@ -2,10 +2,11 @@ import {WebSocket} from "ws";
 import {ROUTER, SocketUtil} from "../util/SocketUtil";
 import {Room} from "./Room";
 import {Card} from "./Card";
-import {CAMP_, CAMP_BLUE, CAMP_GREY, CAMP_RED, COLOR_BLUE, COLOR_DOUBLE, COLOR_GREY, COLOR_RED, GAME_CONFIG} from "../util/Constant";
+import {CAMP_, CAMP_BLUE, CAMP_GREY, CAMP_RED, COLOR_, COLOR_BLUE, COLOR_DOUBLE, COLOR_GREY, COLOR_RED, GAME_CONFIG} from "../util/Constant";
 import {RedWinGame} from "../exception/RedWinGame";
 import {BlueWinGame} from "../exception/BlueWinGame";
 import {GreyWinGame} from "../exception/GreyWinGame";
+import {InitManager} from "../manager/InitManager";
 
 export class Player {
     private _socket: WebSocket | undefined;//连接
@@ -97,7 +98,7 @@ export class Player {
     public addIntelligenceCard(intelligenceCard: Card) {
         this._intelligenceCardArray.push(intelligenceCard);
         this._room!.broadcast(ROUTER.roomEvent.NEW_INTELLIGENCE_CARD, {account: this.account, card: intelligenceCard.getSelfCardInfo()});
-        this._room!.addEventTips("【" + this.account + "】成功收到一张情报")
+        this._room!.addEventTips("【" + this.account + "】成功收到一张【" + InitManager.getStringValue(COLOR_ + intelligenceCard.color) + "】")
     }
 
     private updateHandCardNum() {

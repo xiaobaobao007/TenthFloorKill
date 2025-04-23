@@ -4,6 +4,7 @@ import {Stack} from "../util/Stack";
 import {Event} from "../fight/Event";
 import {Room} from "../model/Room";
 import {GameOverError} from "../exception/GameOverError";
+import {_0_GameStartEvent} from "../fight/normalEvent/_0_base/_0_GameStartEvent";
 
 export class EventManager {
     public static doEvent() {
@@ -70,6 +71,8 @@ export class EventManager {
             room.playerReLogin(player);
 
             Stack.reLogin(player, room.eventStack);
+
+            (EventManager.getEvent(player.room!, _0_GameStartEvent.name) as _0_GameStartEvent).reLogin(room, player);
 
             player.reLogin = false;
         }

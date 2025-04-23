@@ -76,6 +76,9 @@ class RoomEventRoutes extends ClientBaseRoutes {
             if (button.classType === "success") {
                 html += "<div class='operation-button operation-button-green' onclick='clickSubmit(\"" + button.root + "\")'>" + button.name + "</div>";
             } else if (button.classType === "submit") {
+                if (button.isRounding) {
+                    IN_ROUNDING = true;
+                }
                 if (button.needCardNum) {
                     SELECTED_CARD_NUM = button.needCardNum;
                 }
@@ -93,14 +96,14 @@ class RoomEventRoutes extends ClientBaseRoutes {
         if (0 < SELECTED_CARD_NUM) {
             setDivClickEvent("[cardid]", cardClick, cardPress);
         }
-        if (0 < SELECTED_PLAYER_NUM) {
-            setDivClickEvent(".other-box", selectPlayerBox, emptyFunction);
-        }
+
+        setDivClickEvent(".other-box", selectPlayerBox, emptyFunction);
 
         updateButton();
     }
 
     async clearButton() {
+        IN_ROUNDING = false;
         $(".operation-button-father").html("");
         resetSelectPlayer();
         resetSelectCard();
@@ -119,6 +122,7 @@ class RoomEventRoutes extends ClientBaseRoutes {
         html += cardModel.getOperationDiv(false);
         html += cardModel.getTipsDiv();
         html += cardModel.getAccountDiv();
+        html += cardModel.getOtherTipsDiv();
         html += "</div>";
 
         $("body").append(html);

@@ -6,6 +6,7 @@ export const CAMP_BLUE = "camp_blue";
 export const CAMP_GREY = "camp_grey";
 
 //情报颜色
+export const COLOR_ = "color_";
 export const COLOR_RED = "r";
 export const COLOR_GREY = "g";
 export const COLOR_BLUE = "b";
@@ -26,6 +27,7 @@ export const _CARD_NAME = "_name";
 export const _CARD_DESC = "_desc";
 export const CARD_PO_YI = "py";//破译
 export const CARD_SHI_PO = "sp";//识破
+export const CARD_SHI_TAN = "st";//试探
 
 //客户端字符串配置
 interface ClientConfigNameAndValue {
@@ -33,16 +35,26 @@ interface ClientConfigNameAndValue {
     value: string,
 }
 
+//使用卡牌需要选择玩家
+export const USE_CARD_NEED_CHOOSE_PEOPLE: string[] = [
+    CARD_SHI_TAN
+];
+
+//回合内能使用的牌
+export const ROUND_USE_CARD: string[] = [
+    CARD_SHI_TAN
+];
+
 export const CLIENT_STRING_DATA: ClientConfigNameAndValue[] = [
     {name: CAMP_, value: "???"},
     {name: CAMP_RED, value: "潜伏"},
     {name: CAMP_BLUE, value: "军情"},
     {name: CAMP_GREY, value: "特工"},
 
-    {name: "color_" + COLOR_RED, value: "红色情报"},
-    {name: "color_" + COLOR_GREY, value: "灰色情报"},
-    {name: "color_" + COLOR_BLUE, value: "蓝色情报"},
-    {name: "color_" + COLOR_DOUBLE, value: "红色加蓝色的双色情报"},
+    {name: COLOR_ + COLOR_RED, value: "红色情报"},
+    {name: COLOR_ + COLOR_GREY, value: "灰色情报"},
+    {name: COLOR_ + COLOR_BLUE, value: "蓝色情报"},
+    {name: COLOR_ + COLOR_DOUBLE, value: "双色情报"},
 
     {name: OPERATION_ZHI_DA, value: "直达"},
     {name: OPERATION_MI_DIAN, value: "密电"},
@@ -52,8 +64,12 @@ export const CLIENT_STRING_DATA: ClientConfigNameAndValue[] = [
     {name: DIRECTION_RIGHT, value: "向右边方向传递"},
     {name: DIRECTION_ALL, value: "自定义方向传递"},
 
-    {name: "st" + _CARD_NAME, value: "试探"},
-    {name: "st" + _CARD_DESC, value: "我是【试探】的描述"},
+    {name: CARD_SHI_TAN + _CARD_NAME, value: "试探"},
+    {name: CARD_SHI_TAN + _CARD_DESC, value: "自己回合中使用，指定除自己以外的玩家使用，（仅双方可见，执行后移出游戏）"},
+    {name: CARD_SHI_TAN + "_2_" + CAMP_RED, value: "【潜伏】抽一张，其他弃一张"},
+    {name: CARD_SHI_TAN + "_2_" + CAMP_BLUE, value: "【军情】抽一张，其他弃一张"},
+    {name: CARD_SHI_TAN + "_2_" + CAMP_GREY, value: "【特工】抽一张，其他弃一张"},
+
     {name: "mmxd" + _CARD_NAME, value: "秘密下达"},
     {name: "mmxd" + _CARD_DESC, value: "我是【秘密下达】的描述"},
     {name: "gkwb" + _CARD_NAME, value: "公开文本"},

@@ -19,11 +19,12 @@ function addHandCard(cardModel) {
 
 function addCard(divSelect, cardModel) {
     let html = "";
-    html += "<div class='card " + cardModel.getColorClass() + "' cardid='" + cardModel.allId + "'>";
+    html += "<div class='card " + cardModel.getColorClass() + "' cardid='" + cardModel.allId + "' cardtype='" + cardModel.cardId + "'>";
     html += cardModel.getNameDiv();
     html += cardModel.getOperationDiv(true);
     html += cardModel.getTipsDiv();
     html += cardModel.getAccountDiv();
+    html += cardModel.getOtherTipsDiv();
     html += "</div>";
 
     $(divSelect).append(html);
@@ -35,7 +36,6 @@ function removeHandCard(cardModel) {
     for (let i = 0; i < SELECTED_CARD_DIVS.length; i++) {
         if ($(SELECTED_CARD_DIVS[i]).attr("cardid") == cardModel.allId) {
             SELECTED_CARD_DIVS.splice(i, 1);
-            SELECTED_CARD_NUM--;
             break;
         }
     }
@@ -49,10 +49,32 @@ function cardClick(div) {
         return;
     }
 
+    const $1 = $(div);
+
+    if (IN_ROUNDING) {
+        resetSelectPlayer();
+
+        const cardType = $1.attr("cardtype");
+        if (!ROUND_USE_CARD.includes(cardType)) {
+            for (const selectedDiv of SELECTED_CARD_DIVS) {
+                $(selectedDiv).children('.my-card-select').remove();
+            }
+            SELECTED_CARD_DIVS.length = 0;
+            updateButton();
+            return;
+        }
+
+        if (USE_CARD_NEED_CHOOSE_PEOPLE.includes(cardType)) {
+            SELECTED_PLAYER_NUM = 1;
+        } else {
+            SELECTED_PLAYER_NUM = -1;
+        }
+    }
+
     for (const s of SELECTED_CARD_DIVS) {
         if (s === div) {
             SELECTED_CARD_DIVS.splice(SELECTED_CARD_DIVS.indexOf(s), 1);
-            $(div).children('.my-card-select').remove();
+            $1.children('.my-card-select').remove();
             updateButton();
             return;
         }
@@ -61,7 +83,7 @@ function cardClick(div) {
     while (SELECTED_CARD_DIVS.length >= SELECTED_CARD_NUM) {
         $(SELECTED_CARD_DIVS.shift()).children('.my-card-select').remove();
     }
-    $(div).append("<div class='my-card-select'></div>");
+    $1.append("<div class='my-card-select'></div>");
     SELECTED_CARD_DIVS.push(div);
 
     updateButton();
@@ -69,8 +91,12 @@ function cardClick(div) {
 
 function resetSelectCard() {
     SELECTED_CARD_DIVS = [];
-    SELECTED_CARD_NUM = -1;
     $('.my-card-select').remove();
+
+    if (IN_ROUNDING) {
+        return;
+    }
+    SELECTED_CARD_NUM = -1;
 }
 
 function cardPress(div) {

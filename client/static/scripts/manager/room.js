@@ -22,7 +22,7 @@ function updateRoomData() {
 }
 
 function updateTimeTips(playerArray, time, allTime, myTips) {
-    let rate = Math.floor(100 * time / allTime);
+    let rate = 100 * time / allTime;
 
     for (let player of playerArray) {
         const isMe = player.account === ACCOUNT;
@@ -134,6 +134,10 @@ function clickSubmit(root) {
 
     let data = {cards: cardArray, accounts: playerArray};
     sendWsMessage(root, data);
+
+    resetSelectCard();
+    resetSelectPlayer();
+    updateButton();
 }
 
 function clickCancel(root) {

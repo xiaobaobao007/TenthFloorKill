@@ -4,11 +4,41 @@ import {_4_SendIntelligence} from "../fight/normalEvent/_0_base/_4_SendIntellige
 import {_3_PlayerRounding} from "../fight/normalEvent/_0_base/_3_PlayerRounding";
 import {Card} from "../model/Card";
 import {_5_1_WaitingPlayerReceive} from "../fight/normalEvent/_5_IntelligenceCircle/_5_1_WaitingPlayerReceive";
-import {OPERATION_MI_DIAN, OPERATION_REN_YI, OPERATION_WEN_BEN, OPERATION_ZHI_DA} from "../util/Constant";
+import {OPERATION_MI_DIAN, OPERATION_REN_YI, OPERATION_WEN_BEN, OPERATION_ZHI_DA, ROUND_USE_CARD, USE_CARD_NEED_CHOOSE_PEOPLE} from "../util/Constant";
 import {_0_WaitPlayerUseCard} from "../fight/cardEvent/_0_WaitPlayerUseCard";
 import {_7_DiscardEvent} from "../fight/normalEvent/_0_base/_7_DiscardEvent";
 
 export class GameRoutes extends ServerClientRoutes {
+
+    // {"route":"game/sendIntelligence","data":{"cards":[{"cardId":"10","opz":""}],"accounts":["robot-2"]}}
+    async roundUseCard(player: Player, data: any) {
+        const cardClientInfo = data.cards[0];
+        let cardModel = player.findHandCardById(cardClientInfo.cardId);
+        if (!cardModel || !ROUND_USE_CARD.includes(cardModel.cardId)) {
+            player.sendTips("请重新选择手牌使用");
+            return;
+        }
+
+        let targetPlayer: Player | undefined;
+
+        if (USE_CARD_NEED_CHOOSE_PEOPLE.includes(cardModel.cardId)) {
+            targetPlayer = player.room!.findPlayerByAccount(data.accounts[0]);
+            if (!targetPlayer || !targetPlayer.live) {
+                player.sendTips("请重新选择玩家");
+                return;
+            }
+        }
+
+        const eventStack = player.room?.eventStack!;
+        if (!(eventStack.peek() instanceof _3_PlayerRounding)) {
+            player.sendTips("操作超时");
+            return;
+        }
+
+        const useEvent = new _0_WaitPlayerUseCard([player], cardModel, cardModel.cardId);
+        useEvent.use(player, cardModel, targetPlayer);
+        eventStack.push(useEvent);
+    }
 
     // {"route":"game/sendIntelligence","data":{"cards":[{"cardId":"10","opz":""}],"accounts":["robot-2"]}}
     async sendIntelligence(player: Player, data: any) {
@@ -104,7 +134,7 @@ export class GameRoutes extends ServerClientRoutes {
             return;
         }
 
-        (peek as _0_WaitPlayerUseCard).use(player, cardModel);
+        (peek as _0_WaitPlayerUseCard).use(player, cardModel, undefined);
     }
 
     async skipUseCard(player: Player) {
