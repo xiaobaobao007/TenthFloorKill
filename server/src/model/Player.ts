@@ -64,14 +64,20 @@ export class Player {
         }
     }
 
-    public addCardArray(array: Card[]) {
+    public addCardArray(array: Card[], reason: string) {
         if (array.length == 0) {
             return;
         }
 
+        let cardNames = "";
         for (let card of array) {
             card.hand = true;
             this._handCardArray.push(card);
+
+            if (cardNames != "") {
+                cardNames += ",";
+            }
+            cardNames += card.getName();
         }
 
         let handClientInfo = [];
@@ -81,6 +87,9 @@ export class Player {
 
         this.send(ROUTER.roomEvent.NEW_HAND_CARD, {cardArray: handClientInfo});
         this.updateHandCardNum();
+
+        this._room!.addEventTips("【" + this.account + "】因【" + reason + "】获得【" + array.length + "】张手牌");
+        this.send(ROUTER.roomEvent.ADD_EVENT_TIPS, "获得新的手牌【" + cardNames + "】");
     }
 
     public removeCard(card: Card, inGarbage: boolean) {

@@ -25,6 +25,7 @@ import {None} from "../fight/card/None";
 import {ShiTan2} from "../fight/card/ShiTan2";
 import {shuffleArray} from "../util/MathUtil";
 import {ShiPo} from "../fight/card/ShiPo";
+import {ShiTan3} from "../fight/card/ShiTan3";
 
 export class CardManager {
     private static readonly ALL_CARD_LIST: Card[] = [
@@ -126,9 +127,9 @@ export class CardManager {
         new ShiTan2(CARD_SHI_TAN, COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false, CAMP_RED),
         new ShiTan2(CARD_SHI_TAN, COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false, CAMP_BLUE),
         new ShiTan2(CARD_SHI_TAN, COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false, CAMP_GREY),
-        new None(CARD_SHI_TAN, COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
-        new None(CARD_SHI_TAN, COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
-        new None(CARD_SHI_TAN, COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new ShiTan3(CARD_SHI_TAN, COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new ShiTan3(CARD_SHI_TAN, COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new ShiTan3(CARD_SHI_TAN, COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
     ];
 
     public static initAllCard() {

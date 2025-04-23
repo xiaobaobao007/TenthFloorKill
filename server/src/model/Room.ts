@@ -182,7 +182,6 @@ export class Room {
 
     playerAddNewHandCard(player: Player, num: number, reason: string) {
         let list: Card[] = [];
-        let cardName = "";
         for (let i = 0; i < num; i++) {
             let index = this._cardIndex.pop();
 
@@ -202,24 +201,16 @@ export class Room {
             let card = CardManager.getNewPlayerCard(index);
             card.init(index, this.getNewIncIndex(), player);
             list.push(card);
-
-            if (cardName != "") {
-                cardName += ",";
-            }
-            cardName += card.getName();
         }
         this.updateLastCardNum();
-        player.addCardArray(list);
-
-        this.addEventTips("【" + player.account + "】因【" + reason + "】获得【" + num + "】张手牌");
-        player.send(ROUTER.roomEvent.ADD_EVENT_TIPS, "获得新的手牌【" + cardName + "】");
+        player.addCardArray(list, reason);
     }
 
     addDiscardCard(card: Card): void {
         this._discardIndex.push(card.cardIndex);
     }
 
-    private getNewIncIndex(): string {
+    getNewIncIndex(): string {
         return "" + this._incIndex++;
     }
 

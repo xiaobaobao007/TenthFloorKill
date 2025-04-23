@@ -10,7 +10,7 @@ import {InitManager} from "../../manager/InitManager";
  * 试探：自己回合中使用，指定除自己以外的玩家使用，（仅双方可见，执行后移出游戏）
  */
 export class ShiTan2 extends Card {
-    private takeCamp: string;
+    private readonly takeCamp: string;
 
     // takeCamp 拿牌的阵营，其他的全部弃牌
     constructor(cardId: string, color: string, direction: string, operation: string, lock: boolean, takeCamp: string) {

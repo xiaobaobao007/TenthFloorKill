@@ -118,6 +118,7 @@ export class _0_WaitPlayerUseCard implements Event {
 
         if (useCard.cardId != this.cardId) {
             player.sendTips("请选择1张【" + this.cardName + "】卡牌使用");
+            this.sendClientInfo(player.room!);
             return;
         }
 

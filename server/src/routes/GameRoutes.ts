@@ -7,6 +7,7 @@ import {_5_1_WaitingPlayerReceive} from "../fight/normalEvent/_5_IntelligenceCir
 import {OPERATION_MI_DIAN, OPERATION_REN_YI, OPERATION_WEN_BEN, OPERATION_ZHI_DA, ROUND_USE_CARD, USE_CARD_NEED_CHOOSE_PEOPLE} from "../util/Constant";
 import {_0_WaitPlayerUseCard} from "../fight/cardEvent/_0_WaitPlayerUseCard";
 import {_7_DiscardEvent} from "../fight/normalEvent/_0_base/_7_DiscardEvent";
+import {_0_WaitPlayerChooseButton} from "../fight/cardEvent/_0_WaitPlayerChooseButton";
 
 export class GameRoutes extends ServerClientRoutes {
 
@@ -144,6 +145,23 @@ export class GameRoutes extends ServerClientRoutes {
             return;
         }
         (peek as _0_WaitPlayerUseCard).skip(player);
+    }
+
+    async chooseButtonSuccess(player: Player) {
+        await this.chooseButton(player, true);
+    }
+
+    async chooseButtonFail(player: Player) {
+        await this.chooseButton(player, false);
+    }
+
+    async chooseButton(player: Player, success: boolean) {
+        const peek = player.room?.eventStack!.peek();
+        if (!(peek instanceof _0_WaitPlayerChooseButton)) {
+            player.sendTips("操作超时");
+            return;
+        }
+        (peek as _0_WaitPlayerChooseButton).chooseSuccessOrFail(player, success);
     }
 
 }

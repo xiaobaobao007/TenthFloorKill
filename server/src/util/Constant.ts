@@ -69,6 +69,7 @@ export const CLIENT_STRING_DATA: ClientConfigNameAndValue[] = [
     {name: CARD_SHI_TAN + "_2_" + CAMP_RED, value: "【潜伏】抽一张，其他弃一张"},
     {name: CARD_SHI_TAN + "_2_" + CAMP_BLUE, value: "【军情】抽一张，其他弃一张"},
     {name: CARD_SHI_TAN + "_2_" + CAMP_GREY, value: "【特工】抽一张，其他弃一张"},
+    {name: CARD_SHI_TAN + "_3", value: "被抽一张牌还是被看身份"},
 
     {name: "mmxd" + _CARD_NAME, value: "秘密下达"},
     {name: "mmxd" + _CARD_DESC, value: "我是【秘密下达】的描述"},
