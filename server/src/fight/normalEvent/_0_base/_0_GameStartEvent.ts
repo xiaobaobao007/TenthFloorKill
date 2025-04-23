@@ -26,7 +26,7 @@ export class _0_GameStartEvent implements Event {
 
     doEvent(room: Room): void {
         for (const player of room.playerArray) {
-            room.playerAddNewHandCard(player, GAME_CONFIG.GAME_INIT_CARD_NUM);
+            room.playerAddNewHandCard(player, GAME_CONFIG.GAME_INIT_CARD_NUM, "游戏开始");
         }
     }
 

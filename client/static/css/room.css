@@ -240,10 +240,10 @@
 
 .room-event {
     position: absolute;
-    right: 13vw;
+    right: 16vw;
     bottom: 18vw;
-    width: 23vw;
-    height: 14vw;
+    width: 26vw;
+    height: 11vw;
     background-color: rgba(199, 136, 136, 0.89);
     border-radius: 22px;
     padding: 0 17px 3px 17px;

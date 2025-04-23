@@ -2,9 +2,9 @@ import {_4_SendIntelligence} from "../fight/normalEvent/_0_base/_4_SendIntellige
 import {Player} from "../model/Player";
 import {random} from "../util/MathUtil";
 import {Card} from "../model/Card";
-import {_6_PlayerRoundEnd} from "../fight/normalEvent/_0_base/_6_PlayerRoundEnd";
-import {GAME_CONFIG, OPERATION_MI_DIAN, OPERATION_REN_YI} from "../util/Constant";
+import {OPERATION_MI_DIAN, OPERATION_REN_YI} from "../util/Constant";
 import {GameError} from "../exception/GameError";
+import {_7_DiscardEvent} from "../fight/normalEvent/_0_base/_7_DiscardEvent";
 
 export class AIManager {
     public static _4_SendIntelligence(player: Player, event: _4_SendIntelligence): void {
@@ -33,11 +33,10 @@ export class AIManager {
         throw new GameError("ai找不到需要发情报的人");
     }
 
-    public static _6_PlayerRoundEnd(player: Player, event: _6_PlayerRoundEnd): void {
+    public static _7_DiscardEvent(player: Player, event: _7_DiscardEvent): void {
         const handCardArray = player.handCardArray;
-        const discardNumber = handCardArray.length - GAME_CONFIG.MAX_CARD;
         let discardCardArray: Card[] = [];
-        for (let i = 0; i < discardNumber; i++) {
+        for (let i = 0; i < event.discardNum; i++) {
             discardCardArray.push(handCardArray[i]);
         }
         event.setDeleteCardArray(discardCardArray);

@@ -2,11 +2,11 @@ import {ServerClientRoutes} from "./ServerClientRoutes";
 import {Player} from "../model/Player";
 import {_4_SendIntelligence} from "../fight/normalEvent/_0_base/_4_SendIntelligence";
 import {_3_PlayerRounding} from "../fight/normalEvent/_0_base/_3_PlayerRounding";
-import {_6_PlayerRoundEnd} from "../fight/normalEvent/_0_base/_6_PlayerRoundEnd";
 import {Card} from "../model/Card";
 import {_5_1_WaitingPlayerReceive} from "../fight/normalEvent/_5_IntelligenceCircle/_5_1_WaitingPlayerReceive";
 import {OPERATION_MI_DIAN, OPERATION_REN_YI, OPERATION_WEN_BEN, OPERATION_ZHI_DA} from "../util/Constant";
 import {_0_WaitPlayerUseCard} from "../fight/cardEvent/_0_WaitPlayerUseCard";
+import {_7_DiscardEvent} from "../fight/normalEvent/_0_base/_7_DiscardEvent";
 
 export class GameRoutes extends ServerClientRoutes {
 
@@ -57,19 +57,20 @@ export class GameRoutes extends ServerClientRoutes {
 
     async disCard(player: Player, data: any) {
         const peek = player.room?.eventStack!.peek();
-        if (!(peek instanceof _6_PlayerRoundEnd)) {
+        if (!(peek instanceof _7_DiscardEvent)) {
             player.sendTips("操作超时");
             return;
         }
 
         let disCardArray: Card[] = [];
-        for (let card of data.cardArray) {
+        for (let card of data.cards) {
             const cardModel = player.findHandCardById(card.cardId);
             if (cardModel) {
                 disCardArray.push(cardModel);
             }
         }
-        (peek as _6_PlayerRoundEnd).setDeleteCardArray(disCardArray);
+
+        (peek as _7_DiscardEvent).setDeleteCardArray(disCardArray);
     }
 
     async receiveIntelligence(player: Player) {

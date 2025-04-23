@@ -29,7 +29,7 @@ export class _2_PlayerRoundStart implements Event {
     }
 
     doEvent(room: Room): void {
-        room.playerAddNewHandCard(this.currentPlayer, GAME_CONFIG.ROUND_INIT_CARD_NUM);
+        room.playerAddNewHandCard(this.currentPlayer, GAME_CONFIG.ROUND_INIT_CARD_NUM, "回合开始");
         room.eventStack.push(new _3_PlayerRounding(this.currentPlayer));
     }
 
