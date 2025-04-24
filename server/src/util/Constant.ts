@@ -44,6 +44,11 @@ export const USE_CARD_NEED_CHOOSE_PEOPLE: string[] = [
     CARD_SHAO_HUI,
 ];
 
+//选择玩家时候能不能选择自己
+export const USE_CARD_NEED_CHOOSE_PEOPLE_WITH_ME: string[] = [
+    CARD_SHAO_HUI,
+];
+
 //回合内能使用的牌
 export const ROUND_USE_CARD: string[] = [
     CARD_SHI_TAN,

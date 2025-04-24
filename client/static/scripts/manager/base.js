@@ -2,6 +2,7 @@
 let STRING_CONFIG = {};
 let ALL_CAMP = [];
 let USE_CARD_NEED_CHOOSE_PEOPLE = [];
+let USE_CARD_NEED_CHOOSE_PEOPLE_WITH_ME = [];
 let ROUND_USE_CARD = [];
 
 //信息

@@ -53,8 +53,8 @@ function cardClick(div) {
         resetSelectPlayer();
 
         const cardType = $1.attr("cardtype");
-        if (cardType === "sh") {
-            //如果是烧毁允许选择自己
+
+        if (USE_CARD_NEED_CHOOSE_PEOPLE_WITH_ME.includes(cardType)) {
             setDivClickEvent(".me-box", selectPlayerBox, emptyFunction);
         }
 
