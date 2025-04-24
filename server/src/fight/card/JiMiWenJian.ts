@@ -24,8 +24,8 @@ export class JiMiWenJian extends Card {
         return true;
     }
 
-    doEvent(player: Player, card: Card, eventPlayer: Player) {
-        const room = player.room!;
+    doEvent(card: Card, eventPlayer: Player) {
+        const room = this.belong!.room!;
 
         let allReadIntelligenceNum = 0;
         for (const p of room.playerArray!) {
@@ -39,6 +39,6 @@ export class JiMiWenJian extends Card {
             num = 2;
         }
 
-        room.playerAddNewHandCard(player, num, "机密文件");
+        room.playerAddNewHandCard(this.belong!, num, "机密文件");
     }
 }

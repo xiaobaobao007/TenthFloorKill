@@ -184,7 +184,7 @@ function openFloating(id) {
     html += "传递方式：" + STRING_CONFIG[handCard.operation] + "</br>";
     if (handCard.operation !== "ope_z") html += "传递方向：" + STRING_CONFIG[handCard.direction] + "</br>";
     if (handCard.lock) html += "锁定：无法被烧毁的情报</br>";
-    if (handCard.otherTips) html += STRING_CONFIG[handCard.otherTips] + "</br>";
+    if (handCard.otherTips) html += "其他效果：" + STRING_CONFIG[handCard.otherTips] + "</br>";
 
     setHtml(".floating-window-content", html);
 

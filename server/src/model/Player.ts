@@ -72,6 +72,7 @@ export class Player {
         let cardNames = "";
         for (let card of array) {
             card.hand = true;
+            card.belong = this;
             this._handCardArray.push(card);
 
             if (cardNames != "") {

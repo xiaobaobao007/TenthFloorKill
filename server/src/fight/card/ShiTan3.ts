@@ -19,8 +19,8 @@ export class ShiTan3 extends ShiTan implements ButtonEvent {
         return eventPlayer != undefined && this._belong != eventPlayer;
     }
 
-    doEvent(player: Player, ignore: Card, eventPlayer: Player) {
-        player.room?.eventStack.push(new _0_WaitPlayerChooseButton(["被" + player.account + "抽一张牌"], "告诉" + player.account + "你的身份", this, player, eventPlayer));
+    doEvent(ignore: Card, eventPlayer: Player) {
+        this.belong!.room?.eventStack.push(new _0_WaitPlayerChooseButton(["被" + this.belong!.account + "抽一张牌"], "告诉" + this.belong!.account + "你的身份", this, this.belong!, eventPlayer));
     }
 
     button_0(player: Player, eventPlayer: Player): boolean {

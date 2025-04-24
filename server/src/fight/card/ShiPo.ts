@@ -1,5 +1,4 @@
 import {Card} from "../../model/Card";
-import {Player} from "../../model/Player";
 import {EventManager} from "../../manager/EventManager";
 import {_NoneCard} from "../cardEvent/_NoneCard";
 import {_0_GameStartEvent} from "../normalEvent/_0_base/_0_GameStartEvent";
@@ -12,8 +11,8 @@ export class ShiPo extends Card {
         super(cardId, color, direction, operation, lock);
     }
 
-    doEvent(player: Player) {
-        const fatherEvent = EventManager.getEvent(player.room!, _0_GameStartEvent.name) as _0_GameStartEvent;
+    doEvent() {
+        const fatherEvent = EventManager.getEvent(this.belong!.room!, _0_GameStartEvent.name) as _0_GameStartEvent;
         const roundEvent = fatherEvent.roundEvent;
         roundEvent.pop();
         roundEvent.pop();

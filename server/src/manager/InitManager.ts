@@ -12,4 +12,8 @@ export class InitManager {
     public static getStringValue(name: string) {
         return this.stringMap.get(name);
     }
+
+    public static setStringValue(name: string, value: string) {
+        return this.stringMap.set(name, value);
+    }
 }

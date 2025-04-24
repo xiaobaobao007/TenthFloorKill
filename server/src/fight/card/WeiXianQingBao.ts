@@ -26,8 +26,8 @@ export class WeiXianQingBao extends Card implements ChooseCardEvent {
         return true;
     }
 
-    doEvent(player: Player, card: Card, eventPlayer: Player) {
-        player.room?.eventStack.push(new _0_WaitPlayerChooseOneCard("请选择一张手牌进行丢弃", "丢弃", this, player, eventPlayer, true));
+    doEvent(card: Card, eventPlayer: Player) {
+        this.belong!.room?.eventStack.push(new _0_WaitPlayerChooseOneCard("请选择一张手牌进行丢弃", "丢弃", this, this.belong!, eventPlayer, true));
     }
 
     choose(toPlayer: Player, card: Card | undefined): void {

@@ -1,5 +1,4 @@
 import {Card} from "../../model/Card";
-import {Player} from "../../model/Player";
 import {ROUTER} from "../../util/SocketUtil";
 
 /**
@@ -14,7 +13,7 @@ export class PoYi extends Card {
         return !toCard.isShow();
     }
 
-    doEvent(player: Player, eventCard: Card) {
-        player.send(ROUTER.roomEvent.UPDATE_ALL_INTELLIGENCE, eventCard.getSelfCardInfo())
+    doEvent(eventCard: Card) {
+        this.belong!.send(ROUTER.roomEvent.UPDATE_ALL_INTELLIGENCE, eventCard.getSelfCardInfo())
     }
 }

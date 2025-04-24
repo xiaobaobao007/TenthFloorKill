@@ -10,7 +10,7 @@ export class ZengYuan extends Card {
         super(cardId, color, direction, operation, lock);
     }
 
-    doEvent(player: Player, card: Card, eventPlayer: Player) {
-        player.room!.playerAddNewHandCard(player, player.intelligenceCardColorNum(COLOR_GREY) + 1, "增援");
+    doEvent(card: Card, eventPlayer: Player) {
+        this.belong!.room!.playerAddNewHandCard(this.belong!, this.belong!.intelligenceCardColorNum(COLOR_GREY) + 1, "增援");
     }
 }

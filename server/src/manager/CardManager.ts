@@ -2,6 +2,7 @@ import {
     CAMP_BLUE,
     CAMP_GREY,
     CAMP_RED,
+    CARD_GONG_KAI_WEN_BEN,
     CARD_JI_MI_WEN_JIAN,
     CARD_PO_YI,
     CARD_SHAO_HUI,
@@ -34,6 +35,7 @@ import {JiMiWenJian} from "../fight/card/JiMiWenJian";
 import {ZengYuan} from "../fight/card/ZengYuan";
 import {ShaoHui} from "../fight/card/ShaoHui";
 import {WeiXianQingBao} from "../fight/card/WeiXianQingBao";
+import {GongKaiWenBen} from "../fight/card/GongKaiWenBen";
 
 export class CardManager {
     private static readonly ALL_CARD_LIST: Card[] = [
@@ -87,11 +89,11 @@ export class CardManager {
         new None("dhls", COLOR_RED, DIRECTION_ALL, OPERATION_MI_DIAN, false),
         new None("dhls", COLOR_RED, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
 
-        new None("gkwb", COLOR_GREY, DIRECTION_ALL, OPERATION_WEN_BEN, false),
-        new None("gkwb", COLOR_GREY, DIRECTION_ALL, OPERATION_WEN_BEN, false),
-        new None("gkwb", COLOR_GREY, DIRECTION_ALL, OPERATION_WEN_BEN, false),
-        new None("gkwb", COLOR_BLUE, DIRECTION_RIGHT, OPERATION_WEN_BEN, true),
-        new None("gkwb", COLOR_RED, DIRECTION_RIGHT, OPERATION_WEN_BEN, true),
+        new GongKaiWenBen(CARD_GONG_KAI_WEN_BEN, COLOR_GREY, DIRECTION_ALL, OPERATION_WEN_BEN, false, CAMP_RED, 2, 1, 2, "1"),
+        new GongKaiWenBen(CARD_GONG_KAI_WEN_BEN, COLOR_GREY, DIRECTION_ALL, OPERATION_WEN_BEN, false, CAMP_BLUE, 2, 1, 2, "2"),
+        new GongKaiWenBen(CARD_GONG_KAI_WEN_BEN, COLOR_GREY, DIRECTION_ALL, OPERATION_WEN_BEN, false, CAMP_GREY, 2, 1, 2, "3"),
+        new GongKaiWenBen(CARD_GONG_KAI_WEN_BEN, COLOR_BLUE, DIRECTION_RIGHT, OPERATION_WEN_BEN, true, CAMP_RED, -1, 1, -1, "4"),
+        new GongKaiWenBen(CARD_GONG_KAI_WEN_BEN, COLOR_RED, DIRECTION_RIGHT, OPERATION_WEN_BEN, true, CAMP_BLUE, -1, 1, -1, "5"),
 
         new ShaoHui(CARD_SHAO_HUI, COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
         new ShaoHui(CARD_SHAO_HUI, COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
@@ -138,9 +140,32 @@ export class CardManager {
         new ShiTan3(CARD_SHI_TAN, COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
         new ShiTan3(CARD_SHI_TAN, COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
         new ShiTan3(CARD_SHI_TAN, COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+
+
+        new GongKaiWenBen(CARD_GONG_KAI_WEN_BEN, COLOR_GREY, DIRECTION_ALL, OPERATION_WEN_BEN, false, CAMP_RED, 2, 1, 2, "1"),
+        new GongKaiWenBen(CARD_GONG_KAI_WEN_BEN, COLOR_GREY, DIRECTION_ALL, OPERATION_WEN_BEN, false, CAMP_BLUE, 2, 1, 2, "2"),
+        new GongKaiWenBen(CARD_GONG_KAI_WEN_BEN, COLOR_GREY, DIRECTION_ALL, OPERATION_WEN_BEN, false, CAMP_GREY, 2, 1, 2, "3"),
+        new GongKaiWenBen(CARD_GONG_KAI_WEN_BEN, COLOR_BLUE, DIRECTION_RIGHT, OPERATION_WEN_BEN, true, CAMP_RED, -1, 1, -1, "4"),
+        new GongKaiWenBen(CARD_GONG_KAI_WEN_BEN, COLOR_RED, DIRECTION_RIGHT, OPERATION_WEN_BEN, true, CAMP_BLUE, -1, 1, -1, "5"),
+        new GongKaiWenBen(CARD_GONG_KAI_WEN_BEN, COLOR_GREY, DIRECTION_ALL, OPERATION_WEN_BEN, false, CAMP_RED, 2, 1, 2, "1"),
+        new GongKaiWenBen(CARD_GONG_KAI_WEN_BEN, COLOR_GREY, DIRECTION_ALL, OPERATION_WEN_BEN, false, CAMP_BLUE, 2, 1, 2, "2"),
+        new GongKaiWenBen(CARD_GONG_KAI_WEN_BEN, COLOR_GREY, DIRECTION_ALL, OPERATION_WEN_BEN, false, CAMP_GREY, 2, 1, 2, "3"),
+        new GongKaiWenBen(CARD_GONG_KAI_WEN_BEN, COLOR_BLUE, DIRECTION_RIGHT, OPERATION_WEN_BEN, true, CAMP_RED, -1, 1, -1, "4"),
+        new GongKaiWenBen(CARD_GONG_KAI_WEN_BEN, COLOR_RED, DIRECTION_RIGHT, OPERATION_WEN_BEN, true, CAMP_BLUE, -1, 1, -1, "5"),
+        new GongKaiWenBen(CARD_GONG_KAI_WEN_BEN, COLOR_GREY, DIRECTION_ALL, OPERATION_WEN_BEN, false, CAMP_RED, 2, 1, 2, "1"),
+        new GongKaiWenBen(CARD_GONG_KAI_WEN_BEN, COLOR_GREY, DIRECTION_ALL, OPERATION_WEN_BEN, false, CAMP_BLUE, 2, 1, 2, "2"),
+        new GongKaiWenBen(CARD_GONG_KAI_WEN_BEN, COLOR_GREY, DIRECTION_ALL, OPERATION_WEN_BEN, false, CAMP_GREY, 2, 1, 2, "3"),
+        new GongKaiWenBen(CARD_GONG_KAI_WEN_BEN, COLOR_BLUE, DIRECTION_RIGHT, OPERATION_WEN_BEN, true, CAMP_RED, -1, 1, -1, "4"),
+        new GongKaiWenBen(CARD_GONG_KAI_WEN_BEN, COLOR_RED, DIRECTION_RIGHT, OPERATION_WEN_BEN, true, CAMP_BLUE, -1, 1, -1, "5"),
+
     ];
 
     public static initAllCard() {
+        for (let card of this.ALL_CARD_LIST) {
+            if (card instanceof GongKaiWenBen) {
+                (card as GongKaiWenBen).initData();
+            }
+        }
         console.info("卡牌初始化成功，数量：", this.ALL_CARD_LIST.length);
     }
 

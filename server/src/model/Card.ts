@@ -66,7 +66,7 @@ export class Card {
         return true;
     }
 
-    doEvent(player: Player, eventCard: Card, eventPlayer: Player | undefined = undefined) {
+    doEvent(eventCard: Card, eventPlayer: Player | undefined = undefined) {
     }
 
     //当前卡牌是否是正面

@@ -23,9 +23,9 @@ export class ShiTan2 extends ShiTan {
         return eventPlayer != undefined && this._belong != eventPlayer;
     }
 
-    doEvent(player: Player, ignore: Card, eventPlayer: Player) {
-        const room = player.room!;
-        room.addEventTips("【" + player.account + "】对【" + eventPlayer.account + "】试探：" + InitManager.getStringValue(this.otherTips));
+    doEvent(ignore: Card, eventPlayer: Player) {
+        const room = this.belong!.room!;
+        room.addEventTips("【" + this.belong!.account + "】对【" + eventPlayer.account + "】试探：" + InitManager.getStringValue(this.otherTips));
         if (eventPlayer.camp == this.takeCamp) {
             room.playerAddNewHandCard(eventPlayer, 1, "试探");
         } else {

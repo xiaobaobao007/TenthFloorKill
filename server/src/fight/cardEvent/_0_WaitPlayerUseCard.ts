@@ -139,7 +139,7 @@ export class _0_WaitPlayerUseCard implements Event {
         this.player.removeCard(this.useCard!, !(this.useCard instanceof ShiTan));
 
         const fatherEvent = EventManager.getEvent(player.room!, _0_GameStartEvent.name) as _0_GameStartEvent;
-        fatherEvent.roundEvent.push(new _1_PlayerUseCardSuccess(this.player, this.useCard!, targetPlayer, this.eventCard));
+        fatherEvent.roundEvent.push(new _1_PlayerUseCardSuccess(this.useCard!, targetPlayer, this.eventCard));
 
         player.room!.addEventTips("【" + player.account + "】使用了一张【" + this.cardName + "】");
 

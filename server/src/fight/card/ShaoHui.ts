@@ -27,8 +27,8 @@ export class ShaoHui extends Card implements ChooseCardEvent {
         return false;
     }
 
-    doEvent(player: Player, card: Card, eventPlayer: Player) {
-        player.room?.eventStack.push(new _0_WaitPlayerChooseOneCard("请选择一张假情报进行烧毁", "烧毁", this, player, eventPlayer, false));
+    doEvent(card: Card, eventPlayer: Player) {
+        this.belong!.room?.eventStack.push(new _0_WaitPlayerChooseOneCard("请选择一张假情报进行烧毁", "烧毁", this, this.belong!, eventPlayer, false));
     }
 
     choose(toPlayer: Player, card: Card | undefined): void {

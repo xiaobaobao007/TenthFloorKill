@@ -57,11 +57,11 @@ wsApp.ws('*', (socket, req) => {
     });
 });
 
+//初始化所有文字
+InitManager.iniStringData();
+
 //初始化所有卡牌
 CardManager.initAllCard();
-
-//初始化
-InitManager.iniStringData();
 
 //添加定时任务
 ScheduleManager.init();
