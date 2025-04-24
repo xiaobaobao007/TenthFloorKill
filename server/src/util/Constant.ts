@@ -30,6 +30,7 @@ export const CARD_SHI_PO = "sp";//识破
 export const CARD_SHI_TAN = "st";//试探
 export const CARD_JI_MI_WEN_JIAN = "jmwj";//机密文件
 export const CARD_ZENG_YUAN = "zengyuan";//增援
+export const CARD_SHAO_HUI = "sh";//烧毁
 
 //客户端字符串配置
 interface ClientConfigNameAndValue {
@@ -40,6 +41,7 @@ interface ClientConfigNameAndValue {
 //使用卡牌需要选择玩家
 export const USE_CARD_NEED_CHOOSE_PEOPLE: string[] = [
     CARD_SHI_TAN,
+    CARD_SHAO_HUI,
 ];
 
 //回合内能使用的牌
@@ -47,6 +49,7 @@ export const ROUND_USE_CARD: string[] = [
     CARD_SHI_TAN,
     CARD_JI_MI_WEN_JIAN,
     CARD_ZENG_YUAN,
+    CARD_SHAO_HUI,
 ];
 
 export const CLIENT_STRING_DATA: ClientConfigNameAndValue[] = [
@@ -86,8 +89,8 @@ export const CLIENT_STRING_DATA: ClientConfigNameAndValue[] = [
     {name: CARD_ZENG_YUAN + _CARD_DESC, value: "摸取自己假情报数量加1的牌"},
     {name: "dhls" + _CARD_NAME, value: "调虎离山"},
     {name: "dhls" + _CARD_DESC, value: "我是【调虎离山】的描述"},
-    {name: "sh" + _CARD_NAME, value: "烧毁"},
-    {name: "sh" + _CARD_DESC, value: "我是【烧毁】的描述"},
+    {name: CARD_SHAO_HUI + _CARD_NAME, value: "烧毁"},
+    {name: CARD_SHAO_HUI + _CARD_DESC, value: "烧毁一张不带锁的假情报"},
     {name: "db" + _CARD_NAME, value: "掉包"},
     {name: "db" + _CARD_DESC, value: "我是【掉包】的描述"},
     {name: "lj" + _CARD_NAME, value: "离间"},

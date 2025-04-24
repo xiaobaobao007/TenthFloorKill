@@ -4,6 +4,7 @@ import {
     CAMP_RED,
     CARD_JI_MI_WEN_JIAN,
     CARD_PO_YI,
+    CARD_SHAO_HUI,
     CARD_SHI_PO,
     CARD_SHI_TAN,
     CARD_ZENG_YUAN,
@@ -30,6 +31,7 @@ import {ShiPo} from "../fight/card/ShiPo";
 import {ShiTan3} from "../fight/card/ShiTan3";
 import {JiMiWenJian} from "../fight/card/JiMiWenJian";
 import {ZengYuan} from "../fight/card/ZengYuan";
+import {ShaoHui} from "../fight/card/ShaoHui";
 
 export class CardManager {
     private static readonly ALL_CARD_LIST: Card[] = [
@@ -89,11 +91,11 @@ export class CardManager {
         new None("gkwb", COLOR_BLUE, DIRECTION_RIGHT, OPERATION_WEN_BEN, true),
         new None("gkwb", COLOR_RED, DIRECTION_RIGHT, OPERATION_WEN_BEN, true),
 
-        new None("sh", COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
-        new None("sh", COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
-        new None("sh", COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
-        new None("sh", COLOR_BLUE, DIRECTION_ALL, OPERATION_ZHI_DA, false),
-        new None("sh", COLOR_RED, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new ShaoHui(CARD_SHAO_HUI, COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new ShaoHui(CARD_SHAO_HUI, COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new ShaoHui(CARD_SHAO_HUI, COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new ShaoHui(CARD_SHAO_HUI, COLOR_BLUE, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new ShaoHui(CARD_SHAO_HUI, COLOR_RED, DIRECTION_ALL, OPERATION_ZHI_DA, false),
 
         new None("zhuanyi", COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
         new None("zhuanyi", COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),

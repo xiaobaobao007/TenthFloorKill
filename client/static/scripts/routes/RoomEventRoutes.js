@@ -39,6 +39,18 @@ class RoomEventRoutes extends ClientBaseRoutes {
         addIntelligenceCard(player, cardModel);
     }
 
+    async removeIntelligenceCard(updateData) {
+        $("[intelligencecardid=" + updateData.cardId + "]").remove();
+        const player = ALL_PLAYER[updateData.account];
+
+        for (let i = 0; i < player.intelligenceArray.length; i++) {
+            if (player.intelligenceArray[i].allId == updateData.cardId) {
+                player.intelligenceArray.splice(i, 1)
+                return;
+            }
+        }
+    }
+
     async updateTime(requestData) {
         if (!requestData.allTipsHideEvent) {
             addNewEventTips(requestData.allTips);
@@ -93,10 +105,6 @@ class RoomEventRoutes extends ClientBaseRoutes {
 
         $(".operation-button-father").html(html);
 
-        if (0 < SELECTED_CARD_NUM) {
-            setDivClickEvent("[cardid]", cardClick, cardPress);
-        }
-
         setDivClickEvent(".other-box", selectPlayerBox, emptyFunction);
 
         updateButton();
@@ -135,4 +143,22 @@ class RoomEventRoutes extends ClientBaseRoutes {
     async die(account) {
         $(ALL_PLAYER[account].div).append("<div class='dead' onclick='notPenetrate(event)'>已死亡</div>");
     }
+
+    async showOtherPanel(data) {
+        let cardArray = [];
+        SELECTED_CARD_NUM = 1;
+
+        for (let card of data.cards) {
+            const model = new CardModel();
+            model.init(card);
+            cardArray.push(model);
+        }
+
+        openOtherCardPanel(data.tips, cardArray, data.buttonTips);
+    }
+
+    async hideOtherPanel() {
+        $(".other-panel").remove();
+    }
+
 }

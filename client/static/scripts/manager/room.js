@@ -9,7 +9,7 @@ function updateRoomData() {
     setHtml(".roomInfo", "房间号：" + ROOM_DATA.roomId);
 
     //按钮显示控制问题
-    changeShowOrHide(".room-statistics-button", !ROOM_DATA.running);
+    changeShowOrHide("#statisticsButton", !ROOM_DATA.running);
 
     //组装玩家信息
     updateAllPlayer();

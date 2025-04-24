@@ -10,11 +10,11 @@ export class PoYi extends Card {
         super(cardId, color, direction, operation, lock);
     }
 
-    doEvent(player: Player, eventCard: Card) {
-        player.send(ROUTER.roomEvent.UPDATE_ALL_INTELLIGENCE, eventCard.getSelfCardInfo())
-    }
-
     public canUse(toCard: Card): boolean {
         return !toCard.isShow();
+    }
+
+    doEvent(player: Player, eventCard: Card) {
+        player.send(ROUTER.roomEvent.UPDATE_ALL_INTELLIGENCE, eventCard.getSelfCardInfo())
     }
 }

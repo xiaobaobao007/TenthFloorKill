@@ -9,10 +9,6 @@ function updateMyHandCard() {
     }
 }
 
-function addShowIntelligenceCard(cardModel) {
-    addCard(".other-card", cardModel);
-}
-
 function addHandCard(cardModel) {
     addCard("#myHandCardPanel", cardModel);
 }
@@ -29,7 +25,7 @@ function addCard(divSelect, cardModel) {
 
     $(divSelect).append(html);
 
-    setDivClickEvent("[cardid=" + cardModel.allId + "]", emptyFunction, cardPress);
+    setDivClickEvent("[cardid=" + cardModel.allId + "]", cardClick, cardPress);
 }
 
 function removeHandCard(cardModel) {
@@ -49,12 +45,19 @@ function cardClick(div) {
         return;
     }
 
+    removeDivClickEvent(".me-box");
+
     const $1 = $(div);
 
     if (IN_ROUNDING) {
         resetSelectPlayer();
 
         const cardType = $1.attr("cardtype");
+        if (cardType === "sh") {
+            //如果是烧毁允许选择自己
+            setDivClickEvent(".me-box", selectPlayerBox, emptyFunction);
+        }
+
         if (!ROUND_USE_CARD.includes(cardType)) {
             for (const selectedDiv of SELECTED_CARD_DIVS) {
                 $(selectedDiv).children('.my-card-select').remove();
@@ -116,21 +119,46 @@ function changeOperation(event, div) {
 }
 
 function showIntelligence(div) {
-    $(".other-card").html("");
+    const account = $(div).parent().children(".box-account:first").html();
 
-    let chooseAccount = $(div).parent().children(".box-account:first").html();
-
-    $(".other-card-panel-tips").html(chooseAccount + "收到的情报展示");
-
-    const player = ALL_PLAYER[chooseAccount];
-
-    for (const card of player.intelligenceArray) {
-        addShowIntelligenceCard(card);
-    }
-
-    $("#otherCardPanel").css("display", "flex");
+    openOtherCardPanel(account + "收到的情报展示", ALL_PLAYER[account].intelligenceArray);
 }
 
-function closeIntelligence() {
-    $("#otherCardPanel").css("display", "none");
+function openOtherCardPanel(tips, cardArray, buttonTips = undefined) {
+    const $1 = $("[tips=" + tips + "]");
+    if ($1.length > 0) {
+        $1.remove();
+
+        if (buttonTips == undefined || buttonTips.length == 0) {
+            return;
+        }
+    }
+
+    let html = "";
+    html += "<div class='other-panel' tips='" + tips + "' onClick='closeOtherCardPanel(event,this)'>";
+    html += "    <div class='other-card-panel-tips'>" + tips + "</div>";
+    html += "    <div class='my-card other-card clear'></div>";
+    if (buttonTips && buttonTips.length > 0) html += "<div class='other-card-button' onclick='otherCardPanelButton(event)'>" + buttonTips + "</div>";
+    html += "</div>";
+
+    $("#body-room").append(html);
+
+    for (const card of cardArray) {
+        addCard($('.other-panel:last').children(".my-card:last")[0], card);
+    }
+}
+
+function otherCardPanelButton(event) {
+    event.stopPropagation();
+    clickSubmit("game/clickChooseOtherCardButton");
+}
+
+function closeOtherCardPanel(event, div) {
+    event.stopPropagation();
+
+    if ($(div).children(".other-card-button").length > 0) {
+        return;
+    }
+
+    $(div).remove();
 }

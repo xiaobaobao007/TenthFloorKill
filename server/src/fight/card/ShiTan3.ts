@@ -14,6 +14,10 @@ export class ShiTan3 extends Card implements ButtonEvent {
         super(cardId, color, direction, operation, lock, CARD_SHI_TAN + "_3");
     }
 
+    public canUse(toCard: Card, eventPlayer: Player): boolean {
+        return eventPlayer != undefined && this._belong != eventPlayer;
+    }
+
     doEvent(player: Player, ignore: Card, eventPlayer: Player) {
         player.room?.eventStack.push(new _0_WaitPlayerChooseButton(["被" + player.account + "抽一张牌"], "告诉" + player.account + "你的身份", this, player, eventPlayer));
     }
@@ -28,7 +32,7 @@ export class ShiTan3 extends Card implements ButtonEvent {
         eventPlayer.send(ROUTER.roomEvent.ADD_EVENT_TIPS, "【" + card.getName() + "】被抽走了");
         player.room?.broadcastExclude(ROUTER.roomEvent.ADD_EVENT_TIPS, eventPlayer, "【" + eventPlayer.account + "】被【" + player.account + "】抽走一张牌")
 
-        card.init(card.cardIndex, player.room!.getNewIncIndex(), player);
+        card.belong = player;
         player.addCardArray([card], "试探");
 
         return true;

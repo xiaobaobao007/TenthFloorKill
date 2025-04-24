@@ -1,4 +1,4 @@
-import {_CARD_NAME, OPERATION_WEN_BEN, OPERATION_ZHI_DA} from "../util/Constant";
+import {_CARD_NAME, COLOR_GREY, OPERATION_WEN_BEN, OPERATION_ZHI_DA} from "../util/Constant";
 import {Player} from "./Player";
 import {InitManager} from "../manager/InitManager";
 
@@ -62,11 +62,11 @@ export class Card {
         };
     }
 
-    public canUse(toCard: Card): boolean {
+    canUse(toCard: Card, toPlayer: Player | undefined = undefined): boolean {
         return true;
     }
 
-    public doEvent(player: Player, eventCard: Card, eventPlayer: Player | undefined = undefined) {
+    doEvent(player: Player, eventCard: Card, eventPlayer: Player | undefined = undefined) {
     }
 
     //当前卡牌是否是正面
@@ -80,6 +80,10 @@ export class Card {
 
     getName() {
         return InitManager.getStringValue(this.cardId + _CARD_NAME);
+    }
+
+    canShaoHui() {
+        return this.color == COLOR_GREY && !this.lock;
     }
 
     get allId(): string {
@@ -108,6 +112,10 @@ export class Card {
 
     get belong(): Player | undefined {
         return this._belong;
+    }
+
+    set belong(value: Player | undefined) {
+        this._belong = value;
     }
 
     get cardIndex(): number {

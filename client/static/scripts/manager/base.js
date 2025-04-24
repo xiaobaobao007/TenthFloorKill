@@ -7,7 +7,6 @@ let ROUND_USE_CARD = [];
 //信息
 let ACCOUNT = "";
 let ROOM_DATA = {};
-let ALL_SEAT = [];
 let ALL_PLAYER = {};
 
 //缓存信息
@@ -29,26 +28,14 @@ const POSITION_DATA = [
 ];
 
 function addTips(tips) {
-    let allPopups = document.querySelectorAll('.floating-popup');
-    let bottomMostPopup = null;
-    let bottomMostY = -Infinity;
-
-    // 找出最下方的浮动提示框
-    allPopups.forEach(popup => {
-        let rect = popup.getBoundingClientRect();
-        if (rect.bottom > bottomMostY) {
-            bottomMostY = rect.bottom;
-            bottomMostPopup = popup;
-        }
-    });
+    let allPopups = $('.floating-popup:last')[0];
 
     const popup = document.createElement('div');
     popup.classList.add('floating-popup');
     popup.classList.add('show');
 
-    if (bottomMostPopup) {
-        let rect = bottomMostPopup.getBoundingClientRect();
-        popup.style.top = (rect.bottom + 5) + 'px';
+    if (allPopups) {
+        popup.style.top = (allPopups.getBoundingClientRect().bottom + 5) + 'px';
     } else {
         popup.style.top = '5px';
     }
@@ -161,6 +148,7 @@ function setDivClickEvent(select, click, press) {
         },
         click: function (e) {
             if (e.originalEvent.detail === 1) {
+                e.stopPropagation();
                 click(this);
             }
         }

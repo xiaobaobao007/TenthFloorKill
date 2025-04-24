@@ -32,7 +32,7 @@ export class _5_IntelligenceCircle implements Event {
             return EventType.EFFECT;
         } else if (this.currentEventType == EventType.NEXT) {
             this.currentEventType = EventType.EFFECT;
-            return this.currentPlayer == this.sendPlayer ? EventType.REMOVE_AND_NEXT : EventType.NEXT;
+            return EventType.NEXT;
         } else {
             return EventType.REMOVE;
         }

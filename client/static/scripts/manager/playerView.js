@@ -22,12 +22,6 @@ function updateAllPlayer() {
 
         const positionInfo = POSITION_DATA[seatIndex];
 
-        const seatModel = new Seat();
-        seatModel.index = seatIndex;
-        seatModel.div = newPlayerDiv;
-
-        ALL_SEAT.push(seatModel);
-
         newPlayerDiv.classList.add("player-box");
 
         let html = "";
@@ -45,9 +39,6 @@ function updateAllPlayer() {
             playerModel.init(playerInfo);
             ALL_PLAYER[playerModel.account] = playerModel;
             playerModel.div = newPlayerDiv;
-            playerModel.seat = seatModel;
-
-            seatModel.player = playerModel;
 
             if (seatIndex === 0) {
                 //自己

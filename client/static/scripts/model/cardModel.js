@@ -53,7 +53,7 @@ function CardModel() {
     };
 
     this.getIntelligenceDiv = function () {
-        return "<div class='intelligence " + this.getColorClass() + "'></div>";
+        return "<div class='intelligence " + this.getColorClass() + "' intelligencecardid='" + this.allId + "'></div>";
     }
 
     this.getAccountDiv = function () {

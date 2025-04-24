@@ -6,6 +6,7 @@ import {Room} from "../model/Room";
 import {GameOverError} from "../exception/GameOverError";
 import {_0_GameStartEvent} from "../fight/normalEvent/_0_base/_0_GameStartEvent";
 import {ROUTER} from "../util/SocketUtil";
+import {_0_WaitPlayerChooseOneCard} from "../fight/cardEvent/_0_WaitPlayerChooseOneCard";
 
 export class EventManager {
     public static doEvent() {
@@ -39,7 +40,10 @@ export class EventManager {
                             if (nextEvent) eventStack.push(nextEvent);
                         }
                         if (effectType != EventType.NEXT) {
-                            eventStack.peek()?.sendClientInfo(room, undefined);
+                            const top = eventStack.peek();
+                            if (!(top instanceof _0_WaitPlayerChooseOneCard)) {
+                                top?.sendClientInfo(room, undefined);
+                            }
                         }
                         break;
                     default:

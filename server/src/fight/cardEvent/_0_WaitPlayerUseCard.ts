@@ -122,7 +122,7 @@ export class _0_WaitPlayerUseCard implements Event {
             return false;
         }
 
-        if (!useCard.canUse(this.eventCard)) {
+        if (!useCard.canUse(this.eventCard, targetPlayer)) {
             return false;
         }
 

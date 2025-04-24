@@ -557,10 +557,6 @@
     color: #ffffffb5;
 }
 
-#otherCardPanel {
-    display: none;
-}
-
 .other-card {
     position: absolute;
     left: 50vw;
@@ -580,4 +576,20 @@
     z-index: 1001;
     text-shadow: 0 0 4px #000000;
     overflow-y: visible;
+}
+
+.other-card-button {
+    position: absolute;
+    right: 18vw;
+    top: 20.2vw;
+    width: 2.1vw;
+    translate: -100% -50%;
+    font-size: 1.5vw;
+    z-index: 1001;
+    padding: 5px 0 5px 0.6vw;
+    border-radius: 8px;
+    color: #fff026;
+    background-color: #2dbf33;
+    text-shadow: 3px 1px 5px #7b7373;
+    box-shadow: 0 0 4px 0px rgb(51 185 56);
 }

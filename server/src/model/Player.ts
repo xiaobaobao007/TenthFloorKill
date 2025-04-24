@@ -110,6 +110,16 @@ export class Player {
         this._room!.addEventTips("【" + this.account + "】成功收到一张【" + InitManager.getStringValue(COLOR_ + intelligenceCard.color) + "】")
     }
 
+    public removeIntelligenceCard(intelligenceCard: Card) {
+        const index = this._intelligenceCardArray.indexOf(intelligenceCard);
+        if (index === -1) {
+            return;
+        }
+
+        this._intelligenceCardArray.splice(index, 1);
+        this._room!.broadcast(ROUTER.roomEvent.REMOVE_INTELLIGENCE_CARD, {account: this.account, cardId: intelligenceCard.allId});
+    }
+
     private updateHandCardNum() {
         this._room!.broadcast(ROUTER.roomEvent.UPDATE_HAND_CARD_NUM,
             {
@@ -151,6 +161,14 @@ export class Player {
 
     findHandCardById(cardId: string) {
         for (let card of this._handCardArray) {
+            if (card.allId == cardId) {
+                return card;
+            }
+        }
+    }
+
+    findIntelligenceHandCardById(cardId: string) {
+        for (let card of this._intelligenceCardArray) {
             if (card.allId == cardId) {
                 return card;
             }

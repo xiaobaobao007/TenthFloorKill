@@ -26,6 +26,7 @@ export const ROUTER = {
     },
     roomEvent: {
         NEW_INTELLIGENCE_CARD: "roomEvent/newIntelligenceCard",//玩家收到一张情报
+        REMOVE_INTELLIGENCE_CARD: "roomEvent/removeIntelligenceCard",//玩家删除一张情报
         UPDATE_HAND_CARD_NUM: "roomEvent/updateHandCardNum",//更新玩家的手牌数量
 
         DIE: "roomEvent/die",//玩家挂了
@@ -41,5 +42,8 @@ export const ROUTER = {
 
         SHOW_BUTTON: "roomEvent/showButton",//展示玩家的按钮
         CLEAR_BUTTON: "roomEvent/clearButton",//清理玩家的按钮
+
+        SHOW_OTHER_PANEL: "roomEvent/showOtherPanel",//对A展示B的手牌或者情报，进行选择或者仅仅单纯展示
+        HIDE_OTHER_PANEL: "roomEvent/hideOtherPanel",//隐藏
     }
 }

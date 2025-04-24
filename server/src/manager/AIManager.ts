@@ -20,12 +20,12 @@ export class AIManager {
                 nextIndex = 0;
             }
 
-            if (allPlayerArray[i].live) {
+            if (allPlayerArray[nextIndex].live) {
                 if (playerCard.operation == OPERATION_REN_YI) {
                     playerCard.clientOperation = OPERATION_MI_DIAN;
                 }
 
-                event.setIntelligenceCard(player, playerCard, allPlayerArray[i]);
+                event.setIntelligenceCard(player, playerCard, allPlayerArray[nextIndex]);
                 return;
             }
         }

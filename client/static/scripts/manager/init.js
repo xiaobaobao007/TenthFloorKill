@@ -21,7 +21,6 @@ function initHall() {
 }
 
 function initRoom() {
-    ALL_SEAT = [];
     ALL_PLAYER = {};
 
     SELECTED_CARD_DIVS = [];

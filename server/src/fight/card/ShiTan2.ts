@@ -18,6 +18,10 @@ export class ShiTan2 extends Card {
         this.takeCamp = takeCamp;
     }
 
+    public canUse(toCard: Card, eventPlayer: Player): boolean {
+        return eventPlayer != undefined && this._belong != eventPlayer;
+    }
+
     doEvent(player: Player, ignore: Card, eventPlayer: Player) {
         const room = player.room!;
         room.addEventTips("【" + player.account + "】对【" + eventPlayer.account + "】试探：" + InitManager.getStringValue(this.otherTips));
