@@ -29,6 +29,7 @@ export const CARD_PO_YI = "py";//破译
 export const CARD_SHI_PO = "sp";//识破
 export const CARD_SHI_TAN = "st";//试探
 export const CARD_JI_MI_WEN_JIAN = "jmwj";//机密文件
+export const CARD_ZENG_YUAN = "zengyuan";//增援
 
 //客户端字符串配置
 interface ClientConfigNameAndValue {
@@ -45,6 +46,7 @@ export const USE_CARD_NEED_CHOOSE_PEOPLE: string[] = [
 export const ROUND_USE_CARD: string[] = [
     CARD_SHI_TAN,
     CARD_JI_MI_WEN_JIAN,
+    CARD_ZENG_YUAN,
 ];
 
 export const CLIENT_STRING_DATA: ClientConfigNameAndValue[] = [
@@ -80,8 +82,8 @@ export const CLIENT_STRING_DATA: ClientConfigNameAndValue[] = [
 
     {name: "jh" + _CARD_NAME, value: "截获"},
     {name: "jh" + _CARD_DESC, value: "我是【截获】的描述"},
-    {name: "zengyuan" + _CARD_NAME, value: "转移"},
-    {name: "zengyuan" + _CARD_DESC, value: "我是【转移】的描述"},
+    {name: CARD_ZENG_YUAN + _CARD_NAME, value: "增援"},
+    {name: CARD_ZENG_YUAN + _CARD_DESC, value: "摸取自己假情报数量加1的牌"},
     {name: "dhls" + _CARD_NAME, value: "调虎离山"},
     {name: "dhls" + _CARD_DESC, value: "我是【调虎离山】的描述"},
     {name: "sh" + _CARD_NAME, value: "烧毁"},
@@ -94,8 +96,8 @@ export const CLIENT_STRING_DATA: ClientConfigNameAndValue[] = [
     {name: "wxqb" + _CARD_DESC, value: "我是【危险情报】的描述"},
     {name: CARD_SHI_PO + _CARD_NAME, value: "识破"},
     {name: CARD_SHI_PO + _CARD_DESC, value: "使响应链的最后一张牌的效果失效"},
-    {name: "zhuanyi" + _CARD_NAME, value: "增援"},
-    {name: "zhuanyi" + _CARD_DESC, value: "我是【增援】的描述"},
+    {name: "zhuanyi" + _CARD_NAME, value: "转移"},
+    {name: "zhuanyi" + _CARD_DESC, value: "我是【转移】的描述"},
     {name: CARD_JI_MI_WEN_JIAN + _CARD_NAME, value: "机密文件"},
     {name: CARD_JI_MI_WEN_JIAN + _CARD_DESC, value: "场上真情报超过4张摸2张，超过5张摸3张"},
     {name: CARD_PO_YI + _CARD_NAME, value: "破译"},

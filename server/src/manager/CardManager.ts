@@ -6,6 +6,7 @@ import {
     CARD_PO_YI,
     CARD_SHI_PO,
     CARD_SHI_TAN,
+    CARD_ZENG_YUAN,
     COLOR_BLUE,
     COLOR_DOUBLE,
     COLOR_GREY,
@@ -28,6 +29,7 @@ import {shuffleArray} from "../util/MathUtil";
 import {ShiPo} from "../fight/card/ShiPo";
 import {ShiTan3} from "../fight/card/ShiTan3";
 import {JiMiWenJian} from "../fight/card/JiMiWenJian";
+import {ZengYuan} from "../fight/card/ZengYuan";
 
 export class CardManager {
     private static readonly ALL_CARD_LIST: Card[] = [
@@ -119,9 +121,9 @@ export class CardManager {
         new None("wxqb", COLOR_GREY, DIRECTION_ALL, OPERATION_REN_YI, true),
         new None("wxqb", COLOR_GREY, DIRECTION_ALL, OPERATION_REN_YI, true),
 
-        new None("zengyuan", COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
-        new None("zengyuan", COLOR_BLUE, DIRECTION_ALL, OPERATION_ZHI_DA, false),
-        new None("zengyuan", COLOR_RED, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new ZengYuan(CARD_ZENG_YUAN, COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new ZengYuan(CARD_ZENG_YUAN, COLOR_BLUE, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new ZengYuan(CARD_ZENG_YUAN, COLOR_RED, DIRECTION_ALL, OPERATION_ZHI_DA, false),
 
         new ShiTan2(CARD_SHI_TAN, COLOR_GREY, DIRECTION_ALL, OPERATION_MI_DIAN, false, CAMP_RED),
         new ShiTan2(CARD_SHI_TAN, COLOR_GREY, DIRECTION_ALL, OPERATION_MI_DIAN, false, CAMP_BLUE),
