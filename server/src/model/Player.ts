@@ -200,7 +200,7 @@ export class Player {
         this._room!.updateLastCardNum();
     }
 
-    private intelligenceCardColorNum(color: string) {
+    intelligenceCardColorNum(color: string) {
         let num = 0;
         for (const card of this._intelligenceCardArray) {
             if (card.color == color) {
@@ -254,6 +254,10 @@ export class Player {
 
     get handCardArray(): Card[] {
         return this._handCardArray;
+    }
+
+    get intelligenceCardArray(): Card[] {
+        return this._intelligenceCardArray;
     }
 
     get camp(): string {

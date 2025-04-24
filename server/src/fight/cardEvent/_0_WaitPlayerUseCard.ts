@@ -111,15 +111,19 @@ export class _0_WaitPlayerUseCard implements Event {
         }
     }
 
-    use(player: Player, useCard: Card, targetPlayer: Player | undefined = undefined) {
+    use(player: Player, useCard: Card, targetPlayer: Player | undefined = undefined): boolean {
         if (!this.playerArray.includes(player) || this.player != undefined || this.skipPlayerArray.includes(player)) {
-            return;
+            return false;
         }
 
         if (useCard.cardId != this.cardId) {
             player.sendTips("请选择1张【" + this.cardName + "】卡牌使用");
             this.sendClientInfo(player.room!);
-            return;
+            return false;
+        }
+
+        if (!useCard.canUse(this.eventCard)) {
+            return false;
         }
 
         this.player = player;
@@ -137,6 +141,8 @@ export class _0_WaitPlayerUseCard implements Event {
         fatherEvent.roundEvent.push(new _1_PlayerUseCardSuccess(this.player, this.useCard!, targetPlayer, this.eventCard));
 
         player.room!.addEventTips("【" + player.account + "】使用了一张【" + this.cardName + "】");
+
+        return true;
     }
 
     skip(player: Player) {

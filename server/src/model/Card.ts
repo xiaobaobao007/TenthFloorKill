@@ -62,11 +62,11 @@ export class Card {
         };
     }
 
-    public doEvent(player: Player, eventCard: Card, eventPlayer: Player | undefined = undefined) {
-    }
-
     public canUse(toCard: Card): boolean {
         return true;
+    }
+
+    public doEvent(player: Player, eventCard: Card, eventPlayer: Player | undefined = undefined) {
     }
 
     //当前卡牌是否是正面

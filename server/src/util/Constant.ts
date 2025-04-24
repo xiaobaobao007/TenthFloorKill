@@ -28,6 +28,7 @@ export const _CARD_DESC = "_desc";
 export const CARD_PO_YI = "py";//破译
 export const CARD_SHI_PO = "sp";//识破
 export const CARD_SHI_TAN = "st";//试探
+export const CARD_JI_MI_WEN_JIAN = "jmwj";//机密文件
 
 //客户端字符串配置
 interface ClientConfigNameAndValue {
@@ -37,12 +38,13 @@ interface ClientConfigNameAndValue {
 
 //使用卡牌需要选择玩家
 export const USE_CARD_NEED_CHOOSE_PEOPLE: string[] = [
-    CARD_SHI_TAN
+    CARD_SHI_TAN,
 ];
 
 //回合内能使用的牌
 export const ROUND_USE_CARD: string[] = [
-    CARD_SHI_TAN
+    CARD_SHI_TAN,
+    CARD_JI_MI_WEN_JIAN,
 ];
 
 export const CLIENT_STRING_DATA: ClientConfigNameAndValue[] = [
@@ -94,8 +96,8 @@ export const CLIENT_STRING_DATA: ClientConfigNameAndValue[] = [
     {name: CARD_SHI_PO + _CARD_DESC, value: "使响应链的最后一张牌的效果失效"},
     {name: "zhuanyi" + _CARD_NAME, value: "增援"},
     {name: "zhuanyi" + _CARD_DESC, value: "我是【增援】的描述"},
-    {name: "jmwj" + _CARD_NAME, value: "机密文件"},
-    {name: "jmwj" + _CARD_DESC, value: "我是【机密文件】的描述"},
+    {name: CARD_JI_MI_WEN_JIAN + _CARD_NAME, value: "机密文件"},
+    {name: CARD_JI_MI_WEN_JIAN + _CARD_DESC, value: "场上真情报超过4张摸2张，超过5张摸3张"},
     {name: CARD_PO_YI + _CARD_NAME, value: "破译"},
     {name: CARD_PO_YI + _CARD_DESC, value: "检视一张未反开的情报"},
     {name: "sd" + _CARD_NAME, value: "锁定"},

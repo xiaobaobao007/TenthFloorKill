@@ -5,6 +5,7 @@ import {Event} from "../fight/Event";
 import {Room} from "../model/Room";
 import {GameOverError} from "../exception/GameOverError";
 import {_0_GameStartEvent} from "../fight/normalEvent/_0_base/_0_GameStartEvent";
+import {ROUTER} from "../util/SocketUtil";
 
 export class EventManager {
     public static doEvent() {
@@ -50,6 +51,7 @@ export class EventManager {
                 if (err instanceof GameOverError) {
                     this.gameOver(room, err);
                 } else {
+                    room.broadcast(ROUTER.base.TIPS, "服务器出现报错！！！");
                     if (eventStack.size() > 1) {
                         //事件异常时将异常事件删除，回归到上个事件，肯定会引起bug，只是为了优化下流程，防止服务器卡死
                         eventStack.pop();

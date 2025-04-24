@@ -37,8 +37,9 @@ export class GameRoutes extends ServerClientRoutes {
         }
 
         const useEvent = new _0_WaitPlayerUseCard([player], cardModel, cardModel.cardId);
-        useEvent.use(player, cardModel, targetPlayer);
-        eventStack.push(useEvent);
+        if (useEvent.use(player, cardModel, targetPlayer)) {
+            eventStack.push(useEvent);
+        }
     }
 
     // {"route":"game/sendIntelligence","data":{"cards":[{"cardId":"10","opz":""}],"accounts":["robot-2"]}}
@@ -125,7 +126,7 @@ export class GameRoutes extends ServerClientRoutes {
         const cardClientInfo = data.cards[0];
         let cardModel = player.findHandCardById(cardClientInfo.cardId);
         if (!cardModel) {
-            player.sendTips("请重新选择情报");
+            player.sendTips("请重新选择手牌");
             return;
         }
 
