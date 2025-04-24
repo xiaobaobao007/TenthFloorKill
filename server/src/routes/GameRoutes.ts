@@ -147,21 +147,29 @@ export class GameRoutes extends ServerClientRoutes {
         (peek as _0_WaitPlayerUseCard).skip(player);
     }
 
-    async chooseButtonSuccess(player: Player) {
-        await this.chooseButton(player, true);
+    async choose_button_0(player: Player) {
+        await this.chooseButton(player, 0);
     }
 
-    async chooseButtonFail(player: Player) {
-        await this.chooseButton(player, false);
+    async choose_button_1(player: Player) {
+        await this.chooseButton(player, 1);
     }
 
-    async chooseButton(player: Player, success: boolean) {
+    async choose_button_2(player: Player) {
+        await this.chooseButton(player, 2);
+    }
+
+    async choose_button_fail(player: Player) {
+        await this.chooseButton(player, -1);
+    }
+
+    async chooseButton(player: Player, chooseIndex: number) {
         const peek = player.room?.eventStack!.peek();
         if (!(peek instanceof _0_WaitPlayerChooseButton)) {
             player.sendTips("操作超时");
             return;
         }
-        (peek as _0_WaitPlayerChooseButton).chooseSuccessOrFail(player, success);
+        (peek as _0_WaitPlayerChooseButton).chooseButton(player, chooseIndex);
     }
 
 }

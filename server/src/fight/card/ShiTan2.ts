@@ -22,7 +22,7 @@ export class ShiTan2 extends Card {
         const room = player.room!;
         room.addEventTips("【" + player.account + "】对【" + eventPlayer.account + "】试探：" + InitManager.getStringValue(this.otherTips));
         if (eventPlayer.camp == this.takeCamp) {
-            room.playerAddNewHandCard(player, 1, "试探");
+            room.playerAddNewHandCard(eventPlayer, 1, "试探");
         } else {
             if (eventPlayer.handCardArray.length == 0) {
                 room.addEventTips("没有牌可以被弃");

@@ -15,10 +15,10 @@ export class ShiTan3 extends Card implements ButtonEvent {
     }
 
     doEvent(player: Player, ignore: Card, eventPlayer: Player) {
-        player.room?.eventStack.push(new _0_WaitPlayerChooseButton("被" + player.account + "抽一张牌", "告诉" + player.account + "你的身份", this, player, eventPlayer));
+        player.room?.eventStack.push(new _0_WaitPlayerChooseButton(["被" + player.account + "抽一张牌"], "告诉" + player.account + "你的身份", this, player, eventPlayer));
     }
 
-    success(player: Player, eventPlayer: Player): boolean {
+    button_0(player: Player, eventPlayer: Player): boolean {
         if (eventPlayer.handCardArray.length == 0) {
             return false;
         }
@@ -26,16 +26,25 @@ export class ShiTan3 extends Card implements ButtonEvent {
         const card = eventPlayer.handCardArray[random(eventPlayer.handCardArray.length)];
         eventPlayer.removeCard(card, false);
         eventPlayer.send(ROUTER.roomEvent.ADD_EVENT_TIPS, "【" + card.getName() + "】被抽走了");
+        player.room?.broadcastExclude(ROUTER.roomEvent.ADD_EVENT_TIPS, eventPlayer, "【" + eventPlayer.account + "】被【" + player.account + "】抽走一张牌")
 
         card.init(card.cardIndex, player.room!.getNewIncIndex(), player);
         player.addCardArray([card], "试探");
-        eventPlayer.send(ROUTER.roomEvent.ADD_EVENT_TIPS, "【" + card.getName() + "】被抽走了");
 
         return true;
     }
 
-    fail(player: Player, eventPlayer: Player): boolean {
+    button_1(): boolean {
+        return false;
+    }
+
+    button_2(): boolean {
+        return false;
+    }
+
+    button_fail(player: Player, eventPlayer: Player): boolean {
         player.send(ROUTER.roomEvent.ADD_EVENT_TIPS, "【" + eventPlayer.account + "】的身份是【" + InitManager.getStringValue(eventPlayer.camp) + "】");
+        player.room?.broadcast(ROUTER.roomEvent.ADD_EVENT_TIPS, "【" + player.account + "】知晓了【" + eventPlayer.account + "】的阵营")
         return true;
     }
 }
