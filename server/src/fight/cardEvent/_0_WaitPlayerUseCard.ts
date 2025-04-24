@@ -10,6 +10,7 @@ import {CardManager} from "../../manager/CardManager";
 import {ROUTER} from "../../util/SocketUtil";
 import {EventManager} from "../../manager/EventManager";
 import {_0_GameStartEvent} from "../normalEvent/_0_base/_0_GameStartEvent";
+import {ShiTan} from "../card/ShiTan";
 
 export class _0_WaitPlayerUseCard implements Event {
     private static readonly SEND_BUTTON_INFO = {
@@ -135,7 +136,7 @@ export class _0_WaitPlayerUseCard implements Event {
             this.lastTime = 0;
         }
 
-        this.player.removeCard(this.useCard!, true);
+        this.player.removeCard(this.useCard!, !(this.useCard instanceof ShiTan));
 
         const fatherEvent = EventManager.getEvent(player.room!, _0_GameStartEvent.name) as _0_GameStartEvent;
         fatherEvent.roundEvent.push(new _1_PlayerUseCardSuccess(this.player, this.useCard!, targetPlayer, this.eventCard));

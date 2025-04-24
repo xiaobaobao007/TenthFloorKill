@@ -43,7 +43,7 @@ export class _0_WaitPlayerChooseOneCard implements Event {
     }
 
     prv(room: Room): void {
-        this.sendClientInfo(room, this.toPlayer);
+        this.sendClientInfo(room, this.fromPlayer);
 
         if (this.toPlayer.ai) {
             this.lastTime = 0;
@@ -59,10 +59,10 @@ export class _0_WaitPlayerChooseOneCard implements Event {
             let typeName = (this.chooseHandCard == undefined ? "" : (this.chooseHandCard ? "手牌" : "情报"))
 
             let data = {
-                account: this.toPlayer.account,
+                account: this.fromPlayer.account,
                 time: this.lastTime,
                 allTime: GAME_CONFIG._3_PlayerRounding_TIME,
-                allTips: "【" + this.fromPlayer.account + "】正在选择【" + this.fromPlayer.account + "】一张" + typeName,
+                allTips: "【" + this.fromPlayer.account + "】正在选择【" + this.toPlayer.account + "】一张" + typeName,
                 myTips: "在上方选择一张" + typeName,
             };
 
@@ -77,7 +77,7 @@ export class _0_WaitPlayerChooseOneCard implements Event {
     }
 
     sendClientInfo(room: Room, player: Player | undefined): void {
-        if (player && player != this.toPlayer) {
+        if (player && player != this.fromPlayer) {
             return;
         }
 
@@ -91,7 +91,7 @@ export class _0_WaitPlayerChooseOneCard implements Event {
         let cardArray: any[] = [];
         cards.forEach(card => cardArray.push(card.getSelfCardInfo()));
 
-        this.toPlayer.send(ROUTER.roomEvent.SHOW_OTHER_PANEL, {
+        this.fromPlayer.send(ROUTER.roomEvent.SHOW_OTHER_PANEL, {
             "tips": this.tips,
             "buttonTips": this.buttonTips,
             "cards": cardArray,

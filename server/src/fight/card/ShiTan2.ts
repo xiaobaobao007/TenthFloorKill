@@ -5,11 +5,12 @@ import {_7_DiscardEvent} from "../normalEvent/_0_base/_7_DiscardEvent";
 import {EventManager} from "../../manager/EventManager";
 import {_0_GameStartEvent} from "../normalEvent/_0_base/_0_GameStartEvent";
 import {InitManager} from "../../manager/InitManager";
+import {ShiTan} from "./ShiTan";
 
 /**
  * 试探：自己回合中使用，指定除自己以外的玩家使用，（仅双方可见，执行后移出游戏）
  */
-export class ShiTan2 extends Card {
+export class ShiTan2 extends ShiTan {
     private readonly takeCamp: string;
 
     // takeCamp 拿牌的阵营，其他的全部弃牌

@@ -14,6 +14,10 @@ export class GameRoutes extends ServerClientRoutes {
 
     // {"route":"game/sendIntelligence","data":{"cards":[{"cardId":"10","opz":""}],"accounts":["robot-2"]}}
     async roundUseCard(player: Player, data: any) {
+        if (!data || !data.cards || !data.cards[0]) {
+            return;
+        }
+
         const cardClientInfo = data.cards[0];
         let cardModel = player.findHandCardById(cardClientInfo.cardId);
         if (!cardModel || !ROUND_USE_CARD.includes(cardModel.cardId)) {
@@ -24,6 +28,10 @@ export class GameRoutes extends ServerClientRoutes {
         let targetPlayer: Player | undefined;
 
         if (USE_CARD_NEED_CHOOSE_PEOPLE.includes(cardModel.cardId)) {
+            if (!data.accounts || data.accounts[0].length === 0) {
+                return;
+            }
+
             targetPlayer = player.room!.findPlayerByAccount(data.accounts[0]);
             if (!targetPlayer || !targetPlayer.live) {
                 player.sendTips("请重新选择玩家");
@@ -45,7 +53,16 @@ export class GameRoutes extends ServerClientRoutes {
 
     // {"route":"game/sendIntelligence","data":{"cards":[{"cardId":"10","opz":""}],"accounts":["robot-2"]}}
     async sendIntelligence(player: Player, data: any) {
+        if (!data || !data.cards || !data.cards[0]) {
+            return;
+        }
+
         const cardClientInfo = data.cards[0];
+        if (!cardClientInfo || !cardClientInfo.cardId) {
+            player.sendTips("请重新选择情报");
+            return;
+        }
+
         let cardModel = player.findHandCardById(cardClientInfo.cardId);
         if (!cardModel) {
             player.sendTips("请重新选择情报");
@@ -61,6 +78,10 @@ export class GameRoutes extends ServerClientRoutes {
             cardModel.clientOperation = clientOperation;
         } else {
             cardModel.clientOperation = undefined;
+        }
+
+        if (!data.accounts || data.accounts[0].length === 0) {
+            return;
         }
 
         const targetPlayer = player.room!.findPlayerByAccount(data.accounts[0]);
@@ -89,6 +110,10 @@ export class GameRoutes extends ServerClientRoutes {
     }
 
     async disCard(player: Player, data: any) {
+        if (!data || !data.cards) {
+            return;
+        }
+
         const peek = player.room?.eventStack!.peek();
         if (!(peek instanceof _7_DiscardEvent)) {
             player.sendTips("操作超时");
@@ -124,6 +149,10 @@ export class GameRoutes extends ServerClientRoutes {
     }
 
     async useCard(player: Player, data: any) {
+        if (!data || !data.cards || !data.cards[0]) {
+            return;
+        }
+
         const cardClientInfo = data.cards[0];
         let cardModel = player.findHandCardById(cardClientInfo.cardId);
         if (!cardModel) {
@@ -175,6 +204,10 @@ export class GameRoutes extends ServerClientRoutes {
     }
 
     async clickChooseOtherCardButton(player: Player, data: any) {
+        if (!data || !data.cards || !data.cards[0]) {
+            return;
+        }
+
         const eventStack = player.room?.eventStack!;
         if (!(eventStack.peek() instanceof _0_WaitPlayerChooseOneCard)) {
             player.sendTips("操作超时");
@@ -186,6 +219,10 @@ export class GameRoutes extends ServerClientRoutes {
         let cardId: string | undefined = undefined;
         if (fatherEvent.chooseHandCard != undefined) {
             const cardClientInfo = data.cards[0];
+            if (!cardClientInfo) {
+                player.sendTips("请重新选择");
+                return;
+            }
             cardId = cardClientInfo.cardId;
         }
 

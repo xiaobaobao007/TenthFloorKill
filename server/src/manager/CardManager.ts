@@ -7,6 +7,7 @@ import {
     CARD_SHAO_HUI,
     CARD_SHI_PO,
     CARD_SHI_TAN,
+    CARD_WEI_XIAN_QING_BAO,
     CARD_ZENG_YUAN,
     COLOR_BLUE,
     COLOR_DOUBLE,
@@ -32,6 +33,7 @@ import {ShiTan3} from "../fight/card/ShiTan3";
 import {JiMiWenJian} from "../fight/card/JiMiWenJian";
 import {ZengYuan} from "../fight/card/ZengYuan";
 import {ShaoHui} from "../fight/card/ShaoHui";
+import {WeiXianQingBao} from "../fight/card/WeiXianQingBao";
 
 export class CardManager {
     private static readonly ALL_CARD_LIST: Card[] = [
@@ -117,11 +119,11 @@ export class CardManager {
         new None("sd", COLOR_RED, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
         new None("sd", COLOR_RED, DIRECTION_ALL, OPERATION_ZHI_DA, true),
 
-        new None("wxqb", COLOR_GREY, DIRECTION_RIGHT, OPERATION_REN_YI, true),
-        new None("wxqb", COLOR_GREY, DIRECTION_RIGHT, OPERATION_REN_YI, true),
-        new None("wxqb", COLOR_GREY, DIRECTION_ALL, OPERATION_REN_YI, true),
-        new None("wxqb", COLOR_GREY, DIRECTION_ALL, OPERATION_REN_YI, true),
-        new None("wxqb", COLOR_GREY, DIRECTION_ALL, OPERATION_REN_YI, true),
+        new WeiXianQingBao(CARD_WEI_XIAN_QING_BAO, COLOR_GREY, DIRECTION_RIGHT, OPERATION_REN_YI, true),
+        new WeiXianQingBao(CARD_WEI_XIAN_QING_BAO, COLOR_GREY, DIRECTION_RIGHT, OPERATION_REN_YI, true),
+        new WeiXianQingBao(CARD_WEI_XIAN_QING_BAO, COLOR_GREY, DIRECTION_ALL, OPERATION_REN_YI, true),
+        new WeiXianQingBao(CARD_WEI_XIAN_QING_BAO, COLOR_GREY, DIRECTION_ALL, OPERATION_REN_YI, true),
+        new WeiXianQingBao(CARD_WEI_XIAN_QING_BAO, COLOR_GREY, DIRECTION_ALL, OPERATION_REN_YI, true),
 
         new ZengYuan(CARD_ZENG_YUAN, COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
         new ZengYuan(CARD_ZENG_YUAN, COLOR_BLUE, DIRECTION_ALL, OPERATION_ZHI_DA, false),
