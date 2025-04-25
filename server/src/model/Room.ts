@@ -296,6 +296,7 @@ export class Room {
                 account: player.account,
                 hero: "",
                 camp: player.camp,
+                live: player.live,
                 win: winPlayerArray.includes(player),
             });
         }

@@ -20,6 +20,7 @@ class RoomRoutes extends ClientBaseRoutes {
                 "            <th>玩家</th>" +
                 "            <th>角色</th>" +
                 "            <th>身份</th>" +
+                "            <th>状态</th>" +
                 "            <th>结果</th>" +
                 "        </tr>" +
                 "        </thead>" +
@@ -41,6 +42,12 @@ class RoomRoutes extends ClientBaseRoutes {
                 html += "    <td>" + player.account + "</td>";
                 html += "    <td>" + player.hero + "</td>";
                 html += "    <td class='" + player.camp + "'>" + STRING_CONFIG[player.camp] + "</td>";
+
+                if (player.live) {
+                    html += "    <td class='win'>存货</td>";
+                } else {
+                    html += "    <td class='lose'>死亡</td>";
+                }
 
                 if (player.win) {
                     html += "    <td class='win'>获胜</td>";
