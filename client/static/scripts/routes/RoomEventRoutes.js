@@ -103,6 +103,10 @@ class RoomEventRoutes extends ClientBaseRoutes {
             }
         }
 
+        if (requestData.moreSelect) {
+            OTHER_SELECT = requestData.moreSelect;
+        }
+
         $(".operation-button-father").html(html);
 
         setDivClickEvent(".other-box", selectPlayerBox, emptyFunction);
@@ -115,6 +119,8 @@ class RoomEventRoutes extends ClientBaseRoutes {
         $(".operation-button-father").html("");
         resetSelectPlayer();
         resetSelectCard();
+        SELECTED_CARD_NUM = -1;
+        SELECTED_PLAYER_NUM = -1;
     }
 
     async updateAllIntelligence(data) {

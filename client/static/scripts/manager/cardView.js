@@ -64,6 +64,7 @@ function cardClick(div) {
             }
             SELECTED_CARD_DIVS.length = 0;
             updateButton();
+            $(".operation-select").remove();
             return;
         }
 
@@ -79,6 +80,7 @@ function cardClick(div) {
             SELECTED_CARD_DIVS.splice(SELECTED_CARD_DIVS.indexOf(s), 1);
             $1.children('.my-card-select').remove();
             updateButton();
+            $(".operation-select").remove();
             return;
         }
     }
@@ -90,32 +92,41 @@ function cardClick(div) {
     SELECTED_CARD_DIVS.push(div);
 
     updateButton();
+
+    showSelect(div);
+}
+
+function showSelect(div) {
+    const cardType = $(div).attr("cardtype");
+
+    const select = $(".operation-select");
+
+    if (OTHER_SELECT[cardType] && OTHER_SELECT[cardType].length > 0) {
+        if (select.length > 0) {
+            if (select.attr("selecttype") === cardType) {
+                return;
+            }
+            select.remove();
+        } else {
+            let html = "";
+            html += "<select class='operation-select' selecttype='" + cardType + "'>";
+            for (const one of OTHER_SELECT[cardType]) html += "<option value='" + one.value + "'>" + one.name + "</option>";
+            html += "</select>";
+            $('.operation-button-father').children().first().before(html);
+        }
+    } else if (select.length > 0) {
+        select.remove();
+    }
 }
 
 function resetSelectCard() {
     SELECTED_CARD_DIVS = [];
     $('.my-card-select').remove();
-
-    if (IN_ROUNDING) {
-        return;
-    }
     SELECTED_CARD_NUM = -1;
 }
 
 function cardPress(div) {
     openFloating($(div).attr("cardid"));
-}
-
-function changeOperation(event, div) {
-    event.stopPropagation();
-    let array = ["ope_z", "ope_m", "ope_w"];
-    const jq = $(div);
-    let index = array.indexOf(jq.attr("ope"));
-    if (index < 0 || ++index >= array.length) {
-        index = 0;
-    }
-    jq.attr("ope", array[index])
-    div.innerHTML = STRING_CONFIG[array[index]];
 }
 
 function showIntelligence(div) {

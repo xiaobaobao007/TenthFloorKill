@@ -208,13 +208,6 @@
     z-index: 999;
 }
 
-.card-operation-ope_ {
-    color: #fb0000;
-    background-color: rgba(255, 255, 0, 0.57);
-    border-radius: 7px;
-    font-style: oblique;
-}
-
 .card-tips {
     color: #ffffff;
     position: absolute;
@@ -386,6 +379,7 @@
     height: 3vw;
     translate: -50% 0;
     display: flex;
+    align-items: center;
 }
 
 .room-statistics-button {
@@ -404,8 +398,6 @@
 
 .operation-button-grey {
     font-size: 2.2vw;
-    margin-left: 0.5vw;
-    margin-right: 0.5vw;
     height: 100%;
     padding: 0px 15px 4px 15px;
     border-radius: 8px;
@@ -415,12 +407,12 @@
     display: flex;
     align-items: center;
     pointer-events: none; /*灰色状态按钮屏蔽点击事件*/
+    margin: 0 1vw 0 1vw;
 }
 
 .operation-button-green {
     font-size: 2.2vw;
-    margin-left: 0.5vw;
-    margin-right: 0.5vw;
+    margin-right: 1vw;
     height: 100%;
     padding: 0px 15px 4px 15px;
     border-radius: 8px;
@@ -434,13 +426,23 @@
 
 .operation-button-small-grey {
     font-size: 1.5vw;
-    margin: 0.6vw 0.5vw 0px 0.5vw;
     height: 63%;
     padding: 0px 6px 5px 6px;
     border-radius: 8px;
     color: #fffef9;
     background-color: rgb(132, 132, 135);
     text-shadow: 0px 0px 7px #060606;
+}
+
+.operation-select {
+    font-size: 1.8vw;
+    margin-right: 1vw;
+    color: #fff026;
+    background-color: #2dbf33;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
 }
 
 .room-time-tips-content {

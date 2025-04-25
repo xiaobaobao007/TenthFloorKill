@@ -70,7 +70,7 @@ export class GameRoutes extends ServerClientRoutes {
         }
 
         if (cardModel.operation === OPERATION_REN_YI) {
-            const clientOperation = cardClientInfo.opz;
+            const clientOperation = data.selectValue;
             if (!clientOperation || (clientOperation != OPERATION_ZHI_DA && clientOperation != OPERATION_MI_DIAN && clientOperation != OPERATION_WEN_BEN)) {
                 player.sendTips("请点击卡牌右上角选择传递方式");
                 return;

@@ -121,10 +121,7 @@ function clickSubmit(root) {
 
     let cardArray = [];
     for (const cardDiv of SELECTED_CARD_DIVS) {
-        cardArray.push({
-            cardId: $(cardDiv).attr("cardid"),
-            opz: $(cardDiv).children(".card-operation:first").attr("ope"),
-        });
+        cardArray.push({cardId: $(cardDiv).attr("cardid")});
     }
 
     let playerArray = [];
@@ -132,16 +129,14 @@ function clickSubmit(root) {
         playerArray.push($(SELECTED_PLAYER).children(".box-account").html());
     }
 
-    let data = {cards: cardArray, accounts: playerArray};
-    sendWsMessage(root, data);
-
-    resetSelectCard();
-    resetSelectPlayer();
-    updateButton();
+    const $1 = $(".operation-select");
+    sendWsMessage(root, {cards: cardArray, accounts: playerArray, selectValue: $1.val()});
+    $1.remove();
 }
 
 function clickCancel(root) {
     sendWsMessage(root);
+    $(".operation-select").remove();
 }
 
 function getStatistics() {

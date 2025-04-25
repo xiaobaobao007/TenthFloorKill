@@ -35,12 +35,8 @@ function CardModel() {
     };
 
     this.getOperationDiv = function (isHand) {
-        if (isHand && this.operation === "ope_") {
-            return "<div class='card-operation card-operation-ope_' onclick='changeOperation(event,this)'>切换</div>";
-        }
         return "<div class='card-operation'>" + getEmoji(this.operation) + "</div>";
     };
-
 
     //<div class='card-name  card-name-2'>试探</div>
     //<div class='card-name  card-name-4'>公开文本</div>

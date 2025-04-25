@@ -29,6 +29,8 @@ function initRoom() {
     SELECTED_PLAYER = undefined;
     SELECTED_PLAYER_NUM = -1;
 
+    OTHER_SELECT = {};
+
     $(".clear").html("");
     $("body")[0].style.background = "rgb(114 201 104 / 60%)";
 }

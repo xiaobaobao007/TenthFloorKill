@@ -16,6 +16,7 @@ let SELECTED_CARD_DIVS = [];
 let SELECTED_CARD_NUM = -1;
 let SELECTED_PLAYER = undefined;
 let SELECTED_PLAYER_NUM = -1;//目前暂时只支持选择其他玩家
+let OTHER_SELECT = {};
 
 const POSITION_DATA = [
     {type: "  me  ", intelligence: "top"},
