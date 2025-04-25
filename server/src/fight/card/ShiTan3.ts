@@ -27,9 +27,10 @@ export class ShiTan3 extends ShiTan implements ButtonEvent {
         this.belong!.room?.eventStack.push(new _0_WaitPlayerChooseButton(buttonArray, this, this.belong!, eventPlayer));
     }
 
-    button_0(player: Player, eventPlayer: Player): boolean {
+    button_0(player: Player, eventPlayer: Player) {
         if (eventPlayer.handCardArray.length == 0) {
-            return false;
+            this.button_fail(player, eventPlayer);
+            return;
         }
 
         const card = eventPlayer.handCardArray[random(eventPlayer.handCardArray.length)];
@@ -39,17 +40,18 @@ export class ShiTan3 extends ShiTan implements ButtonEvent {
 
         card.belong = player;
         player.addCardArray([card], "试探");
-
-        return true;
     }
 
-    button_1(): boolean {
-        return false;
+    button_1(player: Player, eventPlayer: Player) {
+        this.button_fail(player, eventPlayer);
     }
 
-    button_fail(player: Player, eventPlayer: Player): boolean {
+    button_2(player: Player, eventPlayer: Player) {
+        this.button_fail(player, eventPlayer);
+    }
+
+    button_fail(player: Player, eventPlayer: Player) {
         player.send(ROUTER.roomEvent.ADD_EVENT_TIPS, "【" + eventPlayer.account + "】的身份是【" + InitManager.getStringValue(eventPlayer.camp) + "】");
         player.room?.broadcast(ROUTER.roomEvent.ADD_EVENT_TIPS, "【" + player.account + "】知晓了【" + eventPlayer.account + "】的阵营")
-        return true;
     }
 }

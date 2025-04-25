@@ -91,17 +91,23 @@ export class GongKaiWenBen extends Card implements ButtonEvent {
         room.eventStack.push(new _0_WaitPlayerChooseButton(buttonArray, this, this.belong!, receivePlayer));
     }
 
-    button_0(player: Player, eventPlayer: Player): boolean {
+    button_0(player: Player, eventPlayer: Player) {
         this.todoCard(this.allDoing, eventPlayer);
-        return true;
     }
 
-    button_1(player: Player, eventPlayer: Player): boolean {
+    button_1(player: Player, eventPlayer: Player) {
         if (eventPlayer.camp == this.camp) {
             return this.button_0(player, eventPlayer);
         }
-        this.todoCard(this.otherDoing, eventPlayer);
-        return true;
+        this.button_0(player, eventPlayer);
+    }
+
+    button_2(player: Player, eventPlayer: Player) {
+        this.button_0(player, eventPlayer);
+    }
+
+    button_fail(player: Player, eventPlayer: Player) {
+        this.button_0(player, eventPlayer);
     }
 
     private todoCard(num: number, player: Player) {
@@ -115,10 +121,6 @@ export class GongKaiWenBen extends Card implements ButtonEvent {
         } else {
             room.playerAddNewHandCard(player, num, "公开文本情报效果");
         }
-    }
-
-    button_fail(player: Player, eventPlayer: Player): boolean {
-        return true;
     }
 
 }

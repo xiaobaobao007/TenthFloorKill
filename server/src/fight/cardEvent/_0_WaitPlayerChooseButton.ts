@@ -5,16 +5,18 @@ import {Player} from "../../model/Player";
 import {GAME_CONFIG} from "../../util/Constant";
 
 export interface ButtonEvent {
-    button_0(player: Player, eventPlayer: Player): boolean;
+    button_0(player: Player, eventPlayer: Player): void;
 
-    button_1(player: Player, eventPlayer: Player): boolean;
+    button_1(player: Player, eventPlayer: Player): void;
 
-    button_fail(player: Player, eventPlayer: Player): boolean;
+    button_2(player: Player, eventPlayer: Player): void;
+
+    button_fail(player: Player, eventPlayer: Player): void;
 }
 
 export interface ButtonData {
     type: "success" | "cancel";
-    chooseIndex: 0 | 1 | -1 | 999;
+    chooseIndex: 0 | 1 | 2 | -1 | 999;
     name: string;
 }
 
@@ -73,14 +75,13 @@ export class _0_WaitPlayerChooseButton implements Event {
     }
 
     nextEvent(room: Room): Event | undefined {
-        let success = false;
         if (this.chooseIndex == 0) {
-            success = this.fatherEvent.button_0(this.fromPlayer, this.toPlayer);
+            this.fatherEvent.button_0(this.fromPlayer, this.toPlayer);
         } else if (this.chooseIndex == 1) {
-            success = this.fatherEvent.button_1(this.fromPlayer, this.toPlayer);
-        }
-
-        if (!success) {
+            this.fatherEvent.button_1(this.fromPlayer, this.toPlayer);
+        } else if (this.chooseIndex == 2) {
+            this.fatherEvent.button_2(this.fromPlayer, this.toPlayer);
+        } else {
             this.fatherEvent.button_fail(this.fromPlayer, this.toPlayer);
         }
 
