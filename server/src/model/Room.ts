@@ -7,8 +7,8 @@ import {_0_GameStartEvent} from "../fight/normalEvent/_0_base/_0_GameStartEvent"
 import {Stack} from "../util/Stack";
 import {CAMP_BLUE, CAMP_CONFIG, CAMP_GREY, CAMP_RED} from "../util/Constant";
 import {RoomManager} from "../manager/RoomManager";
-import {GameSpecialError} from "../exception/GameSpecialError";
 import {ROUTER} from "../util/SocketUtil";
+import {GameError} from "../exception/GameError";
 
 export class Room {
     public readonly roomId: string;//房间号
@@ -147,7 +147,7 @@ export class Room {
         }
     }
 
-    updateTime(data: any) {
+    updateTime(data: any = {time: 0}) {
         this.broadcast(ROUTER.roomEvent.UPDATE_TIME, data);
     }
 
@@ -194,7 +194,7 @@ export class Room {
                 if (index == undefined) {
                     this.addEventTips("牌都给用完了，那我能怎么办，直接全部获胜喽");
                     this.broadcast(ROUTER.base.TIPS, "牌都给用完了，那我能怎么办，直接全部获胜喽");
-                    throw new GameSpecialError("牌库没了");
+                    throw new GameError("牌库没了");
                 }
             }
 
@@ -316,6 +316,21 @@ export class Room {
             robot.ai = true;
             this._playerArray.push(robot);
         }
+    }
+
+    private initPlayerFirstRound() {
+        for (let i = 0; i < this._playerArray.length; i++) {
+            this._playerArray[i].isRoundFirst = i == 0;
+        }
+    }
+
+    getInRoundPlayer(): Player {
+        for (let player of this._playerArray) {
+            if (player.inRounding) {
+                return player;
+            }
+        }
+        throw new GameError("未找到当前回合中的玩家");
     }
 
     get leaderAccount(): string | undefined {

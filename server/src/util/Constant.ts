@@ -33,6 +33,7 @@ export const CARD_ZENG_YUAN = "zengyuan";//增援
 export const CARD_SHAO_HUI = "sh";//烧毁
 export const CARD_WEI_XIAN_QING_BAO = "wxqb";//危险情报
 export const CARD_GONG_KAI_WEN_BEN = "gkwb";//公开文本
+export const CARD_MI_MI_XIA_DA = "mmxd";//秘密下达
 
 //客户端字符串配置
 interface ClientConfigNameAndValue {
@@ -89,8 +90,8 @@ export const CLIENT_STRING_DATA: ClientConfigNameAndValue[] = [
     {name: CARD_SHI_TAN + "_2_" + CAMP_BLUE, value: "【军情】抽一张，其他弃一张"},
     {name: CARD_SHI_TAN + "_2_" + CAMP_GREY, value: "【特工】抽一张，其他弃一张"},
     {name: CARD_SHI_TAN + "_3", value: "被抽一张牌还是被看身份"},
-    {name: "mmxd" + _CARD_NAME, value: "秘密下达"},
-    {name: "mmxd" + _CARD_DESC, value: "我是【秘密下达】的描述"},
+    {name: CARD_MI_MI_XIA_DA + _CARD_NAME, value: "秘密下达"},
+    {name: CARD_MI_MI_XIA_DA + _CARD_DESC, value: "我是【秘密下达】的描述"},
     {name: CARD_GONG_KAI_WEN_BEN + _CARD_NAME, value: "公开文本"},
     {name: CARD_GONG_KAI_WEN_BEN + _CARD_DESC, value: "替换一名玩家手牌，抽到公开文本则弃掉"},
     {name: "jh" + _CARD_NAME, value: "截获"},

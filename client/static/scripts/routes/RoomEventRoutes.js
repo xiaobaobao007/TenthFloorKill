@@ -44,7 +44,7 @@ class RoomEventRoutes extends ClientBaseRoutes {
         const player = ALL_PLAYER[updateData.account];
 
         for (let i = 0; i < player.intelligenceArray.length; i++) {
-            if (player.intelligenceArray[i].allId == updateData.cardId) {
+            if (player.intelligenceArray[i].allId === updateData.cardId) {
                 player.intelligenceArray.splice(i, 1)
                 return;
             }
@@ -52,9 +52,7 @@ class RoomEventRoutes extends ClientBaseRoutes {
     }
 
     async updateTime(requestData) {
-        if (!requestData.allTipsHideEvent) {
-            addNewEventTips(requestData.allTips);
-        }
+        addNewEventTips(requestData.allTips);
 
         let playerArray = undefined;
         if (requestData.account) {

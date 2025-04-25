@@ -47,7 +47,7 @@ export class GongKaiWenBen extends Card implements ButtonEvent {
         return (num < 0 ? "弃" : "抽") + Math.abs(num) + "张";
     }
 
-    public canUse(toCard: Card, eventPlayer: Player): boolean {
+    public canUse(toCard: Card | undefined, eventPlayer: Player): boolean {
         if (eventPlayer != undefined && this._belong != eventPlayer && eventPlayer.handCardArray.length > 0) {
             return true;
         }

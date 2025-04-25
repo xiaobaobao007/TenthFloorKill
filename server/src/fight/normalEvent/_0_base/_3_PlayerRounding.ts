@@ -4,6 +4,7 @@ import {Event} from "../../Event";
 import {EventType} from "../../EventType";
 import {GAME_CONFIG} from "../../../util/Constant";
 import {_4_SendIntelligence} from "./_4_SendIntelligence";
+import {CardManager} from "../../../manager/CardManager";
 
 export class _3_PlayerRounding implements Event {
     private static readonly SEND_BUTTON_INFO = {
@@ -58,9 +59,11 @@ export class _3_PlayerRounding implements Event {
         this.lastTime -= GAME_CONFIG.GAME_FRAME_TIME;
     }
 
-    nextEvent(room: Room): Event {
+    nextEvent(room: Room): undefined {
         this.currentPlayer.clearButton();
-        return new _4_SendIntelligence(this.currentPlayer);
+        room.eventStack.push(new _4_SendIntelligence(this.currentPlayer));
+        CardManager.judgeCardEvent(room, undefined, CardManager.WAIT_MI_MI_XIA_DA);
+        return;
     }
 
     sendClientInfo(room: Room, player: Player): void {

@@ -224,6 +224,10 @@ function getEmoji(name) {
 }
 
 function addNewEventTips(tips) {
+    if (tips === undefined || tips.length === 0) {
+        return;
+    }
+
     const div = $(".room-event");
     if (div.length === 0) {
         return;

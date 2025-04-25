@@ -21,6 +21,8 @@ export class Player {
     private _handCardArray: Card[] = [];//手牌
     private _camp: string = CAMP_GREY;//我的阵营
     private _live: boolean = true;//存活中
+    private _isRoundFirst: boolean = false;//起始玩家
+    private _inRounding: boolean = false;//在回合中
 
     constructor(socket: WebSocket | undefined, account: string) {
         this._socket = socket;
@@ -297,5 +299,21 @@ export class Player {
 
     set ready(value: boolean) {
         this._ready = value;
+    }
+
+    get isRoundFirst(): boolean {
+        return this._isRoundFirst;
+    }
+
+    set isRoundFirst(value: boolean) {
+        this._isRoundFirst = value;
+    }
+
+    get inRounding(): boolean {
+        return this._inRounding;
+    }
+
+    set inRounding(value: boolean) {
+        this._inRounding = value;
     }
 }

@@ -9,8 +9,8 @@ export class PoYi extends Card {
         super(cardId, color, direction, operation, lock);
     }
 
-    public canUse(toCard: Card): boolean {
-        return !toCard.isShow();
+    public canUse(toCard: Card | undefined): boolean {
+        return toCard != undefined && !toCard.isShow();
     }
 
     doEvent(eventCard: Card) {

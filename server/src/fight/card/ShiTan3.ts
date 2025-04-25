@@ -15,7 +15,7 @@ export class ShiTan3 extends ShiTan implements ButtonEvent {
         super(cardId, color, direction, operation, lock, CARD_SHI_TAN + "_3");
     }
 
-    public canUse(toCard: Card, eventPlayer: Player): boolean {
+    public canUse(toCard: Card | undefined, eventPlayer: Player): boolean {
         return eventPlayer != undefined && this._belong != eventPlayer;
     }
 

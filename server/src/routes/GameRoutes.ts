@@ -160,13 +160,18 @@ export class GameRoutes extends ServerClientRoutes {
             return;
         }
 
-        const peek = player.room?.eventStack!.peek();
+        const room = player.room!;
+        const peek = room.eventStack!.peek();
         if (!(peek instanceof _0_WaitPlayerUseCard)) {
             player.sendTips("操作超时");
             return;
         }
 
-        (peek as _0_WaitPlayerUseCard).use(player, cardModel, undefined);
+        if (!cardModel.setUseParam(data.selectValue)) {
+            return;
+        }
+
+        (peek as _0_WaitPlayerUseCard).use(player, cardModel, player);
     }
 
     async skipUseCard(player: Player) {
@@ -204,10 +209,6 @@ export class GameRoutes extends ServerClientRoutes {
     }
 
     async clickChooseOtherCardButton(player: Player, data: any) {
-        if (!data || !data.cards || !data.cards[0]) {
-            return;
-        }
-
         const eventStack = player.room?.eventStack!;
         if (!(eventStack.peek() instanceof _0_WaitPlayerChooseOneCard)) {
             player.sendTips("操作超时");
@@ -218,6 +219,9 @@ export class GameRoutes extends ServerClientRoutes {
 
         let cardId: string | undefined = undefined;
         if (fatherEvent.chooseHandCard != undefined) {
+            if (!data || !data.cards || !data.cards[0]) {
+                return;
+            }
             const cardClientInfo = data.cards[0];
             if (!cardClientInfo) {
                 player.sendTips("请重新选择");

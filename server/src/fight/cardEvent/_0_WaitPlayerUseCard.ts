@@ -3,7 +3,7 @@ import {Event} from "../Event";
 import {EventType} from "../EventType";
 import {Player} from "../../model/Player";
 import {Card} from "../../model/Card";
-import {_CARD_NAME, GAME_CONFIG} from "../../util/Constant";
+import {_CARD_NAME, COLOR_BLUE, COLOR_GREY, COLOR_RED, GAME_CONFIG} from "../../util/Constant";
 import {InitManager} from "../../manager/InitManager";
 import {_1_PlayerUseCardSuccess} from "./_1_PlayerUseCardSuccess";
 import {CardManager} from "../../manager/CardManager";
@@ -17,11 +17,14 @@ export class _0_WaitPlayerUseCard implements Event {
         buttonArray: [
             {classType: "submit", needCardNum: 1, root: "game/useCard", name: "使用",},
             {classType: "cancel", root: "game/skipUseCard", name: "不使用",},
-        ]
+        ],
+        moreSelect: {
+            mmxd: [{name: "红色", value: COLOR_RED}, {name: "灰色", value: COLOR_GREY}, {name: "蓝色", value: COLOR_BLUE},]
+        }
     }
 
     private readonly playerArray: Player[];
-    private readonly eventCard: Card;
+    private readonly eventCard: Card | undefined;
     private readonly cardId: string;
     private readonly cardName: string;
     private readonly eventArray: string[];
@@ -35,7 +38,7 @@ export class _0_WaitPlayerUseCard implements Event {
     private canAskShiPo = true;
     private lastTime = GAME_CONFIG._0_WaitPlayerUseCard_TIME;
 
-    constructor(playerArray: Player[], eventCard: Card, cardId: string, eventArray: string[] = [], eventIndex: number = 0) {
+    constructor(playerArray: Player[], eventCard: Card | undefined, cardId: string, eventArray: string[] = [], eventIndex: number = 0) {
         this.playerArray = playerArray;
         this.eventCard = eventCard;
         this.cardId = cardId;
@@ -123,7 +126,7 @@ export class _0_WaitPlayerUseCard implements Event {
             return false;
         }
 
-        if (!useCard.canUse(this.eventCard, targetPlayer)) {
+        if (this.eventCard && !useCard.canUse(this.eventCard, targetPlayer)) {
             return false;
         }
 

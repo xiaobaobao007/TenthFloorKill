@@ -12,7 +12,7 @@ export class WeiXianQingBao extends Card implements ChooseCardEvent {
         super(cardId, color, direction, operation, lock);
     }
 
-    canUse(toCard: Card, toPlayer: Player | undefined): boolean {
+    canUse(toCard: Card | undefined, toPlayer: Player | undefined): boolean {
         if (!toPlayer || toPlayer.handCardArray.length === 0) {
             this._belong?.sendTips("请选择一名有手牌的玩家");
             return false;

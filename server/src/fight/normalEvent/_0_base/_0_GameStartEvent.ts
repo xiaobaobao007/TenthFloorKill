@@ -9,6 +9,7 @@ import {Stack} from "../../../util/Stack";
 export class _0_GameStartEvent implements Event {
     private currentEventType = EventType.NONE;
 
+    private _round: number = 0;//回合数
     private _roundEvent: Stack<Event> = new Stack();//已成功执行影响的事件
 
     getEffectType(room: Room): EventType {
@@ -43,13 +44,21 @@ export class _0_GameStartEvent implements Event {
     sendClientInfo(room: Room, player: Player): void {
     }
 
-    get roundEvent(): Stack<Event> {
-        return this._roundEvent;
-    }
-
     reLogin(room: Room, player: Player) {
         for (const event of this._roundEvent.getItems()) {
             event.sendClientInfo(room, player);
         }
+    }
+
+    get roundEvent(): Stack<Event> {
+        return this._roundEvent;
+    }
+
+    get round(): number {
+        return this._round;
+    }
+
+    set round(value: number) {
+        this._round = value;
     }
 }

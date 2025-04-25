@@ -19,7 +19,7 @@ export class ShiTan2 extends ShiTan {
         this.takeCamp = takeCamp;
     }
 
-    public canUse(toCard: Card, eventPlayer: Player): boolean {
+    public canUse(toCard: Card | undefined, eventPlayer: Player): boolean {
         return eventPlayer != undefined && this._belong != eventPlayer;
     }
 

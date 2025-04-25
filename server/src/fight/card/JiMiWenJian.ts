@@ -10,7 +10,10 @@ export class JiMiWenJian extends Card {
         super(cardId, color, direction, operation, lock);
     }
 
-    public canUse(toCard: Card): boolean {
+    public canUse(toCard: Card | undefined): boolean {
+        if (!toCard) {
+            return false;
+        }
         let allReadIntelligenceNum = 0;
         for (const player of toCard.belong?.room?.playerArray!) {
             allReadIntelligenceNum += player.intelligenceCardArray.length - player.intelligenceCardColorNum(COLOR_GREY);

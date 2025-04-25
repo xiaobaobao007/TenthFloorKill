@@ -3,6 +3,8 @@ import {Room} from "../../../model/Room";
 import {Event} from "../../Event";
 import {EventType} from "../../EventType";
 import {_2_PlayerRoundStart} from "./_2_PlayerRoundStart";
+import {EventManager} from "../../../manager/EventManager";
+import {_0_GameStartEvent} from "./_0_GameStartEvent";
 
 export class _1_SearchNextPlayer implements Event {
     private currentPlayer: Player | undefined = undefined;
@@ -35,9 +37,18 @@ export class _1_SearchNextPlayer implements Event {
         }
 
         if (this.currentPlayer.live) {
+            this.setInRoundPlayer(room, this.currentPlayer);
             return new _2_PlayerRoundStart(this.currentPlayer);
         } else {
             return this.nextEvent(room);
+        }
+    }
+
+    private setInRoundPlayer(room: Room, player: Player): void {
+        for (let p of room.playerArray) {
+            if ((p.inRounding = (p === player)) === p.isRoundFirst) {
+                (EventManager.getEvent(room, _0_GameStartEvent.name) as _0_GameStartEvent).round++;
+            }
         }
     }
 

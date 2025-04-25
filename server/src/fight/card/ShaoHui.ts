@@ -12,7 +12,7 @@ export class ShaoHui extends Card implements ChooseCardEvent {
         super(cardId, color, direction, operation, lock);
     }
 
-    canUse(toCard: Card, toPlayer: Player | undefined): boolean {
+    canUse(toCard: Card | undefined, toPlayer: Player | undefined): boolean {
         if (!toPlayer) {
             return false;
         }

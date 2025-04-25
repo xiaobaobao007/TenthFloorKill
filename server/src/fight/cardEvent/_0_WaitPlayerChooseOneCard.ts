@@ -44,7 +44,7 @@ export class _0_WaitPlayerChooseOneCard implements Event {
 
     prv(room: Room): void {
         this.sendClientInfo(room, this.fromPlayer);
-
+        room.updateTime();
         if (this.toPlayer.ai) {
             this.lastTime = 0;
         }
@@ -56,17 +56,26 @@ export class _0_WaitPlayerChooseOneCard implements Event {
 
     frameOver(room: Room): void {
         if (this.lastTime % GAME_CONFIG.UPDATE_PLAYER_TIME == 0) {
-            let typeName = (this.chooseHandCard == undefined ? "" : (this.chooseHandCard ? "手牌" : "情报"))
-
-            let data = {
-                account: this.fromPlayer.account,
-                time: this.lastTime,
-                allTime: GAME_CONFIG._3_PlayerRounding_TIME,
-                allTips: "【" + this.fromPlayer.account + "】正在选择【" + this.toPlayer.account + "】一张" + typeName,
-                myTips: "在上方选择一张" + typeName,
-            };
-
-            room.updateTime(data);
+            if (this.chooseHandCard == undefined) {
+                let data = {
+                    account: this.fromPlayer.account,
+                    time: this.lastTime,
+                    allTime: GAME_CONFIG._3_PlayerRounding_TIME,
+                    allTips: "【" + this.fromPlayer.account + "】正在查看【" + this.toPlayer.account + "】的手牌",
+                    myTips: "请查看【" + this.toPlayer.account + "】的手牌",
+                };
+                room.updateTime(data);
+            } else {
+                let typeName = this.chooseHandCard ? "手牌" : "情报";
+                let data = {
+                    account: this.fromPlayer.account,
+                    time: this.lastTime,
+                    allTime: GAME_CONFIG._3_PlayerRounding_TIME,
+                    allTips: "【" + this.fromPlayer.account + "】正在选择【" + this.toPlayer.account + "】一张" + typeName,
+                    myTips: "在上方选择一张" + typeName,
+                };
+                room.updateTime(data);
+            }
         }
 
         this.lastTime -= GAME_CONFIG.GAME_FRAME_TIME;
@@ -82,7 +91,7 @@ export class _0_WaitPlayerChooseOneCard implements Event {
         }
 
         let cards: Card[];
-        if (this.chooseHandCard) {
+        if (this.chooseHandCard || this.chooseHandCard == undefined) {
             cards = this.toPlayer.handCardArray;
         } else {
             cards = this.toPlayer.intelligenceCardArray;
