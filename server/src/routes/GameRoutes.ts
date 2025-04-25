@@ -186,10 +186,6 @@ export class GameRoutes extends ServerClientRoutes {
         await this.chooseButton(player, 1);
     }
 
-    async choose_button_2(player: Player) {
-        await this.chooseButton(player, 2);
-    }
-
     async choose_button_fail(player: Player) {
         await this.chooseButton(player, -1);
     }

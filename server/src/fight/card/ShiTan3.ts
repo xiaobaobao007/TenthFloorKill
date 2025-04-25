@@ -1,6 +1,6 @@
 import {Card} from "../../model/Card";
 import {Player} from "../../model/Player";
-import {_0_WaitPlayerChooseButton, ButtonEvent} from "../cardEvent/_0_WaitPlayerChooseButton";
+import {_0_WaitPlayerChooseButton, ButtonData, ButtonEvent} from "../cardEvent/_0_WaitPlayerChooseButton";
 import {CARD_SHI_TAN} from "../../util/Constant";
 import {ROUTER} from "../../util/SocketUtil";
 import {InitManager} from "../../manager/InitManager";
@@ -20,7 +20,11 @@ export class ShiTan3 extends ShiTan implements ButtonEvent {
     }
 
     doEvent(ignore: Card, eventPlayer: Player) {
-        this.belong!.room?.eventStack.push(new _0_WaitPlayerChooseButton(["被" + this.belong!.account + "抽一张牌"], "告诉" + this.belong!.account + "你的身份", this, this.belong!, eventPlayer));
+        let buttonArray: ButtonData[] = [];
+        buttonArray.push({type: "success", chooseIndex: 0, name: "被" + this.belong!.account + "抽一张牌"});
+        buttonArray.push({type: "cancel", chooseIndex: -1, name: "告诉" + this.belong!.account + "你的身份"});
+
+        this.belong!.room?.eventStack.push(new _0_WaitPlayerChooseButton(buttonArray, this, this.belong!, eventPlayer));
     }
 
     button_0(player: Player, eventPlayer: Player): boolean {
@@ -40,10 +44,6 @@ export class ShiTan3 extends ShiTan implements ButtonEvent {
     }
 
     button_1(): boolean {
-        return false;
-    }
-
-    button_2(): boolean {
         return false;
     }
 

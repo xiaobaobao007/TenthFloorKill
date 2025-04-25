@@ -179,8 +179,9 @@
 
 .card-other-tips {
     position: absolute;
-    margin-left: 0.2vw;
-    margin-top: 1.6vw;
+    margin-left: 4.7vw;
+    margin-top: 2.1vw;
+    width: 1px;
     font-size: 0.9vw;
     font-style: italic;
     color: #edff00;

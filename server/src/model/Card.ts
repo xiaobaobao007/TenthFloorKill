@@ -13,7 +13,7 @@ export class Card {
     //需要初始化的数据
     private _cardIndex: number = 0;//牌库的唯一id
     protected _allId: string = "";//房间内卡牌的唯一id
-    protected _belong: Player | undefined;//这是谁的牌
+    protected _belong: Player | undefined;//这是谁的牌，注意在情报区不一定是属于的自己，但手牌一定是自己的
 
     protected _hand = true;//是否是手牌
     protected _clientOperation: string | undefined;//客户端选择的情报传递方式
@@ -67,6 +67,12 @@ export class Card {
     }
 
     doEvent(eventCard: Card, eventPlayer: Player | undefined = undefined) {
+    }
+
+    /**
+     * @param receivePlayer 接收了情报之后
+     */
+    receiveIntelligenceAfter(receivePlayer: Player) {
     }
 
     //当前卡牌是否是正面

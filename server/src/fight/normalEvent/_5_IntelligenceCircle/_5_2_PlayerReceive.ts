@@ -47,8 +47,11 @@ export class _5_2_PlayerReceive implements Event {
             if (!this.currentPlayer.live) {
                 //判断房间是否为仅剩一人获胜
                 room.judgeOnlyOnePlayerLive();
+                return;
             }
         }
+
+        this.intelligenceCard.receiveIntelligenceAfter(this.currentPlayer);
     }
 
     frameOver(room: Room): void {

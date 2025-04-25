@@ -3,16 +3,20 @@ import {Player} from "../../model/Player";
 import {random} from "../../util/MathUtil";
 import {CARD_GONG_KAI_WEN_BEN, CLIENT_STRING_DATA} from "../../util/Constant";
 import {InitManager} from "../../manager/InitManager";
+import {_0_WaitPlayerChooseButton, ButtonData, ButtonEvent} from "../cardEvent/_0_WaitPlayerChooseButton";
+import {_7_DiscardEvent} from "../normalEvent/_0_base/_7_DiscardEvent";
 
 /**
  * 公开文本：替换一名玩家手牌，抽到公开文本则弃掉
  */
-export class GongKaiWenBen extends Card {
+export class GongKaiWenBen extends Card implements ButtonEvent {
 
     private readonly camp: string;
-    private readonly campDoing: number;
-    private readonly otherDoing1: number;
-    private readonly otherDoing2: number;
+    private readonly allDoing: number;
+    private readonly otherDoing: number;
+
+    private allCampTip!: string;
+    private otherCampTips!: string;
 
     constructor(cardId: string,
                 color: string,
@@ -20,40 +24,27 @@ export class GongKaiWenBen extends Card {
                 operation: string,
                 lock: boolean,
                 camp: string,
-                campDoing: number,
-                otherDoing1: number,
-                otherDoing2: number,
+                allDoing: number,
+                otherDoing: number,
                 tips: string) {
         super(cardId, color, direction, operation, lock, CARD_GONG_KAI_WEN_BEN + "_" + tips);
 
         this.camp = camp;
-        this.campDoing = campDoing;
-        this.otherDoing1 = otherDoing1;
-        this.otherDoing2 = otherDoing2;
+        this.allDoing = allDoing;
+        this.otherDoing = otherDoing;
     }
 
     initData() {
-        const value = this.getValue();
+        let allTips = this.getOperatorTips(this.allDoing);
+        this.allCampTip = "所有人" + allTips;
+        this.otherCampTips = "非【" + InitManager.getStringValue(this.camp) + "】" + this.getOperatorTips(this.otherDoing);
+        const value = this.allCampTip + "；" + this.otherCampTips;
         InitManager.setStringValue(this.otherTips, value);
         CLIENT_STRING_DATA.push({name: this.otherTips, value: value});
     }
 
-    private getValue(): string {
-        let s = "【" + InitManager.getStringValue(this.camp) + "】：" + this.getOperator(this.campDoing);
-        s += "，其他:" + this.getOperator(this.otherDoing1) + "或" + this.getOperator(this.otherDoing2);
-        return s;
-    }
-
-    private getOperator(num: number): string {
-        let s = "";
-        if (num < 0) {
-            s = "弃";
-            num *= -1;
-        } else {
-            s = "抽";
-        }
-
-        return s + num + "张";
+    private getOperatorTips(num: number): string {
+        return (num < 0 ? "弃" : "抽") + Math.abs(num) + "张";
     }
 
     public canUse(toCard: Card, eventPlayer: Player): boolean {
@@ -84,4 +75,50 @@ export class GongKaiWenBen extends Card {
 
         eventPlayer.addCardArray([this], "被" + this.belong!.account + "公开文本");
     }
+
+    receiveIntelligenceAfter(receivePlayer: Player) {
+        let room = this.belong!.room!;
+        room.addEventTips(receivePlayer.account + "正在执行【公开文本】的效果：" + InitManager.getStringValue(this.otherTips));
+
+        let buttonArray: ButtonData[] = [];
+        if (receivePlayer.camp == this.camp) {
+            buttonArray.push({type: "success", chooseIndex: 0, name: this.allCampTip});
+            buttonArray.push({type: "cancel", chooseIndex: 999, name: this.otherCampTips});
+        } else {
+            buttonArray.push({type: "success", chooseIndex: 0, name: this.allCampTip});
+            buttonArray.push({type: "success", chooseIndex: 1, name: this.otherCampTips});
+        }
+        room.eventStack.push(new _0_WaitPlayerChooseButton(buttonArray, this, this.belong!, receivePlayer));
+    }
+
+    button_0(player: Player, eventPlayer: Player): boolean {
+        this.todoCard(this.allDoing, eventPlayer);
+        return true;
+    }
+
+    button_1(player: Player, eventPlayer: Player): boolean {
+        if (eventPlayer.camp == this.camp) {
+            return this.button_0(player, eventPlayer);
+        }
+        this.todoCard(this.otherDoing, eventPlayer);
+        return true;
+    }
+
+    private todoCard(num: number, player: Player) {
+        const room = player.room!;
+        if (num < 0) {
+            if (player.handCardArray.length == 0) {
+                room.addEventTips(player.account + "没有手牌可以弃");
+                return;
+            }
+            room.eventStack.push(new _7_DiscardEvent(player, Math.min(Math.abs(num), player.handCardArray.length)));
+        } else {
+            room.playerAddNewHandCard(player, num, "公开文本情报效果");
+        }
+    }
+
+    button_fail(player: Player, eventPlayer: Player): boolean {
+        return true;
+    }
+
 }

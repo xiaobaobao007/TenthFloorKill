@@ -9,14 +9,17 @@ export interface ButtonEvent {
 
     button_1(player: Player, eventPlayer: Player): boolean;
 
-    button_2(player: Player, eventPlayer: Player): boolean;
-
     button_fail(player: Player, eventPlayer: Player): boolean;
 }
 
+export interface ButtonData {
+    type: "success" | "cancel";
+    chooseIndex: 0 | 1 | -1 | 999;
+    name: string;
+}
+
 export class _0_WaitPlayerChooseButton implements Event {
-    private readonly successTips: string[];
-    private readonly failTip: string;
+    private readonly buttonArray: ButtonData[];
     private readonly fatherEvent: ButtonEvent;
     private readonly fromPlayer: Player;
     private readonly toPlayer: Player;
@@ -24,9 +27,8 @@ export class _0_WaitPlayerChooseButton implements Event {
     private chooseIndex: number = -1;
     private lastTime = GAME_CONFIG._3_PlayerRounding_TIME;
 
-    constructor(successTips: string[], failTip: string, fatherEvent: ButtonEvent, fromPlayer: Player, toPlayer: Player) {
-        this.successTips = successTips;
-        this.failTip = failTip;
+    constructor(buttonArray: ButtonData[], fatherEvent: ButtonEvent, fromPlayer: Player, toPlayer: Player) {
+        this.buttonArray = buttonArray;
         this.fatherEvent = fatherEvent;
         this.fromPlayer = fromPlayer;
         this.toPlayer = toPlayer;
@@ -38,23 +40,7 @@ export class _0_WaitPlayerChooseButton implements Event {
         } else if (this.lastTime >= 0) {
             return EventType.NONE;
         } else {
-
-            let success = false;
-            if (this.chooseIndex == 0) {
-                success = this.fatherEvent.button_0(this.fromPlayer, this.toPlayer);
-            } else if (this.chooseIndex == 1) {
-                success = this.fatherEvent.button_1(this.fromPlayer, this.toPlayer);
-            } else if (this.chooseIndex == 2) {
-                success = this.fatherEvent.button_2(this.fromPlayer, this.toPlayer);
-            }
-
-            if (!success) {
-                this.fatherEvent.button_fail(this.fromPlayer, this.toPlayer);
-            }
-
-            this.toPlayer.clearButton();
-
-            return EventType.REMOVE;
+            return EventType.REMOVE_AND_NEXT;
         }
     }
 
@@ -87,7 +73,19 @@ export class _0_WaitPlayerChooseButton implements Event {
     }
 
     nextEvent(room: Room): Event | undefined {
-        throw new Error("Method not implemented.");
+        let success = false;
+        if (this.chooseIndex == 0) {
+            success = this.fatherEvent.button_0(this.fromPlayer, this.toPlayer);
+        } else if (this.chooseIndex == 1) {
+            success = this.fatherEvent.button_1(this.fromPlayer, this.toPlayer);
+        }
+
+        if (!success) {
+            this.fatherEvent.button_fail(this.fromPlayer, this.toPlayer);
+        }
+
+        this.toPlayer.clearButton();
+        return;
     }
 
     sendClientInfo(room: Room, player: Player | undefined): void {
@@ -95,13 +93,13 @@ export class _0_WaitPlayerChooseButton implements Event {
             return;
         }
 
-        let buttonArray = [];
-        for (let i = 0; i < this.successTips.length; i++) {
-            buttonArray.push({classType: "success", root: "game/choose_button_" + i, name: this.successTips[i]});
-        }
-        buttonArray.push({classType: "success", root: "game/choose_button_fail", name: this.failTip});
-
-        this.toPlayer.showButton({buttonArray: buttonArray});
+        let clientShow: any[] = [];
+        this.buttonArray.forEach(button => clientShow.push({
+            classType: button.type,
+            root: button.chooseIndex === 999 ? "" : ("game/choose_button_" + button.chooseIndex),
+            name: button.name
+        }))
+        this.toPlayer.showButton({buttonArray: clientShow});
     }
 
     chooseButton(player: Player, chooseIndex: number) {
@@ -109,12 +107,13 @@ export class _0_WaitPlayerChooseButton implements Event {
             return;
         }
 
-        if (chooseIndex >= 0 && chooseIndex >= this.successTips.length) {
-            return;
+        for (const button of this.buttonArray) {
+            if (button.chooseIndex == chooseIndex) {
+                this.chooseIndex = chooseIndex;
+                this.lastTime = 0;
+                return;
+            }
         }
-
-        this.chooseIndex = chooseIndex;
-        this.lastTime = 0;
     }
 
 }
