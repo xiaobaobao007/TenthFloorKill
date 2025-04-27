@@ -3,9 +3,6 @@ import {ROUTER} from "../../util/SocketUtil";
 import {COLOR_, COLOR_BLUE, COLOR_DOUBLE, COLOR_GREY, COLOR_RED} from "../../util/Constant";
 import {Player} from "../../model/Player";
 import {InitManager} from "../../manager/InitManager";
-import {EventManager} from "../../manager/EventManager";
-import {_0_GameStartEvent} from "../normalEvent/_0_base/_0_GameStartEvent";
-import {_NoneCard} from "../cardEvent/_NoneCard";
 import {_0_WaitPlayerChooseOneCard, ChooseCardEvent} from "../cardEvent/_0_WaitPlayerChooseOneCard";
 
 export class MiMiXiaDa extends Card implements ChooseCardEvent {
@@ -38,12 +35,6 @@ export class MiMiXiaDa extends Card implements ChooseCardEvent {
                 return;
             }
         }
-
-        //没有指定下达的颜色手牌
-        const fatherEvent = EventManager.getEvent(this.belong!.room!, _0_GameStartEvent.name) as _0_GameStartEvent;
-        const roundEvent = fatherEvent.roundEvent;
-        roundEvent.pop();
-        roundEvent.push(new _NoneCard());
 
         this.belong!.room?.eventStack.push(new _0_WaitPlayerChooseOneCard("请查看【" + eventPlayer.account + "】的手牌", "确认", this, this.belong!, eventPlayer, undefined));
     }

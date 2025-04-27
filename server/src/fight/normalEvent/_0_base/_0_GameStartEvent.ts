@@ -5,12 +5,14 @@ import {GAME_CONFIG} from "../../../util/Constant";
 import {_1_SearchNextPlayer} from "./_1_SearchNextPlayer";
 import {Player} from "../../../model/Player";
 import {Stack} from "../../../util/Stack";
+import {EventManager} from "../../../manager/EventManager";
+import {_1_PlayerUseCardSuccess} from "../../cardEvent/_1_PlayerUseCardSuccess";
 
 export class _0_GameStartEvent implements Event {
     private currentEventType = EventType.NONE;
 
     private _round: number = 0;//回合数
-    private _roundEvent: Stack<Event> = new Stack();//已成功执行影响的事件
+    private _roundEvent: Stack<_1_PlayerUseCardSuccess> = new Stack();//已成功执行影响的事件
 
     getEffectType(room: Room): EventType {
         if (this.currentEventType == EventType.NONE) {
@@ -50,7 +52,11 @@ export class _0_GameStartEvent implements Event {
         }
     }
 
-    get roundEvent(): Stack<Event> {
+    public static popRoundEvent(room: Room) {
+        (EventManager.getEvent(room, _0_GameStartEvent.name) as _0_GameStartEvent).roundEvent.pop();
+    }
+
+    get roundEvent(): Stack<_1_PlayerUseCardSuccess> {
         return this._roundEvent;
     }
 

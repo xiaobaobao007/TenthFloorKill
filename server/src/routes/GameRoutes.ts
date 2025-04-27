@@ -37,6 +37,8 @@ export class GameRoutes extends ServerClientRoutes {
                 player.sendTips("请重新选择玩家");
                 return;
             }
+        } else {
+            targetPlayer = player;
         }
 
         const eventStack = player.room?.eventStack!;

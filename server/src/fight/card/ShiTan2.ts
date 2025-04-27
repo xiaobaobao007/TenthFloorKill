@@ -2,7 +2,6 @@ import {Card} from "../../model/Card";
 import {Player} from "../../model/Player";
 import {CARD_SHI_TAN} from "../../util/Constant";
 import {_7_DiscardEvent} from "../normalEvent/_0_base/_7_DiscardEvent";
-import {EventManager} from "../../manager/EventManager";
 import {_0_GameStartEvent} from "../normalEvent/_0_base/_0_GameStartEvent";
 import {InitManager} from "../../manager/InitManager";
 import {ShiTan} from "./ShiTan";
@@ -35,6 +34,6 @@ export class ShiTan2 extends ShiTan {
                 room.eventStack.push(new _7_DiscardEvent(eventPlayer, 1));
             }
         }
-        (EventManager.getEvent(room, _0_GameStartEvent.name) as _0_GameStartEvent).roundEvent.pop();
+        _0_GameStartEvent.popRoundEvent(room);
     }
 }

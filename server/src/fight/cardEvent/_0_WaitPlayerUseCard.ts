@@ -3,7 +3,7 @@ import {Event} from "../Event";
 import {EventType} from "../EventType";
 import {Player} from "../../model/Player";
 import {Card} from "../../model/Card";
-import {_CARD_NAME, COLOR_BLUE, COLOR_GREY, COLOR_RED, GAME_CONFIG} from "../../util/Constant";
+import {_CARD_NAME, CARD_SHI_PO, COLOR_BLUE, COLOR_GREY, COLOR_RED, GAME_CONFIG} from "../../util/Constant";
 import {InitManager} from "../../manager/InitManager";
 import {_1_PlayerUseCardSuccess} from "./_1_PlayerUseCardSuccess";
 import {CardManager} from "../../manager/CardManager";
@@ -11,6 +11,8 @@ import {ROUTER} from "../../util/SocketUtil";
 import {EventManager} from "../../manager/EventManager";
 import {_0_GameStartEvent} from "../normalEvent/_0_base/_0_GameStartEvent";
 import {ShiTan} from "../card/ShiTan";
+import {PoYi} from "../card/PoYi";
+import {MiMiXiaDa} from "../card/MiMiXiaDa";
 
 export class _0_WaitPlayerUseCard implements Event {
     private static readonly SEND_BUTTON_INFO = {
@@ -32,9 +34,11 @@ export class _0_WaitPlayerUseCard implements Event {
 
     private skipPlayerArray: Player[] = [];//跳过使用
 
-    private player: Player | undefined;//谁使用了卡牌
-    private useCard: Card | undefined;//使用了什么卡牌
+    private player!: Player;//谁使用了卡牌
+    private useCard!: Card;//使用了什么卡牌
+    private playerUseCardSuccess!: _1_PlayerUseCardSuccess;//卡牌事件
 
+    private needRemove = false;
     private canAskShiPo = true;
     private lastTime = GAME_CONFIG._0_WaitPlayerUseCard_TIME;
 
@@ -52,16 +56,16 @@ export class _0_WaitPlayerUseCard implements Event {
             return EventType.PRE;
         } else if (this.lastTime >= 0) {
             return EventType.NONE;
-        } else if (!this.player) {
+        } else if (!this.player || this.needRemove) {
             return EventType.REMOVE;
         } else {
             //等待识破
-            if (this.canAskShiPo && CardManager.judgeCardEvent(room, this.useCard!, CardManager.WAIT_SHI_PO)) {
+            if (this.canAskShiPo && CardManager.judgeCardEvent(room, this.useCard!, [CARD_SHI_PO])) {
                 this.canAskShiPo = false;
                 return EventType.NONE;
             }
             //使用成功
-            return EventType.REMOVE_AND_NEXT;
+            return EventType.NEXT;
         }
     }
 
@@ -96,16 +100,36 @@ export class _0_WaitPlayerUseCard implements Event {
     }
 
     nextEvent(room: Room): undefined {
-        if (this.player) {
-            const fatherEvent = EventManager.getEvent(this.player.room!, _0_GameStartEvent.name) as _0_GameStartEvent;
-            const currentEvent = fatherEvent.roundEvent.peek();
-            currentEvent?.sendClientInfo(room, this.player);
+        if (this.playerUseCardSuccess) {
+            if (this.eventArray[0] != CARD_SHI_PO) {
+                CardManager.judgeCardEvent(room, this.eventCard, this.eventArray, 0);
+            }
+
+            if (this.playerUseCardSuccess.canEffect) {
+                this.playerUseCardSuccess.doCardEvent(room, this.player);
+            }
+
+            const playerCard = this.playerUseCardSuccess.playerCard;
+            if (!(playerCard instanceof PoYi || playerCard instanceof MiMiXiaDa)) {
+                (EventManager.getEvent(this.player.room!, _0_GameStartEvent.name) as _0_GameStartEvent).roundEvent.remove(this.playerUseCardSuccess);
+            }
+
+            this.needRemove = true;
+        } else {
+            if (this.eventArray.length <= this.eventIndex + 1) {
+                this.needRemove = true;
+            } else {
+                CardManager.judgeCardEvent(room, this.eventCard, this.eventArray, this.eventIndex + 1);
+            }
         }
-        CardManager.judgeCardEvent(room, this.eventCard, this.eventArray, this.eventIndex + 1);
         return;
     }
 
     sendClientInfo(room: Room): void {
+        if (this.lastTime <= 0) {
+            return;
+        }
+
         for (let player of room.playerArray) {
             if (this.playerArray.includes(player) && player.haveCardByCardId(this.cardId)) {
                 player.showButton(_0_WaitPlayerUseCard.SEND_BUTTON_INFO);
@@ -142,7 +166,8 @@ export class _0_WaitPlayerUseCard implements Event {
         this.player.removeCard(this.useCard!, !(this.useCard instanceof ShiTan));
 
         const fatherEvent = EventManager.getEvent(player.room!, _0_GameStartEvent.name) as _0_GameStartEvent;
-        fatherEvent.roundEvent.push(new _1_PlayerUseCardSuccess(this.useCard!, targetPlayer, this.eventCard));
+        this.playerUseCardSuccess = new _1_PlayerUseCardSuccess(this.useCard!, targetPlayer, this.eventCard);
+        fatherEvent.roundEvent.push(this.playerUseCardSuccess);
 
         player.room!.addEventTips("【" + player.account + "】使用了一张【" + this.cardName + "】");
 

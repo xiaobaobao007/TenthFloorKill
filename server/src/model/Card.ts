@@ -70,6 +70,9 @@ export class Card {
         return true;
     }
 
+    sendClientInfo(eventCard: Card | undefined, eventPlayer: Player | undefined = undefined) {
+    }
+
     doEvent(eventCard: Card | undefined, eventPlayer: Player | undefined = undefined) {
     }
 

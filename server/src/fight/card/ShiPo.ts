@@ -1,6 +1,5 @@
 import {Card} from "../../model/Card";
 import {EventManager} from "../../manager/EventManager";
-import {_NoneCard} from "../cardEvent/_NoneCard";
 import {_0_GameStartEvent} from "../normalEvent/_0_base/_0_GameStartEvent";
 
 /**
@@ -13,9 +12,7 @@ export class ShiPo extends Card {
 
     doEvent() {
         const fatherEvent = EventManager.getEvent(this.belong!.room!, _0_GameStartEvent.name) as _0_GameStartEvent;
-        const roundEvent = fatherEvent.roundEvent;
-        roundEvent.pop();
-        roundEvent.pop();
-        roundEvent.push(new _NoneCard());
+        const items = fatherEvent.roundEvent.getItems();
+        items[items.length - 2].canEffect = false;
     }
 }

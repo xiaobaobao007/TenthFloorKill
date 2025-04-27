@@ -5,9 +5,11 @@ import {Player} from "../../model/Player";
 import {Card} from "../../model/Card";
 
 export class _1_PlayerUseCardSuccess implements Event {
-    private readonly playerCard: Card;
+    private readonly _playerCard: Card;
     private readonly eventPlayer: Player | undefined;
     private readonly eventCard: Card | undefined;
+
+    private _canEffect = true;//能否生效
 
     /**
      * @param player 使用玩家
@@ -16,7 +18,7 @@ export class _1_PlayerUseCardSuccess implements Event {
      * @param effectCard 对什么卡牌使用的
      */
     constructor(playerCard: Card, eventPlayer: Player | undefined, effectCard: Card | undefined) {
-        this.playerCard = playerCard;
+        this._playerCard = playerCard;
         this.eventPlayer = eventPlayer;
         this.eventCard = effectCard;
     }
@@ -45,8 +47,26 @@ export class _1_PlayerUseCardSuccess implements Event {
         if (!player || player != this.eventPlayer) {
             return;
         }
-        this.playerCard.doEvent(this.eventCard, this.eventPlayer);
+        this._playerCard.sendClientInfo(this.eventCard, this.eventPlayer);
+    }
+
+    doCardEvent(room: Room, player: Player): void {
+        if (!player || player != this.eventPlayer) {
+            return;
+        }
+        this._playerCard.doEvent(this.eventCard, this.eventPlayer);
         room.clearButton();
     }
 
+    get playerCard(): Card {
+        return this._playerCard;
+    }
+
+    get canEffect(): boolean {
+        return this._canEffect;
+    }
+
+    set canEffect(value: boolean) {
+        this._canEffect = value;
+    }
 }

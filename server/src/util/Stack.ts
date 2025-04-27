@@ -37,6 +37,14 @@ export class Stack<T> {
         return this.items;
     }
 
+    remove(t: T) {
+        let index = this.items.indexOf(t);
+        if (index >= 0) {
+            this.items.splice(index, 1);
+        }
+        console.info("remove stack", this.printStack());
+    }
+
     printStack(): string {
         let s = "";
         for (let i = 0; i < this.items.length; i++) {

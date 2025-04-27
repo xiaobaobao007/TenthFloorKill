@@ -2,7 +2,7 @@ import {Player} from "../../../model/Player";
 import {Room} from "../../../model/Room";
 import {Event} from "../../Event";
 import {EventType} from "../../EventType";
-import {GAME_CONFIG} from "../../../util/Constant";
+import {CARD_MI_MI_XIA_DA, GAME_CONFIG} from "../../../util/Constant";
 import {_4_SendIntelligence} from "./_4_SendIntelligence";
 import {CardManager} from "../../../manager/CardManager";
 
@@ -62,7 +62,7 @@ export class _3_PlayerRounding implements Event {
     nextEvent(room: Room): undefined {
         this.currentPlayer.clearButton();
         room.eventStack.push(new _4_SendIntelligence(this.currentPlayer));
-        CardManager.judgeCardEvent(room, undefined, CardManager.WAIT_MI_MI_XIA_DA);
+        CardManager.judgeCardEvent(room, undefined, [CARD_MI_MI_XIA_DA]);
         return;
     }
 

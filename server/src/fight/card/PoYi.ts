@@ -13,6 +13,10 @@ export class PoYi extends Card {
         return toCard != undefined && !toCard.isShow();
     }
 
+    sendClientInfo(eventCard: Card) {
+        this.doEvent(eventCard);
+    }
+
     doEvent(eventCard: Card) {
         this.belong!.send(ROUTER.roomEvent.UPDATE_ALL_INTELLIGENCE, eventCard.getSelfCardInfo())
     }
