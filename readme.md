@@ -2,9 +2,8 @@
 
 - 测试地址
 
-  ```http://localhost:5500/index.html?account=AAA&url=ws://localhost:8080```
+  ```http://localhost:5500/index.html?account=AAA&url=ws://localhost:8080&roomId=1000```
 
-  ```http://localhost:5500/index.html?account=BBB&url=ws://localhost:8080&roomId=1000```
 - 无数据库设计
 - 登录只需要一个账号即可
 - 仅仅适配手机浏览器，如果电脑体验请按F12选择手机模式进行游戏
@@ -58,7 +57,7 @@
   
   |  名称  | 已完成 |  名称  | 已完成 |
   |:----:|:---:|:----:|:---:|
-  |  破译  |  ✅  | 秘密下达 |  ❌  |
+  |  破译  |  ✅  | 秘密下达 |  ✅  |
   |  识破  |  ✅  |  截获  |  ❌  |
   |  试探  |  ✅  |  转移  |  ❌  |
   | 机密文件 |  ✅  | 调虎离山 |  ❌  |

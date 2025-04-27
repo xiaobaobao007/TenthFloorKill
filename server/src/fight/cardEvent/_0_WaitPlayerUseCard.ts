@@ -3,7 +3,7 @@ import {Event} from "../Event";
 import {EventType} from "../EventType";
 import {Player} from "../../model/Player";
 import {Card} from "../../model/Card";
-import {_CARD_NAME, CARD_SHI_PO, COLOR_BLUE, COLOR_GREY, COLOR_RED, GAME_CONFIG} from "../../util/Constant";
+import {_CARD_NAME, CARD_MI_MI_XIA_DA, CARD_SHI_PO, COLOR_BLUE, COLOR_GREY, COLOR_RED, GAME_CONFIG} from "../../util/Constant";
 import {InitManager} from "../../manager/InitManager";
 import {_1_PlayerUseCardSuccess} from "./_1_PlayerUseCardSuccess";
 import {CardManager} from "../../manager/CardManager";
@@ -27,7 +27,7 @@ export class _0_WaitPlayerUseCard implements Event {
 
     private readonly playerArray: Player[];
     private readonly eventCard: Card | undefined;
-    private readonly cardId: string;
+    private readonly _cardId: string;
     private readonly cardName: string;
     private readonly eventArray: string[];
     private readonly eventIndex: number;
@@ -39,13 +39,14 @@ export class _0_WaitPlayerUseCard implements Event {
     private playerUseCardSuccess!: _1_PlayerUseCardSuccess;//卡牌事件
 
     private needRemove = false;
+    private _canAskMiMiXiaDa = true;
     private canAskShiPo = true;
     private lastTime = GAME_CONFIG._0_WaitPlayerUseCard_TIME;
 
     constructor(playerArray: Player[], eventCard: Card | undefined, cardId: string, eventArray: string[] = [], eventIndex: number = 0) {
         this.playerArray = playerArray;
         this.eventCard = eventCard;
-        this.cardId = cardId;
+        this._cardId = cardId;
         this.cardName = InitManager.getStringValue(cardId + _CARD_NAME)!;
         this.eventArray = eventArray;
         this.eventIndex = eventIndex;
@@ -56,7 +57,10 @@ export class _0_WaitPlayerUseCard implements Event {
             return EventType.PRE;
         } else if (this.lastTime >= 0) {
             return EventType.NONE;
-        } else if (!this.player || this.needRemove) {
+        } else if (!this.playerUseCardSuccess || this.needRemove) {
+            return EventType.REMOVE;
+        } else if (!this.playerUseCardSuccess.canEffect) {
+            (EventManager.getEvent(this.player.room!, _0_GameStartEvent.name) as _0_GameStartEvent).roundEvent.remove(this.playerUseCardSuccess);
             return EventType.REMOVE;
         } else {
             //等待识破
@@ -64,6 +68,15 @@ export class _0_WaitPlayerUseCard implements Event {
                 this.canAskShiPo = false;
                 return EventType.NONE;
             }
+
+            if (this._canAskMiMiXiaDa && this.playerUseCardSuccess.canEffect && this.eventArray[0] == CARD_MI_MI_XIA_DA) {
+                //秘密下达允许覆盖
+                if (CardManager.judgeCardEvent(room, this.useCard!, [CARD_MI_MI_XIA_DA])) {
+                    this._canAskMiMiXiaDa = false;
+                    return EventType.NONE;
+                }
+            }
+
             //使用成功
             return EventType.NEXT;
         }
@@ -100,14 +113,10 @@ export class _0_WaitPlayerUseCard implements Event {
     }
 
     nextEvent(room: Room): undefined {
-        if (this.playerUseCardSuccess) {
-            if (this.eventArray[0] != CARD_SHI_PO) {
-                CardManager.judgeCardEvent(room, this.eventCard, this.eventArray, 0);
-            }
+        let canNext = this.eventArray[0] != CARD_SHI_PO && this.eventArray[0] != CARD_MI_MI_XIA_DA;
 
-            if (this.playerUseCardSuccess.canEffect) {
-                this.playerUseCardSuccess.doCardEvent(room, this.player);
-            }
+        if (this.playerUseCardSuccess) {
+            this.playerUseCardSuccess.doCardEvent(room, this.player);
 
             const playerCard = this.playerUseCardSuccess.playerCard;
             if (!(playerCard instanceof PoYi || playerCard instanceof MiMiXiaDa)) {
@@ -115,7 +124,11 @@ export class _0_WaitPlayerUseCard implements Event {
             }
 
             this.needRemove = true;
-        } else {
+
+            if (canNext) {
+                CardManager.judgeCardEvent(room, this.eventCard, this.eventArray, 0);
+            }
+        } else if (canNext) {
             if (this.eventArray.length <= this.eventIndex + 1) {
                 this.needRemove = true;
             } else {
@@ -131,7 +144,7 @@ export class _0_WaitPlayerUseCard implements Event {
         }
 
         for (let player of room.playerArray) {
-            if (this.playerArray.includes(player) && player.haveCardByCardId(this.cardId)) {
+            if (this.playerArray.includes(player) && player.haveCardByCardId(this._cardId)) {
                 player.showButton(_0_WaitPlayerUseCard.SEND_BUTTON_INFO);
             } else {
                 player.clearButton();
@@ -144,7 +157,7 @@ export class _0_WaitPlayerUseCard implements Event {
             return false;
         }
 
-        if (useCard.cardId != this.cardId) {
+        if (useCard.cardId != this._cardId) {
             player.sendTips("请选择1张【" + this.cardName + "】卡牌使用");
             this.sendClientInfo(player.room!);
             return false;

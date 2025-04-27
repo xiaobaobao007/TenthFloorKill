@@ -101,7 +101,9 @@ export class _5_IntelligenceCircle implements Event {
 
         if (player) {
             if (this.sendPlayer == player) {
-                room.broadcastExclude(ROUTER.roomEvent.UPDATE_ALL_INTELLIGENCE, this.sendPlayer, otherCardInfo);
+                if (!player.reLogin) {
+                    room.broadcastExclude(ROUTER.roomEvent.UPDATE_ALL_INTELLIGENCE, this.sendPlayer, otherCardInfo);
+                }
                 this.sendPlayer.send(ROUTER.roomEvent.UPDATE_ALL_INTELLIGENCE, this.intelligenceCard!.getSelfCardInfo());
             } else {
                 player.send(ROUTER.roomEvent.UPDATE_ALL_INTELLIGENCE, otherCardInfo);
