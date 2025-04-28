@@ -2,7 +2,7 @@ import {Player} from "../../../model/Player";
 import {Room} from "../../../model/Room";
 import {Event} from "../../Event";
 import {EventType} from "../../EventType";
-import {CARD_JIE_HUO, GAME_CONFIG} from "../../../util/Constant";
+import {CARD_JIE_HUO, CARD_PO_YI, GAME_CONFIG} from "../../../util/Constant";
 import {_5_2_PlayerReceive} from "./_5_2_PlayerReceive";
 import {Card} from "../../../model/Card";
 import {CardManager} from "../../../manager/CardManager";
@@ -58,7 +58,7 @@ export class _5_1_WaitingPlayerReceive implements Event {
     prv(room: Room): void {
         this.sendClientInfo(room, this.currentPlayer);
 
-        CardManager.judgeCardEvent(room, this.intelligenceCard, CardManager._5_1_WaitingPlayerReceive_before_card_array);
+        CardManager.judgeCardEvent(room, this.intelligenceCard, [CARD_PO_YI]);
 
         if (this.currentPlayer.ai) {
             this.lastTime = 0;

@@ -34,6 +34,7 @@ export const CARD_SHAO_HUI = "sh";//烧毁
 export const CARD_WEI_XIAN_QING_BAO = "wxqb";//危险情报
 export const CARD_GONG_KAI_WEN_BEN = "gkwb";//公开文本
 export const CARD_MI_MI_XIA_DA = "mmxd";//秘密下达
+export const CARD_JIE_HUO = "jh";//截获
 
 //客户端字符串配置
 interface ClientConfigNameAndValue {
@@ -94,8 +95,8 @@ export const CLIENT_STRING_DATA: ClientConfigNameAndValue[] = [
     {name: CARD_MI_MI_XIA_DA + _CARD_DESC, value: "我是【秘密下达】的描述"},
     {name: CARD_GONG_KAI_WEN_BEN + _CARD_NAME, value: "公开文本"},
     {name: CARD_GONG_KAI_WEN_BEN + _CARD_DESC, value: "替换一名玩家手牌，抽到公开文本则弃掉"},
-    {name: "jh" + _CARD_NAME, value: "截获"},
-    {name: "jh" + _CARD_DESC, value: "我是【截获】的描述"},
+    {name: CARD_JIE_HUO + _CARD_NAME, value: "截获"},
+    {name: CARD_JIE_HUO + _CARD_DESC, value: "自己回合外他人情报接收时，将情报传至自己"},
     {name: CARD_ZENG_YUAN + _CARD_NAME, value: "增援"},
     {name: CARD_ZENG_YUAN + _CARD_DESC, value: "摸取自己假情报数量加1的牌"},
     {name: "dhls" + _CARD_NAME, value: "调虎离山"},

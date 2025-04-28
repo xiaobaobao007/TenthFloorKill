@@ -4,6 +4,7 @@ import {
     CAMP_RED,
     CARD_GONG_KAI_WEN_BEN,
     CARD_JI_MI_WEN_JIAN,
+    CARD_JIE_HUO,
     CARD_MI_MI_XIA_DA,
     CARD_PO_YI,
     CARD_SHAO_HUI,
@@ -38,6 +39,7 @@ import {ShaoHui} from "../fight/card/ShaoHui";
 import {WeiXianQingBao} from "../fight/card/WeiXianQingBao";
 import {GongKaiWenBen} from "../fight/card/GongKaiWenBen";
 import {MiMiXiaDa} from "../fight/card/MiMiXiaDa";
+import {JieHuo} from "../fight/card/JieHuo";
 
 export class CardManager {
     private static readonly ALL_CARD_LIST: Card[] = [
@@ -77,12 +79,12 @@ export class CardManager {
         new None("db", COLOR_RED, DIRECTION_ALL, OPERATION_WEN_BEN, true),
         new None("db", COLOR_RED, DIRECTION_ALL, OPERATION_WEN_BEN, true),
 
-        new None("jh", COLOR_GREY, DIRECTION_ALL, OPERATION_MI_DIAN, false),
-        new None("jh", COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
-        new None("jh", COLOR_BLUE, DIRECTION_ALL, OPERATION_MI_DIAN, false),
-        new None("jh", COLOR_BLUE, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
-        new None("jh", COLOR_RED, DIRECTION_ALL, OPERATION_MI_DIAN, false),
-        new None("jh", COLOR_RED, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new JieHuo(CARD_JIE_HUO, COLOR_GREY, DIRECTION_ALL, OPERATION_MI_DIAN, false),
+        new JieHuo(CARD_JIE_HUO, COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new JieHuo(CARD_JIE_HUO, COLOR_BLUE, DIRECTION_ALL, OPERATION_MI_DIAN, false),
+        new JieHuo(CARD_JIE_HUO, COLOR_BLUE, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new JieHuo(CARD_JIE_HUO, COLOR_RED, DIRECTION_ALL, OPERATION_MI_DIAN, false),
+        new JieHuo(CARD_JIE_HUO, COLOR_RED, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
 
         new None("dhls", COLOR_GREY, DIRECTION_ALL, OPERATION_MI_DIAN, false),
         new None("dhls", COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
@@ -164,10 +166,6 @@ export class CardManager {
         shuffleArray(array);
         return array;
     }
-
-    public static readonly _5_1_WaitingPlayerReceive_before_card_array: string[] = [CARD_PO_YI];
-    public static readonly WAIT_SHI_PO: string[] = [CARD_SHI_PO];
-    public static readonly WAIT_MI_MI_XIA_DA: string[] = [CARD_MI_MI_XIA_DA];
 
     public static judgeCardEvent(room: Room, eventCard: Card | undefined, cardEventArray: string[], startIndex: number = 0): boolean {
         let waitPlayers: Player[] | undefined;
