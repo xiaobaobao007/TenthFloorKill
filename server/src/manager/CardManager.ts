@@ -2,6 +2,7 @@ import {
     CAMP_BLUE,
     CAMP_GREY,
     CAMP_RED,
+    CARD_DIAO_HU_LI_SHAN,
     CARD_GONG_KAI_WEN_BEN,
     CARD_JI_MI_WEN_JIAN,
     CARD_JIE_HUO,
@@ -42,6 +43,7 @@ import {GongKaiWenBen} from "../fight/card/GongKaiWenBen";
 import {MiMiXiaDa} from "../fight/card/MiMiXiaDa";
 import {JieHuo} from "../fight/card/JieHuo";
 import {ZhuanYi} from "../fight/card/ZhuanYi";
+import {DiaoHuLiShan} from "../fight/card/DiaoHuLiShan";
 
 export class CardManager {
     private static readonly ALL_CARD_LIST: Card[] = [
@@ -88,12 +90,12 @@ export class CardManager {
         new JieHuo(CARD_JIE_HUO, COLOR_RED, DIRECTION_ALL, OPERATION_MI_DIAN, false),
         new JieHuo(CARD_JIE_HUO, COLOR_RED, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
 
-        new None("dhls", COLOR_GREY, DIRECTION_ALL, OPERATION_MI_DIAN, false),
-        new None("dhls", COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
-        new None("dhls", COLOR_BLUE, DIRECTION_ALL, OPERATION_MI_DIAN, false),
-        new None("dhls", COLOR_BLUE, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
-        new None("dhls", COLOR_RED, DIRECTION_ALL, OPERATION_MI_DIAN, false),
-        new None("dhls", COLOR_RED, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new DiaoHuLiShan(CARD_DIAO_HU_LI_SHAN, COLOR_GREY, DIRECTION_ALL, OPERATION_MI_DIAN, false),
+        new DiaoHuLiShan(CARD_DIAO_HU_LI_SHAN, COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new DiaoHuLiShan(CARD_DIAO_HU_LI_SHAN, COLOR_BLUE, DIRECTION_ALL, OPERATION_MI_DIAN, false),
+        new DiaoHuLiShan(CARD_DIAO_HU_LI_SHAN, COLOR_BLUE, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new DiaoHuLiShan(CARD_DIAO_HU_LI_SHAN, COLOR_RED, DIRECTION_ALL, OPERATION_MI_DIAN, false),
+        new DiaoHuLiShan(CARD_DIAO_HU_LI_SHAN, COLOR_RED, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
 
         new GongKaiWenBen(CARD_GONG_KAI_WEN_BEN, COLOR_GREY, DIRECTION_ALL, OPERATION_WEN_BEN, false, CAMP_RED, 2, 1, "1"),
         new GongKaiWenBen(CARD_GONG_KAI_WEN_BEN, COLOR_GREY, DIRECTION_ALL, OPERATION_WEN_BEN, false, CAMP_BLUE, 2, 1, "2"),

@@ -2,7 +2,7 @@ import {Player} from "../../../model/Player";
 import {Room} from "../../../model/Room";
 import {Event} from "../../Event";
 import {EventType} from "../../EventType";
-import {CARD_JIE_HUO, CARD_PO_YI, CARD_ZHUAN_YI, GAME_CONFIG} from "../../../util/Constant";
+import {CARD_DIAO_HU_LI_SHAN, CARD_JIE_HUO, CARD_PO_YI, CARD_ZHUAN_YI, GAME_CONFIG} from "../../../util/Constant";
 import {_5_2_PlayerReceive} from "./_5_2_PlayerReceive";
 import {Card} from "../../../model/Card";
 import {CardManager} from "../../../manager/CardManager";
@@ -46,7 +46,7 @@ export class _5_1_WaitingPlayerReceive implements Event {
         if (this.receive) {
             room.addEventTips("【" + this.currentPlayer.account + "】选择接收情报")
 
-            if (CardManager.judgeCardEvent(room, this.intelligenceCard, [CARD_JIE_HUO])) {
+            if (CardManager.judgeCardEvent(room, this.intelligenceCard, [CARD_JIE_HUO, CARD_DIAO_HU_LI_SHAN])) {
                 return EventType.NONE;
             }
 

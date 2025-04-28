@@ -145,4 +145,8 @@ export class _5_IntelligenceCircle implements Event {
         this.currentPlayer = player;
         this.currentEventType = EventType.NEXT;
     }
+
+    setNext() {
+        this.currentEventType = EventType.EFFECT;
+    }
 }

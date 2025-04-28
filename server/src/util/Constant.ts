@@ -36,6 +36,7 @@ export const CARD_GONG_KAI_WEN_BEN = "gkwb";//公开文本
 export const CARD_MI_MI_XIA_DA = "mmxd";//秘密下达
 export const CARD_JIE_HUO = "jh";//截获
 export const CARD_ZHUAN_YI = "zhuanyi";//转移
+export const CARD_DIAO_HU_LI_SHAN = "dhls";//调虎离山
 
 //客户端字符串配置
 interface ClientConfigNameAndValue {
@@ -105,8 +106,8 @@ export const CLIENT_STRING_DATA: ClientConfigNameAndValue[] = [
     {name: CARD_JIE_HUO + _CARD_DESC, value: "自己回合外他人情报接收时，将情报传至自己"},
     {name: CARD_ZENG_YUAN + _CARD_NAME, value: "增援"},
     {name: CARD_ZENG_YUAN + _CARD_DESC, value: "摸取自己假情报数量加1的牌"},
-    {name: "dhls" + _CARD_NAME, value: "调虎离山"},
-    {name: "dhls" + _CARD_DESC, value: "我是【调虎离山】的描述"},
+    {name: CARD_DIAO_HU_LI_SHAN + _CARD_NAME, value: "调虎离山"},
+    {name: CARD_DIAO_HU_LI_SHAN + _CARD_DESC, value: "他人情报接收时使用，取消接收接着往下传，无法指定原传出者"},
     {name: CARD_SHAO_HUI + _CARD_NAME, value: "烧毁"},
     {name: CARD_SHAO_HUI + _CARD_DESC, value: "烧毁一张不带锁的假情报"},
     {name: "db" + _CARD_NAME, value: "掉包"},
