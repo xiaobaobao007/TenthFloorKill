@@ -1,4 +1,4 @@
-import {_CARD_NAME, COLOR_GREY, OPERATION_WEN_BEN, OPERATION_ZHI_DA} from "../util/Constant";
+import {_CARD_NAME, COLOR_DOUBLE, COLOR_GREY, OPERATION_WEN_BEN, OPERATION_ZHI_DA} from "../util/Constant";
 import {Player} from "./Player";
 import {InitManager} from "../manager/InitManager";
 
@@ -97,6 +97,14 @@ export class Card {
 
     canShaoHui() {
         return this.color == COLOR_GREY && !this.lock;
+    }
+
+    isSameColor(color: string) {
+        if (this.color == COLOR_DOUBLE) {
+            return color != COLOR_GREY;
+        } else {
+            return color == this.color;
+        }
     }
 
     get allId(): string {

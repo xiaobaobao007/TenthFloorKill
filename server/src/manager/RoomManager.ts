@@ -30,7 +30,7 @@ export class RoomManager {
         }
         player.send(ROUTER.base.CHANGE_BODY, "room");
 
-        const room = new Room("" + this.roomId);
+        const room = new Room("" + this.roomId++);
         room.addPlayer(player);
         room.updateRoomToAllPlayer();
         room.updateLeaderButton();

@@ -136,4 +136,13 @@ export class _5_IntelligenceCircle implements Event {
     setOver() {
         this.currentEventType = EventType.REMOVE;
     }
+
+    isCurrentPlayer(player: Player): boolean {
+        return this.currentPlayer == player;
+    }
+
+    resetPlayer(player: Player) {
+        this.currentPlayer = player;
+        this.currentEventType = EventType.NEXT;
+    }
 }

@@ -1,14 +1,15 @@
 import {Card} from "../../model/Card";
 import {ROUTER} from "../../util/SocketUtil";
-import {COLOR_, COLOR_BLUE, COLOR_DOUBLE, COLOR_GREY, COLOR_RED} from "../../util/Constant";
+import {COLOR_, COLOR_BLUE, COLOR_GREY, COLOR_RED} from "../../util/Constant";
 import {Player} from "../../model/Player";
 import {InitManager} from "../../manager/InitManager";
 import {_0_WaitPlayerChooseOneCard, ChooseCardEvent} from "../cardEvent/_0_WaitPlayerChooseOneCard";
 import {EventManager} from "../../manager/EventManager";
 import {_0_GameStartEvent} from "../normalEvent/_0_base/_0_GameStartEvent";
+import {Room} from "../../model/Room";
 
 export class MiMiXiaDa extends Card implements ChooseCardEvent {
-    private _chooseColor!: string;
+    private chooseColor!: string;
 
     constructor(cardId: string, color: string, direction: string, operation: string, lock: boolean) {
         super(cardId, color, direction, operation, lock);
@@ -18,7 +19,7 @@ export class MiMiXiaDa extends Card implements ChooseCardEvent {
         if (param != COLOR_GREY && param != COLOR_BLUE && param != COLOR_RED) {
             return false;
         }
-        this._chooseColor = param;
+        this.chooseColor = param;
         return true;
     }
 
@@ -32,14 +33,14 @@ export class MiMiXiaDa extends Card implements ChooseCardEvent {
 
         room.addEventTips("【" + this._belong?.account + "】对【" + eventPlayer.account + "】使用了【秘密下达】");
 
-        let tips = "【" + this._belong?.account + "】要求你下发【" + InitManager.getStringValue(COLOR_ + this._chooseColor) + "】";
+        let tips = "【" + this._belong?.account + "】要求你下发【" + InitManager.getStringValue(COLOR_ + this.chooseColor) + "】";
         eventPlayer.send(ROUTER.roomEvent.ADD_EVENT_TIPS, tips);
 
         let effectError = true;
 
         let allName = "";
         for (let card of eventPlayer.handCardArray) {
-            if (card.color == this._chooseColor || (this._chooseColor != COLOR_GREY && card.color == COLOR_DOUBLE)) {
+            if (card.isSameColor(this.chooseColor)) {
                 effectError = false;
                 break;
             }
@@ -62,4 +63,14 @@ export class MiMiXiaDa extends Card implements ChooseCardEvent {
 
     choose(toPlayer: Player, card: Card | undefined): void {
     }
+
+    public static getMiMiXiaDaColor(room: Room): string | undefined {
+        for (let event of (EventManager.getEvent(room, _0_GameStartEvent.name) as _0_GameStartEvent).roundEvent.getItems()) {
+            if (event.canEffect && event.playerCard instanceof MiMiXiaDa) {
+                return (event.playerCard as MiMiXiaDa).chooseColor;
+            }
+        }
+        return undefined;
+    }
+
 }

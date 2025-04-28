@@ -62,7 +62,10 @@ export class _3_PlayerRounding implements Event {
     nextEvent(room: Room): undefined {
         this.currentPlayer.clearButton();
         room.eventStack.push(new _4_SendIntelligence(this.currentPlayer));
-        CardManager.judgeCardEvent(room, undefined, [CARD_MI_MI_XIA_DA]);
+        if (this.currentPlayer.handCardArray.length > 0) {
+            //有手牌才能被秘密下达
+            CardManager.judgeCardEvent(room, undefined, [CARD_MI_MI_XIA_DA]);
+        }
         return;
     }
 

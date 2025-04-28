@@ -31,6 +31,7 @@ export class _2_PlayerRoundStart implements Event {
     }
 
     doEvent(room: Room): void {
+        //清理所有遗留事件
         (EventManager.getEvent(room, _0_GameStartEvent.name) as _0_GameStartEvent).roundEvent.clear();
         room.playerAddNewHandCard(this.currentPlayer, GAME_CONFIG.ROUND_INIT_CARD_NUM, "回合开始");
         room.eventStack.push(new _3_PlayerRounding(this.currentPlayer));

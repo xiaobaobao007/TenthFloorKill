@@ -6,6 +6,8 @@ import {GAME_CONFIG, OPERATION_MI_DIAN, OPERATION_WEN_BEN, OPERATION_ZHI_DA} fro
 import {Card} from "../../../model/Card";
 import {_5_IntelligenceCircle} from "./_5_IntelligenceCircle";
 import {AIManager} from "../../../manager/AIManager";
+import {MiMiXiaDa} from "../../card/MiMiXiaDa";
+import {InitManager} from "../../../manager/InitManager";
 
 export class _4_SendIntelligence implements Event {
     private static readonly SEND_BUTTON_INFO = {
@@ -88,6 +90,13 @@ export class _4_SendIntelligence implements Event {
         if (this.intelligenceCard !== undefined || player != this.currentPlayer) {
             return;
         }
+
+        let miMiXiaDaColor = MiMiXiaDa.getMiMiXiaDaColor(player.room!);
+        if (miMiXiaDaColor && !card.isSameColor(miMiXiaDaColor)) {
+            player.sendTips("请下达【" + InitManager.getStringValue(miMiXiaDaColor) + "】");
+            return;
+        }
+
         this.intelligenceCard = card;
         this.targetPlayer = targetPlayer;
         this.lastTime = 0;

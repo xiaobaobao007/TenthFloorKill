@@ -5,12 +5,26 @@ import {Card} from "../model/Card";
 import {OPERATION_MI_DIAN, OPERATION_REN_YI} from "../util/Constant";
 import {GameError} from "../exception/GameError";
 import {_7_DiscardEvent} from "../fight/normalEvent/_0_base/_7_DiscardEvent";
+import {MiMiXiaDa} from "../fight/card/MiMiXiaDa";
 
 export class AIManager {
     public static _4_SendIntelligence(player: Player, event: _4_SendIntelligence): void {
         const room = player.room!;
 
-        let playerCard = player.handCardArray[random(player.handCardArray.length)];
+        let playerCard: Card | undefined;
+        let miMiXiaDaColor = MiMiXiaDa.getMiMiXiaDaColor(player.room!);
+        if (miMiXiaDaColor) {
+            for (let card of player.handCardArray) {
+                if (card.isSameColor(miMiXiaDaColor)) {
+                    playerCard = card;
+                    break;
+                }
+            }
+        }
+
+        if (!playerCard) {
+            playerCard = player.handCardArray[random(player.handCardArray.length)];
+        }
 
         let allPlayerArray = room.playerArray;
         let nextIndex = allPlayerArray.indexOf(player);
