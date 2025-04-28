@@ -7,40 +7,33 @@ import {_0_WaitPlayerChooseOneCard, ChooseCardEvent} from "../cardEvent/_0_WaitP
 import {EventManager} from "../../manager/EventManager";
 import {_0_GameStartEvent} from "../normalEvent/_0_base/_0_GameStartEvent";
 import {Room} from "../../model/Room";
+import {SaveCard} from "./SaveCard";
 
-export class MiMiXiaDa extends Card implements ChooseCardEvent {
-    private chooseColor!: string;
-
+export class MiMiXiaDa extends SaveCard implements ChooseCardEvent {
     constructor(cardId: string, color: string, direction: string, operation: string, lock: boolean) {
         super(cardId, color, direction, operation, lock);
-    }
-
-    setUseParam(param: string | undefined): boolean {
-        if (param != COLOR_GREY && param != COLOR_BLUE && param != COLOR_RED) {
-            return false;
-        }
-        this.chooseColor = param;
-        return true;
     }
 
     canUse(): boolean {
         return !this._belong!.inRounding;
     }
 
-    doEvent(eventCard: Card) {
+    doEvent(eventCard: Card, player: undefined, chooseColor: string | undefined) {
+        chooseColor = MiMiXiaDa.getColor(chooseColor);
+
         const room = this._belong?.room!;
         let eventPlayer = room.getInRoundPlayer()!;
 
         room.addEventTips("【" + this._belong?.account + "】对【" + eventPlayer.account + "】使用了【秘密下达】");
 
-        let tips = "【" + this._belong?.account + "】要求你下发【" + InitManager.getStringValue(COLOR_ + this.chooseColor) + "】";
+        let tips = "【" + this._belong?.account + "】要求你下发【" + InitManager.getStringValue(COLOR_ + chooseColor) + "】";
         eventPlayer.send(ROUTER.roomEvent.ADD_EVENT_TIPS, tips);
 
         let effectError = true;
 
         let allName = "";
         for (let card of eventPlayer.handCardArray) {
-            if (card.isSameColor(this.chooseColor)) {
+            if (card.isSameColor(chooseColor)) {
                 effectError = false;
                 break;
             }
@@ -64,10 +57,17 @@ export class MiMiXiaDa extends Card implements ChooseCardEvent {
     choose(toPlayer: Player, card: Card | undefined): void {
     }
 
+    private static getColor(chooseColor: string | undefined): string {
+        if (chooseColor == COLOR_GREY || chooseColor == COLOR_BLUE || chooseColor == COLOR_RED) {
+            return chooseColor;
+        }
+        return COLOR_GREY;
+    }
+
     public static getMiMiXiaDaColor(room: Room): string | undefined {
         for (let event of (EventManager.getEvent(room, _0_GameStartEvent.name) as _0_GameStartEvent).roundEvent.getItems()) {
             if (event.canEffect && event.playerCard instanceof MiMiXiaDa) {
-                return (event.playerCard as MiMiXiaDa).chooseColor;
+                return MiMiXiaDa.getColor(event.param);
             }
         }
         return undefined;

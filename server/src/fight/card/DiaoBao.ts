@@ -6,11 +6,12 @@ import {_4_SendIntelligence} from "../normalEvent/_0_base/_4_SendIntelligence";
 import {ROUTER} from "../../util/SocketUtil";
 import {Room} from "../../model/Room";
 import {_0_GameStartEvent} from "../normalEvent/_0_base/_0_GameStartEvent";
+import {SaveCard} from "./SaveCard";
 
 /**
  * 掉包：情报传回传出着时，替换当前情报（无法替换文本），并由传出者重新传递
  */
-export class DiaoBao extends Card {
+export class DiaoBao extends SaveCard {
 
     constructor(cardId: string, color: string, direction: string, operation: string, lock: boolean) {
         super(cardId, color, direction, operation, lock);

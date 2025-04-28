@@ -10,6 +10,8 @@ import {_7_DiscardEvent} from "../fight/normalEvent/_0_base/_7_DiscardEvent";
 import {_0_WaitPlayerChooseButton} from "../fight/cardEvent/_0_WaitPlayerChooseButton";
 import {_0_WaitPlayerChooseOneCard} from "../fight/cardEvent/_0_WaitPlayerChooseOneCard";
 import {ZhuanYi} from "../fight/card/ZhuanYi";
+import {SuoDing} from "../fight/card/SuoDing";
+import {EventManager} from "../manager/EventManager";
 
 export class GameRoutes extends ServerClientRoutes {
 
@@ -170,12 +172,11 @@ export class GameRoutes extends ServerClientRoutes {
             return;
         }
 
-        if (!cardModel.setUseParam(data.selectValue)) {
-            return;
-        }
-
         let targetPlayer: Player | undefined = player;
-        if (cardModel instanceof ZhuanYi) {
+
+        if (cardModel instanceof SuoDing) {
+            targetPlayer = (EventManager.getEvent(room, _5_1_WaitingPlayerReceive.name) as _5_1_WaitingPlayerReceive).getCurrentPlayer();
+        } else if (cardModel instanceof ZhuanYi) {
             if (!data.accounts || data.accounts[0].length === 0) {
                 player.sendTips("请重新选择玩家");
                 return;
@@ -188,7 +189,10 @@ export class GameRoutes extends ServerClientRoutes {
             }
         }
 
-        (peek as _0_WaitPlayerUseCard).use(player, cardModel, targetPlayer);
+        let event = (peek as _0_WaitPlayerUseCard).use(player, cardModel, targetPlayer);
+        if (event) {
+            event.param = data.selectValue;
+        }
     }
 
     async skipUseCard(player: Player) {

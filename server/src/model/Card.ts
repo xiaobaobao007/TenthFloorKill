@@ -63,10 +63,6 @@ export class Card {
         };
     }
 
-    setUseParam(param: string | undefined): boolean {
-        return true;
-    }
-
     canUse(toCard: Card | undefined, toPlayer: Player | undefined = undefined): boolean {
         return true;
     }
@@ -74,7 +70,7 @@ export class Card {
     sendClientInfo(eventCard: Card | undefined, eventPlayer: Player | undefined = undefined) {
     }
 
-    doEvent(eventCard: Card | undefined, eventPlayer: Player | undefined = undefined) {
+    doEvent(eventCard: Card | undefined, eventPlayer: Player | undefined = undefined, param: string | undefined) {
     }
 
     /**

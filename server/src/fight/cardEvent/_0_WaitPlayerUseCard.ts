@@ -11,9 +11,7 @@ import {ROUTER} from "../../util/SocketUtil";
 import {EventManager} from "../../manager/EventManager";
 import {_0_GameStartEvent} from "../normalEvent/_0_base/_0_GameStartEvent";
 import {ShiTan} from "../card/ShiTan";
-import {PoYi} from "../card/PoYi";
-import {MiMiXiaDa} from "../card/MiMiXiaDa";
-import {DiaoBao} from "../card/DiaoBao";
+import {SaveCard} from "../card/SaveCard";
 
 export class _0_WaitPlayerUseCard implements Event {
     private static readonly SEND_BUTTON_INFO = {
@@ -65,7 +63,7 @@ export class _0_WaitPlayerUseCard implements Event {
         } else {
             this.playerUseCardSuccess.doCardEvent(room, this.targetPlayer);
             const playerCard = this.playerUseCardSuccess.playerCard;
-            if (!(playerCard instanceof PoYi || playerCard instanceof MiMiXiaDa || playerCard instanceof DiaoBao)) {
+            if (!(playerCard instanceof SaveCard)) {
                 (EventManager.getEvent(room, _0_GameStartEvent.name) as _0_GameStartEvent).roundEvent.remove(this.playerUseCardSuccess);
             }
         }
@@ -120,16 +118,16 @@ export class _0_WaitPlayerUseCard implements Event {
         }
     }
 
-    use(player: Player, useCard: Card, targetPlayer: Player | undefined = undefined): boolean {
+    use(player: Player, useCard: Card, targetPlayer: Player | undefined = undefined): _1_PlayerUseCardSuccess | undefined {
         if (!this.playerArray.includes(player) || this.player != undefined || this.skipPlayerArray.includes(player)) {
-            return false;
+            return;
         }
 
         const room = player.room!;
         if (useCard.cardId != this._cardId) {
             player.sendTips("请选择1张【" + this.cardName + "】卡牌使用");
             this.sendClientInfo(room);
-            return false;
+            return;
         }
 
         if (!targetPlayer) {
@@ -137,7 +135,7 @@ export class _0_WaitPlayerUseCard implements Event {
         }
 
         if (this.eventCard && !useCard.canUse(this.eventCard, targetPlayer)) {
-            return false;
+            return;
         }
 
         this.player = player;
@@ -165,7 +163,7 @@ export class _0_WaitPlayerUseCard implements Event {
 
         room.addEventTips("【" + player.account + "】对【" + targetPlayer.account + "】使用了【" + this.cardName + "】");
 
-        return true;
+        return this.playerUseCardSuccess;
     }
 
     skip(player: Player) {

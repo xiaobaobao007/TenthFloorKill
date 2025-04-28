@@ -2,10 +2,11 @@ import {Player} from "../../../model/Player";
 import {Room} from "../../../model/Room";
 import {Event} from "../../Event";
 import {EventType} from "../../EventType";
-import {CARD_DIAO_BAO, CARD_DIAO_HU_LI_SHAN, CARD_JIE_HUO, CARD_PO_YI, CARD_ZHUAN_YI, GAME_CONFIG} from "../../../util/Constant";
+import {CARD_DIAO_BAO, CARD_DIAO_HU_LI_SHAN, CARD_JIE_HUO, CARD_PO_YI, CARD_SUO_DING, CARD_ZHUAN_YI, GAME_CONFIG} from "../../../util/Constant";
 import {_5_2_PlayerReceive} from "./_5_2_PlayerReceive";
 import {Card} from "../../../model/Card";
 import {CardManager} from "../../../manager/CardManager";
+import {SuoDing} from "../../card/SuoDing";
 
 export class _5_1_WaitingPlayerReceive implements Event {
     static readonly SEND_BUTTON_INFO = {
@@ -32,10 +33,10 @@ export class _5_1_WaitingPlayerReceive implements Event {
     getEffectType(room: Room): EventType {
         if (this.lastTime === GAME_CONFIG._5_1_WaitingPlayerReceive_TIME) {
             if (this.currentPlayer.inRounding) {
-                if (CardManager.judgeCardEvent(room, this.intelligenceCard, [CARD_PO_YI, CARD_DIAO_BAO, CARD_ZHUAN_YI])) {
+                if (CardManager.judgeCardEvent(room, this.intelligenceCard, [CARD_PO_YI, CARD_DIAO_BAO, CARD_ZHUAN_YI, CARD_SUO_DING])) {
                     return EventType.NONE;
                 }
-            } else if (CardManager.judgeCardEvent(room, this.intelligenceCard, [CARD_PO_YI, CARD_ZHUAN_YI])) {
+            } else if (CardManager.judgeCardEvent(room, this.intelligenceCard, [CARD_PO_YI, CARD_ZHUAN_YI, CARD_SUO_DING])) {
                 return EventType.NONE;
             }
             return EventType.PRE;
@@ -45,8 +46,12 @@ export class _5_1_WaitingPlayerReceive implements Event {
 
         this.currentPlayer.clearButton();
 
+        if (this.receive == undefined && SuoDing.beSuoDing(this.getCurrentPlayer())) {
+            this.receive = true;
+        }
+
         if (this.receive) {
-            room.addEventTips("【" + this.currentPlayer.account + "】选择接收情报")
+            room.addEventTips("【" + this.currentPlayer.account + "】选择接收情报");
 
             if (CardManager.judgeCardEvent(room, this.intelligenceCard, [CARD_JIE_HUO, CARD_DIAO_HU_LI_SHAN])) {
                 return EventType.NONE;
@@ -62,7 +67,7 @@ export class _5_1_WaitingPlayerReceive implements Event {
 
         if (this.sendPlayer == this.currentPlayer || this.currentPlayer.ai) {
             this.lastTime = 0;
-            this.receive = false;
+            this.receive = SuoDing.beSuoDing(this.getCurrentPlayer());
         }
     }
 
@@ -101,12 +106,22 @@ export class _5_1_WaitingPlayerReceive implements Event {
         if (player != this.currentPlayer || this.receive != undefined) {
             return;
         }
+
+        if (SuoDing.beSuoDing(this.getCurrentPlayer()) && !receive) {
+            player.sendTips("你已经被锁定了，不能拒绝");
+            return;
+        }
+
         this.receive = receive;
         this.lastTime = 0;
     }
 
     getIntelligenceCard() {
         return this.intelligenceCard;
+    }
+
+    getCurrentPlayer(): Player {
+        return this.currentPlayer;
     }
 
 }

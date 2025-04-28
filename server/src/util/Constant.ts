@@ -38,6 +38,7 @@ export const CARD_JIE_HUO = "jh";//截获
 export const CARD_ZHUAN_YI = "zhuanyi";//转移
 export const CARD_DIAO_HU_LI_SHAN = "dhls";//调虎离山
 export const CARD_DIAO_BAO = "db";//掉包
+export const CARD_SUO_DING = "sd";//锁定
 
 //客户端字符串配置
 interface ClientConfigNameAndValue {
@@ -125,8 +126,8 @@ export const CLIENT_STRING_DATA: ClientConfigNameAndValue[] = [
     {name: CARD_JI_MI_WEN_JIAN + _CARD_DESC, value: "场上真情报超过4张摸2张，超过5张摸3张"},
     {name: CARD_PO_YI + _CARD_NAME, value: "破译"},
     {name: CARD_PO_YI + _CARD_DESC, value: "检视一张未反开的情报"},
-    {name: "sd" + _CARD_NAME, value: "锁定"},
-    {name: "sd" + _CARD_DESC, value: "我是【锁定】的描述"},
+    {name: CARD_SUO_DING + _CARD_NAME, value: "锁定"},
+    {name: CARD_SUO_DING + _CARD_DESC, value: "自己回合中，他人情报接受前指定其接收传至面前的情报"},
 
     {name: "leader" + "_emoji", value: "🏠"},
     {name: DIRECTION_ALL + "_emoji", value: "🔄"},

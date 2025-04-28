@@ -10,6 +10,7 @@ export class _1_PlayerUseCardSuccess implements Event {
     private readonly eventCard: Card | undefined;
 
     private _canEffect = true;//能否生效
+    private _param: string | undefined;
 
     /**
      * @param player 使用玩家
@@ -54,8 +55,12 @@ export class _1_PlayerUseCardSuccess implements Event {
         if (!player || player != this.eventPlayer) {
             return;
         }
-        this._playerCard.doEvent(this.eventCard, this.eventPlayer);
+        this._playerCard.doEvent(this.eventCard, this.eventPlayer, this.param);
         room.clearButton();
+    }
+
+    getEffectPlayer() {
+        return this.eventPlayer;
     }
 
     get playerCard(): Card {
@@ -68,5 +73,13 @@ export class _1_PlayerUseCardSuccess implements Event {
 
     set canEffect(value: boolean) {
         this._canEffect = value;
+    }
+
+    get param(): string | undefined {
+        return this._param;
+    }
+
+    set param(value: string | undefined) {
+        this._param = value;
     }
 }

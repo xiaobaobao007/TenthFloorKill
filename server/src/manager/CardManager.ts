@@ -12,6 +12,7 @@ import {
     CARD_SHAO_HUI,
     CARD_SHI_PO,
     CARD_SHI_TAN,
+    CARD_SUO_DING,
     CARD_WEI_XIAN_QING_BAO,
     CARD_ZENG_YUAN,
     CARD_ZHUAN_YI,
@@ -46,6 +47,7 @@ import {JieHuo} from "../fight/card/JieHuo";
 import {ZhuanYi} from "../fight/card/ZhuanYi";
 import {DiaoHuLiShan} from "../fight/card/DiaoHuLiShan";
 import {DiaoBao} from "../fight/card/DiaoBao";
+import {SuoDing} from "../fight/card/SuoDing";
 
 export class CardManager {
     private static readonly ALL_CARD_LIST: Card[] = [
@@ -121,15 +123,15 @@ export class CardManager {
         new JiMiWenJian(CARD_JI_MI_WEN_JIAN, COLOR_DOUBLE, DIRECTION_ALL, OPERATION_ZHI_DA, false),
         new JiMiWenJian(CARD_JI_MI_WEN_JIAN, COLOR_DOUBLE, DIRECTION_ALL, OPERATION_ZHI_DA, false),
 
-        new None("sd", COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
-        new None("sd", COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
-        new None("sd", COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, true),
-        new None("sd", COLOR_BLUE, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
-        new None("sd", COLOR_BLUE, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
-        new None("sd", COLOR_BLUE, DIRECTION_ALL, OPERATION_ZHI_DA, true),
-        new None("sd", COLOR_RED, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
-        new None("sd", COLOR_RED, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
-        new None("sd", COLOR_RED, DIRECTION_ALL, OPERATION_ZHI_DA, true),
+        new SuoDing(CARD_SUO_DING, COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new SuoDing(CARD_SUO_DING, COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new SuoDing(CARD_SUO_DING, COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, true),
+        new SuoDing(CARD_SUO_DING, COLOR_BLUE, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new SuoDing(CARD_SUO_DING, COLOR_BLUE, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new SuoDing(CARD_SUO_DING, COLOR_BLUE, DIRECTION_ALL, OPERATION_ZHI_DA, true),
+        new SuoDing(CARD_SUO_DING, COLOR_RED, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new SuoDing(CARD_SUO_DING, COLOR_RED, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new SuoDing(CARD_SUO_DING, COLOR_RED, DIRECTION_ALL, OPERATION_ZHI_DA, true),
 
         new WeiXianQingBao(CARD_WEI_XIAN_QING_BAO, COLOR_GREY, DIRECTION_RIGHT, OPERATION_REN_YI, true),
         new WeiXianQingBao(CARD_WEI_XIAN_QING_BAO, COLOR_GREY, DIRECTION_RIGHT, OPERATION_REN_YI, true),
