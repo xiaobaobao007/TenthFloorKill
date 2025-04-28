@@ -49,12 +49,12 @@ function cardClick(div) {
 
     const $1 = $(div);
 
+    const cardType = $1.attr("cardtype");
+
     if (IN_ROUNDING) {
         resetSelectPlayer();
 
-        const cardType = $1.attr("cardtype");
-
-        if (USE_CARD_NEED_CHOOSE_PEOPLE_WITH_ME.includes(cardType)) {
+        if (ROUND_USE_CARD_NEED_CHOOSE_PEOPLE_WITH_ME.includes(cardType)) {
             setDivClickEvent(".me-box", selectPlayerBox, emptyFunction);
         }
 
@@ -68,7 +68,14 @@ function cardClick(div) {
             return;
         }
 
-        if (USE_CARD_NEED_CHOOSE_PEOPLE.includes(cardType)) {
+        if (ROUND_USE_CARD_NEED_CHOOSE_PEOPLE.includes(cardType)) {
+            SELECTED_PLAYER_NUM = 1;
+        } else {
+            SELECTED_PLAYER_NUM = -1;
+        }
+    } else if (!SEND_INTELLIGENCE) {
+        if (OUT_ROUND_USE_CARD_NEED_CHOOSE_PEOPLE.includes(cardType)) {
+            resetSelectPlayer();
             SELECTED_PLAYER_NUM = 1;
         } else {
             SELECTED_PLAYER_NUM = -1;

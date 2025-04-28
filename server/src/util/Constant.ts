@@ -35,26 +35,13 @@ export const CARD_WEI_XIAN_QING_BAO = "wxqb";//危险情报
 export const CARD_GONG_KAI_WEN_BEN = "gkwb";//公开文本
 export const CARD_MI_MI_XIA_DA = "mmxd";//秘密下达
 export const CARD_JIE_HUO = "jh";//截获
+export const CARD_ZHUAN_YI = "zhuanyi";//转移
 
 //客户端字符串配置
 interface ClientConfigNameAndValue {
     name: string,
     value: string,
 }
-
-//使用卡牌需要选择玩家
-export const USE_CARD_NEED_CHOOSE_PEOPLE: string[] = [
-    CARD_SHI_TAN,
-    CARD_SHAO_HUI,
-    CARD_WEI_XIAN_QING_BAO,
-    CARD_GONG_KAI_WEN_BEN,
-];
-
-//选择玩家时候可以选择自己
-export const USE_CARD_NEED_CHOOSE_PEOPLE_WITH_ME: string[] = [
-    CARD_SHAO_HUI,
-    CARD_WEI_XIAN_QING_BAO,
-];
 
 //回合内能使用的牌
 export const ROUND_USE_CARD: string[] = [
@@ -64,6 +51,25 @@ export const ROUND_USE_CARD: string[] = [
     CARD_SHAO_HUI,
     CARD_WEI_XIAN_QING_BAO,
     CARD_GONG_KAI_WEN_BEN,
+];
+
+//回合内使用卡牌需要选择玩家
+export const ROUND_USE_CARD_NEED_CHOOSE_PEOPLE: string[] = [
+    CARD_SHI_TAN,
+    CARD_SHAO_HUI,
+    CARD_WEI_XIAN_QING_BAO,
+    CARD_GONG_KAI_WEN_BEN,
+];
+
+//回合内选择玩家时候可以选择自己
+export const ROUND_USE_CARD_NEED_CHOOSE_PEOPLE_WITH_ME: string[] = [
+    CARD_SHAO_HUI,
+    CARD_WEI_XIAN_QING_BAO,
+];
+
+//回合外使用卡牌需要选择玩家
+export const OUT_ROUND_USE_CARD_NEED_CHOOSE_PEOPLE: string[] = [
+    CARD_ZHUAN_YI,
 ];
 
 export const CLIENT_STRING_DATA: ClientConfigNameAndValue[] = [
@@ -111,8 +117,8 @@ export const CLIENT_STRING_DATA: ClientConfigNameAndValue[] = [
     {name: CARD_WEI_XIAN_QING_BAO + _CARD_DESC, value: "检视一名玩家手牌并丢弃一张"},
     {name: CARD_SHI_PO + _CARD_NAME, value: "识破"},
     {name: CARD_SHI_PO + _CARD_DESC, value: "使响应链的最后一张牌的效果失效"},
-    {name: "zhuanyi" + _CARD_NAME, value: "转移"},
-    {name: "zhuanyi" + _CARD_DESC, value: "我是【转移】的描述"},
+    {name: CARD_ZHUAN_YI + _CARD_NAME, value: "转移"},
+    {name: CARD_ZHUAN_YI + _CARD_DESC, value: "将传至自己的情报传至他人接收"},
     {name: CARD_JI_MI_WEN_JIAN + _CARD_NAME, value: "机密文件"},
     {name: CARD_JI_MI_WEN_JIAN + _CARD_DESC, value: "场上真情报超过4张摸2张，超过5张摸3张"},
     {name: CARD_PO_YI + _CARD_NAME, value: "破译"},

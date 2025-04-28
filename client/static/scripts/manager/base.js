@@ -1,9 +1,10 @@
 //当前配置
 let STRING_CONFIG = {};
 let ALL_CAMP = [];
-let USE_CARD_NEED_CHOOSE_PEOPLE = [];
-let USE_CARD_NEED_CHOOSE_PEOPLE_WITH_ME = [];
+let ROUND_USE_CARD_NEED_CHOOSE_PEOPLE = [];
+let ROUND_USE_CARD_NEED_CHOOSE_PEOPLE_WITH_ME = [];
 let ROUND_USE_CARD = [];
+let OUT_ROUND_USE_CARD_NEED_CHOOSE_PEOPLE = [];
 
 //信息
 let ACCOUNT = "";
@@ -12,6 +13,7 @@ let ALL_PLAYER = {};
 
 //缓存信息
 let IN_ROUNDING = false;//在回合内
+let SEND_INTELLIGENCE = false;//传情报中
 let SELECTED_CARD_DIVS = [];
 let SELECTED_CARD_NUM = -1;
 let SELECTED_PLAYER = undefined;

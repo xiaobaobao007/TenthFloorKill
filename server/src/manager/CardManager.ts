@@ -12,6 +12,7 @@ import {
     CARD_SHI_TAN,
     CARD_WEI_XIAN_QING_BAO,
     CARD_ZENG_YUAN,
+    CARD_ZHUAN_YI,
     COLOR_BLUE,
     COLOR_DOUBLE,
     COLOR_GREY,
@@ -40,6 +41,7 @@ import {WeiXianQingBao} from "../fight/card/WeiXianQingBao";
 import {GongKaiWenBen} from "../fight/card/GongKaiWenBen";
 import {MiMiXiaDa} from "../fight/card/MiMiXiaDa";
 import {JieHuo} from "../fight/card/JieHuo";
+import {ZhuanYi} from "../fight/card/ZhuanYi";
 
 export class CardManager {
     private static readonly ALL_CARD_LIST: Card[] = [
@@ -105,11 +107,11 @@ export class CardManager {
         new ShaoHui(CARD_SHAO_HUI, COLOR_BLUE, DIRECTION_ALL, OPERATION_ZHI_DA, false),
         new ShaoHui(CARD_SHAO_HUI, COLOR_RED, DIRECTION_ALL, OPERATION_ZHI_DA, false),
 
-        new None("zhuanyi", COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
-        new None("zhuanyi", COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
-        new None("zhuanyi", COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
-        new None("zhuanyi", COLOR_BLUE, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
-        new None("zhuanyi", COLOR_RED, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new ZhuanYi(CARD_ZHUAN_YI, COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new ZhuanYi(CARD_ZHUAN_YI, COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new ZhuanYi(CARD_ZHUAN_YI, COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new ZhuanYi(CARD_ZHUAN_YI, COLOR_BLUE, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
+        new ZhuanYi(CARD_ZHUAN_YI, COLOR_RED, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
 
         new JiMiWenJian(CARD_JI_MI_WEN_JIAN, COLOR_DOUBLE, DIRECTION_ALL, OPERATION_ZHI_DA, false),
         new JiMiWenJian(CARD_JI_MI_WEN_JIAN, COLOR_DOUBLE, DIRECTION_ALL, OPERATION_ZHI_DA, false),

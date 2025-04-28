@@ -2,7 +2,7 @@ import {Player} from "../../../model/Player";
 import {Room} from "../../../model/Room";
 import {Event} from "../../Event";
 import {EventType} from "../../EventType";
-import {GAME_CONFIG, OPERATION_MI_DIAN, OPERATION_WEN_BEN, OPERATION_ZHI_DA} from "../../../util/Constant";
+import {COLOR_, GAME_CONFIG, OPERATION_MI_DIAN, OPERATION_WEN_BEN, OPERATION_ZHI_DA} from "../../../util/Constant";
 import {Card} from "../../../model/Card";
 import {_5_IntelligenceCircle} from "./_5_IntelligenceCircle";
 import {AIManager} from "../../../manager/AIManager";
@@ -12,7 +12,7 @@ import {InitManager} from "../../../manager/InitManager";
 export class _4_SendIntelligence implements Event {
     private static readonly SEND_BUTTON_INFO = {
         buttonArray: [
-            {classType: "submit", needCardNum: 1, needPlayerNum: 1, root: "game/sendIntelligence", name: "发情报",},
+            {classType: "submit", needCardNum: 1, sendIntelligence: true, needPlayerNum: 1, root: "game/sendIntelligence", name: "发情报",},
         ],
         moreSelect: {
             wxqb: [{name: "直达方式", value: OPERATION_ZHI_DA}, {name: "密电方式", value: OPERATION_MI_DIAN}, {name: "文本方式", value: OPERATION_WEN_BEN},]
@@ -93,7 +93,7 @@ export class _4_SendIntelligence implements Event {
 
         let miMiXiaDaColor = MiMiXiaDa.getMiMiXiaDaColor(player.room!);
         if (miMiXiaDaColor && !card.isSameColor(miMiXiaDaColor)) {
-            player.sendTips("请下达【" + InitManager.getStringValue(miMiXiaDaColor) + "】");
+            player.sendTips("请下达【" + InitManager.getStringValue(COLOR_ + miMiXiaDaColor) + "】");
             return;
         }
 

@@ -3,7 +3,7 @@ import {Event} from "../Event";
 import {EventType} from "../EventType";
 import {Player} from "../../model/Player";
 import {Card} from "../../model/Card";
-import {_CARD_NAME, CARD_MI_MI_XIA_DA, CARD_SHI_PO, COLOR_BLUE, COLOR_GREY, COLOR_RED, GAME_CONFIG} from "../../util/Constant";
+import {_CARD_NAME, CARD_MI_MI_XIA_DA, CARD_PO_YI, CARD_SHI_PO, COLOR_BLUE, COLOR_GREY, COLOR_RED, GAME_CONFIG} from "../../util/Constant";
 import {InitManager} from "../../manager/InitManager";
 import {_1_PlayerUseCardSuccess} from "./_1_PlayerUseCardSuccess";
 import {CardManager} from "../../manager/CardManager";
@@ -36,6 +36,7 @@ export class _0_WaitPlayerUseCard implements Event {
 
     private player!: Player;//谁使用了卡牌
     private useCard!: Card;//使用了什么卡牌
+    private targetPlayer!: Player;//对谁使用了卡牌
     private playerUseCardSuccess!: _1_PlayerUseCardSuccess;//卡牌事件
 
     private canAskMiMiXiaDa = true;
@@ -56,7 +57,9 @@ export class _0_WaitPlayerUseCard implements Event {
         } else if (this.lastTime >= 0) {
             return EventType.NONE;
         } else if (!this.playerUseCardSuccess) {
-            return EventType.REMOVE;
+            room.eventStack.pop();
+            CardManager.judgeCardEvent(room, this.useCard!, this.eventArray, this.eventIndex + 1);
+            return EventType.NONE;
         } else if (!this.playerUseCardSuccess.canEffect) {
             (EventManager.getEvent(room, _0_GameStartEvent.name) as _0_GameStartEvent).roundEvent.remove(this.playerUseCardSuccess);
             return EventType.REMOVE;
@@ -71,14 +74,16 @@ export class _0_WaitPlayerUseCard implements Event {
 
             room.eventStack.pop();
 
-            this.playerUseCardSuccess.doCardEvent(room, this.player);
+            this.playerUseCardSuccess.doCardEvent(room, this.targetPlayer);
 
             const playerCard = this.playerUseCardSuccess.playerCard;
             if (!(playerCard instanceof PoYi || playerCard instanceof MiMiXiaDa)) {
                 (EventManager.getEvent(room, _0_GameStartEvent.name) as _0_GameStartEvent).roundEvent.remove(this.playerUseCardSuccess);
             }
 
-            CardManager.judgeCardEvent(room, this.useCard!, this.eventArray, this.eventIndex + 1);
+            if (this.eventArray[0] == CARD_PO_YI) {
+                CardManager.judgeCardEvent(room, this.useCard!, this.eventArray);
+            }
 
             return EventType.NONE;
         }
@@ -143,18 +148,18 @@ export class _0_WaitPlayerUseCard implements Event {
             return false;
         }
 
+        if (!targetPlayer) {
+            targetPlayer = player;
+        }
+
         if (this.eventCard && !useCard.canUse(this.eventCard, targetPlayer)) {
             return false;
         }
 
         this.player = player;
         this.useCard = useCard;
-
-        if (targetPlayer) {
-            this.lastTime = -1;
-        } else {
-            this.lastTime = 0;
-        }
+        this.targetPlayer = targetPlayer;
+        this.lastTime = 0;
 
         this.player.removeCard(this.useCard!, !(this.useCard instanceof ShiTan));
 
@@ -165,7 +170,7 @@ export class _0_WaitPlayerUseCard implements Event {
         //等待识破
         CardManager.judgeCardEvent(player.room!, this.useCard!, [CARD_SHI_PO])
 
-        player.room!.addEventTips("【" + player.account + "】使用了一张【" + this.cardName + "】");
+        player.room!.addEventTips("【" + player.account + "】对【" + targetPlayer.account + "】使用了【" + this.cardName + "】");
 
         return true;
     }

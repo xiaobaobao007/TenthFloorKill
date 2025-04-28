@@ -89,6 +89,9 @@ class RoomEventRoutes extends ClientBaseRoutes {
                 if (button.isRounding) {
                     IN_ROUNDING = true;
                 }
+                if (button.sendIntelligence) {
+                    SEND_INTELLIGENCE = true;
+                }
                 if (button.needCardNum) {
                     SELECTED_CARD_NUM = button.needCardNum;
                 }
@@ -114,6 +117,7 @@ class RoomEventRoutes extends ClientBaseRoutes {
 
     async clearButton() {
         IN_ROUNDING = false;
+        SEND_INTELLIGENCE = false;
         $(".operation-button-father").html("");
         resetSelectPlayer();
         resetSelectCard();

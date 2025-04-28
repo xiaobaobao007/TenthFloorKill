@@ -1,5 +1,11 @@
 import {Player} from "../model/Player";
-import {CLIENT_STRING_DATA, ROUND_USE_CARD, USE_CARD_NEED_CHOOSE_PEOPLE, USE_CARD_NEED_CHOOSE_PEOPLE_WITH_ME} from "../util/Constant";
+import {
+    CLIENT_STRING_DATA,
+    OUT_ROUND_USE_CARD_NEED_CHOOSE_PEOPLE,
+    ROUND_USE_CARD,
+    ROUND_USE_CARD_NEED_CHOOSE_PEOPLE,
+    ROUND_USE_CARD_NEED_CHOOSE_PEOPLE_WITH_ME
+} from "../util/Constant";
 import {ServerClientRoutes} from "./ServerClientRoutes";
 import {ROUTER} from "../util/SocketUtil";
 
@@ -8,9 +14,12 @@ export class BaseRoutes extends ServerClientRoutes {
         let data = {
             stringConfig: CLIENT_STRING_DATA,
             rounding: {
-                needChoosePlayer: USE_CARD_NEED_CHOOSE_PEOPLE,
-                needChoosePlayerWithMe: USE_CARD_NEED_CHOOSE_PEOPLE_WITH_ME,
-                canUseCard: ROUND_USE_CARD,
+                card: ROUND_USE_CARD,
+                needChoosePlayer: ROUND_USE_CARD_NEED_CHOOSE_PEOPLE,
+                needChoosePlayerWithMe: ROUND_USE_CARD_NEED_CHOOSE_PEOPLE_WITH_ME,
+            },
+            outRounding: {
+                card: OUT_ROUND_USE_CARD_NEED_CHOOSE_PEOPLE,
             }
         }
 
