@@ -10,8 +10,9 @@ import {CardManager} from "../../manager/CardManager";
 import {ROUTER} from "../../util/SocketUtil";
 import {EventManager} from "../../manager/EventManager";
 import {_0_GameStartEvent} from "../normalEvent/_0_base/_0_GameStartEvent";
-import {ShiTan} from "../card/ShiTan";
-import {SaveCard} from "../card/SaveCard";
+import {ShiTan} from "../card/base/ShiTan";
+import {SaveCard} from "../card/base/SaveCard";
+import {LiJian} from "../card/LiJian";
 
 export class _0_WaitPlayerUseCard implements Event {
     private static readonly SEND_BUTTON_INFO = {
@@ -25,7 +26,7 @@ export class _0_WaitPlayerUseCard implements Event {
     }
 
     private readonly playerArray: Player[];
-    private readonly eventCard: Card | undefined;
+    private readonly _eventCard: Card | undefined;
     private readonly _cardId: string;
     private readonly cardName: string;
     private readonly eventArray: string[];
@@ -35,14 +36,14 @@ export class _0_WaitPlayerUseCard implements Event {
 
     private player!: Player;//谁使用了卡牌
     private useCard!: Card;//使用了什么卡牌
-    private targetPlayer!: Player;//对谁使用了卡牌
+    private _targetPlayer!: Player;//对谁使用了卡牌
     private playerUseCardSuccess!: _1_PlayerUseCardSuccess;//卡牌事件
 
     private lastTime = GAME_CONFIG._0_WaitPlayerUseCard_TIME;
 
     constructor(playerArray: Player[], eventCard: Card | undefined, cardId: string, eventArray: string[] = [], eventIndex: number = 0) {
         this.playerArray = playerArray;
-        this.eventCard = eventCard;
+        this._eventCard = eventCard;
         this._cardId = cardId;
         this.cardName = InitManager.getStringValue(cardId + _CARD_NAME)!;
         this.eventArray = eventArray;
@@ -61,7 +62,7 @@ export class _0_WaitPlayerUseCard implements Event {
         } else if (!this.playerUseCardSuccess.canEffect) {
             (EventManager.getEvent(room, _0_GameStartEvent.name) as _0_GameStartEvent).roundEvent.remove(this.playerUseCardSuccess);
         } else {
-            this.playerUseCardSuccess.doCardEvent(room, this.targetPlayer);
+            this.playerUseCardSuccess.doCardEvent(room, this._targetPlayer);
             const playerCard = this.playerUseCardSuccess.playerCard;
             if (!(playerCard instanceof SaveCard)) {
                 (EventManager.getEvent(room, _0_GameStartEvent.name) as _0_GameStartEvent).roundEvent.remove(this.playerUseCardSuccess);
@@ -118,7 +119,7 @@ export class _0_WaitPlayerUseCard implements Event {
         }
     }
 
-    use(player: Player, useCard: Card, targetPlayer: Player | undefined = undefined): _1_PlayerUseCardSuccess | undefined {
+    use(player: Player, useCard: Card, targetPlayer: Player | undefined = undefined, inRounding: boolean = false): _1_PlayerUseCardSuccess | undefined {
         if (!this.playerArray.includes(player) || this.player != undefined || this.skipPlayerArray.includes(player)) {
             return;
         }
@@ -134,20 +135,24 @@ export class _0_WaitPlayerUseCard implements Event {
             targetPlayer = player;
         }
 
-        if (this.eventCard && !useCard.canUse(this.eventCard, targetPlayer)) {
+        if (this._eventCard && !useCard.canUse(this._eventCard, targetPlayer)) {
             return;
         }
 
         this.player = player;
         this.useCard = useCard;
-        this.targetPlayer = targetPlayer;
+        this._targetPlayer = targetPlayer;
         this.lastTime = 0;
 
         this.player.removeCard(this.useCard!, !(this.useCard instanceof ShiTan));
 
         const fatherEvent = EventManager.getEvent(room, _0_GameStartEvent.name) as _0_GameStartEvent;
-        this.playerUseCardSuccess = new _1_PlayerUseCardSuccess(this.useCard!, targetPlayer, this.eventCard);
+        this.playerUseCardSuccess = new _1_PlayerUseCardSuccess(this.useCard!, targetPlayer, this._eventCard);
         fatherEvent.roundEvent.push(this.playerUseCardSuccess);
+
+        if (inRounding) {
+            room.eventStack.push(this);
+        }
 
         //询问秘密下达允许覆盖
         if (this.eventArray[0] == CARD_MI_MI_XIA_DA) {
@@ -157,6 +162,8 @@ export class _0_WaitPlayerUseCard implements Event {
         if (this.eventArray[0] == CARD_PO_YI) {
             CardManager.judgeCardEvent(room, this.useCard!, this.eventArray);
         }
+
+        LiJian.judgeLiJian(useCard);
 
         //询问识破
         CardManager.judgeCardEvent(room, this.useCard!, [CARD_SHI_PO]);
@@ -175,5 +182,13 @@ export class _0_WaitPlayerUseCard implements Event {
             this.lastTime = 0;
         }
         player.clearButton();
+    }
+
+    get eventCard(): Card | undefined {
+        return this._eventCard;
+    }
+
+    set targetPlayer(value: Player) {
+        this._targetPlayer = value;
     }
 }

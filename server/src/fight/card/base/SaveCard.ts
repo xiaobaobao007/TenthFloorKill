@@ -1,4 +1,4 @@
-import {Card} from "../../model/Card";
+import {Card} from "../../../model/Card";
 
 export abstract class SaveCard extends Card {
 }

@@ -1,7 +1,7 @@
 import {Card} from "../../model/Card";
 import {EventManager} from "../../manager/EventManager";
 import {Player} from "../../model/Player";
-import {SaveCard} from "./SaveCard";
+import {SaveCard} from "./base/SaveCard";
 import {_0_GameStartEvent} from "../normalEvent/_0_base/_0_GameStartEvent";
 
 /**

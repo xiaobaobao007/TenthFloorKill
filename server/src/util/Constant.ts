@@ -39,6 +39,7 @@ export const CARD_ZHUAN_YI = "zhuanyi";//转移
 export const CARD_DIAO_HU_LI_SHAN = "dhls";//调虎离山
 export const CARD_DIAO_BAO = "db";//掉包
 export const CARD_SUO_DING = "sd";//锁定
+export const CARD_LI_JIAN = "lj";//离间
 
 //客户端字符串配置
 interface ClientConfigNameAndValue {
@@ -56,23 +57,21 @@ export const ROUND_USE_CARD: string[] = [
     CARD_GONG_KAI_WEN_BEN,
 ];
 
-//回合内使用卡牌需要选择玩家
-export const ROUND_USE_CARD_NEED_CHOOSE_PEOPLE: string[] = [
+//使用卡牌需要选择玩家
+export const USE_CARD_NEED_CHOOSE_PEOPLE: string[] = [
     CARD_SHI_TAN,
     CARD_SHAO_HUI,
     CARD_WEI_XIAN_QING_BAO,
     CARD_GONG_KAI_WEN_BEN,
+    CARD_ZHUAN_YI,
+    CARD_LI_JIAN,
 ];
 
-//回合内选择玩家时候可以选择自己
-export const ROUND_USE_CARD_NEED_CHOOSE_PEOPLE_WITH_ME: string[] = [
+//选择玩家时候可以选择自己
+export const CHOOSE_PEOPLE_WITH_ME: string[] = [
     CARD_SHAO_HUI,
     CARD_WEI_XIAN_QING_BAO,
-];
-
-//回合外使用卡牌需要选择玩家
-export const OUT_ROUND_USE_CARD_NEED_CHOOSE_PEOPLE: string[] = [
-    CARD_ZHUAN_YI,
+    CARD_LI_JIAN,
 ];
 
 export const CLIENT_STRING_DATA: ClientConfigNameAndValue[] = [
@@ -92,7 +91,7 @@ export const CLIENT_STRING_DATA: ClientConfigNameAndValue[] = [
     {name: OPERATION_REN_YI, value: "任意方式传递"},
 
     {name: DIRECTION_RIGHT, value: "向右边方向传递"},
-    {name: DIRECTION_ALL, value: "自定义方向传递"},
+    {name: DIRECTION_ALL, value: "任选方向传递"},
 
     {name: CARD_SHI_TAN + _CARD_NAME, value: "试探"},
     {name: CARD_SHI_TAN + _CARD_DESC, value: "自己回合中使用，指定除自己以外的玩家使用，（仅双方可见，执行后移出游戏）"},
@@ -114,8 +113,8 @@ export const CLIENT_STRING_DATA: ClientConfigNameAndValue[] = [
     {name: CARD_SHAO_HUI + _CARD_DESC, value: "烧毁一张不带锁的假情报"},
     {name: CARD_DIAO_BAO + _CARD_NAME, value: "掉包"},
     {name: CARD_DIAO_BAO + _CARD_DESC, value: "情报传回传出着时，替换当前情报（无法替换文本），并由传出者重新传递"},
-    {name: "lj" + _CARD_NAME, value: "离间"},
-    {name: "lj" + _CARD_DESC, value: "我是【离间】的描述"},
+    {name: CARD_LI_JIAN + _CARD_NAME, value: "离间"},
+    {name: CARD_LI_JIAN + _CARD_DESC, value: "变更【试探/锁定/转移/危险情报/公开文本】的指定目标，无法指定使用者"},
     {name: CARD_WEI_XIAN_QING_BAO + _CARD_NAME, value: "危险情报"},
     {name: CARD_WEI_XIAN_QING_BAO + _CARD_DESC, value: "检视一名玩家手牌并丢弃一张"},
     {name: CARD_SHI_PO + _CARD_NAME, value: "识破"},

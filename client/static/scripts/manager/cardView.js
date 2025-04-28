@@ -54,10 +54,6 @@ function cardClick(div) {
     if (IN_ROUNDING) {
         resetSelectPlayer();
 
-        if (ROUND_USE_CARD_NEED_CHOOSE_PEOPLE_WITH_ME.includes(cardType)) {
-            setDivClickEvent(".me-box", selectPlayerBox, emptyFunction);
-        }
-
         if (!ROUND_USE_CARD.includes(cardType)) {
             for (const selectedDiv of SELECTED_CARD_DIVS) {
                 $(selectedDiv).children('.my-card-select').remove();
@@ -67,19 +63,15 @@ function cardClick(div) {
             $(".operation-select").remove();
             return;
         }
+    }
 
-        if (ROUND_USE_CARD_NEED_CHOOSE_PEOPLE.includes(cardType)) {
-            SELECTED_PLAYER_NUM = 1;
-        } else {
-            SELECTED_PLAYER_NUM = -1;
+    if (USE_CARD_NEED_CHOOSE_PEOPLE.includes(cardType)) {
+        if (USE_CARD_NEED_CHOOSE_PEOPLE_WITH_ME.includes(cardType)) {
+            setDivClickEvent(".me-box", selectPlayerBox, emptyFunction);
         }
-    } else if (!SEND_INTELLIGENCE) {
-        if (OUT_ROUND_USE_CARD_NEED_CHOOSE_PEOPLE.includes(cardType)) {
-            resetSelectPlayer();
-            SELECTED_PLAYER_NUM = 1;
-        } else {
-            SELECTED_PLAYER_NUM = -1;
-        }
+        SELECTED_PLAYER_NUM = 1;
+    } else {
+        SELECTED_PLAYER_NUM = -1;
     }
 
     for (const s of SELECTED_CARD_DIVS) {

@@ -4,7 +4,7 @@ import {_4_SendIntelligence} from "../fight/normalEvent/_0_base/_4_SendIntellige
 import {_3_PlayerRounding} from "../fight/normalEvent/_0_base/_3_PlayerRounding";
 import {Card} from "../model/Card";
 import {_5_1_WaitingPlayerReceive} from "../fight/normalEvent/_5_IntelligenceCircle/_5_1_WaitingPlayerReceive";
-import {OPERATION_MI_DIAN, OPERATION_REN_YI, OPERATION_WEN_BEN, OPERATION_ZHI_DA, ROUND_USE_CARD, ROUND_USE_CARD_NEED_CHOOSE_PEOPLE} from "../util/Constant";
+import {OPERATION_MI_DIAN, OPERATION_REN_YI, OPERATION_WEN_BEN, OPERATION_ZHI_DA, ROUND_USE_CARD, USE_CARD_NEED_CHOOSE_PEOPLE} from "../util/Constant";
 import {_0_WaitPlayerUseCard} from "../fight/cardEvent/_0_WaitPlayerUseCard";
 import {_7_DiscardEvent} from "../fight/normalEvent/_0_base/_7_DiscardEvent";
 import {_0_WaitPlayerChooseButton} from "../fight/cardEvent/_0_WaitPlayerChooseButton";
@@ -12,6 +12,7 @@ import {_0_WaitPlayerChooseOneCard} from "../fight/cardEvent/_0_WaitPlayerChoose
 import {ZhuanYi} from "../fight/card/ZhuanYi";
 import {SuoDing} from "../fight/card/SuoDing";
 import {EventManager} from "../manager/EventManager";
+import {LiJian} from "../fight/card/LiJian";
 
 export class GameRoutes extends ServerClientRoutes {
 
@@ -30,7 +31,7 @@ export class GameRoutes extends ServerClientRoutes {
 
         let targetPlayer: Player | undefined;
 
-        if (ROUND_USE_CARD_NEED_CHOOSE_PEOPLE.includes(cardModel.cardId)) {
+        if (USE_CARD_NEED_CHOOSE_PEOPLE.includes(cardModel.cardId)) {
             if (!data.accounts || data.accounts[0].length === 0) {
                 return;
             }
@@ -51,9 +52,7 @@ export class GameRoutes extends ServerClientRoutes {
         }
 
         const useEvent = new _0_WaitPlayerUseCard([player], cardModel, cardModel.cardId);
-        if (useEvent.use(player, cardModel, targetPlayer)) {
-            eventStack.push(useEvent);
-        }
+        useEvent.use(player, cardModel, targetPlayer, true);
     }
 
     // {"route":"game/sendIntelligence","data":{"cards":[{"cardId":"10","opz":""}],"accounts":["robot-2"]}}
@@ -176,7 +175,7 @@ export class GameRoutes extends ServerClientRoutes {
 
         if (cardModel instanceof SuoDing) {
             targetPlayer = (EventManager.getEvent(room, _5_1_WaitingPlayerReceive.name) as _5_1_WaitingPlayerReceive).getCurrentPlayer();
-        } else if (cardModel instanceof ZhuanYi) {
+        } else if (cardModel instanceof ZhuanYi || cardModel instanceof LiJian) {
             if (!data.accounts || data.accounts[0].length === 0) {
                 player.sendTips("请重新选择玩家");
                 return;

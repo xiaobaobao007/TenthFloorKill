@@ -1,6 +1,6 @@
 import {Card} from "../../model/Card";
 import {ROUTER} from "../../util/SocketUtil";
-import {SaveCard} from "./SaveCard";
+import {SaveCard} from "./base/SaveCard";
 
 /**
  * 破译：检视一张未反开的情报

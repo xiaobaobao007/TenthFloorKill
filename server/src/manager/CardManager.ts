@@ -7,6 +7,7 @@ import {
     CARD_GONG_KAI_WEN_BEN,
     CARD_JI_MI_WEN_JIAN,
     CARD_JIE_HUO,
+    CARD_LI_JIAN,
     CARD_MI_MI_XIA_DA,
     CARD_PO_YI,
     CARD_SHAO_HUI,
@@ -32,7 +33,6 @@ import {Room} from "../model/Room";
 import {Player} from "../model/Player";
 import {_0_WaitPlayerUseCard} from "../fight/cardEvent/_0_WaitPlayerUseCard";
 import {PoYi} from "../fight/card/PoYi";
-import {None} from "../fight/card/None";
 import {ShiTan2} from "../fight/card/ShiTan2";
 import {shuffleArray} from "../util/MathUtil";
 import {ShiPo} from "../fight/card/ShiPo";
@@ -48,6 +48,7 @@ import {ZhuanYi} from "../fight/card/ZhuanYi";
 import {DiaoHuLiShan} from "../fight/card/DiaoHuLiShan";
 import {DiaoBao} from "../fight/card/DiaoBao";
 import {SuoDing} from "../fight/card/SuoDing";
+import {LiJian} from "../fight/card/LiJian";
 
 export class CardManager {
     private static readonly ALL_CARD_LIST: Card[] = [
@@ -58,11 +59,11 @@ export class CardManager {
         new PoYi(CARD_PO_YI, COLOR_RED, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
         new PoYi(CARD_PO_YI, COLOR_RED, DIRECTION_ALL, OPERATION_MI_DIAN, false),
 
-        new None("lj", COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
-        new None("lj", COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
-        new None("lj", COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
-        new None("lj", COLOR_BLUE, DIRECTION_ALL, OPERATION_ZHI_DA, false),
-        new None("lj", COLOR_RED, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new LiJian(CARD_LI_JIAN, COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new LiJian(CARD_LI_JIAN, COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new LiJian(CARD_LI_JIAN, COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new LiJian(CARD_LI_JIAN, COLOR_BLUE, DIRECTION_ALL, OPERATION_ZHI_DA, false),
+        new LiJian(CARD_LI_JIAN, COLOR_RED, DIRECTION_ALL, OPERATION_ZHI_DA, false),
 
         new MiMiXiaDa(CARD_MI_MI_XIA_DA, COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),
         new MiMiXiaDa(CARD_MI_MI_XIA_DA, COLOR_GREY, DIRECTION_ALL, OPERATION_ZHI_DA, false),

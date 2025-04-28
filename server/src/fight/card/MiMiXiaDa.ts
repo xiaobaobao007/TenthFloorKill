@@ -7,7 +7,7 @@ import {_0_WaitPlayerChooseOneCard, ChooseCardEvent} from "../cardEvent/_0_WaitP
 import {EventManager} from "../../manager/EventManager";
 import {_0_GameStartEvent} from "../normalEvent/_0_base/_0_GameStartEvent";
 import {Room} from "../../model/Room";
-import {SaveCard} from "./SaveCard";
+import {SaveCard} from "./base/SaveCard";
 
 export class MiMiXiaDa extends SaveCard implements ChooseCardEvent {
     constructor(cardId: string, color: string, direction: string, operation: string, lock: boolean) {

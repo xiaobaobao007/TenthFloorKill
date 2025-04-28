@@ -6,14 +6,13 @@ import {Card} from "../../model/Card";
 
 export class _1_PlayerUseCardSuccess implements Event {
     private readonly _playerCard: Card;
-    private readonly eventPlayer: Player | undefined;
+    private eventPlayer: Player | undefined;
     private readonly eventCard: Card | undefined;
 
     private _canEffect = true;//能否生效
     private _param: string | undefined;
 
     /**
-     * @param player 使用玩家
      * @param playerCard 玩家使用了什么卡牌
      * @param eventPlayer
      * @param effectCard 对什么卡牌使用的
@@ -25,7 +24,7 @@ export class _1_PlayerUseCardSuccess implements Event {
     }
 
     getEffectType(room: Room): EventType {
-        throw new Error("Method not implemented.");
+        return EventType.EFFECT;
     }
 
     prv(room: Room): void {
@@ -33,7 +32,7 @@ export class _1_PlayerUseCardSuccess implements Event {
     }
 
     doEvent(room: Room): void {
-        throw new Error("Method not implemented.");
+        this.doCardEvent(room, this.eventPlayer);
     }
 
     frameOver(room: Room): void {
@@ -44,19 +43,23 @@ export class _1_PlayerUseCardSuccess implements Event {
         throw new Error("Method not implemented.");
     }
 
-    sendClientInfo(room: Room, player: Player): void {
+    sendClientInfo(room: Room, player: Player | undefined): void {
         if (!player || player != this.eventPlayer) {
             return;
         }
         this._playerCard.sendClientInfo(this.eventCard, this.eventPlayer);
     }
 
-    doCardEvent(room: Room, player: Player): void {
+    doCardEvent(room: Room, player: Player | undefined): void {
         if (!player || player != this.eventPlayer) {
             return;
         }
         this._playerCard.doEvent(this.eventCard, this.eventPlayer, this.param);
         room.clearButton();
+    }
+
+    setEffectPlayer(player: Player) {
+        this.eventPlayer = player;
     }
 
     getEffectPlayer() {

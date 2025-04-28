@@ -21,13 +21,8 @@ class BaseRoutes extends ClientBaseRoutes {
         {
             let roundingConfig = response.rounding;
             ROUND_USE_CARD = roundingConfig.card;
-            ROUND_USE_CARD_NEED_CHOOSE_PEOPLE = roundingConfig.needChoosePlayer;
-            ROUND_USE_CARD_NEED_CHOOSE_PEOPLE_WITH_ME = roundingConfig.needChoosePlayerWithMe;
-        }
-
-        {
-            let outRoundingConfig = response.outRounding;
-            OUT_ROUND_USE_CARD_NEED_CHOOSE_PEOPLE = outRoundingConfig.card;
+            USE_CARD_NEED_CHOOSE_PEOPLE = roundingConfig.needChoosePlayer;
+            USE_CARD_NEED_CHOOSE_PEOPLE_WITH_ME = roundingConfig.needChoosePlayerWithMe;
         }
 
         openBody("hall");

@@ -4,7 +4,7 @@ import {CARD_SHI_TAN} from "../../util/Constant";
 import {_7_DiscardEvent} from "../normalEvent/_0_base/_7_DiscardEvent";
 import {_0_GameStartEvent} from "../normalEvent/_0_base/_0_GameStartEvent";
 import {InitManager} from "../../manager/InitManager";
-import {ShiTan} from "./ShiTan";
+import {ShiTan} from "./base/ShiTan";
 
 /**
  * 试探：自己回合中使用，指定除自己以外的玩家使用，（仅双方可见，执行后移出游戏）
