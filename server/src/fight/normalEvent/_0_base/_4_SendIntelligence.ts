@@ -8,6 +8,7 @@ import {_5_IntelligenceCircle} from "./_5_IntelligenceCircle";
 import {AIManager} from "../../../manager/AIManager";
 import {MiMiXiaDa} from "../../card/MiMiXiaDa";
 import {InitManager} from "../../../manager/InitManager";
+import {DiaoBao} from "../../card/DiaoBao";
 
 export class _4_SendIntelligence implements Event {
     private static readonly SEND_BUTTON_INFO = {
@@ -91,9 +92,16 @@ export class _4_SendIntelligence implements Event {
             return;
         }
 
-        let miMiXiaDaColor = MiMiXiaDa.getMiMiXiaDaColor(player.room!);
+        const room = player.room!;
+        let miMiXiaDaColor = MiMiXiaDa.getMiMiXiaDaColor(room);
         if (miMiXiaDaColor && !card.isSameColor(miMiXiaDaColor)) {
             player.sendTips("请下达【" + InitManager.getStringValue(COLOR_ + miMiXiaDaColor) + "】");
+            return;
+        }
+
+        let diaoBaoCard = DiaoBao.getDiaoBaoCard(room);
+        if (diaoBaoCard && diaoBaoCard != card) {
+            player.sendTips("请下达手牌最后一张指定的【" + diaoBaoCard.getName() + "】");
             return;
         }
 

@@ -33,7 +33,7 @@ export class EventManager {
                     case EventType.REMOVE:
                     case EventType.REMOVE_AND_NEXT:
                         if (effectType != EventType.NEXT) {
-                            eventStack.pop();
+                            eventStack.remove(currentEvent);
                         }
                         if (effectType != EventType.REMOVE) {
                             const nextEvent = currentEvent.nextEvent(room);

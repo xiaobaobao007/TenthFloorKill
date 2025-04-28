@@ -13,6 +13,7 @@ import {_0_GameStartEvent} from "../normalEvent/_0_base/_0_GameStartEvent";
 import {ShiTan} from "../card/ShiTan";
 import {PoYi} from "../card/PoYi";
 import {MiMiXiaDa} from "../card/MiMiXiaDa";
+import {DiaoBao} from "../card/DiaoBao";
 
 export class _0_WaitPlayerUseCard implements Event {
     private static readonly SEND_BUTTON_INFO = {
@@ -39,7 +40,6 @@ export class _0_WaitPlayerUseCard implements Event {
     private targetPlayer!: Player;//对谁使用了卡牌
     private playerUseCardSuccess!: _1_PlayerUseCardSuccess;//卡牌事件
 
-    private canAskMiMiXiaDa = true;
     private lastTime = GAME_CONFIG._0_WaitPlayerUseCard_TIME;
 
     constructor(playerArray: Player[], eventCard: Card | undefined, cardId: string, eventArray: string[] = [], eventIndex: number = 0) {
@@ -56,37 +56,20 @@ export class _0_WaitPlayerUseCard implements Event {
             return EventType.PRE;
         } else if (this.lastTime >= 0) {
             return EventType.NONE;
-        } else if (!this.playerUseCardSuccess) {
-            room.eventStack.pop();
+        }
+
+        if (!this.playerUseCardSuccess) {
             CardManager.judgeCardEvent(room, this.useCard!, this.eventArray, this.eventIndex + 1);
-            return EventType.NONE;
         } else if (!this.playerUseCardSuccess.canEffect) {
             (EventManager.getEvent(room, _0_GameStartEvent.name) as _0_GameStartEvent).roundEvent.remove(this.playerUseCardSuccess);
-            return EventType.REMOVE;
         } else {
-            if (this.canAskMiMiXiaDa && this.playerUseCardSuccess.canEffect && this.eventArray[0] == CARD_MI_MI_XIA_DA) {
-                //秘密下达允许覆盖
-                if (CardManager.judgeCardEvent(room, this.useCard!, [CARD_MI_MI_XIA_DA])) {
-                    this.canAskMiMiXiaDa = false;
-                    return EventType.NONE;
-                }
-            }
-
-            room.eventStack.pop();
-
             this.playerUseCardSuccess.doCardEvent(room, this.targetPlayer);
-
             const playerCard = this.playerUseCardSuccess.playerCard;
-            if (!(playerCard instanceof PoYi || playerCard instanceof MiMiXiaDa)) {
+            if (!(playerCard instanceof PoYi || playerCard instanceof MiMiXiaDa || playerCard instanceof DiaoBao)) {
                 (EventManager.getEvent(room, _0_GameStartEvent.name) as _0_GameStartEvent).roundEvent.remove(this.playerUseCardSuccess);
             }
-
-            if (this.eventArray[0] == CARD_PO_YI) {
-                CardManager.judgeCardEvent(room, this.useCard!, this.eventArray);
-            }
-
-            return EventType.NONE;
         }
+        return EventType.REMOVE;
     }
 
     prv(room: Room): void {
@@ -102,7 +85,7 @@ export class _0_WaitPlayerUseCard implements Event {
             let data = {
                 time: this.lastTime,
                 allTime: GAME_CONFIG._0_WaitPlayerUseCard_TIME,
-                allTips: "某人正在思考是否使用【" + this.cardName + "】",
+                allTips: this.lastTime > 0 ? ("某人正在思考是否使用【" + this.cardName + "】") : "",
                 myTips: "",
             };
 
@@ -142,9 +125,10 @@ export class _0_WaitPlayerUseCard implements Event {
             return false;
         }
 
+        const room = player.room!;
         if (useCard.cardId != this._cardId) {
             player.sendTips("请选择1张【" + this.cardName + "】卡牌使用");
-            this.sendClientInfo(player.room!);
+            this.sendClientInfo(room);
             return false;
         }
 
@@ -163,14 +147,23 @@ export class _0_WaitPlayerUseCard implements Event {
 
         this.player.removeCard(this.useCard!, !(this.useCard instanceof ShiTan));
 
-        const fatherEvent = EventManager.getEvent(player.room!, _0_GameStartEvent.name) as _0_GameStartEvent;
+        const fatherEvent = EventManager.getEvent(room, _0_GameStartEvent.name) as _0_GameStartEvent;
         this.playerUseCardSuccess = new _1_PlayerUseCardSuccess(this.useCard!, targetPlayer, this.eventCard);
         fatherEvent.roundEvent.push(this.playerUseCardSuccess);
 
-        //等待识破
-        CardManager.judgeCardEvent(player.room!, this.useCard!, [CARD_SHI_PO])
+        //询问秘密下达允许覆盖
+        if (this.eventArray[0] == CARD_MI_MI_XIA_DA) {
+            CardManager.judgeCardEvent(room, this.useCard!, this.eventArray);
+        }
 
-        player.room!.addEventTips("【" + player.account + "】对【" + targetPlayer.account + "】使用了【" + this.cardName + "】");
+        if (this.eventArray[0] == CARD_PO_YI) {
+            CardManager.judgeCardEvent(room, this.useCard!, this.eventArray);
+        }
+
+        //询问识破
+        CardManager.judgeCardEvent(room, this.useCard!, [CARD_SHI_PO]);
+
+        room.addEventTips("【" + player.account + "】对【" + targetPlayer.account + "】使用了【" + this.cardName + "】");
 
         return true;
     }

@@ -2,6 +2,7 @@ import {
     CAMP_BLUE,
     CAMP_GREY,
     CAMP_RED,
+    CARD_DIAO_BAO,
     CARD_DIAO_HU_LI_SHAN,
     CARD_GONG_KAI_WEN_BEN,
     CARD_JI_MI_WEN_JIAN,
@@ -44,6 +45,7 @@ import {MiMiXiaDa} from "../fight/card/MiMiXiaDa";
 import {JieHuo} from "../fight/card/JieHuo";
 import {ZhuanYi} from "../fight/card/ZhuanYi";
 import {DiaoHuLiShan} from "../fight/card/DiaoHuLiShan";
+import {DiaoBao} from "../fight/card/DiaoBao";
 
 export class CardManager {
     private static readonly ALL_CARD_LIST: Card[] = [
@@ -77,11 +79,11 @@ export class CardManager {
         new ShiPo(CARD_SHI_PO, COLOR_RED, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),
         new ShiPo(CARD_SHI_PO, COLOR_RED, DIRECTION_ALL, OPERATION_MI_DIAN, false),
 
-        new None("db", COLOR_GREY, DIRECTION_RIGHT, OPERATION_WEN_BEN, true),
-        new None("db", COLOR_BLUE, DIRECTION_ALL, OPERATION_WEN_BEN, true),
-        new None("db", COLOR_BLUE, DIRECTION_ALL, OPERATION_WEN_BEN, true),
-        new None("db", COLOR_RED, DIRECTION_ALL, OPERATION_WEN_BEN, true),
-        new None("db", COLOR_RED, DIRECTION_ALL, OPERATION_WEN_BEN, true),
+        new DiaoBao(CARD_DIAO_BAO, COLOR_GREY, DIRECTION_RIGHT, OPERATION_WEN_BEN, true),
+        new DiaoBao(CARD_DIAO_BAO, COLOR_BLUE, DIRECTION_ALL, OPERATION_WEN_BEN, true),
+        new DiaoBao(CARD_DIAO_BAO, COLOR_BLUE, DIRECTION_ALL, OPERATION_WEN_BEN, true),
+        new DiaoBao(CARD_DIAO_BAO, COLOR_RED, DIRECTION_ALL, OPERATION_WEN_BEN, true),
+        new DiaoBao(CARD_DIAO_BAO, COLOR_RED, DIRECTION_ALL, OPERATION_WEN_BEN, true),
 
         new JieHuo(CARD_JIE_HUO, COLOR_GREY, DIRECTION_ALL, OPERATION_MI_DIAN, false),
         new JieHuo(CARD_JIE_HUO, COLOR_GREY, DIRECTION_RIGHT, OPERATION_MI_DIAN, false),

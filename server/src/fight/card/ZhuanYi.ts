@@ -4,6 +4,8 @@ import {EventManager} from "../../manager/EventManager";
 import {_5_1_WaitingPlayerReceive} from "../normalEvent/_5_IntelligenceCircle/_5_1_WaitingPlayerReceive";
 import {Player} from "../../model/Player";
 import {_5_2_PlayerReceive} from "../normalEvent/_5_IntelligenceCircle/_5_2_PlayerReceive";
+import {_0_GameStartEvent} from "../normalEvent/_0_base/_0_GameStartEvent";
+import {DiaoBao} from "./DiaoBao";
 
 /**
  * 转移：将传至自己的情报传至他人接收
@@ -31,6 +33,13 @@ export class ZhuanYi extends Card {
             room.eventStack.remove(event);
 
             this._belong!.room!.eventStack.push(new _5_2_PlayerReceive(eventPlayer, (event as _5_1_WaitingPlayerReceive).getIntelligenceCard()))
+        }
+
+        for (const one of (EventManager.getEvent(room, _0_GameStartEvent.name) as _0_GameStartEvent).roundEvent.getItems()) {
+            if (one.playerCard instanceof DiaoBao) {
+                //转移使掉包无效
+                one.canEffect = false;
+            }
         }
     }
 }

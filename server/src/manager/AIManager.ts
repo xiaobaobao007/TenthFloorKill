@@ -6,6 +6,7 @@ import {OPERATION_MI_DIAN, OPERATION_REN_YI} from "../util/Constant";
 import {GameError} from "../exception/GameError";
 import {_7_DiscardEvent} from "../fight/normalEvent/_0_base/_7_DiscardEvent";
 import {MiMiXiaDa} from "../fight/card/MiMiXiaDa";
+import {DiaoBao} from "../fight/card/DiaoBao";
 
 export class AIManager {
     public static _4_SendIntelligence(player: Player, event: _4_SendIntelligence): void {
@@ -20,6 +21,11 @@ export class AIManager {
                     break;
                 }
             }
+        }
+
+        let diaoBaoCard = DiaoBao.getDiaoBaoCard(room);
+        if (diaoBaoCard) {
+            playerCard = diaoBaoCard;
         }
 
         if (!playerCard) {

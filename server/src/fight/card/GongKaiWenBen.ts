@@ -82,11 +82,11 @@ export class GongKaiWenBen extends Card implements ButtonEvent {
 
         let buttonArray: ButtonData[] = [];
         if (receivePlayer.camp == this.camp) {
-            buttonArray.push({type: "success", chooseIndex: 0, name: this.allCampTip});
-            buttonArray.push({type: "cancel", chooseIndex: 999, name: this.otherCampTips});
+            buttonArray.push({type: "success", chooseIndex: "0", name: this.allCampTip});
+            buttonArray.push({type: "cancel", chooseIndex: undefined, name: this.otherCampTips});
         } else {
-            buttonArray.push({type: "success", chooseIndex: 0, name: this.allCampTip});
-            buttonArray.push({type: "success", chooseIndex: 1, name: this.otherCampTips});
+            buttonArray.push({type: "success", chooseIndex: "0", name: this.allCampTip});
+            buttonArray.push({type: "success", chooseIndex: "1", name: this.otherCampTips});
         }
         room.eventStack.push(new _0_WaitPlayerChooseButton(buttonArray, this, this.belong!, receivePlayer));
     }

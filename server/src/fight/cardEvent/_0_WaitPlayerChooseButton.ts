@@ -16,7 +16,7 @@ export interface ButtonEvent {
 
 export interface ButtonData {
     type: "success" | "cancel";
-    chooseIndex: 0 | 1 | 2 | -1 | 999;
+    chooseIndex: "0" | "1" | "2" | "fail" | undefined;
     name: string;
 }
 
@@ -26,7 +26,7 @@ export class _0_WaitPlayerChooseButton implements Event {
     private readonly fromPlayer: Player;
     private readonly toPlayer: Player;
 
-    private chooseIndex: number = -1;
+    private chooseIndex: string | undefined;
     private lastTime = GAME_CONFIG._3_PlayerRounding_TIME;
 
     constructor(buttonArray: ButtonData[], fatherEvent: ButtonEvent, fromPlayer: Player, toPlayer: Player) {
@@ -75,11 +75,11 @@ export class _0_WaitPlayerChooseButton implements Event {
     }
 
     nextEvent(room: Room): Event | undefined {
-        if (this.chooseIndex == 0) {
+        if (this.chooseIndex == "0") {
             this.fatherEvent.button_0(this.fromPlayer, this.toPlayer);
-        } else if (this.chooseIndex == 1) {
+        } else if (this.chooseIndex == "1") {
             this.fatherEvent.button_1(this.fromPlayer, this.toPlayer);
-        } else if (this.chooseIndex == 2) {
+        } else if (this.chooseIndex == "2") {
             this.fatherEvent.button_2(this.fromPlayer, this.toPlayer);
         } else {
             this.fatherEvent.button_fail(this.fromPlayer, this.toPlayer);
@@ -97,13 +97,13 @@ export class _0_WaitPlayerChooseButton implements Event {
         let clientShow: any[] = [];
         this.buttonArray.forEach(button => clientShow.push({
             classType: button.type,
-            root: button.chooseIndex === 999 ? "" : ("game/choose_button_" + button.chooseIndex),
+            root: button.chooseIndex ? ("game/choose_button_" + button.chooseIndex) : "",
             name: button.name
         }))
         this.toPlayer.showButton({buttonArray: clientShow});
     }
 
-    chooseButton(player: Player, chooseIndex: number) {
+    chooseButton(player: Player, chooseIndex: string) {
         if (this.toPlayer != player) {
             return;
         }

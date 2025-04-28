@@ -21,8 +21,8 @@ export class ShiTan3 extends ShiTan implements ButtonEvent {
 
     doEvent(ignore: Card, eventPlayer: Player) {
         let buttonArray: ButtonData[] = [];
-        buttonArray.push({type: "success", chooseIndex: 0, name: "被" + this.belong!.account + "抽一张牌"});
-        buttonArray.push({type: "cancel", chooseIndex: -1, name: "告诉" + this.belong!.account + "你的身份"});
+        buttonArray.push({type: "success", chooseIndex: "0", name: "被" + this.belong!.account + "抽一张牌"});
+        buttonArray.push({type: "cancel", chooseIndex: "fail", name: "告诉" + this.belong!.account + "你的身份"});
 
         this.belong!.room?.eventStack.push(new _0_WaitPlayerChooseButton(buttonArray, this, this.belong!, eventPlayer));
     }

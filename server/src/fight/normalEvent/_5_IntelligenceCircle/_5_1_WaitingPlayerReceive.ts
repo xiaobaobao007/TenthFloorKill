@@ -2,7 +2,7 @@ import {Player} from "../../../model/Player";
 import {Room} from "../../../model/Room";
 import {Event} from "../../Event";
 import {EventType} from "../../EventType";
-import {CARD_DIAO_HU_LI_SHAN, CARD_JIE_HUO, CARD_PO_YI, CARD_ZHUAN_YI, GAME_CONFIG} from "../../../util/Constant";
+import {CARD_DIAO_BAO, CARD_DIAO_HU_LI_SHAN, CARD_JIE_HUO, CARD_PO_YI, CARD_ZHUAN_YI, GAME_CONFIG} from "../../../util/Constant";
 import {_5_2_PlayerReceive} from "./_5_2_PlayerReceive";
 import {Card} from "../../../model/Card";
 import {CardManager} from "../../../manager/CardManager";
@@ -27,15 +27,17 @@ export class _5_1_WaitingPlayerReceive implements Event {
         this.sendPlayer = sendPlayer;
         this.currentPlayer = currentPlayer;
         this.intelligenceCard = intelligenceCard;
-
-        if (sendPlayer == currentPlayer) {
-            this.lastTime = 0;
-            this.receive = true;
-        }
     }
 
     getEffectType(room: Room): EventType {
         if (this.lastTime === GAME_CONFIG._5_1_WaitingPlayerReceive_TIME) {
+            if (this.currentPlayer.inRounding) {
+                if (CardManager.judgeCardEvent(room, this.intelligenceCard, [CARD_PO_YI, CARD_DIAO_BAO, CARD_ZHUAN_YI])) {
+                    return EventType.NONE;
+                }
+            } else if (CardManager.judgeCardEvent(room, this.intelligenceCard, [CARD_PO_YI, CARD_ZHUAN_YI])) {
+                return EventType.NONE;
+            }
             return EventType.PRE;
         } else if (this.lastTime >= 0) {
             return EventType.NONE;
@@ -58,9 +60,7 @@ export class _5_1_WaitingPlayerReceive implements Event {
     prv(room: Room): void {
         this.sendClientInfo(room, this.currentPlayer);
 
-        CardManager.judgeCardEvent(room, this.intelligenceCard, [CARD_PO_YI, CARD_ZHUAN_YI]);
-
-        if (this.currentPlayer.ai) {
+        if (this.sendPlayer == this.currentPlayer || this.currentPlayer.ai) {
             this.lastTime = 0;
             this.receive = false;
         }

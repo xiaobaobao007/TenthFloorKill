@@ -201,22 +201,22 @@ export class GameRoutes extends ServerClientRoutes {
     }
 
     async choose_button_0(player: Player) {
-        await this.chooseButton(player, 0);
+        await this.chooseButton(player, "0");
     }
 
     async choose_button_1(player: Player) {
-        await this.chooseButton(player, 1);
+        await this.chooseButton(player, "1");
     }
 
     async choose_button_2(player: Player) {
-        await this.chooseButton(player, 2);
+        await this.chooseButton(player, "2");
     }
 
     async choose_button_fail(player: Player) {
-        await this.chooseButton(player, -1);
+        await this.chooseButton(player, "fail");
     }
 
-    async chooseButton(player: Player, chooseIndex: number) {
+    async chooseButton(player: Player, chooseIndex: string) {
         const peek = player.room?.eventStack!.peek();
         if (!(peek instanceof _0_WaitPlayerChooseButton)) {
             player.sendTips("操作超时");

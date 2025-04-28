@@ -14,9 +14,9 @@ export class Card {
     private _cardIndex: number = 0;//牌库的唯一id
     protected _allId: string = "";//房间内卡牌的唯一id
     protected _belong: Player | undefined;//这是谁的牌，注意在情报区不一定是属于的自己，但手牌一定是自己的
-
     protected _hand = true;//是否是手牌
     protected _clientOperation: string | undefined;//客户端选择的情报传递方式
+    protected _show: boolean = false;//是否翻为正面
 
     constructor(cardId: string, color: string, direction: string, operation: string, lock: boolean, otherTips: string = "") {
         this.cardId = cardId;
@@ -34,6 +34,7 @@ export class Card {
 
         this._hand = true;
         this._clientOperation = undefined;
+        this._show = false;
     }
 
     public getSelfCardInfo() {
@@ -50,7 +51,7 @@ export class Card {
     }
 
     public getOtherCardInfo(): any {
-        if (this.operation == OPERATION_WEN_BEN || this.clientOperation == OPERATION_WEN_BEN) {
+        if (this.isShow()) {
             return this.getSelfCardInfo();
         }
 
@@ -84,7 +85,7 @@ export class Card {
 
     //当前卡牌是否是正面
     isShow() {
-        return this.operation == OPERATION_WEN_BEN || this.clientOperation == OPERATION_WEN_BEN;
+        return this._show || this.operation == OPERATION_WEN_BEN || this.clientOperation == OPERATION_WEN_BEN;
     }
 
     isZhiDa(): boolean {
