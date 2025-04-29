@@ -30,6 +30,7 @@ export class _0_WaitPlayerUseCard implements Event {
     private readonly _eventCard: Card | undefined;
     private readonly _cardId: string;
     private readonly cardName: string;
+    private readonly toPlayer: Player | undefined;
     private readonly eventArray: string[];
     private readonly eventIndex: number;
 
@@ -42,11 +43,12 @@ export class _0_WaitPlayerUseCard implements Event {
 
     private lastTime = GAME_CONFIG._0_WaitPlayerUseCard_TIME;
 
-    constructor(playerArray: Player[], eventCard: Card | undefined, cardId: string, eventArray: string[] = [], eventIndex: number = 0) {
+    constructor(playerArray: Player[], eventCard: Card | undefined, cardId: string, toPlayer: Player | undefined = undefined, eventArray: string[] = [], eventIndex: number = 0) {
         this.playerArray = playerArray;
         this._eventCard = eventCard;
         this._cardId = cardId;
         this.cardName = InitManager.getStringValue(cardId + _CARD_NAME)!;
+        this.toPlayer = toPlayer;
         this.eventArray = eventArray;
         this.eventIndex = eventIndex;
     }
@@ -57,21 +59,23 @@ export class _0_WaitPlayerUseCard implements Event {
         } else if (this.lastTime >= 0) {
             return EventType.NONE;
         }
-
+        const gameStartEvent = EventManager.getEvent(room, _0_GameStartEvent.name) as _0_GameStartEvent;
         if (!this.playerUseCardSuccess) {
             if (this.eventIndex + 1 < this.eventArray.length) {
                 CardManager.judgeCardEvent(room, this.useCard!, this.eventArray, this.eventIndex + 1);
             } else {
-                (EventManager.getEvent(room, _0_GameStartEvent.name) as _0_GameStartEvent).skipCardEventArray = this.eventArray;
+                gameStartEvent.skipCardEventArray = this.eventArray;
             }
         } else if (!this.playerUseCardSuccess.canEffect) {
-            (EventManager.getEvent(room, _0_GameStartEvent.name) as _0_GameStartEvent).roundEvent.remove(this.playerUseCardSuccess);
+            gameStartEvent.roundEvent.remove(this.playerUseCardSuccess);
+            gameStartEvent.skipCardEventArray = undefined;
         } else {
             this.playerUseCardSuccess.doCardEvent(room, this._targetPlayer);
             const playerCard = this.playerUseCardSuccess.playerCard;
             if (!(playerCard instanceof SaveCard)) {
-                (EventManager.getEvent(room, _0_GameStartEvent.name) as _0_GameStartEvent).roundEvent.remove(this.playerUseCardSuccess);
+                gameStartEvent.roundEvent.remove(this.playerUseCardSuccess);
             }
+            gameStartEvent.skipCardEventArray = undefined;
         }
         return EventType.REMOVE;
     }
@@ -127,6 +131,10 @@ export class _0_WaitPlayerUseCard implements Event {
     use(player: Player, useCard: Card, targetPlayer: Player | undefined = undefined, inRounding: boolean = false): _1_PlayerUseCardSuccess | undefined {
         if (!this.playerArray.includes(player) || this.player != undefined || this.skipPlayerArray.includes(player)) {
             return;
+        }
+
+        if (this.toPlayer) {
+            targetPlayer = this.toPlayer;
         }
 
         const room = player.room!;

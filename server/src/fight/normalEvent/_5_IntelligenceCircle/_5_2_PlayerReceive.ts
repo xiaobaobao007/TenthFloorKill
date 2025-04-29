@@ -4,9 +4,10 @@ import {Event} from "../../Event";
 import {EventType} from "../../EventType";
 import {Card} from "../../../model/Card";
 import {_5_IntelligenceCircle} from "../_0_base/_5_IntelligenceCircle";
-import {COLOR_GREY} from "../../../util/Constant";
+import {COLOR_GREY, GAME_CONFIG} from "../../../util/Constant";
 import {ROUTER} from "../../../util/SocketUtil";
 import {EventManager} from "../../../manager/EventManager";
+import {_0_PlayerDie} from "../other/_0_PlayerDie";
 
 export class _5_2_PlayerReceive implements Event {
     private readonly currentPlayer: Player;
@@ -40,15 +41,8 @@ export class _5_2_PlayerReceive implements Event {
         //收到情报后检测是否胜利了
         this.currentPlayer.judgeWin();
 
-        if (this.intelligenceCard.color == COLOR_GREY) {
-            //收到假情报检测自己是否死了
-            this.currentPlayer.judgeDie();
-
-            if (!this.currentPlayer.live) {
-                //判断房间是否为仅剩一人获胜
-                room.judgeOnlyOnePlayerLive();
-                return;
-            }
+        if (GAME_CONFIG.DEAD_GREY_CARD_NUM <= this.currentPlayer.intelligenceCardColorNum(COLOR_GREY)) {
+            room.eventStack.push(new _0_PlayerDie(this.currentPlayer));
         }
 
         this.intelligenceCard.receiveIntelligenceAfter(this.currentPlayer);

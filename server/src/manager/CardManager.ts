@@ -8,6 +8,7 @@ import {
     CARD_LI_JIAN,
     CARD_MI_MI_XIA_DA,
     CARD_PO_YI,
+    CARD_SHAO_HUI,
     CARD_SHI_PO,
     CARD_SUO_DING,
     CARD_ZHUAN_YI,
@@ -179,8 +180,9 @@ export class CardManager {
     public static IN_ROUNDING_RECEIVE_BEFORE = [CARD_PO_YI, CARD_DIAO_BAO, CARD_ZHUAN_YI, CARD_SUO_DING];
     public static RECEIVE_BEFORE = [CARD_PO_YI, CARD_ZHUAN_YI, CARD_SUO_DING];
     public static RECEIVE_AFTER = [CARD_JIE_HUO, CARD_DIAO_HU_LI_SHAN];
+    public static WILL_DIE = [CARD_SHAO_HUI];
 
-    public static judgeCardEvent(room: Room, eventCard: Card | undefined, cardEventArray: string[], startIndex: number = 0): boolean {
+    public static judgeCardEvent(room: Room, eventCard: Card | undefined, cardEventArray: string[], startIndex: number = 0, toPlayer: Player | undefined = undefined): boolean {
         const gameStartEvent = EventManager.getEvent(room, _0_GameStartEvent.name) as _0_GameStartEvent;
         if (gameStartEvent.skipCardEventArray == cardEventArray) {
             gameStartEvent.skipCardEventArray = undefined;
@@ -197,7 +199,7 @@ export class CardManager {
                     continue;
                 }
                 for (let handCard of player.handCardArray) {
-                    if (handCard.cardId != judgeCardId || !handCard.canUse(eventCard)) {
+                    if (handCard.cardId != judgeCardId || !handCard.canUse(eventCard, toPlayer)) {
                         continue;
                     }
                     if (!waitPlayers) {
@@ -210,7 +212,7 @@ export class CardManager {
             }
 
             if (waitPlayers != undefined) {
-                room.eventStack.push(new _0_WaitPlayerUseCard(waitPlayers, eventCard, waitCardId!, cardEventArray, startIndex));
+                room.eventStack.push(new _0_WaitPlayerUseCard(waitPlayers, eventCard, waitCardId!, toPlayer, cardEventArray, startIndex));
                 return true;
             }
         }

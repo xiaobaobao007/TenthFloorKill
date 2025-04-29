@@ -7,8 +7,7 @@ class RoomRoutes extends ClientBaseRoutes {
     async openStatistics(statistics) {
         $(".room-statistics").remove();
 
-        let html = "<div class='room-statistics' onclick='closeStatistics()'>";
-
+        let html = "<div class='room-statistics clearAndRemove' onclick='closeStatistics()'>";
 
         for (let i = statistics.all.length - 1; i >= 0; i--) {
             const oneRoundInfo = statistics.all[i];
@@ -44,7 +43,7 @@ class RoomRoutes extends ClientBaseRoutes {
                 html += "    <td class='" + player.camp + "'>" + STRING_CONFIG[player.camp] + "</td>";
 
                 if (player.live) {
-                    html += "    <td class='win'>存货</td>";
+                    html += "    <td class='win'>存活</td>";
                 } else {
                     html += "    <td class='lose'>死亡</td>";
                 }

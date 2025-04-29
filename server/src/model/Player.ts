@@ -200,7 +200,7 @@ export class Player {
 
     judgeDie() {
         if (this.intelligenceCardColorNum(COLOR_GREY) < GAME_CONFIG.DEAD_GREY_CARD_NUM) {
-            return;
+            return false;
         }
 
         for (const card of this._intelligenceCardArray) {
@@ -219,6 +219,8 @@ export class Player {
 
         this.updateHandCardNum();
         this._room!.updateLastCardNum();
+
+        return true;
     }
 
     intelligenceCardColorNum(color: string) {
