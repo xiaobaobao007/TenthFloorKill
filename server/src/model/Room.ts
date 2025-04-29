@@ -79,9 +79,7 @@ export class Room {
         this._cardIndex = CardManager.getInitCardIndex();
         this._discardIndex = [];
 
-        if (this._playerArray.length == 1) {
-            this.addRobot(3);
-        }
+        this.addRobot(4 - this._playerArray.length);
 
         //玩家位置打乱
         shuffleArray(this._playerArray);
@@ -310,7 +308,7 @@ export class Room {
 
     private addRobot(num: number) {
         for (let i = 1; i <= num; i++) {
-            const robot = new Player(undefined, "robot-" + i);
+            const robot = new Player(undefined, "机器人" + i + "号");
             robot.room = this;
             robot.ai = true;
             this._playerArray.push(robot);

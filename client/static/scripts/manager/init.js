@@ -18,6 +18,7 @@ function initLogin() {
 }
 
 function initHall() {
+    $("#changeAccount").html("【" + ACCOUNT + "】");
     const params = getQueryParams();
     if (params.roomId && params.roomId.length > 0) $("#joinRoomId").val(params.roomId);
     $("body")[0].style.background = "#5385c3";

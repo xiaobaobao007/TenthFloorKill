@@ -10,7 +10,7 @@ export class _3_PlayerRounding implements Event {
     private static readonly SEND_BUTTON_INFO = {
         buttonArray: [
             {classType: "submit", needCardNum: 1, isRounding: true, canUseCard: true, root: "game/roundUseCard", name: "出牌",},
-            {classType: "cancel", needCardNum: 0, root: "game/end3to_4_SendIntelligence", name: "结束出牌",},
+            {classType: "success", needCardNum: 0, root: "game/end3to_4_SendIntelligence", name: "进入情报传递阶段",},
         ]
     }
 

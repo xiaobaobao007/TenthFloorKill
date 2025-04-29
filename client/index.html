@@ -53,9 +53,12 @@
         <input id="joinRoomId" placeholder="房间号"></input>
         <div onclick="joinRoom()">加入房间</div>
     </div>
-    <div class="block" onclick="changeAccount()">切换<br>账号</div>
-    <div class="block">帮助</div>
-    <div class="block">更新<br>日志</div>
+    <div class="block" onclick="showUpdate()">更新<br>日志</div>
+    <div class="block" onclick="showHelp()">帮助</div>
+    <div class="block" onclick="changeAccount()">
+        <div>退出</div>
+        <div id="changeAccount"></div>
+    </div>
 </div>
 
 <!--房间界面-->
@@ -65,11 +68,12 @@
     <div id="statisticsButton" class="room-statistics-button" onclick="getStatistics()">查看战绩</div>
     <div class="my-card clear" id="myHandCardPanel"></div>
     <div class="room-lastCard-tips clear"></div>
-    <div class="floating-window" id="floating-window" onclick="closeFloating()">
-        <div class="floating-window-content"></div>
-        <div class="floating-window-close">轻触面板关闭</div>
-    </div>
     <div class="operation-button-father clear"></div>
+</div>
+
+<div class="floating-window" id="floating-window" onclick="closeFloating()">
+    <div class="floating-window-content"></div>
+    <div class="floating-window-close">轻触面板关闭</div>
 </div>
 </body>
 

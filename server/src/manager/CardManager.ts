@@ -177,8 +177,8 @@ export class CardManager {
     public static SHI_PO_EVENT = [CARD_SHI_PO];
     public static MI_MI_XIA_DA_EVENT = [CARD_MI_MI_XIA_DA];
 
-    public static IN_ROUNDING_RECEIVE_BEFORE = [CARD_PO_YI, CARD_DIAO_BAO, CARD_ZHUAN_YI, CARD_SUO_DING];
-    public static RECEIVE_BEFORE = [CARD_PO_YI, CARD_ZHUAN_YI, CARD_SUO_DING];
+    public static IN_ROUNDING_RECEIVE_BEFORE = [CARD_PO_YI, CARD_DIAO_BAO, CARD_SUO_DING, CARD_ZHUAN_YI];
+    public static RECEIVE_BEFORE = [CARD_PO_YI, CARD_SUO_DING, CARD_ZHUAN_YI];
     public static RECEIVE_AFTER = [CARD_JIE_HUO, CARD_DIAO_HU_LI_SHAN];
     public static WILL_DIE = [CARD_SHAO_HUI];
 

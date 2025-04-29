@@ -178,8 +178,6 @@ function openFloating(id) {
         return;
     }
 
-    const overlay = document.getElementById('floating-window');
-
     let html = "";
     html += "卡牌介绍：</br>";
     html += "名称：" + STRING_CONFIG[handCard.cardId + "_name"] + "</br>";
@@ -190,15 +188,16 @@ function openFloating(id) {
     if (handCard.lock) html += "锁定：无法被烧毁的情报</br>";
     if (handCard.otherTips) html += "其他效果：" + STRING_CONFIG[handCard.otherTips] + "</br>";
 
-    setHtml(".floating-window-content", html);
+    openFloatingDiv(html);
+}
 
-    overlay.classList.add("floating-open")
+function openFloatingDiv(html) {
+    setHtml(".floating-window-content", html);
+    $("#floating-window").addClass("floating-open");
 }
 
 function closeFloating() {
-    const overlay = document.getElementById('floating-window');
-
-    overlay.classList.remove("floating-open")
+    $("#floating-window").removeClass("floating-open");
 }
 
 function emptyFunction(a = undefined, b = undefined, c = undefined, d = undefined, e = undefined) {

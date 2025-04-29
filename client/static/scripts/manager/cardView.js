@@ -132,7 +132,8 @@ function cardPress(div) {
     openFloating($(div).attr("cardid"));
 }
 
-function showIntelligence(div) {
+function showIntelligence(event, div) {
+    event.stopPropagation();
     const account = $(div).parent().children(".box-account:first").html();
 
     openOtherCardPanel(account + "收到的情报展示", ALL_PLAYER[account].intelligenceArray);
