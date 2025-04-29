@@ -75,14 +75,13 @@ export class Room {
         //清理所有前端按钮
         this.broadcast(ROUTER.roomEvent.CLEAR_BUTTON);
 
-        //游戏卡牌打断
+        //游戏卡牌打乱
         this._cardIndex = CardManager.getInitCardIndex();
         this._discardIndex = [];
 
-        // this.addRobot(1);
-        // for (let player of this._playerArray.splice(0, 1)) {
-        //     this._playerArray.push(player);
-        // }
+        if (this._playerArray.length == 1) {
+            this.addRobot(3);
+        }
 
         //玩家位置打乱
         shuffleArray(this._playerArray);
