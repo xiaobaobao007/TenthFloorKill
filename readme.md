@@ -3,9 +3,15 @@
 - 测试地址
 
   ```http://localhost:5500/index.html?account=AAA&url=ws://localhost:8080&roomId=1000```
+  ```http://localhost:5500/index.html?account=AAA&url=ws://localhost:8080&roomId=1000```
   ```http://localhost:5500/index.html?account=BBB&url=ws://localhost:8080&roomId=1000```
   ```http://localhost:5500/index.html?account=CCC&url=ws://localhost:8080&roomId=1000```
   ```http://localhost:5500/index.html?account=DDD&url=ws://localhost:8080&roomId=1000```
+
+  ```http://localhost:8081/gm?name=tips&value=你好```
+  ```http://localhost:8081/gm?name=addEventTips&value=我不好```
+  ```http://localhost:8081/gm?name=closeOneRoom&value=1000```
+  ```http://localhost:8081/gm?name=closeAllRoom```
 
 - 无数据库设计
 - 登录只需要一个账号即可

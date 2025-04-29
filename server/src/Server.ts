@@ -9,10 +9,12 @@ import {ROUTER, SocketUtil} from "./util/SocketUtil";
 import {getNowStr} from "./util/MathUtil";
 import {InitManager} from "./manager/InitManager";
 import {loadRoutes} from "./routes/Routes";
+import {GMManager} from "./manager/GMManager";
 
+const url = require("url");
 const app = express();
-const server = createServer(app);
-const {app: wsApp, getWss} = expressWs(app, server);
+const wsServer = createServer(app);
+const {app: wsApp, getWss} = expressWs(app, wsServer);
 
 export const routerHandelMap = loadRoutes();
 
@@ -57,6 +59,35 @@ wsApp.ws('*', (socket, req) => {
     });
 });
 
+const server = createServer((req: any, res: any) => {
+    const parsedUrl = url.parse(req.url, true); // 第二个参数为 true，表示解析查询字符串
+
+    if (parsedUrl.pathname === `/gm`) {
+        res.setHeader(`Content-Type`, `application/json`);
+
+        const queryParams = parsedUrl.query;
+
+        let result: any;
+        try {
+            result = GMManager.router(queryParams.name, queryParams.value, queryParams.name);
+        } catch (error) {
+            result = error;
+        }
+
+        res.writeHead(200);
+        res.end(JSON.stringify({queryParams: queryParams, result: result, time: getNowStr()}));
+    } else {
+        res.writeHead(404);
+        res.end(`Resource not found`);
+    }
+});
+
+const GM_PORT = 8081;
+
+server.listen(GM_PORT, () => {
+    console.log(getNowStr(), `：GM监听端口： `, GM_PORT);
+});
+
 //初始化所有文字
 InitManager.iniStringData();
 
@@ -66,8 +97,8 @@ CardManager.initAllCard();
 //添加定时任务
 ScheduleManager.init();
 
-const PORT = 8080;
+const GAME_PORT = 8080;
 
-server.listen(PORT, () => {
-    console.log(getNowStr(), `：Server listening on port `, PORT);
+wsServer.listen(GAME_PORT, () => {
+    console.log(getNowStr(), `：游戏监听端口： `, GAME_PORT);
 });

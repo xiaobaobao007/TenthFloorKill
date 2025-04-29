@@ -185,9 +185,12 @@ export class _0_WaitPlayerUseCard implements Event {
 
         let otherTips = InitManager.getStringValue(useCard.otherTips);
         if (otherTips) {
-            room.addEventTips("【" + this.cardName + "】的效果为【" + otherTips + "】");
+            const tips = "【" + this.cardName + "】的效果为【" + otherTips + "】";
+            this.player.send(ROUTER.roomEvent.ADD_EVENT_TIPS, tips);
+            if (this._targetPlayer && this._targetPlayer != this.player) {
+                this._targetPlayer.send(ROUTER.roomEvent.ADD_EVENT_TIPS, tips);
+            }
         }
-
         return this.playerUseCardSuccess;
     }
 

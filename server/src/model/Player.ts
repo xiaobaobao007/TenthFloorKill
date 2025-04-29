@@ -46,6 +46,10 @@ export class Player {
     }
 
     public send(route: string, data: any = undefined) {
+        if (this._ai) {
+            return;
+        }
+
         SocketUtil.send(this._socket, route, data);
 
         if (route == ROUTER.roomEvent.UPDATE_TIME) {
