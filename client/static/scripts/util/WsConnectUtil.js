@@ -33,7 +33,7 @@ function initWs() {
     ws.onclose = function () {
         addTips("服务器已断开");
         ws = undefined;
-        // openBody("login");
+        openBody("login");
     };
 }
 

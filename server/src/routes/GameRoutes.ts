@@ -13,6 +13,11 @@ import {ZhuanYi} from "../fight/card/ZhuanYi";
 import {SuoDing} from "../fight/card/SuoDing";
 import {EventManager} from "../manager/EventManager";
 import {LiJian} from "../fight/card/LiJian";
+import {DiaoBao} from "../fight/card/DiaoBao";
+import {DiaoHuLiShan} from "../fight/card/DiaoHuLiShan";
+import {JieHuo} from "../fight/card/JieHuo";
+import {MiMiXiaDa} from "../fight/card/MiMiXiaDa";
+import {_5_IntelligenceCircle} from "../fight/normalEvent/_0_base/_5_IntelligenceCircle";
 
 export class GameRoutes extends ServerClientRoutes {
 
@@ -186,6 +191,13 @@ export class GameRoutes extends ServerClientRoutes {
                 player.sendTips("请重新选择玩家");
                 return;
             }
+        } else if (cardModel instanceof DiaoBao || cardModel instanceof MiMiXiaDa) {
+            //回合玩家
+            targetPlayer = room.getInRoundPlayer()!;
+        } else if (cardModel instanceof DiaoHuLiShan || cardModel instanceof JieHuo) {
+            //情报玩家
+            let event = EventManager.getEvent(room, _5_IntelligenceCircle.name)! as _5_IntelligenceCircle;
+            targetPlayer = event.getCurrentPlayer()!;
         }
 
         let event = (peek as _0_WaitPlayerUseCard).use(player, cardModel, targetPlayer);

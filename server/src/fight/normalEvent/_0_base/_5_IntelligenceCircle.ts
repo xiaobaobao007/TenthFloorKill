@@ -141,6 +141,10 @@ export class _5_IntelligenceCircle implements Event {
         return this.currentPlayer == player;
     }
 
+    getCurrentPlayer() {
+        return this.currentPlayer;
+    }
+
     resetPlayer(player: Player) {
         this.currentPlayer = player;
         this.currentEventType = EventType.NEXT;

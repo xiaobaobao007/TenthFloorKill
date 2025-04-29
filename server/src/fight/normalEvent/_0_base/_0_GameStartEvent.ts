@@ -13,6 +13,7 @@ export class _0_GameStartEvent implements Event {
 
     private _round: number = 0;//回合数
     private _roundEvent: Stack<_1_PlayerUseCardSuccess> = new Stack();//已成功执行影响的事件
+    private _skipCardEventArray: string[] | undefined;//是否询问的事件所有人都跳过了
 
     getEffectType(room: Room): EventType {
         if (this.currentEventType == EventType.NONE) {
@@ -66,5 +67,13 @@ export class _0_GameStartEvent implements Event {
 
     set round(value: number) {
         this._round = value;
+    }
+
+    get skipCardEventArray(): string[] | undefined {
+        return this._skipCardEventArray;
+    }
+
+    set skipCardEventArray(value: string[] | undefined) {
+        this._skipCardEventArray = value;
     }
 }

@@ -2,13 +2,14 @@ import {Card} from "../../model/Card";
 import {_5_IntelligenceCircle} from "../normalEvent/_0_base/_5_IntelligenceCircle";
 import {EventManager} from "../../manager/EventManager";
 import {_5_1_WaitingPlayerReceive} from "../normalEvent/_5_IntelligenceCircle/_5_1_WaitingPlayerReceive";
+import {CARD_JIE_HUO} from "../../util/Constant";
 
 /**
  * 截获：自己回合外他人情报接收时，将情报传至自己
  */
 export class JieHuo extends Card {
-    constructor(cardId: string, color: string, direction: string, operation: string, lock: boolean) {
-        super(cardId, color, direction, operation, lock);
+    constructor(color: string, direction: string, operation: string, lock: boolean) {
+        super(CARD_JIE_HUO, color, direction, operation, lock);
     }
 
     public canUse(toCard: Card | undefined): boolean {

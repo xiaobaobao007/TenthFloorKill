@@ -2,14 +2,14 @@ import {Card} from "../../model/Card";
 import {Player} from "../../model/Player";
 import {_0_WaitPlayerChooseOneCard, ChooseCardEvent} from "../cardEvent/_0_WaitPlayerChooseOneCard";
 import {InitManager} from "../../manager/InitManager";
-import {COLOR_} from "../../util/Constant";
+import {CARD_SHAO_HUI, COLOR_} from "../../util/Constant";
 
 /**
  * 烧毁：烧毁一张不带锁的假情报
  */
 export class ShaoHui extends Card implements ChooseCardEvent {
-    constructor(cardId: string, color: string, direction: string, operation: string, lock: boolean) {
-        super(cardId, color, direction, operation, lock);
+    constructor(color: string, direction: string, operation: string, lock: boolean) {
+        super(CARD_SHAO_HUI, color, direction, operation, lock);
     }
 
     canUse(toCard: Card | undefined, toPlayer: Player | undefined): boolean {

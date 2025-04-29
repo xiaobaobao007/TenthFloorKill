@@ -11,8 +11,8 @@ import {ShiTan} from "./base/ShiTan";
  * 试探：自己回合中使用，指定除自己以外的玩家使用，（仅双方可见，执行后移出游戏）
  */
 export class ShiTan3 extends ShiTan implements ButtonEvent {
-    constructor(cardId: string, color: string, direction: string, operation: string, lock: boolean) {
-        super(cardId, color, direction, operation, lock, CARD_SHI_TAN + "_3");
+    constructor(color: string, direction: string, operation: string, lock: boolean) {
+        super(color, direction, operation, lock, CARD_SHI_TAN + "_3");
     }
 
     public canUse(toCard: Card | undefined, eventPlayer: Player): boolean {

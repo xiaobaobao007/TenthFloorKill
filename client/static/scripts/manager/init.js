@@ -11,6 +11,9 @@ function initLogin() {
     const params = getQueryParams();
     if (params.account && params.account.length > 0) $("#account").val(params.account);
     if (params.url && params.url.length > 0) $("#url").val(params.url);
+
+    $(".clear").html("");
+    $(".clearAndRemove").remove();
     $("body")[0].style.background = "#6d7a8a";
 }
 
@@ -32,5 +35,6 @@ function initRoom() {
     OTHER_SELECT = {};
 
     $(".clear").html("");
+    $(".clearAndRemove").remove();
     $("body")[0].style.background = "rgb(114 201 104 / 60%)";
 }

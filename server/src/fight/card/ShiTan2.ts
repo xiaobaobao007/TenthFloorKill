@@ -13,8 +13,8 @@ export class ShiTan2 extends ShiTan {
     private readonly takeCamp: string;
 
     // takeCamp 拿牌的阵营，其他的全部弃牌
-    constructor(cardId: string, color: string, direction: string, operation: string, lock: boolean, takeCamp: string) {
-        super(cardId, color, direction, operation, lock, CARD_SHI_TAN + "_2_" + takeCamp);
+    constructor(color: string, direction: string, operation: string, lock: boolean, takeCamp: string) {
+        super(color, direction, operation, lock, CARD_SHI_TAN + "_2_" + takeCamp);
         this.takeCamp = takeCamp;
     }
 

@@ -1,13 +1,13 @@
 import {Card} from "../../model/Card";
 import {Player} from "../../model/Player";
-import {COLOR_GREY} from "../../util/Constant";
+import {CARD_JI_MI_WEN_JIAN, COLOR_GREY} from "../../util/Constant";
 
 /**
  * 机密文件：场上真情报超过4张摸2张，超过5张摸3张
  */
 export class JiMiWenJian extends Card {
-    constructor(cardId: string, color: string, direction: string, operation: string, lock: boolean) {
-        super(cardId, color, direction, operation, lock);
+    constructor(color: string, direction: string, operation: string, lock: boolean) {
+        super(CARD_JI_MI_WEN_JIAN, color, direction, operation, lock);
     }
 
     public canUse(toCard: Card | undefined): boolean {

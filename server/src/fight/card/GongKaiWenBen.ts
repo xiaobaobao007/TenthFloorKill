@@ -18,8 +18,7 @@ export class GongKaiWenBen extends Card implements ButtonEvent {
     private allCampTip!: string;
     private otherCampTips!: string;
 
-    constructor(cardId: string,
-                color: string,
+    constructor(color: string,
                 direction: string,
                 operation: string,
                 lock: boolean,
@@ -27,7 +26,7 @@ export class GongKaiWenBen extends Card implements ButtonEvent {
                 allDoing: number,
                 otherDoing: number,
                 tips: string) {
-        super(cardId, color, direction, operation, lock, CARD_GONG_KAI_WEN_BEN + "_" + tips);
+        super(CARD_GONG_KAI_WEN_BEN, color, direction, operation, lock, CARD_GONG_KAI_WEN_BEN + "_" + tips);
 
         this.camp = camp;
         this.allDoing = allDoing;
@@ -57,7 +56,6 @@ export class GongKaiWenBen extends Card implements ButtonEvent {
 
     doEvent(ignore: Card, eventPlayer: Player) {
         const room = this.belong!.room!;
-        room.addEventTips("【" + this.belong!.account + "】对【" + eventPlayer.account + "】使用了公开文本");
 
         let card1: Card | undefined = undefined;
         if (eventPlayer.handCardArray.length > 0) {
@@ -67,10 +65,10 @@ export class GongKaiWenBen extends Card implements ButtonEvent {
         if (card1 != undefined) {
             if (card1 instanceof GongKaiWenBen) {
                 room.addEventTips("【" + this.belong!.account + "】替换到了公开文本");
-                eventPlayer.removeCard(card1, true);
             } else {
                 this._belong?.addCardArray([card1], "对" + eventPlayer.account + "公开文本");
             }
+            eventPlayer.removeCard(card1, true);
         }
 
         eventPlayer.addCardArray([this], "被" + this.belong!.account + "公开文本");

@@ -3,13 +3,14 @@ import {_5_IntelligenceCircle} from "../normalEvent/_0_base/_5_IntelligenceCircl
 import {EventManager} from "../../manager/EventManager";
 import {_5_1_WaitingPlayerReceive} from "../normalEvent/_5_IntelligenceCircle/_5_1_WaitingPlayerReceive";
 import {Player} from "../../model/Player";
+import {CARD_DIAO_HU_LI_SHAN} from "../../util/Constant";
 
 /**
  * 调虎离山：他人情报接收时使用，取消接收接着往下传，无法指定原传出者
  */
 export class DiaoHuLiShan extends Card {
-    constructor(cardId: string, color: string, direction: string, operation: string, lock: boolean) {
-        super(cardId, color, direction, operation, lock);
+    constructor(color: string, direction: string, operation: string, lock: boolean) {
+        super(CARD_DIAO_HU_LI_SHAN, color, direction, operation, lock);
     }
 
     public canUse(toCard: Card | undefined, toPlayer: Player | undefined): boolean {

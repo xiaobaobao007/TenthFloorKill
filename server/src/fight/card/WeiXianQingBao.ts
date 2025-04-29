@@ -2,14 +2,14 @@ import {Card} from "../../model/Card";
 import {Player} from "../../model/Player";
 import {_0_WaitPlayerChooseOneCard, ChooseCardEvent} from "../cardEvent/_0_WaitPlayerChooseOneCard";
 import {InitManager} from "../../manager/InitManager";
-import {COLOR_} from "../../util/Constant";
+import {CARD_WEI_XIAN_QING_BAO, COLOR_} from "../../util/Constant";
 
 /**
  * 危险情报：检视一名玩家手牌并丢弃一张
  */
 export class WeiXianQingBao extends Card implements ChooseCardEvent {
-    constructor(cardId: string, color: string, direction: string, operation: string, lock: boolean) {
-        super(cardId, color, direction, operation, lock);
+    constructor(color: string, direction: string, operation: string, lock: boolean) {
+        super(CARD_WEI_XIAN_QING_BAO, color, direction, operation, lock);
     }
 
     canUse(toCard: Card | undefined, toPlayer: Player | undefined): boolean {

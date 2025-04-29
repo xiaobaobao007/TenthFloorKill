@@ -2,14 +2,14 @@ import {Player} from "../../../model/Player";
 import {Room} from "../../../model/Room";
 import {Event} from "../../Event";
 import {EventType} from "../../EventType";
-import {CARD_MI_MI_XIA_DA, GAME_CONFIG} from "../../../util/Constant";
+import {GAME_CONFIG} from "../../../util/Constant";
 import {_4_SendIntelligence} from "./_4_SendIntelligence";
 import {CardManager} from "../../../manager/CardManager";
 
 export class _3_PlayerRounding implements Event {
     private static readonly SEND_BUTTON_INFO = {
         buttonArray: [
-            {classType: "submit", needCardNum: 1, isRounding: true, root: "game/roundUseCard", name: "出牌",},
+            {classType: "submit", needCardNum: 1, isRounding: true, canUseCard: true, root: "game/roundUseCard", name: "出牌",},
             {classType: "cancel", needCardNum: 0, root: "game/end3to_4_SendIntelligence", name: "结束出牌",},
         ]
     }
@@ -64,7 +64,7 @@ export class _3_PlayerRounding implements Event {
         room.eventStack.push(new _4_SendIntelligence(this.currentPlayer));
         if (this.currentPlayer.handCardArray.length > 0) {
             //有手牌才能被秘密下达
-            CardManager.judgeCardEvent(room, undefined, [CARD_MI_MI_XIA_DA]);
+            CardManager.judgeCardEvent(room, undefined, CardManager.MI_MI_XIA_DA_EVENT);
         }
         return;
     }

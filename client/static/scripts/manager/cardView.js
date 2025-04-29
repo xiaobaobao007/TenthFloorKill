@@ -65,13 +65,17 @@ function cardClick(div) {
         }
     }
 
-    if (USE_CARD_NEED_CHOOSE_PEOPLE.includes(cardType)) {
-        if (USE_CARD_NEED_CHOOSE_PEOPLE_WITH_ME.includes(cardType)) {
-            setDivClickEvent(".me-box", selectPlayerBox, emptyFunction);
+    if (CAN_USE_CARD) {
+        if (USE_CARD_NEED_CHOOSE_PEOPLE.includes(cardType)) {
+            if (USE_CARD_NEED_CHOOSE_PEOPLE_WITH_ME.includes(cardType)) {
+                setDivClickEvent(".me-box", selectPlayerBox, emptyFunction);
+            }
+            SELECTED_PLAYER_NUM = 1;
+        } else {
+            SELECTED_PLAYER_NUM = -1;
         }
+    } else if (SEND_INTELLIGENCE) {
         SELECTED_PLAYER_NUM = 1;
-    } else {
-        SELECTED_PLAYER_NUM = -1;
     }
 
     for (const s of SELECTED_CARD_DIVS) {

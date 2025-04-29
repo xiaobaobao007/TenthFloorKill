@@ -3,7 +3,7 @@ import {Event} from "../Event";
 import {EventType} from "../EventType";
 import {Player} from "../../model/Player";
 import {Card} from "../../model/Card";
-import {_CARD_NAME, CARD_MI_MI_XIA_DA, CARD_PO_YI, CARD_SHI_PO, COLOR_BLUE, COLOR_GREY, COLOR_RED, GAME_CONFIG} from "../../util/Constant";
+import {_CARD_NAME, CARD_MI_MI_XIA_DA, CARD_PO_YI, COLOR_BLUE, COLOR_GREY, COLOR_RED, GAME_CONFIG} from "../../util/Constant";
 import {InitManager} from "../../manager/InitManager";
 import {_1_PlayerUseCardSuccess} from "./_1_PlayerUseCardSuccess";
 import {CardManager} from "../../manager/CardManager";
@@ -17,7 +17,7 @@ import {LiJian} from "../card/LiJian";
 export class _0_WaitPlayerUseCard implements Event {
     private static readonly SEND_BUTTON_INFO = {
         buttonArray: [
-            {classType: "submit", needCardNum: 1, root: "game/useCard", name: "使用",},
+            {classType: "submit", needCardNum: 1, canUseCard: true, root: "game/useCard", name: "使用",},
             {classType: "cancel", root: "game/skipUseCard", name: "不使用",},
         ],
         moreSelect: {
@@ -58,7 +58,11 @@ export class _0_WaitPlayerUseCard implements Event {
         }
 
         if (!this.playerUseCardSuccess) {
-            CardManager.judgeCardEvent(room, this.useCard!, this.eventArray, this.eventIndex + 1);
+            if (this.eventIndex + 1 < this.eventArray.length) {
+                CardManager.judgeCardEvent(room, this.useCard!, this.eventArray, this.eventIndex + 1);
+            } else {
+                (EventManager.getEvent(room, _0_GameStartEvent.name) as _0_GameStartEvent).skipCardEventArray = this.eventArray;
+            }
         } else if (!this.playerUseCardSuccess.canEffect) {
             (EventManager.getEvent(room, _0_GameStartEvent.name) as _0_GameStartEvent).roundEvent.remove(this.playerUseCardSuccess);
         } else {
@@ -166,9 +170,14 @@ export class _0_WaitPlayerUseCard implements Event {
         LiJian.judgeLiJian(useCard);
 
         //询问识破
-        CardManager.judgeCardEvent(room, this.useCard!, [CARD_SHI_PO]);
+        CardManager.judgeCardEvent(room, this.useCard!, CardManager.SHI_PO_EVENT);
 
         room.addEventTips("【" + player.account + "】对【" + targetPlayer.account + "】使用了【" + this.cardName + "】");
+
+        let otherTips = InitManager.getStringValue(useCard.otherTips);
+        if (otherTips) {
+            room.addEventTips("【" + this.cardName + "】的效果为【" + otherTips + "】");
+        }
 
         return this.playerUseCardSuccess;
     }

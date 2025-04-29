@@ -8,15 +8,15 @@ import {Player} from "../../model/Player";
 import {EventManager} from "../../manager/EventManager";
 import {_0_GameStartEvent} from "../normalEvent/_0_base/_0_GameStartEvent";
 import {CardManager} from "../../manager/CardManager";
-import {CARD_LI_JIAN} from "../../util/Constant";
 import {_0_WaitPlayerUseCard} from "../cardEvent/_0_WaitPlayerUseCard";
+import {CARD_LI_JIAN} from "../../util/Constant";
 
 /**
  * 离间：变更【试探/锁定/转移/危险情报/公开文本】的指定目标，无法指定使用者
  */
 export class LiJian extends Card {
-    constructor(cardId: string, color: string, direction: string, operation: string, lock: boolean) {
-        super(cardId, color, direction, operation, lock);
+    constructor(color: string, direction: string, operation: string, lock: boolean) {
+        super(CARD_LI_JIAN, color, direction, operation, lock);
     }
 
     public canUse(toCard: Card, toPlayer: Player | undefined): boolean {
@@ -69,7 +69,7 @@ export class LiJian extends Card {
 
     public static judgeLiJian(card: Card) {
         if (card instanceof ShiTan || card instanceof SuoDing || card instanceof ZhuanYi || card instanceof WeiXianQingBao || card instanceof GongKaiWenBen) {
-            CardManager.judgeCardEvent(card.belong?.room!, card, [CARD_LI_JIAN]);
+            CardManager.judgeCardEvent(card.belong?.room!, card, CardManager.LI_JIAN_EVENT);
         }
     }
 }

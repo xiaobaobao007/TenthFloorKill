@@ -6,13 +6,14 @@ import {Player} from "../../model/Player";
 import {_5_2_PlayerReceive} from "../normalEvent/_5_IntelligenceCircle/_5_2_PlayerReceive";
 import {_0_GameStartEvent} from "../normalEvent/_0_base/_0_GameStartEvent";
 import {DiaoBao} from "./DiaoBao";
+import {CARD_ZHUAN_YI} from "../../util/Constant";
 
 /**
  * 转移：将传至自己的情报传至他人接收
  */
 export class ZhuanYi extends Card {
-    constructor(cardId: string, color: string, direction: string, operation: string, lock: boolean) {
-        super(cardId, color, direction, operation, lock);
+    constructor(color: string, direction: string, operation: string, lock: boolean) {
+        super(CARD_ZHUAN_YI, color, direction, operation, lock);
     }
 
     public canUse(toCard: Card | undefined, toPlayer: Player | undefined): boolean {

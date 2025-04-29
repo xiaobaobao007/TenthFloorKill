@@ -92,6 +92,9 @@ class RoomEventRoutes extends ClientBaseRoutes {
                 if (button.sendIntelligence) {
                     SEND_INTELLIGENCE = true;
                 }
+                if (button.canUseCard) {
+                    CAN_USE_CARD = true;
+                }
                 if (button.needCardNum) {
                     SELECTED_CARD_NUM = button.needCardNum;
                 }
@@ -117,6 +120,7 @@ class RoomEventRoutes extends ClientBaseRoutes {
 
     async clearButton() {
         IN_ROUNDING = false;
+        CAN_USE_CARD = false;
         SEND_INTELLIGENCE = false;
         $(".operation-button-father").html("");
         resetSelectPlayer();
@@ -132,7 +136,7 @@ class RoomEventRoutes extends ClientBaseRoutes {
         cardModel.init(data);
 
         let html = "";
-        html += "<div class='intelligence-card-show card intelligence-card " + cardModel.getColorClass() + "'>";
+        html += "<div class='intelligence-card-show card intelligence-card " + cardModel.getColorClass() + " clear clearAndRemove'>";
         html += "   <div class='intelligence-card-tips'>当前情报</div>";
         html += cardModel.getNameDiv();
         html += cardModel.getOperationDiv(false);

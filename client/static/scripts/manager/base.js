@@ -12,7 +12,9 @@ let ALL_PLAYER = {};
 
 //缓存信息
 let IN_ROUNDING = false;//在回合内
+let CAN_USE_CARD = false;//能否使用卡牌
 let SEND_INTELLIGENCE = false;//传情报中
+
 let SELECTED_CARD_DIVS = [];
 let SELECTED_CARD_NUM = -1;
 let SELECTED_PLAYER = undefined;

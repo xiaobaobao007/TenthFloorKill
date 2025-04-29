@@ -3,13 +3,14 @@ import {EventManager} from "../../manager/EventManager";
 import {Player} from "../../model/Player";
 import {SaveCard} from "./base/SaveCard";
 import {_0_GameStartEvent} from "../normalEvent/_0_base/_0_GameStartEvent";
+import {CARD_SUO_DING} from "../../util/Constant";
 
 /**
  * 锁定：自己回合中，他人情报接受前指定其接收传至面前的情报
  */
 export class SuoDing extends SaveCard {
-    constructor(cardId: string, color: string, direction: string, operation: string, lock: boolean) {
-        super(cardId, color, direction, operation, lock);
+    constructor(color: string, direction: string, operation: string, lock: boolean) {
+        super(CARD_SUO_DING, color, direction, operation, lock);
     }
 
     public canUse(toCard: Card | undefined, toPlayer: Player | undefined): boolean {

@@ -7,14 +7,15 @@ import {ROUTER} from "../../util/SocketUtil";
 import {Room} from "../../model/Room";
 import {_0_GameStartEvent} from "../normalEvent/_0_base/_0_GameStartEvent";
 import {SaveCard} from "./base/SaveCard";
+import {CARD_DIAO_BAO} from "../../util/Constant";
 
 /**
  * 掉包：情报传回传出着时，替换当前情报（无法替换文本），并由传出者重新传递
  */
 export class DiaoBao extends SaveCard {
 
-    constructor(cardId: string, color: string, direction: string, operation: string, lock: boolean) {
-        super(cardId, color, direction, operation, lock);
+    constructor(color: string, direction: string, operation: string, lock: boolean) {
+        super(CARD_DIAO_BAO, color, direction, operation, lock);
     }
 
     public canUse(toCard: Card | undefined): boolean {

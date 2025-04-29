@@ -1,6 +1,6 @@
 import {Card} from "../../model/Card";
 import {ROUTER} from "../../util/SocketUtil";
-import {COLOR_, COLOR_BLUE, COLOR_GREY, COLOR_RED} from "../../util/Constant";
+import {CARD_MI_MI_XIA_DA, COLOR_, COLOR_BLUE, COLOR_GREY, COLOR_RED} from "../../util/Constant";
 import {Player} from "../../model/Player";
 import {InitManager} from "../../manager/InitManager";
 import {_0_WaitPlayerChooseOneCard, ChooseCardEvent} from "../cardEvent/_0_WaitPlayerChooseOneCard";
@@ -10,8 +10,8 @@ import {Room} from "../../model/Room";
 import {SaveCard} from "./base/SaveCard";
 
 export class MiMiXiaDa extends SaveCard implements ChooseCardEvent {
-    constructor(cardId: string, color: string, direction: string, operation: string, lock: boolean) {
-        super(cardId, color, direction, operation, lock);
+    constructor(color: string, direction: string, operation: string, lock: boolean) {
+        super(CARD_MI_MI_XIA_DA, color, direction, operation, lock);
     }
 
     canUse(): boolean {
@@ -23,8 +23,6 @@ export class MiMiXiaDa extends SaveCard implements ChooseCardEvent {
 
         const room = this._belong?.room!;
         let eventPlayer = room.getInRoundPlayer()!;
-
-        room.addEventTips("【" + this._belong?.account + "】对【" + eventPlayer.account + "】使用了【秘密下达】");
 
         let tips = "【" + this._belong?.account + "】要求你下发【" + InitManager.getStringValue(COLOR_ + chooseColor) + "】";
         eventPlayer.send(ROUTER.roomEvent.ADD_EVENT_TIPS, tips);
