@@ -68,7 +68,7 @@ export class GongKaiWenBen extends Card implements ButtonEvent {
             } else {
                 this._belong?.addCardArray([card1], "对" + eventPlayer.account + "公开文本");
             }
-            eventPlayer.removeCard(card1, true);
+            eventPlayer.removeCard(card1);
         }
 
         eventPlayer.addCardArray([this], "被" + this.belong!.account + "公开文本");

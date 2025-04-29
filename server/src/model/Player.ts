@@ -95,7 +95,7 @@ export class Player {
         this.send(ROUTER.roomEvent.ADD_EVENT_TIPS, "获得新的手牌【" + cardNames + "】");
     }
 
-    public removeCard(card: Card, inGarbage: boolean) {
+    public removeCard(card: Card, inGarbage: boolean = true) {
         this._handCardArray.splice(this._handCardArray.indexOf(card), 1);
         card.hand = false;
 

@@ -13,6 +13,7 @@ import {_0_GameStartEvent} from "../normalEvent/_0_base/_0_GameStartEvent";
 import {ShiTan} from "../card/base/ShiTan";
 import {SaveCard} from "../card/base/SaveCard";
 import {LiJian} from "../card/LiJian";
+import {MiMiXiaDa} from "../card/MiMiXiaDa";
 
 export class _0_WaitPlayerUseCard implements Event {
     private static readonly SEND_BUTTON_INFO = {
@@ -148,7 +149,7 @@ export class _0_WaitPlayerUseCard implements Event {
         this._targetPlayer = targetPlayer;
         this.lastTime = 0;
 
-        this.player.removeCard(this.useCard!, !(this.useCard instanceof ShiTan));
+        this.player.removeCard(this.useCard!, !(this.useCard instanceof ShiTan || this.useCard instanceof MiMiXiaDa));
 
         const fatherEvent = EventManager.getEvent(room, _0_GameStartEvent.name) as _0_GameStartEvent;
         this.playerUseCardSuccess = new _1_PlayerUseCardSuccess(this.useCard!, targetPlayer, this._eventCard);

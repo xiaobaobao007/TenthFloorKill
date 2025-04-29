@@ -41,7 +41,7 @@ export class _5_IntelligenceCircle implements Event {
     prv(room: Room): void {
         if (this.intelligenceCard.hand) {
             //移除玩家手牌
-            this.sendPlayer.removeCard(this.intelligenceCard, false);
+            this.sendPlayer.removeCard(this.intelligenceCard);
             this.intelligenceCard.hand = false;
         }
         this.sendClientInfo(room, this.sendPlayer);

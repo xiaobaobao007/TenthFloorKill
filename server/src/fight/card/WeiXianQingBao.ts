@@ -41,7 +41,7 @@ export class WeiXianQingBao extends Card implements ChooseCardEvent {
             return;
         }
 
-        toPlayer.removeCard(card, true);
+        toPlayer.removeCard(card);
 
         toPlayer.room!.addEventTips("【" + toPlayer.account + "】被【" + this._belong!.account +
             "】危险情报丢弃了一张【" + card.getName() + "-" + InitManager.getStringValue(COLOR_ + card.color) + "】手牌")

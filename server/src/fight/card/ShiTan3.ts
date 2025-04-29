@@ -34,7 +34,7 @@ export class ShiTan3 extends ShiTan implements ButtonEvent {
         }
 
         const card = eventPlayer.handCardArray[random(eventPlayer.handCardArray.length)];
-        eventPlayer.removeCard(card, false);
+        eventPlayer.removeCard(card);
         eventPlayer.send(ROUTER.roomEvent.ADD_EVENT_TIPS, "【" + card.getName() + "】被抽走了");
         player.room?.broadcastExclude(ROUTER.roomEvent.ADD_EVENT_TIPS, eventPlayer, "【" + eventPlayer.account + "】被【" + player.account + "】抽走一张牌")
 
