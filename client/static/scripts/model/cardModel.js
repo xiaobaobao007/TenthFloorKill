@@ -8,6 +8,7 @@ function CardModel() {
         this.lock = data.lock;
         this.belong = data.belong;
         this.otherTips = data.otherTips;
+        ALL_CARD[this.allId] = this;
     }
 
     this.getColorClass = function () {

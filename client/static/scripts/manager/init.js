@@ -26,6 +26,7 @@ function initHall() {
 
 function initRoom() {
     ALL_PLAYER = {};
+    ALL_CARD = {};
 
     SELECTED_CARD_DIVS = [];
     SELECTED_CARD_NUM = -1;

@@ -313,7 +313,7 @@
     z-index: 1999;
     border-radius: 8px;
     padding: 1.5vw 15px 10px 15px;
-    width: 50vw;
+    max-width: 50vw;
     top: 45%;
     left: 50%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);

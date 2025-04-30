@@ -9,6 +9,7 @@ let USE_CARD_NEED_CHOOSE_PEOPLE_WITH_ME = [];
 let ACCOUNT = "";
 let ROOM_DATA = {};
 let ALL_PLAYER = {};
+let ALL_CARD = {};
 
 //缓存信息
 let IN_ROUNDING = false;//在回合内
@@ -173,19 +174,22 @@ function removeDivClickEvent(select) {
 }
 
 function openFloating(id) {
-    const handCard = ALL_PLAYER[ACCOUNT].getHandCard(id);
+    const handCard = ALL_CARD[id];
     if (!handCard) {
         return;
     }
 
     let html = "";
     html += "卡牌介绍：</br>";
-    html += "名称：" + STRING_CONFIG[handCard.cardId + "_name"] + "</br>";
-    html += "描述：" + STRING_CONFIG[handCard.cardId + "_desc"] + "</br>";
-    html += "颜色：" + STRING_CONFIG["color_" + handCard.color] + "</br>";
-    html += "传递方式：" + STRING_CONFIG[handCard.operation] + "</br>";
-    if (handCard.operation !== "ope_z") html += "传递方向：" + STRING_CONFIG[handCard.direction] + "</br>";
+    if (handCard.cardId) {
+        html += "名称：" + STRING_CONFIG[handCard.cardId + "_name"] + "</br>";
+        html += "描述：" + STRING_CONFIG[handCard.cardId + "_desc"] + "</br>";
+    }
+    if (handCard.color) html += "颜色：" + STRING_CONFIG["color_" + handCard.color] + "</br>";
+    if (handCard.operation) html += "传递方式：" + STRING_CONFIG[handCard.operation] + "</br>";
+    if (handCard.operation && handCard.direction && handCard.operation !== "ope_z") html += "传递方向：" + STRING_CONFIG[handCard.direction] + "</br>";
     if (handCard.lock) html += "锁定：无法被烧毁的情报</br>";
+    if (handCard.belong) html += "来源：" + handCard.belong + "</br>";
     if (handCard.otherTips) html += "其他效果：" + STRING_CONFIG[handCard.otherTips] + "</br>";
 
     openFloatingDiv(html);

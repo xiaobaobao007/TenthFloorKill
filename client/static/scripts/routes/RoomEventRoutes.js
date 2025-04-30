@@ -136,7 +136,7 @@ class RoomEventRoutes extends ClientBaseRoutes {
         cardModel.init(data);
 
         let html = "";
-        html += "<div class='intelligence-card-show card intelligence-card " + cardModel.getColorClass() + " clear clearAndRemove'>";
+        html += "<div class='intelligence-card-show card intelligence-card " + cardModel.getColorClass() + " clear clearAndRemove' cardid='" + cardModel.allId + "'>";
         html += "   <div class='intelligence-card-tips'>当前情报</div>";
         html += cardModel.getNameDiv();
         html += cardModel.getOperationDiv(false);
@@ -146,6 +146,8 @@ class RoomEventRoutes extends ClientBaseRoutes {
         html += "</div>";
 
         $("body").append(html);
+
+        setDivClickEvent("[cardid=" + cardModel.allId + "]", emptyFunction, cardPress);
     }
 
     async clearAllIntelligence() {

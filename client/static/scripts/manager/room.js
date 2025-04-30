@@ -223,4 +223,5 @@ function addFlyCardDiv(account, cardInfo) {
 
     $(".waiting-room").append(html);
     $(".card-init:last").toggleClass("card-fly-" + length);
+    setDivClickEvent("[cardid=" + cardModel.allId + "]", emptyFunction, cardPress);
 }
