@@ -1,6 +1,6 @@
 import {RoomManager} from "./RoomManager";
 import {Room} from "../model/Room";
-import {ROUTER} from "../util/SocketUtil";
+import {ROUTER} from "../util/ServerWsUtil";
 import {Player} from "../model/Player";
 
 export class GMManager {

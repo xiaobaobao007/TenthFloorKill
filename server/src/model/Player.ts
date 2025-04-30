@@ -1,5 +1,5 @@
 import {WebSocket} from "ws";
-import {ROUTER, SocketUtil} from "../util/SocketUtil";
+import {ROUTER, ServerWsUtil} from "../util/ServerWsUtil";
 import {Room} from "./Room";
 import {Card} from "./Card";
 import {CAMP_, CAMP_BLUE, CAMP_GREY, CAMP_RED, COLOR_, COLOR_BLUE, COLOR_DOUBLE, COLOR_GREY, COLOR_RED, GAME_CONFIG} from "../util/Constant";
@@ -50,7 +50,7 @@ export class Player {
             return;
         }
 
-        SocketUtil.send(this._socket, route, data);
+        ServerWsUtil.send(this._socket, route, data);
 
         if (route == ROUTER.roomEvent.UPDATE_TIME) {
             return;
@@ -89,7 +89,7 @@ export class Player {
 
         let handClientInfo = [];
         for (let card of array) {
-            handClientInfo.push(card.getSelfCardInfo());
+            handClientInfo.push(card.getCardInfo());
         }
 
         this.send(ROUTER.roomEvent.NEW_HAND_CARD, {cardArray: handClientInfo});
@@ -99,7 +99,7 @@ export class Player {
         this.send(ROUTER.roomEvent.ADD_EVENT_TIPS, "获得新的手牌【" + cardNames + "】");
     }
 
-    public removeCard(card: Card, inGarbage: boolean = true) {
+    public removeCard(card: Card, inGarbage: boolean = true, showStatus: number | undefined = Card.CARD_SHOW_ALL) {
         this._handCardArray.splice(this._handCardArray.indexOf(card), 1);
         card.hand = false;
 
@@ -109,11 +109,15 @@ export class Player {
         if (inGarbage) {
             this._room?.addDiscardCard(card);
         }
+
+        if (showStatus) {
+            this.room!.broadcast(ROUTER.roomEvent.ADD_FLY_CARD, {account: this.account, cardInfo: card.getCardInfo(showStatus)});
+        }
     }
 
     public addIntelligenceCard(intelligenceCard: Card) {
         this._intelligenceCardArray.push(intelligenceCard);
-        this._room!.broadcast(ROUTER.roomEvent.NEW_INTELLIGENCE_CARD, {account: this.account, card: intelligenceCard.getSelfCardInfo()});
+        this._room!.broadcast(ROUTER.roomEvent.NEW_INTELLIGENCE_CARD, {account: this.account, card: intelligenceCard.getCardInfo()});
         this._room!.addEventTips("【" + this.account + "】成功收到一张【" + InitManager.getStringValue(COLOR_ + intelligenceCard.color) + "】")
     }
 
@@ -149,7 +153,7 @@ export class Player {
     private getClientPlayerCardArray(array: Card[]) {
         let cardArray: any[] = [];
         for (let playerCard of array) {
-            cardArray.push(playerCard.getSelfCardInfo());
+            cardArray.push(playerCard.getCardInfo());
         }
         return cardArray;
     }

@@ -1,6 +1,6 @@
 import {WebSocket} from "ws";
 
-export class SocketUtil {
+export class ServerWsUtil {
     public static send(socket: WebSocket | undefined, route: string, data: any = undefined) {
         if (!socket) {
             return;
@@ -45,5 +45,8 @@ export const ROUTER = {
 
         SHOW_OTHER_PANEL: "roomEvent/showOtherPanel",//对A展示B的手牌或者情报，进行选择或者仅仅单纯展示
         HIDE_OTHER_PANEL: "roomEvent/hideOtherPanel",//隐藏
+
+        ADD_FLY_CARD: "roomEvent/addFlyCard",//增加公共区域展示卡牌
+        CLEAR_FLY_CARD: "roomEvent/clearFlyCard",//清空公共区域展示卡牌
     }
 }

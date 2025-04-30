@@ -1,5 +1,5 @@
 import {Card} from "../../model/Card";
-import {ROUTER} from "../../util/SocketUtil";
+import {ROUTER} from "../../util/ServerWsUtil";
 import {CARD_MI_MI_XIA_DA, COLOR_, COLOR_BLUE, COLOR_GREY, COLOR_RED} from "../../util/Constant";
 import {Player} from "../../model/Player";
 import {InitManager} from "../../manager/InitManager";

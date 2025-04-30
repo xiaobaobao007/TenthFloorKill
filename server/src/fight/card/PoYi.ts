@@ -1,5 +1,5 @@
 import {Card} from "../../model/Card";
-import {ROUTER} from "../../util/SocketUtil";
+import {ROUTER} from "../../util/ServerWsUtil";
 import {SaveCard} from "./base/SaveCard";
 import {CARD_PO_YI} from "../../util/Constant";
 
@@ -20,6 +20,6 @@ export class PoYi extends SaveCard {
     }
 
     doEvent(eventCard: Card) {
-        this.belong!.send(ROUTER.roomEvent.UPDATE_ALL_INTELLIGENCE, eventCard.getSelfCardInfo())
+        this.belong!.send(ROUTER.roomEvent.UPDATE_ALL_INTELLIGENCE, eventCard.getCardInfo())
     }
 }

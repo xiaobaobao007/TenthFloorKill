@@ -1,10 +1,10 @@
 import {Player} from "../model/Player";
 import {WebSocket} from "ws";
-import {ROUTER, SocketUtil} from "../util/SocketUtil";
+import {ROUTER, ServerWsUtil} from "../util/ServerWsUtil";
 import {RoomManager} from "./RoomManager";
 
 export class PlayerManager {
-    private static accountMap = new Map<string, Player>();
+    private static _accountMap = new Map<string, Player>();
     private static socketMap = new Map<WebSocket, Player>();
 
     public static get(socket: WebSocket, data: any): Player | undefined {
@@ -24,7 +24,7 @@ export class PlayerManager {
     }
 
     private static login(socket: WebSocket, account: string) {
-        let oldPlayer = this.accountMap.get(account);
+        let oldPlayer = this._accountMap.get(account);
         if (oldPlayer) {
             if (oldPlayer.ai) {
                 this.reLogin(socket, oldPlayer);
@@ -48,7 +48,7 @@ export class PlayerManager {
     private static setNewAccount(socket: WebSocket, account: string) {
         let player = new Player(socket, account);
 
-        this.accountMap.set(account, player);
+        this._accountMap.set(account, player);
         this.socketMap.set(socket, player);
 
         return player;
@@ -56,19 +56,19 @@ export class PlayerManager {
 
     public static sendAll(route: string, data: any) {
         for (let socket of this.socketMap.keys()) {
-            SocketUtil.send(socket, route, data);
+            ServerWsUtil.send(socket, route, data);
         }
     }
 
     public static logout(socket: WebSocket, tips: string) {
-        SocketUtil.send(socket, ROUTER.base.CHANGE_BODY, "login");
-        SocketUtil.send(socket, ROUTER.base.TIPS, tips);
+        ServerWsUtil.send(socket, ROUTER.base.CHANGE_BODY, "login");
+        ServerWsUtil.send(socket, ROUTER.base.TIPS, tips);
         socket.close();
 
         let player = this.socketMap.get(socket);
         if (player) {
             player.socket = undefined;
-            this.accountMap.delete(player.account);
+            this._accountMap.delete(player.account);
         }
         this.socketMap.delete(socket);
     }
@@ -81,9 +81,13 @@ export class PlayerManager {
         player.ai = true;
 
         if (RoomManager.leave(player)) {
-            this.accountMap.delete(player.account);
+            this._accountMap.delete(player.account);
         }
 
         this.socketMap.delete(socket);
+    }
+
+    static get accountMap(): Map<string, Player> {
+        return this._accountMap;
     }
 }

@@ -4,7 +4,7 @@ import {Event} from "../../Event";
 import {EventType} from "../../EventType";
 import {CardManager} from "../../../manager/CardManager";
 import {COLOR_GREY, GAME_CONFIG} from "../../../util/Constant";
-import {ROUTER} from "../../../util/SocketUtil";
+import {ROUTER} from "../../../util/ServerWsUtil";
 
 export class _0_PlayerDie implements Event {
     private readonly currentPlayer: Player;

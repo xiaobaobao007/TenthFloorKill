@@ -5,7 +5,7 @@ import {Event} from "../fight/Event";
 import {Room} from "../model/Room";
 import {GameOverError} from "../exception/GameOverError";
 import {_0_GameStartEvent} from "../fight/normalEvent/_0_base/_0_GameStartEvent";
-import {ROUTER} from "../util/SocketUtil";
+import {ROUTER} from "../util/ServerWsUtil";
 import {_0_WaitPlayerChooseOneCard} from "../fight/cardEvent/_0_WaitPlayerChooseOneCard";
 import {getNowStr} from "../util/MathUtil";
 
@@ -19,7 +19,9 @@ export class EventManager {
             const eventStack: Stack<Event> = room.eventStack;
 
             try {
-                room.judgeDestroyRoom();
+                if (room.noLivePeople()) {
+                    continue;
+                }
                 this.judgeReLogin(room);
 
                 const currentEvent = eventStack.peek()!;

@@ -5,7 +5,7 @@ import {EventType} from "../../EventType";
 import {Card} from "../../../model/Card";
 import {_5_1_WaitingPlayerReceive} from "../_5_IntelligenceCircle/_5_1_WaitingPlayerReceive";
 import {DIRECTION_ALL, DIRECTION_RIGHT} from "../../../util/Constant";
-import {ROUTER} from "../../../util/SocketUtil";
+import {ROUTER} from "../../../util/ServerWsUtil";
 
 export class _5_IntelligenceCircle implements Event {
     private readonly sendPlayer: Player;//传出者
@@ -40,8 +40,7 @@ export class _5_IntelligenceCircle implements Event {
 
     prv(room: Room): void {
         if (this.intelligenceCard.hand) {
-            //移除玩家手牌
-            this.sendPlayer.removeCard(this.intelligenceCard);
+            this.sendPlayer.removeCard(this.intelligenceCard, false, Card.CARD_INTELLIGENCE);
             this.intelligenceCard.hand = false;
         }
         this.sendClientInfo(room, this.sendPlayer);
@@ -96,7 +95,7 @@ export class _5_IntelligenceCircle implements Event {
     }
 
     sendClientInfo(room: Room, player: Player): void {
-        const otherCardInfo = this.intelligenceCard!.getOtherCardInfo();
+        const otherCardInfo = this.intelligenceCard!.getCardInfo(Card.CARD_INTELLIGENCE);
         otherCardInfo.direction = this.indexIsInc ? undefined : DIRECTION_ALL;
 
         if (player) {
@@ -104,7 +103,7 @@ export class _5_IntelligenceCircle implements Event {
                 if (!player.reLogin) {
                     room.broadcastExclude(ROUTER.roomEvent.UPDATE_ALL_INTELLIGENCE, this.sendPlayer, otherCardInfo);
                 }
-                this.sendPlayer.send(ROUTER.roomEvent.UPDATE_ALL_INTELLIGENCE, this.intelligenceCard!.getSelfCardInfo());
+                this.sendPlayer.send(ROUTER.roomEvent.UPDATE_ALL_INTELLIGENCE, this.intelligenceCard!.getCardInfo());
             } else {
                 player.send(ROUTER.roomEvent.UPDATE_ALL_INTELLIGENCE, otherCardInfo);
             }

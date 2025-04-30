@@ -5,7 +5,7 @@ import {EventType} from "../../EventType";
 import {Card} from "../../../model/Card";
 import {_5_IntelligenceCircle} from "../_0_base/_5_IntelligenceCircle";
 import {COLOR_GREY, GAME_CONFIG} from "../../../util/Constant";
-import {ROUTER} from "../../../util/SocketUtil";
+import {ROUTER} from "../../../util/ServerWsUtil";
 import {EventManager} from "../../../manager/EventManager";
 import {_0_PlayerDie} from "../other/_0_PlayerDie";
 

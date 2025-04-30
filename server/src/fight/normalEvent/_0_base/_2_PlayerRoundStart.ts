@@ -7,6 +7,7 @@ import {_3_PlayerRounding} from "./_3_PlayerRounding";
 import {_6_PlayerRoundEnd} from "./_6_PlayerRoundEnd";
 import {EventManager} from "../../../manager/EventManager";
 import {_0_GameStartEvent} from "./_0_GameStartEvent";
+import {ROUTER} from "../../../util/ServerWsUtil";
 
 export class _2_PlayerRoundStart implements Event {
     private readonly currentPlayer: Player;
@@ -32,6 +33,7 @@ export class _2_PlayerRoundStart implements Event {
 
     doEvent(room: Room): void {
         //清理所有遗留事件
+        room.broadcast(ROUTER.roomEvent.CLEAR_FLY_CARD);
         (EventManager.getEvent(room, _0_GameStartEvent.name) as _0_GameStartEvent).roundEvent.clear();
         room.playerAddNewHandCard(this.currentPlayer, GAME_CONFIG.ROUND_INIT_CARD_NUM, "回合开始");
         room.eventStack.push(new _3_PlayerRounding(this.currentPlayer));

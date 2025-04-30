@@ -22,7 +22,7 @@ let SELECTED_PLAYER_NUM = -1;//目前暂时只支持选择其他玩家
 let OTHER_SELECT = {};
 
 const POSITION_DATA = [
-    {type: "  me  ", intelligence: "top"},
+    {type: "  me  ", intelligence: "top", left: 1, bottom: 1},
     {type: "other2", intelligence: "top", left: 1, top: 16},
     {type: "other3", intelligence: "bottom", left: 22, top: 1},
     {type: "other4", intelligence: "bottom", left: 46, top: 1},

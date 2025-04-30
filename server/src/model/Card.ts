@@ -1,8 +1,13 @@
 import {_CARD_NAME, COLOR_DOUBLE, COLOR_GREY, OPERATION_WEN_BEN, OPERATION_ZHI_DA} from "../util/Constant";
 import {Player} from "./Player";
 import {InitManager} from "../manager/InitManager";
+import {GameError} from "../exception/GameError";
 
 export class Card {
+    public static CARD_SHOW_ALL: number = 1;
+    public static CARD_SHOW_NAME: number = 2;
+    public static CARD_INTELLIGENCE: number = 3;
+
     public readonly cardId: string;
     public readonly color: string;
     public readonly direction: string;
@@ -37,30 +42,33 @@ export class Card {
         this._show = false;
     }
 
-    public getSelfCardInfo() {
-        return {
-            allId: this._allId,
-            cardId: this.cardId,
-            color: this.color,
-            direction: this.direction,
-            operation: this._clientOperation ? this._clientOperation : this.operation,
-            lock: this.lock,
-            belong: this._hand ? undefined : this._belong?.account,
-            otherTips: this.otherTips,
-        };
-    }
-
-    public getOtherCardInfo(): any {
-        if (this.isShow()) {
-            return this.getSelfCardInfo();
+    public getCardInfo(showStatus = Card.CARD_SHOW_ALL) {
+        if (showStatus === Card.CARD_SHOW_NAME) {
+            return {
+                cardId: this.cardId,
+                lock: this.lock,
+                belong: this._belong?.account,
+            };
+        } else if (showStatus === Card.CARD_SHOW_ALL) {
+            return {
+                allId: this._allId,
+                cardId: this.cardId,
+                color: this.color,
+                direction: this.direction,
+                operation: this._clientOperation ? this._clientOperation : this.operation,
+                lock: this.lock,
+                belong: this._belong?.account,
+                otherTips: this.otherTips,
+            };
+        } else if (showStatus === Card.CARD_INTELLIGENCE) {
+            return {
+                allId: this._allId,
+                direction: this.direction,
+                operation: this._clientOperation ? this._clientOperation : this.operation,
+                belong: this._belong?.account,
+            };
         }
-
-        return {
-            allId: this._allId,
-            direction: this.direction,
-            operation: this._clientOperation ? this._clientOperation : this.operation,
-            belong: this._belong?.account,
-        };
+        throw new GameError("未知的查看方式:" + showStatus);
     }
 
     canUse(toCard: Card | undefined, toPlayer: Player | undefined = undefined): boolean {

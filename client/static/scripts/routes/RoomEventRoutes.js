@@ -173,4 +173,12 @@ class RoomEventRoutes extends ClientBaseRoutes {
         $(".other-panel").remove();
     }
 
+    async addFlyCard(data) {
+        addFlyCardDiv(data.account, data.cardInfo);
+    }
+
+    async clearFlyCard() {
+        $('.card-init').remove();
+    }
+
 }

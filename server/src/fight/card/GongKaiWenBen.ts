@@ -65,10 +65,11 @@ export class GongKaiWenBen extends Card implements ButtonEvent {
         if (card1 != undefined) {
             if (card1 instanceof GongKaiWenBen) {
                 room.addEventTips("【" + this.belong!.account + "】替换到了公开文本");
+                eventPlayer.removeCard(card1, true, Card.CARD_SHOW_ALL);
             } else {
                 this._belong?.addCardArray([card1], "对" + eventPlayer.account + "公开文本");
+                eventPlayer.removeCard(card1, false, undefined);
             }
-            eventPlayer.removeCard(card1);
         }
 
         eventPlayer.addCardArray([this], "被" + this.belong!.account + "公开文本");

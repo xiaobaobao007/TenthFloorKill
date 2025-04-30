@@ -4,7 +4,7 @@ import {EventType} from "../EventType";
 import {Player} from "../../model/Player";
 import {GAME_CONFIG} from "../../util/Constant";
 import {Card} from "../../model/Card";
-import {ROUTER} from "../../util/SocketUtil";
+import {ROUTER} from "../../util/ServerWsUtil";
 
 export interface ChooseCardEvent {
     choose(toPlayer: Player, card: Card | undefined): void;
@@ -98,7 +98,7 @@ export class _0_WaitPlayerChooseOneCard implements Event {
         }
 
         let cardArray: any[] = [];
-        cards.forEach(card => cardArray.push(card.getSelfCardInfo()));
+        cards.forEach(card => cardArray.push(card.getCardInfo()));
 
         this.fromPlayer.send(ROUTER.roomEvent.SHOW_OTHER_PANEL, {
             "tips": this.tips,

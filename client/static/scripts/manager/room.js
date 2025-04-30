@@ -151,3 +151,76 @@ function getStatistics() {
 function closeStatistics() {
     $(".room-statistics").remove();
 }
+
+let data = {account: "机器人3号", cardInfo: {allId: "12", direction: "dir_", operation: "ope_m", belong: "机器人3号"}};
+
+function addFlyCardDiv(account, cardInfo) {
+    let cardModel = new CardModel();
+    cardModel.init(cardInfo);
+
+    if ($('.card-init').length >= 5) {
+        $(".card-init").each(function () {
+            const p = $(this);
+            if (p.hasClass("card-left-4")) p.addClass("card-left-5");
+            else if (p.hasClass("card-left-3")) p.addClass("card-left-4");
+            else if (p.hasClass("card-left-2")) p.addClass("card-left-3");
+            else if (p.hasClass("card-left-1")) p.addClass("card-left-2");
+            else p.addClass("card-left-1");
+        });
+        $('.card-init:first').remove();
+    }
+
+    let playerDiv = ALL_PLAYER[account].div;
+
+    let fromStyle = "";
+    if (playerDiv.style.left) {
+        fromStyle += "left:" + playerDiv.style.left + ";";
+    }
+    if (playerDiv.style.right) {
+        fromStyle += "left:" + (92 - playerDiv.style.right.split("vw")[0]) + "vw;";
+    }
+    if (playerDiv.style.top) {
+        fromStyle += "top:" + playerDiv.style.top + ";";
+    }
+    if (playerDiv.style.bottom) {
+        fromStyle += "top:90vh;";
+    }
+
+    let html = "";
+    html += "<div class='card " + cardModel.getColorClass() + " card-init' cardid='" + cardModel.allId + "' cardtype='" + cardModel.cardId + "' style=" + fromStyle + ">";
+    html += cardModel.getNameDiv();
+    html += cardModel.getOperationDiv(true);
+    html += cardModel.getTipsDiv();
+    html += cardModel.getAccountDiv();
+    html += cardModel.getOtherTipsDiv();
+    html += "</div>";
+
+    const length = $('.card-init').length;
+    let left;
+    if ($('.card-init').length > 0) {
+        left = 13 + (length * 7.3) + "vw";
+    } else {
+        left = 13 + "vw";
+    }
+
+    const styleSheet = document.createElement('style');
+    document.head.appendChild(styleSheet);
+    styleSheet.sheet.insertRule(`
+          @keyframes flyRight-` + length + ` {
+            100% {
+              left: ` + left + `;
+              top: 16vw;
+            }
+          }
+    `);
+
+    styleSheet.sheet.insertRule(`
+          .card-fly-` + length + ` {
+            display: flex;
+            animation: 1.5s ease-in-out 0s 1 normal forwards running flyRight-` + length + `;
+          }
+    `);
+
+    $(".waiting-room").append(html);
+    $(".card-init:last").toggleClass("card-fly-" + length);
+}

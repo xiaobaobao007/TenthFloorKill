@@ -41,6 +41,10 @@ export class _5_1_WaitingPlayerReceive implements Event {
             }
             return EventType.PRE;
         } else if (this.lastTime >= 0) {
+            if (this.currentPlayer.ai) {
+                this.lastTime = 0;
+                this.receive = SuoDing.beSuoDing(this.getCurrentPlayer());
+            }
             return EventType.NONE;
         }
 

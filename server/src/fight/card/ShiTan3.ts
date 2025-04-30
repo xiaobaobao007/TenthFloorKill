@@ -2,7 +2,7 @@ import {Card} from "../../model/Card";
 import {Player} from "../../model/Player";
 import {_0_WaitPlayerChooseButton, ButtonData, ButtonEvent} from "../cardEvent/_0_WaitPlayerChooseButton";
 import {CARD_SHI_TAN} from "../../util/Constant";
-import {ROUTER} from "../../util/SocketUtil";
+import {ROUTER} from "../../util/ServerWsUtil";
 import {InitManager} from "../../manager/InitManager";
 import {random} from "../../util/MathUtil";
 import {ShiTan} from "./base/ShiTan";
@@ -34,7 +34,7 @@ export class ShiTan3 extends ShiTan implements ButtonEvent {
         }
 
         const card = eventPlayer.handCardArray[random(eventPlayer.handCardArray.length)];
-        eventPlayer.removeCard(card);
+        eventPlayer.removeCard(card, false, undefined);
         eventPlayer.send(ROUTER.roomEvent.ADD_EVENT_TIPS, "【" + card.getName() + "】被抽走了");
         player.room?.broadcastExclude(ROUTER.roomEvent.ADD_EVENT_TIPS, eventPlayer, "【" + eventPlayer.account + "】被【" + player.account + "】抽走一张牌")
 

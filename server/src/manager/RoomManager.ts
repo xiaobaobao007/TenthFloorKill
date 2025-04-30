@@ -1,7 +1,7 @@
 import {Room} from "../model/Room";
 import {Player} from "../model/Player";
 import {PlayerManager} from "./PlayerManager";
-import {ROUTER} from "../util/SocketUtil";
+import {ROUTER} from "../util/ServerWsUtil";
 
 export class RoomManager {
     public static QUIT_ROOM_BUTTON = {classType: "cancel", root: "room/leave", name: "离开房间",};

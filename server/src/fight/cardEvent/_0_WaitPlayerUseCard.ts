@@ -7,7 +7,7 @@ import {_CARD_NAME, CARD_MI_MI_XIA_DA, CARD_PO_YI, COLOR_BLUE, COLOR_GREY, COLOR
 import {InitManager} from "../../manager/InitManager";
 import {_1_PlayerUseCardSuccess} from "./_1_PlayerUseCardSuccess";
 import {CardManager} from "../../manager/CardManager";
-import {ROUTER} from "../../util/SocketUtil";
+import {ROUTER} from "../../util/ServerWsUtil";
 import {EventManager} from "../../manager/EventManager";
 import {_0_GameStartEvent} from "../normalEvent/_0_base/_0_GameStartEvent";
 import {ShiTan} from "../card/base/ShiTan";
@@ -157,7 +157,8 @@ export class _0_WaitPlayerUseCard implements Event {
         this._targetPlayer = targetPlayer;
         this.lastTime = 0;
 
-        this.player.removeCard(this.useCard!, !(this.useCard instanceof ShiTan || this.useCard instanceof MiMiXiaDa));
+        const isSpecialCard = this.useCard instanceof ShiTan || this.useCard instanceof MiMiXiaDa;
+        this.player.removeCard(this.useCard!, !isSpecialCard, isSpecialCard ? Card.CARD_SHOW_NAME : Card.CARD_SHOW_ALL);
 
         const fatherEvent = EventManager.getEvent(room, _0_GameStartEvent.name) as _0_GameStartEvent;
         this.playerUseCardSuccess = new _1_PlayerUseCardSuccess(this.useCard!, targetPlayer, this._eventCard);

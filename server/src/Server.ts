@@ -5,7 +5,7 @@ import 'reflect-metadata';
 import {PlayerManager} from "./manager/PlayerManager";
 import {ScheduleManager} from "./manager/schedule/ScheduleManager";
 import {CardManager} from "./manager/CardManager";
-import {ROUTER, SocketUtil} from "./util/SocketUtil";
+import {ROUTER, ServerWsUtil} from "./util/ServerWsUtil";
 import {getNowStr} from "./util/MathUtil";
 import {InitManager} from "./manager/InitManager";
 import {loadRoutes} from "./routes/Routes";
@@ -43,7 +43,7 @@ wsApp.ws('*', (socket, req) => {
                     console.info("收到", player.account, "--->", message);
                 }
             } else {
-                SocketUtil.send(socket, ROUTER.base.TIPS, "请重新输入账号");
+                ServerWsUtil.send(socket, ROUTER.base.TIPS, "请重新输入账号");
                 return;
             }
 

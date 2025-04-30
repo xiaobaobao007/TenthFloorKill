@@ -7,8 +7,9 @@ import {_0_GameStartEvent} from "../fight/normalEvent/_0_base/_0_GameStartEvent"
 import {Stack} from "../util/Stack";
 import {CAMP_BLUE, CAMP_CONFIG, CAMP_GREY, CAMP_RED} from "../util/Constant";
 import {RoomManager} from "../manager/RoomManager";
-import {ROUTER} from "../util/SocketUtil";
+import {ROUTER} from "../util/ServerWsUtil";
 import {GameError} from "../exception/GameError";
+import {PlayerManager} from "../manager/PlayerManager";
 
 export class Room {
     public readonly roomId: string;//房间号
@@ -309,8 +310,9 @@ export class Room {
     }
 
     private addRobot(num: number) {
-        for (let i = 1; i <= num; i++) {
-            const robot = new Player(undefined, "机器人" + i + "号");
+        let robotName = ["翠花", "小胖", "八戒", "大帝", "键盘", "中国", "石头"]
+        for (let i = 0; i < num; i++) {
+            const robot = new Player(undefined, robotName[i]);
             robot.room = this;
             robot.ai = true;
             this._playerArray.push(robot);
@@ -332,13 +334,18 @@ export class Room {
         throw new GameError("未找到当前回合中的玩家");
     }
 
-    judgeDestroyRoom(): void {
+    noLivePeople(): boolean {
         for (let player of this._playerArray) {
             if (!player.ai) {
-                return;
+                return false;
             }
         }
-        throw new GameError("房间没有真人了，自动关闭");
+        this.gameOver();
+        for (let player of this._playerArray) {
+            PlayerManager.accountMap.delete(player.account);
+        }
+        RoomManager.roomMap.delete(this.roomId);
+        return true;
     }
 
     get leaderAccount(): string | undefined {

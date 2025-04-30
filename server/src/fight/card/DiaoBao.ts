@@ -3,7 +3,7 @@ import {_5_1_WaitingPlayerReceive} from "../normalEvent/_5_IntelligenceCircle/_5
 import {EventManager} from "../../manager/EventManager";
 import {_5_IntelligenceCircle} from "../normalEvent/_0_base/_5_IntelligenceCircle";
 import {_4_SendIntelligence} from "../normalEvent/_0_base/_4_SendIntelligence";
-import {ROUTER} from "../../util/SocketUtil";
+import {ROUTER} from "../../util/ServerWsUtil";
 import {Room} from "../../model/Room";
 import {_0_GameStartEvent} from "../normalEvent/_0_base/_0_GameStartEvent";
 import {SaveCard} from "./base/SaveCard";

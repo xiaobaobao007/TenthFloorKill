@@ -68,8 +68,6 @@
 }
 
 .me-box {
-    left: 1vw;
-    bottom: 1vw;
     background-color: rgb(204, 49, 49);
     box-shadow: 0 0 7px 2px rgb(204, 49, 49);
 }
@@ -135,7 +133,7 @@
 
 .card {
     width: 6vw;
-    height: 100%;
+    height: 11vw;
     margin: 5px;
     display: flex;
     flex-shrink: 0;
@@ -251,7 +249,45 @@
     border-radius: 22px;
     padding: 0 17px 3px 17px;
     overflow-y: scroll;
+}
+
+.card-init {
+    position: absolute;
     transition: all 0.3s ease;
+}
+
+.card-show {
+    position: absolute;
+    display: flex;
+    left: 10vw;
+    top: 10vw;
+    transition: all 0.3s ease;
+}
+
+.card-fly {
+    display: flex;
+    animation: flyRight 0.5s forwards;
+    animation-timing-function: cubic-bezier(0.24, -0.39, 0.31, 1.46);
+}
+
+.card-left-1 {
+    transform: translateX(-7vw);
+}
+
+.card-left-2 {
+    transform: translateX(-14vw);
+}
+
+.card-left-3 {
+    transform: translateX(-21vw);
+}
+
+.card-left-4 {
+    transform: translateX(-28vw);
+}
+
+.card-left-5 {
+    transform: translateX(-35vw);
 }
 
 .room-event.large {

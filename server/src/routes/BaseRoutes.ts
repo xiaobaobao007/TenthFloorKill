@@ -1,7 +1,7 @@
 import {Player} from "../model/Player";
 import {CHOOSE_PEOPLE_WITH_ME, CLIENT_STRING_DATA, ROUND_USE_CARD, USE_CARD_NEED_CHOOSE_PEOPLE} from "../util/Constant";
 import {ServerClientRoutes} from "./ServerClientRoutes";
-import {ROUTER} from "../util/SocketUtil";
+import {ROUTER} from "../util/ServerWsUtil";
 
 export class BaseRoutes extends ServerClientRoutes {
     async login(player: Player) {

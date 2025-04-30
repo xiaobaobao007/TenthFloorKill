@@ -30,7 +30,7 @@ export class _7_DiscardEvent implements Event {
             }
 
             for (let i = this.discardNum - 1; i >= 0; i--) {
-                this.currentPlayer.removeCard(this.deleteCardArray![i]);
+                this.currentPlayer.removeCard(this.deleteCardArray![i], true, Card.CARD_SHOW_ALL);
             }
 
             room.addEventTips("【" + this.currentPlayer.account + "】丢弃了【" + this.discardNum + "】张手牌");
