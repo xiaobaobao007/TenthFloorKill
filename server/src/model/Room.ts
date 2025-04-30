@@ -94,7 +94,7 @@ export class Room {
         this._eventStack.clear();
         this._eventStack.push(new _0_GameStartEvent());
 
-        this.addEventTips("游戏开始");
+        this.addEventTips(getNowStr() + "游戏开始");
         this._start = true;
     }
 

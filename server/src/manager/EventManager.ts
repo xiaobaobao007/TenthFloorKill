@@ -7,6 +7,7 @@ import {GameOverError} from "../exception/GameOverError";
 import {_0_GameStartEvent} from "../fight/normalEvent/_0_base/_0_GameStartEvent";
 import {ROUTER} from "../util/SocketUtil";
 import {_0_WaitPlayerChooseOneCard} from "../fight/cardEvent/_0_WaitPlayerChooseOneCard";
+import {getNowStr} from "../util/MathUtil";
 
 export class EventManager {
     public static doEvent() {
@@ -91,7 +92,7 @@ export class EventManager {
 
         room.gameOver();
 
-        console.info("游戏结束", room.roomId, err.message);
+        console.info(getNowStr(), "游戏结束", room.roomId, err.message);
     }
 
     static getEvent(room: Room, name: string): Event | undefined {
