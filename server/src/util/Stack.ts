@@ -7,13 +7,13 @@ export class Stack<T> {
     // 入栈操作
     push(item: T): void {
         this.items.push(item);
-        console.info("add stack", this.printStack());
+        // console.info("add stack", this.printStack());
     }
 
     // 出栈操作
     pop(): T | undefined {
         let pop = this.items.pop();
-        console.info("pop stack", this.printStack());
+        // console.info("pop stack", this.printStack());
         return pop;
     }
 
@@ -42,7 +42,7 @@ export class Stack<T> {
         if (index >= 0) {
             this.items.splice(index, 1);
         }
-        console.info("remove stack", this.printStack());
+        // console.info("remove stack", this.printStack());
     }
 
     printStack(): string {
