@@ -99,6 +99,8 @@ export class Room {
     }
 
     gameOver() {
+        this._eventStack.clear();
+
         for (let player of this._playerArray) {
             player.initGameOver();
         }
@@ -328,6 +330,15 @@ export class Room {
             }
         }
         throw new GameError("未找到当前回合中的玩家");
+    }
+
+    judgeDestroyRoom(): void {
+        for (let player of this._playerArray) {
+            if (!player.ai) {
+                return;
+            }
+        }
+        throw new GameError("房间没有真人了，自动关闭");
     }
 
     get leaderAccount(): string | undefined {

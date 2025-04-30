@@ -8,7 +8,6 @@ export class GameError extends GameOverError {
 
     win(room: Room): void {
         room.addEventTips(this.message);
-        console.error(this);
         room.addStatistics(room.playerArray);
     }
 }

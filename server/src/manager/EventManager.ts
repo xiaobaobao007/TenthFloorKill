@@ -16,12 +16,13 @@ export class EventManager {
                 continue;
             }
 
-            this.judgeReLogin(room);
-
             const eventStack: Stack<Event> = room.eventStack;
-            const currentEvent = eventStack.peek()!;
 
             try {
+                room.judgeDestroyRoom();
+                this.judgeReLogin(room);
+
+                const currentEvent = eventStack.peek()!;
                 const effectType = currentEvent.getEffectType(room);
                 switch (effectType) {
                     case EventType.PRE:
