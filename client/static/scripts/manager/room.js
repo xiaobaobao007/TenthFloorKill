@@ -42,42 +42,37 @@ function updateTimeTips(playerArray, time, allTime, myTips) {
         if (timeDiv.length === 0) {
             let html;
             if (isMe) {
-                html = "<div class='my-time-tips clear'>" +
+                html = "<div class='my-time-tips clearAndRemove'>" +
                     "<div class='green-time-tips'></div>" +
                     "<div class='red-time-tips'></div>" +
                     "<div class='room-time-tips-content'>" + myTips + "</div>" +
                     "</div>";
+                const $body = $("#body-room");
+                $body.append(html);
+                timeDiv = $body.children(".my-time-tips:first");
             } else {
-                html = "<div class='other-time-tips clear'>" +
+                html = "<div class='other-time-tips clearAndRemove'>" +
                     "<div class='green-time-tips'></div>" +
                     "<div class='red-time-tips'></div>" +
                     "</div>";
-            }
-
-            if (isMe) {
-                $("#body-room").append(html);
-                timeDiv = $(".my-time-tips");
-            } else {
-                $(player.div).append(html);
-                timeDiv = $(player.div).children(".other-time-tips:first");
+                const $body = $(player.div);
+                $body.append(html);
+                timeDiv = $body.children(".other-time-tips:first");
             }
         } else if (isMe) {
             $(".room-time-tips-content").html(myTips);
         }
 
         const children = timeDiv.children();
-        const green = children[0];
 
         if (isMe) {
-            green.style.width = rate + "%";
+            children[0].style.width = rate + "%";
         } else {
-            green.style.height = rate + "%";
+            children[0].style.height = rate + "%";
         }
 
-        if (rate <= 30) {
-            if (!$(children[1]).hasClass('time-tips-light')) {
-                $(children[1]).addClass('time-tips-light');
-            }
+        if (rate <= 30 && !$(children[1]).hasClass('time-tips-light')) {
+            $(children[1]).addClass('time-tips-light');
         }
     }
 }
@@ -187,7 +182,7 @@ function addFlyCardDiv(account, cardInfo) {
     }
 
     let html = "";
-    html += "<div class='card " + cardModel.getColorClass() + " card-init' cardid='" + cardModel.allId + "' cardtype='" + cardModel.cardId + "' style=" + fromStyle + ">";
+    html += "<div class='clearAndRemove card " + cardModel.getColorClass() + " card-init' cardid='" + cardModel.allId + "' cardtype='" + cardModel.cardId + "' style=" + fromStyle + ">";
     html += cardModel.getNameDiv();
     html += cardModel.getOperationDiv(true);
     html += cardModel.getTipsDiv();

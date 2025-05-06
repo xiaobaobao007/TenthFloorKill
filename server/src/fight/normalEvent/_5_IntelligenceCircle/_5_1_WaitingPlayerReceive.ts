@@ -33,17 +33,16 @@ export class _5_1_WaitingPlayerReceive implements Event {
     getEffectType(room: Room): EventType {
         if (this.lastTime === GAME_CONFIG._5_1_WaitingPlayerReceive_TIME) {
             if (this.currentPlayer.inRounding) {
-                if (CardManager.judgeCardEvent(room, this.intelligenceCard, CardManager.IN_ROUNDING_RECEIVE_BEFORE)) {
-                    return EventType.NONE;
+                if (!CardManager.judgeCardEvent(room, this.intelligenceCard, CardManager.IN_ROUNDING_RECEIVE_BEFORE)) {
+                    return EventType.PRE;
                 }
-            } else if (CardManager.judgeCardEvent(room, this.intelligenceCard, CardManager.RECEIVE_BEFORE)) {
-                return EventType.NONE;
+            } else if (!CardManager.judgeCardEvent(room, this.intelligenceCard, CardManager.RECEIVE_BEFORE)) {
+                return EventType.PRE;
             }
-            return EventType.PRE;
+            return EventType.NONE;
         } else if (this.lastTime >= 0) {
             if (this.currentPlayer.ai) {
                 this.lastTime = 0;
-                this.receive = SuoDing.beSuoDing(this.getCurrentPlayer());
             }
             return EventType.NONE;
         }
@@ -51,7 +50,7 @@ export class _5_1_WaitingPlayerReceive implements Event {
         this.currentPlayer.clearButton();
 
         if (this.receive == undefined) {
-            this.receive = this.currentPlayer.inRounding || SuoDing.beSuoDing(this.getCurrentPlayer());
+            this.receive = this.mustReceive();
         }
 
         if (this.receive) {
@@ -68,14 +67,6 @@ export class _5_1_WaitingPlayerReceive implements Event {
 
     prv(room: Room): void {
         this.sendClientInfo(room, this.currentPlayer);
-
-        if (this.sendPlayer == this.currentPlayer) {
-            this.lastTime = 0;
-            this.receive = true;
-        } else if (this.currentPlayer.ai) {
-            this.lastTime = 0;
-            this.receive = SuoDing.beSuoDing(this.getCurrentPlayer());
-        }
     }
 
     doEvent(room: Room): void {
@@ -115,11 +106,8 @@ export class _5_1_WaitingPlayerReceive implements Event {
         }
 
         if (!receive) {
-            if (player.inRounding) {
-                player.sendTips("你是传出者你必须接收");
-                return;
-            } else if (SuoDing.beSuoDing(this.getCurrentPlayer()) && !receive) {
-                player.sendTips("你已经被锁定了，不能拒绝");
+            if (this.mustReceive()) {
+                player.sendTips("你不能拒绝!!!");
                 return;
             }
         }
@@ -134,6 +122,10 @@ export class _5_1_WaitingPlayerReceive implements Event {
 
     getCurrentPlayer(): Player {
         return this.currentPlayer;
+    }
+
+    private mustReceive(): boolean {
+        return this.currentPlayer.inRounding || SuoDing.beSuoDing(this.currentPlayer);
     }
 
 }

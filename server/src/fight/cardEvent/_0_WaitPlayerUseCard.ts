@@ -63,19 +63,15 @@ export class _0_WaitPlayerUseCard implements Event {
         if (!this.playerUseCardSuccess) {
             if (this.eventIndex + 1 < this.eventArray.length) {
                 CardManager.judgeCardEvent(room, this.useCard!, this.eventArray, this.eventIndex + 1);
-            } else {
-                gameStartEvent.skipCardEventArray = this.eventArray;
             }
         } else if (!this.playerUseCardSuccess.canEffect) {
             gameStartEvent.roundEvent.remove(this.playerUseCardSuccess);
-            gameStartEvent.skipCardEventArray = undefined;
         } else {
             this.playerUseCardSuccess.doCardEvent(room, this._targetPlayer);
             const playerCard = this.playerUseCardSuccess.playerCard;
             if (!(playerCard instanceof SaveCard)) {
                 gameStartEvent.roundEvent.remove(this.playerUseCardSuccess);
             }
-            gameStartEvent.skipCardEventArray = undefined;
         }
         return EventType.REMOVE;
     }
@@ -162,25 +158,25 @@ export class _0_WaitPlayerUseCard implements Event {
 
         const fatherEvent = EventManager.getEvent(room, _0_GameStartEvent.name) as _0_GameStartEvent;
         this.playerUseCardSuccess = new _1_PlayerUseCardSuccess(this.useCard!, targetPlayer, this._eventCard);
+
         fatherEvent.roundEvent.push(this.playerUseCardSuccess);
 
         if (inRounding) {
             room.eventStack.push(this);
         }
 
-        //询问秘密下达允许覆盖
-        if (this.eventArray[0] == CARD_MI_MI_XIA_DA) {
+        if (this.eventArray[0] == CARD_MI_MI_XIA_DA || this.eventArray[0] == CARD_PO_YI || this.eventArray.length > 1) {
             CardManager.judgeCardEvent(room, this.useCard!, this.eventArray);
         }
 
-        if (this.eventArray[0] == CARD_PO_YI) {
-            CardManager.judgeCardEvent(room, this.useCard!, this.eventArray);
-        }
-
+        //判断作用目标是否需要离间
         LiJian.judgeLiJian(useCard);
 
         //询问识破
-        CardManager.judgeCardEvent(room, this.useCard!, CardManager.SHI_PO_EVENT);
+        if (!CardManager.judgeCardEvent(room, this.useCard!, CardManager.SHI_PO_EVENT) && this.eventArray[0] == CARD_PO_YI) {
+            //破译立即生效
+            this.playerUseCardSuccess.doCardEvent(room, player);
+        }
 
         room.addEventTips("【" + player.account + "】对【" + targetPlayer.account + "】使用了【" + this.cardName + "】");
 

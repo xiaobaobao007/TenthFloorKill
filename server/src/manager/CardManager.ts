@@ -44,8 +44,6 @@ import {DiaoHuLiShan} from "../fight/card/DiaoHuLiShan";
 import {DiaoBao} from "../fight/card/DiaoBao";
 import {SuoDing} from "../fight/card/SuoDing";
 import {LiJian} from "../fight/card/LiJian";
-import {EventManager} from "./EventManager";
-import {_0_GameStartEvent} from "../fight/normalEvent/_0_base/_0_GameStartEvent";
 
 export class CardManager {
     private static readonly ALL_CARD_LIST: Card[] = [
@@ -183,12 +181,6 @@ export class CardManager {
     public static WILL_DIE = [CARD_SHAO_HUI];
 
     public static judgeCardEvent(room: Room, eventCard: Card | undefined, cardEventArray: string[], startIndex: number = 0, toPlayer: Player | undefined = undefined): boolean {
-        const gameStartEvent = EventManager.getEvent(room, _0_GameStartEvent.name) as _0_GameStartEvent;
-        if (gameStartEvent.skipCardEventArray == cardEventArray) {
-            gameStartEvent.skipCardEventArray = undefined;
-            return false;
-        }
-
         let waitPlayers: Player[] | undefined;
         let waitCardId: string | undefined;
 
