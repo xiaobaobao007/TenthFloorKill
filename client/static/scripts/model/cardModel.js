@@ -60,14 +60,4 @@ function CardModel() {
         return "";
     }
 
-    this.getOtherTipsDiv = function () {
-        if (this.otherTips && this.otherTips.length > 0) {
-            const tips = STRING_CONFIG[this.otherTips];
-            if (tips) {
-                return "<div class='card-other-tips'>" + tips.substring(tips.indexOf("【") + 1, tips.indexOf("】")) + "</div>";
-            }
-        }
-        return "";
-    }
-
 }

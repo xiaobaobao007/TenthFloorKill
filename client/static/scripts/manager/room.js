@@ -192,7 +192,6 @@ function addFlyCardDiv(account, cardInfo) {
     html += cardModel.getOperationDiv(true);
     html += cardModel.getTipsDiv();
     html += cardModel.getAccountDiv();
-    html += cardModel.getOtherTipsDiv();
     html += "</div>";
 
     const length = $('.card-init').length;

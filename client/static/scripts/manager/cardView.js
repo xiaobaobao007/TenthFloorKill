@@ -20,7 +20,6 @@ function addCard(divSelect, cardModel) {
     html += cardModel.getOperationDiv(true);
     html += cardModel.getTipsDiv();
     html += cardModel.getAccountDiv();
-    html += cardModel.getOtherTipsDiv();
     html += "</div>";
 
     $(divSelect).append(html);

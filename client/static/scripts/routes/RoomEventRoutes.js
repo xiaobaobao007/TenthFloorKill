@@ -142,7 +142,6 @@ class RoomEventRoutes extends ClientBaseRoutes {
         html += cardModel.getOperationDiv(false);
         html += cardModel.getTipsDiv();
         html += cardModel.getAccountDiv();
-        html += cardModel.getOtherTipsDiv();
         html += "</div>";
 
         $("body").append(html);

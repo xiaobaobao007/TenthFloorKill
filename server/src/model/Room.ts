@@ -340,6 +340,9 @@ export class Room {
                 return false;
             }
         }
+
+        console.info(getNowStr(), this.roomId, "房间没有真实玩家，已销毁");
+
         this.gameOver();
         for (let player of this._playerArray) {
             PlayerManager.accountMap.delete(player.account);
