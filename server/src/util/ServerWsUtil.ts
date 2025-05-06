@@ -35,6 +35,7 @@ export const ROUTER = {
         UPDATE_LAST_CARD_NUM: "roomEvent/updateLastCardNum",//更新玩家展示的剩余牌库数量
 
         UPDATE_ALL_INTELLIGENCE: "roomEvent/updateAllIntelligence",//更新正在传递的情报
+        UPDATE_ALL_INTELLIGENCE_POSITION: "roomEvent/updateAllIntelligencePosition",//更新正在传递的情报位置
         CLEAR_ALL_INTELLIGENCE: "roomEvent/clearAllIntelligence",//清理正在传递的情报
 
         NEW_HAND_CARD: "roomEvent/newHandCard",//玩家添加新的手牌
@@ -48,5 +49,7 @@ export const ROUTER = {
 
         ADD_FLY_CARD: "roomEvent/addFlyCard",//增加公共区域展示卡牌
         CLEAR_FLY_CARD: "roomEvent/clearFlyCard",//清空公共区域展示卡牌
+
+        IN_ROUNDING: "roomEvent/inRounding",//回合中
     }
 }

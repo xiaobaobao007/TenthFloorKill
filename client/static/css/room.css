@@ -16,6 +16,22 @@
     }
 }
 
+.player-in-rounding {
+    animation: inRoundingFlash 0.5s infinite alternate;
+}
+
+@keyframes inRoundingFlash {
+    0% {
+        box-shadow: 0 0 9px 3px rgb(237, 255, 0);
+    }
+    50% {
+        box-shadow: 0 0 9px 3px rgb(253, 6, 6);
+    }
+    100% {
+        box-shadow: 0 0 9px 3px rgb(4, 128, 252);
+    }
+}
+
 .box-account {
     position: absolute;
     right: 0.4vw;
@@ -492,16 +508,6 @@
     z-index: 999;
     position: absolute;
     height: 11vw;
-    left: 1vw;
-    top: 1vw;
-}
-
-.intelligence-card {
-    z-index: 999;
-    position: absolute;
-    height: 11vw;
-    left: 3vw;
-    top: 1vw;
 }
 
 .intelligence-card-tips {
@@ -512,6 +518,28 @@
     color: #f3f0f0;
     writing-mode: vertical-lr;
     text-shadow: 2px 3px 11px #ff0000;
+}
+
+.intelligence-card-circle {
+    animation: intelligenceCardCircle 4s linear infinite;
+}
+
+@keyframes intelligenceCardCircle {
+    0% {
+        transform: scale(0.7) translateX(-22%) translateY(-30%);
+    }
+    25% {
+        transform: scale(0.7) translateX(38%) translateY(-30%);
+    }
+    50% {
+        transform: scale(0.7) translateX(38%) translateY(30%);
+    }
+    75% {
+        transform: scale(0.7) translateX(-22%) translateY(30%);
+    }
+    100% {
+        transform: scale(0.7) translateX(-22%) translateY(-30%);
+    }
 }
 
 .room-statistics {

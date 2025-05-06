@@ -28,8 +28,8 @@ export class _0_WaitPlayerUseCard implements Event {
 
     private readonly playerArray: Player[];
     private readonly _eventCard: Card | undefined;
-    private readonly _cardId: string;
-    private readonly cardName: string;
+    public readonly cardId: string;
+    public readonly cardName: string;
     private readonly toPlayer: Player | undefined;
     private readonly eventArray: string[];
     private readonly eventIndex: number;
@@ -46,7 +46,7 @@ export class _0_WaitPlayerUseCard implements Event {
     constructor(playerArray: Player[], eventCard: Card | undefined, cardId: string, toPlayer: Player | undefined = undefined, eventArray: string[] = [], eventIndex: number = 0) {
         this.playerArray = playerArray;
         this._eventCard = eventCard;
-        this._cardId = cardId;
+        this.cardId = cardId;
         this.cardName = InitManager.getStringValue(cardId + _CARD_NAME)!;
         this.toPlayer = toPlayer;
         this.eventArray = eventArray;
@@ -116,7 +116,7 @@ export class _0_WaitPlayerUseCard implements Event {
         }
 
         for (let player of room.playerArray) {
-            if (this.playerArray.includes(player) && player.haveCardByCardId(this._cardId)) {
+            if (this.playerArray.includes(player) && player.haveCardByCardId(this.cardId)) {
                 player.showButton(_0_WaitPlayerUseCard.SEND_BUTTON_INFO);
             } else {
                 player.clearButton();
@@ -134,7 +134,7 @@ export class _0_WaitPlayerUseCard implements Event {
         }
 
         const room = player.room!;
-        if (useCard.cardId != this._cardId) {
+        if (useCard.cardId != this.cardId) {
             player.sendTips("请选择1张【" + this.cardName + "】卡牌使用");
             this.sendClientInfo(room);
             return;

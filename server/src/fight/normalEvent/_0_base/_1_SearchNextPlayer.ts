@@ -5,6 +5,7 @@ import {EventType} from "../../EventType";
 import {_2_PlayerRoundStart} from "./_2_PlayerRoundStart";
 import {EventManager} from "../../../manager/EventManager";
 import {_0_GameStartEvent} from "./_0_GameStartEvent";
+import {ROUTER} from "../../../util/ServerWsUtil";
 
 export class _1_SearchNextPlayer implements Event {
     private currentPlayer: Player | undefined = undefined;
@@ -38,6 +39,7 @@ export class _1_SearchNextPlayer implements Event {
 
         if (this.currentPlayer.live) {
             this.setInRoundPlayer(room, this.currentPlayer);
+            room.broadcast(ROUTER.roomEvent.IN_ROUNDING, this.currentPlayer.account);
             return new _2_PlayerRoundStart(this.currentPlayer);
         } else {
             return this.nextEvent(room);

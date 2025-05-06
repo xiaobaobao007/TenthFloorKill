@@ -136,7 +136,7 @@ class RoomEventRoutes extends ClientBaseRoutes {
         cardModel.init(data);
 
         let html = "";
-        html += "<div class='intelligence-card-show card intelligence-card " + cardModel.getColorClass() + " clear clearAndRemove' cardid='" + cardModel.allId + "'>";
+        html += "<div class='intelligence-card-show intelligence-card-circle card " + cardModel.getColorClass() + " clear clearAndRemove' cardid='" + cardModel.allId + "'>";
         html += "   <div class='intelligence-card-tips'>当前情报</div>";
         html += cardModel.getNameDiv();
         html += cardModel.getOperationDiv(false);
@@ -147,6 +147,17 @@ class RoomEventRoutes extends ClientBaseRoutes {
         $("body").append(html);
 
         setDivClickEvent("[cardid=" + cardModel.allId + "]", emptyFunction, cardPress);
+    }
+
+    async updateAllIntelligencePosition(account) {
+        let playerDiv = ALL_PLAYER[account].div;
+        let style = "";
+        if (playerDiv.style.left) style += "left:" + playerDiv.style.left + ";";
+        if (playerDiv.style.right) style += "right:" + playerDiv.style.right + ";";
+        if (playerDiv.style.top) style += "top:" + playerDiv.style.top + ";";
+        if (playerDiv.style.bottom) style += "bottom:" + playerDiv.style.bottom + ";";
+
+        $(".intelligence-card-circle").attr("style", style);
     }
 
     async clearAllIntelligence() {
@@ -180,6 +191,11 @@ class RoomEventRoutes extends ClientBaseRoutes {
 
     async clearFlyCard() {
         $('.card-init').remove();
+    }
+
+    async inRounding(account) {
+        $(".player-in-rounding").removeClass("player-in-rounding");
+        ALL_PLAYER[account].div.classList.add("player-in-rounding");
     }
 
 }

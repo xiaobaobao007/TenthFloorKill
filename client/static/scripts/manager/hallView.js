@@ -25,7 +25,8 @@ function showHelp() {
 
 function showUpdate() {
     let html = "" +
-        "- <redFont>未来</redFont> 实现英雄技能、增强UI显示提醒等。</br>" +
+        "- <redFont>未来</redFont> 实现英雄技能等。</br>" +
+        "- <redFont>2025-05-06</redFont> 增强当前回合玩家和情报考虑者的UI提醒。</br>" +
         "- <redFont>2025-04-29</redFont> 完成所有卡牌效果：破译,识破,试探,机密文件,增援,烧毁,危险情报,公开文本,秘密下达,截获,转移,调虎离山,掉包,离间,锁定。</br>" +
         "- <redFont>2025-04-08</redFont> 项目启动。</br>" +
         "";

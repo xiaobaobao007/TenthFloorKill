@@ -176,6 +176,12 @@ export class GameRoutes extends ServerClientRoutes {
             return;
         }
 
+        const waitPlayerUseCard = peek as _0_WaitPlayerUseCard;
+        if (waitPlayerUseCard.cardId != cardModel.cardId) {
+            player.sendTips("请选择1张【" + waitPlayerUseCard.cardName + "】卡牌使用");
+            return;
+        }
+
         let targetPlayer: Player | undefined = player;
 
         if (cardModel instanceof SuoDing) {
@@ -200,7 +206,7 @@ export class GameRoutes extends ServerClientRoutes {
             targetPlayer = event.getCurrentPlayer()!;
         }
 
-        let event = (peek as _0_WaitPlayerUseCard).use(player, cardModel, targetPlayer);
+        let event = waitPlayerUseCard.use(player, cardModel, targetPlayer);
         if (event) {
             event.param = data.selectValue;
         }

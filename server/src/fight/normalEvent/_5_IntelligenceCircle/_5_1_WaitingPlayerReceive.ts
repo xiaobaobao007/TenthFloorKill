@@ -7,6 +7,7 @@ import {_5_2_PlayerReceive} from "./_5_2_PlayerReceive";
 import {Card} from "../../../model/Card";
 import {CardManager} from "../../../manager/CardManager";
 import {SuoDing} from "../../card/SuoDing";
+import {ROUTER} from "../../../util/ServerWsUtil";
 
 export class _5_1_WaitingPlayerReceive implements Event {
     static readonly SEND_BUTTON_INFO = {
@@ -32,6 +33,7 @@ export class _5_1_WaitingPlayerReceive implements Event {
 
     getEffectType(room: Room): EventType {
         if (this.lastTime === GAME_CONFIG._5_1_WaitingPlayerReceive_TIME) {
+            this.currentPlayer.send(ROUTER.roomEvent.UPDATE_ALL_INTELLIGENCE_POSITION, this.currentPlayer.account);
             if (this.currentPlayer.inRounding) {
                 if (!CardManager.judgeCardEvent(room, this.intelligenceCard, CardManager.IN_ROUNDING_RECEIVE_BEFORE)) {
                     return EventType.PRE;
@@ -80,7 +82,7 @@ export class _5_1_WaitingPlayerReceive implements Event {
                 time: this.lastTime,
                 allTime: GAME_CONFIG._5_1_WaitingPlayerReceive_TIME,
                 allTips: "【" + this.currentPlayer.account + "】正在考虑是否接收【" + this.sendPlayer.account + "】发出的情报",
-                myTips: "请选择是否接收左上角展示的情报",
+                myTips: "是否接收当前情报",
             }
 
             room.updateTime(data);
