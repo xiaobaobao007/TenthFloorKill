@@ -33,7 +33,7 @@ export class _5_1_WaitingPlayerReceive implements Event {
 
     getEffectType(room: Room): EventType {
         if (this.lastTime === GAME_CONFIG._5_1_WaitingPlayerReceive_TIME) {
-            this.currentPlayer.send(ROUTER.roomEvent.UPDATE_ALL_INTELLIGENCE_POSITION, this.currentPlayer.account);
+            room.broadcast(ROUTER.roomEvent.UPDATE_ALL_INTELLIGENCE_POSITION, this.currentPlayer.account);
             if (this.currentPlayer.inRounding) {
                 if (!CardManager.judgeCardEvent(room, this.intelligenceCard, CardManager.IN_ROUNDING_RECEIVE_BEFORE)) {
                     return EventType.PRE;
