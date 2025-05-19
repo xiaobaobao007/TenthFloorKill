@@ -96,6 +96,9 @@ export class _5_1_WaitingPlayerReceive implements Event {
     }
 
     sendClientInfo(room: Room, player: Player): void {
+        if (player) {
+            player.send(ROUTER.roomEvent.UPDATE_ALL_INTELLIGENCE_POSITION, this.currentPlayer.account);
+        }
         if (player && player != this.currentPlayer) {
             return;
         }
