@@ -56,7 +56,7 @@ export class _1_SearchNextPlayer implements Event {
 
     sendClientInfo(room: Room, player: Player): void {
         if (this.currentPlayer) {
-            player.send(ROUTER.roomEvent.IN_ROUNDING, this.currentPlayer.account);
+            room.broadcast(ROUTER.roomEvent.IN_ROUNDING, this.currentPlayer.account);
         }
     }
 }
